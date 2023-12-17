@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BKGalMgr (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BKGalMgr (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

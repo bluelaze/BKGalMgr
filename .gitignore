@@ -1,0 +1,15 @@
+#root
+.vs
+.vscode
+/Debug
+/Release
+/x64
+
+
+/bin
+/obj
+/packages
+
+/*/bin
+/*/obj
+/*/*.user
