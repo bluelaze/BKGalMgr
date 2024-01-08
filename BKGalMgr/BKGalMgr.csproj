@@ -13,7 +13,9 @@
 		<EnableMsixTooling>true</EnableMsixTooling>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Views\Controls\GameInfoControl.xaml" />
 	  <None Remove="Views\MainPage.xaml" />
+	  <None Remove="Views\Pages\ManagePage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,8 +31,8 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
@@ -45,6 +47,16 @@
 	<ItemGroup>
 	  <Folder Include="Models\" />
 	  <Folder Include="ViewModels\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Views\Controls\GameInfoControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Views\Pages\ManagePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	<ItemGroup>
 	  <Page Update="Views\Pages\MainPage.xaml">

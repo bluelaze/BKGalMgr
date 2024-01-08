@@ -31,6 +31,11 @@ public sealed partial class MainPage : Page
     private void navigationview_root_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
         textblock_love_and_peace.Visibility = Visibility.Collapsed;
+        var selectedItem = args.SelectedItemContainer;
+        if (selectedItem == navitem_manage)
+        {
+            frame_root.Navigate(typeof(ManagePage));
+        }
     }
 
     private void frame_root_Navigated(object sender, NavigationEventArgs e)

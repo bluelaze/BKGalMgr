@@ -9,14 +9,14 @@
 
   <Identity
     Name="17d6596e-ec9c-4ec9-9462-1e1b1d7a1c68"
-    Publisher="CN=blackier"
+    Publisher="CN=bluelaze"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="17d6596e-ec9c-4ec9-9462-1e1b1d7a1c68" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>BKGalMgr</DisplayName>
-    <PublisherDisplayName>blackier</PublisherDisplayName>
+    <PublisherDisplayName>bluelaze</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

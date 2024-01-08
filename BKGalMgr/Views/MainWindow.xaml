@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_app_titlebar" Height="48" />
+        <Grid x:Name="grid_app_titlebar" Height="32" />
         <Frame
             x:Name="frame_main_root"
             Grid.Row="1"
