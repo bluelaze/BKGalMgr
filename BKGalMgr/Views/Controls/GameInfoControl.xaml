@@ -51,8 +51,9 @@
                 CanEmpty="False"
                 Header="Name"
                 Text="{Binding Name, Mode=TwoWay}" />
-            <local:HeaderedTextBox Header="会社" Text="{Binding Company, Mode=TwoWay}" />
 
+            <local:HeaderedTextBox Header="会社" Text="{Binding Company, Mode=TwoWay}" />
+            <local:HeaderedTextBox Header="WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -81,7 +82,6 @@
                     TokenDelimiter="," />
             </Grid>
 
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -95,7 +95,29 @@
                     TokenDelimiter="," />
             </Grid>
 
-            <local:HeaderedTextBox Header="WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Blog" />
+                <Expander
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch">
+                    <Expander.HeaderTemplate>
+                        <DataTemplate x:DataType="vm:GameInfo">
+                            <TextBlock MaxHeight="36" Text="{Binding Blog, Mode=OneWay}" />
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <TextBox
+                        HorizontalAlignment="Stretch"
+                        AcceptsReturn="True"
+                        BorderBrush="Transparent"
+                        Text="{Binding Blog, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
+                </Expander>
+            </Grid>
         </StackPanel>
         <StackPanel Grid.Column="2" Margin="8,0">
             <local:HeaderedTextBox Header="Cover" Text="{Binding Cover, Mode=TwoWay}" />
@@ -161,7 +183,8 @@
                         HorizontalAlignment="Stretch"
                         AcceptsReturn="True"
                         BorderBrush="Transparent"
-                        Text="{Binding Story, Mode=TwoWay}" />
+                        Text="{Binding Story, Mode=TwoWay}"
+                        TextWrapping="Wrap" />
                 </Expander>
             </Grid>
         </StackPanel>

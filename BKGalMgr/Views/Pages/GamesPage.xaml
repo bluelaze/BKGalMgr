@@ -40,7 +40,7 @@
         </StackPanel>
         <ListView
             Grid.Row="1"
-            Margin="16,8"
+            Margin="0,8,8,8"
             ItemsSource="{x:Bind ViewModel.SelectedRepository.Games, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
@@ -50,7 +50,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <Image Margin="8">
+                        <Image Margin="0,8,8,8">
                             <Image.Source>
                                 <BitmapImage UriSource="{Binding Cover}" />
                             </Image.Source>

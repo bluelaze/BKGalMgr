@@ -47,6 +47,8 @@ public partial class GameInfo : ObservableObject
     private string _website;
     [ObservableProperty]
     private string _story;
+    [ObservableProperty]
+    private string _blog;
 
     [ObservableProperty]
     [property: JsonIgnore]
