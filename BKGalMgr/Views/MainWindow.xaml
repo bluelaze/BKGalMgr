@@ -19,5 +19,16 @@
             Grid.Row="1"
             Navigated="frame_main_root_Navigated"
             Navigating="frame_main_root_Navigating" />
+        <ContentPresenter
+            Name="contentpresenter_loading"
+            Grid.Row="1"
+            Background="Transparent"
+            Visibility="Collapsed">
+            <ProgressBar
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                IsIndeterminate="True"
+                ShowPaused="False" />
+        </ContentPresenter>
     </Grid>
 </Window>

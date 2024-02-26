@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="BKGalMgr.Views.Controls.SourceInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BKGalMgr.Views.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:vm="using:BKGalMgr.ViewModels"
+    d:DataContext="{d:DesignInstance vm:SourceInfo,
+                                     IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="local:HeaderedTextBox">
+                <Setter Property="HeaderWidth" Value="98" />
+            </Style>
+        </StackPanel.Resources>
+        <Grid>
+            <local:HeaderedTextBox
+                x:Name="headeredtextbox_pick_folder"
+                CanEmpty="False"
+                Header="Folder"
+                IsReadOnly="True"
+                PlaceholderText="Pick a folder that game source files"
+                Text="{x:Bind FolderPath, Mode=TwoWay}" />
+            <Button
+                x:Name="button_pick_folder"
+                Width="32"
+                Height="32"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Click="button_pick_folder_Click">
+                <FontIcon FontSize="16" Glyph="&#xE712;" />
+            </Button>
+        </Grid>
+        <local:HeaderedTextBox
+            CanEmpty="False"
+            Header="Name"
+            Text="{Binding Name, Mode=TwoWay}" />
+        <Grid>
+            <local:HeaderedTextBox
+                x:Name="headeredtextbox_pick_startup_name"
+                CanEmpty="False"
+                Header="StartupName"
+                PlaceholderText="Startup exe name"
+                Text="{Binding StartupName, Mode=TwoWay}" />
+            <Button
+                x:Name="button_pick_startup_name"
+                Width="32"
+                Height="32"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                Click="button_pick_startup_name_Click">
+                <FontIcon FontSize="16" Glyph="&#xE712;" />
+            </Button>
+        </Grid>
+        <local:HeaderedTextBox Header="Webaddress" Text="{Binding Webaddress, Mode=TwoWay}" />
+        <local:HeaderedTextBox
+            AcceptsReturn="True"
+            Header="Description"
+            Text="{Binding Description, Mode=TwoWay}" />
+        <ScrollViewer MaxHeight="360">
+            <mcontrols:SettingsExpander
+                Description="should be remembered"
+                Header="Contributors"
+                ItemsSource="{Binding Contributors, Mode=TwoWay}">
+                <mcontrols:SettingsExpander.Content>
+                    <Button
+                        x:Name="button_add_contributor"
+                        Click="button_add_contributor_Click"
+                        Content="Add" />
+                </mcontrols:SettingsExpander.Content>
+                <mcontrols:SettingsExpander.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ContributorInfo">
+                        <local:ContributorInfoControl Margin="0,4" Delete="ContributorInfoControl_Delete" />
+                    </DataTemplate>
+                </mcontrols:SettingsExpander.ItemTemplate>
+            </mcontrols:SettingsExpander>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>

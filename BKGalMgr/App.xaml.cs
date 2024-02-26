@@ -1,5 +1,8 @@
-﻿using BKGalMgr.Services;
+﻿using BKGalMgr.Models;
+using BKGalMgr.Services;
+using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,10 +16,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -37,6 +42,10 @@ public partial class App : Application
             services.AddHostedService<ApplicationHostService>();
             // Main window container with navigation
             services.AddSingleton<MainWindow>();
+            // ViewModels
+            services.AddSingleton<GamesManagePageViewModel>();
+            // Models
+            services.AddSingleton<SettingsModel>();
         }).Build();
 
     /// <summary>
@@ -45,6 +54,7 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        this.RequestedTheme = ApplicationTheme.Dark;
         this.InitializeComponent();
     }
 
@@ -63,11 +73,27 @@ public partial class App : Application
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-
+        GetRequiredService<SettingsModel>().SaveSettings();
     }
 
     public static T GetRequiredService<T>() where T : class
     {
         return _host.Services.GetRequiredService(typeof(T)) as T;
+    }
+
+    public static void ShowLoading() => MainWindow.ShowLoading();
+    public static void HideLoading() => MainWindow.HideLoading();
+
+    public static async void ShowDialogError(string errorMsg)
+    {
+        ContentDialog dialog = new ContentDialog();
+
+        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+        dialog.XamlRoot = MainWindow.Content.XamlRoot;
+        dialog.Title = new FontIcon() { Foreground = new SolidColorBrush(Colors.Red), Glyph = "\uE783" };
+        dialog.PrimaryButtonText = "Confirm";
+        dialog.Content = errorMsg;
+
+        await dialog.ShowAsync();
     }
 }

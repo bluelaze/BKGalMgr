@@ -23,9 +23,17 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class MainPage : Page
 {
+    private static MainPage _mainpage;
     public MainPage()
     {
         this.InitializeComponent();
+        _mainpage = this;
+    }
+
+    public static void NavigateTo(Type pageType)
+    {
+        if (pageType == typeof(ManagePage))
+            _mainpage.navigationview_root.SelectedItem = _mainpage.navitem_manage;
     }
 
     private void navigationview_root_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -35,6 +43,10 @@ public sealed partial class MainPage : Page
         if (selectedItem == navitem_manage)
         {
             frame_root.Navigate(typeof(ManagePage));
+        }
+        if (selectedItem == navitem_games)
+        {
+            frame_root.Navigate(typeof(GamesPage));
         }
     }
 

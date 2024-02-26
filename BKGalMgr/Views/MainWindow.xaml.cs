@@ -38,6 +38,16 @@ public sealed partial class MainWindow : Window
         frame_main_root.Navigate(typeof(MainPage));
     }
 
+    public void ShowLoading()
+    {
+        contentpresenter_loading.Visibility = Visibility.Visible;
+    }
+
+    public void HideLoading()
+    {
+        contentpresenter_loading.Visibility = Visibility.Collapsed;
+    }
+
     private void AppWindow_Changed(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs args)
     {
         if (args.DidPresenterChange)

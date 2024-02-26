@@ -3,55 +3,167 @@
     x:Class="BKGalMgr.Views.Controls.GameInfoControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:BKGalMgr.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BKGalMgr.Views.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:BKGalMgr.ViewModels"
+    d:DataContext="{d:DesignInstance vm:GameInfo,
+                                     IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <x:Double x:Key="HeaderWidth">64</x:Double>
+        <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+        <Style
+            x:Key="HeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Width" Value="{StaticResource HeaderWidth}" />
+            <Setter Property="Margin" Value="0,6" />
+        </Style>
+        <Style TargetType="local:HeaderedTextBox">
+            <Setter Property="HeaderWidth" Value="{StaticResource HeaderWidth}" />
+        </Style>
+        <Style TargetType="mcontrols:TokenizingTextBox">
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Margin" Value="0,-8,0,0" />
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
-        <StackPanel Spacing="8">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Width" Value="64" />
-                </Style>
-                <Style TargetType="TextBox">
-                    <Setter Property="Width" Value="512" />
-                </Style>
-            </StackPanel.Resources>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="会社" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="発売日" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="原画" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CV" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="シナリオ" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="音楽" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="WEBSITE" />
-                <TextBox />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="STORY" />
-                <Expander Width="512">
-                    <TextBox VerticalAlignment="Stretch" AcceptsReturn="True" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image
+            Width="250"
+            Margin="16,0"
+            VerticalAlignment="Top">
+            <Image.Source>
+                <BitmapImage UriSource="{Binding Cover}" />
+            </Image.Source>
+        </Image>
+        <StackPanel Grid.Column="1">
+            <local:HeaderedTextBox
+                CanEmpty="False"
+                Header="Name"
+                Text="{Binding Name, Mode=TwoWay}" />
+            <local:HeaderedTextBox Header="会社" Text="{Binding Company, Mode=TwoWay}" />
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="原画" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Artist, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="シナリオ" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Scenario, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Tag, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+            <local:HeaderedTextBox Header="WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Margin="8,0">
+            <local:HeaderedTextBox Header="Cover" Text="{Binding Cover, Mode=TwoWay}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="発売日" />
+                <DatePicker
+                    Grid.Column="1"
+                    MaxWidth="1080"
+                    Margin="0,1"
+                    HorizontalAlignment="Stretch"
+                    Date="{Binding PublishDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+            </Grid>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CV" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Cv, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="音楽" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Musician, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="STORY" />
+                <Expander
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch">
+                    <Expander.HeaderTemplate>
+                        <DataTemplate x:DataType="vm:GameInfo">
+                            <TextBlock MaxHeight="36" Text="{Binding Story, Mode=OneWay}" />
+                        </DataTemplate>
+                    </Expander.HeaderTemplate>
+                    <TextBox
+                        HorizontalAlignment="Stretch"
+                        AcceptsReturn="True"
+                        BorderBrush="Transparent"
+                        Text="{Binding Story, Mode=TwoWay}" />
                 </Expander>
-            </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
