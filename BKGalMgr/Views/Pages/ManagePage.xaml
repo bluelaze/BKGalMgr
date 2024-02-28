@@ -121,6 +121,15 @@
                                     <FontIcon FontSize="16" Glyph="&#xE710;" />
                                 </Button.Content>
                             </Button>
+                            <Button
+                                x:Name="button_add_source_folder"
+                                Click="button_add_source_folder_Click"
+                                IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                ToolTipService.ToolTip="Import exist source">
+                                <Button.Content>
+                                    <FontIcon FontSize="16" Glyph="&#xE8F4;" />
+                                </Button.Content>
+                            </Button>
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -158,6 +167,15 @@
                                 IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}">
                                 <Button.Content>
                                     <FontIcon FontSize="16" Glyph="&#xE710;" />
+                                </Button.Content>
+                            </Button>
+                            <Button
+                                x:Name="button_add_localization_folder"
+                                Click="button_add_localization_folder_Click"
+                                IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                ToolTipService.ToolTip="Import exist localization">
+                                <Button.Content>
+                                    <FontIcon FontSize="16" Glyph="&#xE8F4;" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>
@@ -211,6 +229,10 @@
                                             Click="menuflyoutitem_edit_target_Click"
                                             Text="Edit" />
                                         <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                        <MenuFlyoutItem
+                                            Name="menuflyoutitem_export_target"
+                                            Click="menuflyoutitem_export_target_Click"
+                                            Text="Export as source" />
                                     </MenuFlyout>
                                 </StackPanel.ContextFlyout>
                                 <TextBlock Text="{Binding Name}" />

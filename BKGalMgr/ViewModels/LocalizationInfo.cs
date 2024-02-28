@@ -84,4 +84,14 @@ public partial class LocalizationInfo : ObservableObject
             SaveJsonFile();
         });
     }
+
+    public async Task CopyLocalizationToFolder(string targetFolderPath)
+    {
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(targetFolderPath);
+            File.Copy(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationJsonName), true);
+            File.Copy(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationZipName), true);
+        });
+    }
 }

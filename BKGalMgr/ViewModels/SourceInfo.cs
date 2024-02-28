@@ -84,4 +84,14 @@ public partial class SourceInfo : ObservableObject
             SaveJsonFile();
         });
     }
+
+    public async Task CopySourceToFolder(string targetFolderPath)
+    {
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(targetFolderPath);
+            File.Copy(JsonPath, Path.Combine(targetFolderPath,GlobalInfo.SourceJsonName), true);
+            File.Copy(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName), true);
+        });
+    }
 }

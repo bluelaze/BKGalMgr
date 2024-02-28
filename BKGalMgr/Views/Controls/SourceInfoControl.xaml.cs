@@ -48,15 +48,7 @@ public sealed partial class SourceInfoControl : UserControl
 
     private async void button_pick_folder_Click(object sender, RoutedEventArgs e)
     {
-        var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-        folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-        folderPicker.FileTypeFilter.Add("*");
-
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-        WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hWnd);
-
-        Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
             headeredtextbox_pick_folder.Text = folder.Path;
@@ -65,15 +57,7 @@ public sealed partial class SourceInfoControl : UserControl
 
     private async void button_pick_startup_name_Click(object sender, RoutedEventArgs e)
     {
-        var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
-        filePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-        filePicker.FileTypeFilter.Add(".exe");
-
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-        WinRT.Interop.InitializeWithWindow.Initialize(filePicker, hWnd);
-
-        Windows.Storage.StorageFile file = await filePicker.PickSingleFileAsync();
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe" });
         if (file != null)
         {
             headeredtextbox_pick_startup_name.Text = file.Name;

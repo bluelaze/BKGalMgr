@@ -320,4 +320,42 @@ public sealed partial class ManagePage : Page
             ViewModel.UpdateTarget(editTargetInfo);
         }
     }
+
+    private async void button_add_source_folder_Click(object sender, RoutedEventArgs e)
+    {
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".json" });
+        if (file != null)
+        {
+            App.ShowLoading();
+            var result = await ViewModel.CopySource(file.Path);
+            App.HideLoading();
+            if (!result)
+                App.ShowDialogError("Invalid source");
+        }
+    }
+
+    private async void button_add_localization_folder_Click(object sender, RoutedEventArgs e)
+    {
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".json" });
+        if (file != null)
+        {
+            App.ShowLoading();
+            var result = await ViewModel.CopyLocalization(file.Path);
+            App.HideLoading();
+            if (!result)
+                App.ShowDialogError("Invalid localization");
+        }
+    }
+
+    private async void menuflyoutitem_export_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
+        if (folder != null)
+        {
+            App.ShowLoading();
+            await targetInfo.CopyTargetAsSourceToFolder(folder.Path);
+            App.HideLoading();
+        }
+    }
 }

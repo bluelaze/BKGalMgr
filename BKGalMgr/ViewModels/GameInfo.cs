@@ -159,13 +159,45 @@ public partial class GameInfo : ObservableObject
 
     public void UpdateSource(SourceInfo sourceInfo)
     {
-       for(int i = 0; i < Sources.Count; i++)
+        for (int i = 0; i < Sources.Count; i++)
         {
             if (Sources[i].CreateDate == sourceInfo.CreateDate)
             {
                 Sources[i] = sourceInfo;
             }
         }
+    }
+
+    public async Task<bool> CopySource(string jsonFile)
+    {
+        do
+        {
+            if (!File.Exists(jsonFile))
+                break;
+
+            string jsonName = Path.GetFileName(jsonFile);
+            if (jsonName != GlobalInfo.SourceJsonName)
+                break;
+
+            SourceInfo copySource = SourceInfo.Open(Path.GetDirectoryName(jsonFile));
+            if (copySource == null)
+                break;
+            if (!File.Exists(copySource.ZipPath))
+                break;
+            // copy to game
+            var newSource = NewSource();
+
+            await copySource.CopySourceToFolder(Path.GetDirectoryName(newSource.JsonPath));
+
+            copySource.CreateDate = newSource.CreateDate;
+            copySource.JsonPath = newSource.JsonPath;
+            copySource.SaveJsonFile();
+
+            Sources.Add(copySource);
+
+            return true;
+        } while (false);
+        return false;
     }
 
     public LocalizationInfo NewLocalization()
@@ -205,6 +237,38 @@ public partial class GameInfo : ObservableObject
             }
         }
         return null;
+    }
+
+    public async Task<bool> CopyLocalization(string jsonFile)
+    {
+        do
+        {
+            if (!File.Exists(jsonFile))
+                break;
+
+            string jsonName = Path.GetFileName(jsonFile);
+            if (jsonName != GlobalInfo.LocalizationJsonName)
+                break;
+
+            LocalizationInfo copyLocalization = LocalizationInfo.Open(Path.GetDirectoryName(jsonFile));
+            if (copyLocalization == null)
+                break;
+            if (!File.Exists(copyLocalization.ZipPath))
+                break;
+            // copy to game
+            var newLocalization = NewLocalization();
+
+            await copyLocalization.CopyLocalizationToFolder(Path.GetDirectoryName(newLocalization.JsonPath));
+
+            copyLocalization.CreateDate = newLocalization.CreateDate;
+            copyLocalization.JsonPath = newLocalization.JsonPath;
+            copyLocalization.SaveJsonFile();
+
+            Localizations.Add(copyLocalization);
+
+            return true;
+        } while (false);
+        return false;
     }
 
     public TargetInfo NewTarget()

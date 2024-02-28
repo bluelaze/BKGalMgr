@@ -107,4 +107,23 @@ public partial class TargetInfo : ObservableObject
             SaveJsonFile();
         });
     }
+
+    public async Task CopyTargetAsSourceToFolder(string targetFolderPath)
+    {
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(targetFolderPath);
+
+            SourceInfo newSource = JsonMisc.Deserialize<SourceInfo>(JsonMisc.Serialize(Source));
+            newSource.Name = Name;
+            newSource.StartupName = StartupName;
+            newSource.Description = Description;
+            newSource.JsonPath = Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName);
+            if (Localization != null && Localization.Contributors != null)
+                newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
+            newSource.SaveJsonFile();
+
+            ZipFile.CreateFromDirectory(TargetPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
+        });
+    }
 }

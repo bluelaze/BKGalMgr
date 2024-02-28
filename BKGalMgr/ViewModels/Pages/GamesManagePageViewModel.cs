@@ -83,4 +83,14 @@ public partial class GamesManagePageViewModel : ObservableObject
         target.SaveJsonFile();
         SelectedRepository.SelectedGame.UpdateTarget(target);
     }
+
+    public async Task<bool> CopySource(string jsonPath)
+    {
+        return await SelectedRepository.SelectedGame.CopySource(jsonPath);
+    }
+
+    public async Task<bool> CopyLocalization(string jsonPath)
+    {
+        return await SelectedRepository.SelectedGame.CopyLocalization(jsonPath);
+    }
 }
