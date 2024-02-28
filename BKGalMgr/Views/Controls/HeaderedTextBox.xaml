@@ -27,7 +27,8 @@
             BorderBrush="Transparent"
             IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
             PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
-            Text="{x:Bind Text, Mode=TwoWay}" />
+            Text="{x:Bind Text, Mode=TwoWay}"
+            TextWrapping="{x:Bind TextWrapping, Mode=OneWay}" />
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="TextBoxStates">
                 <VisualState x:Name="TextBoxNotEmptyState" />

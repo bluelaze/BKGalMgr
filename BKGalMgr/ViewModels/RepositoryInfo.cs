@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -109,5 +110,12 @@ public partial class RepositoryInfo : ObservableObject
         string jsonStr = JsonMisc.Serialize(this);
         Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
         File.WriteAllText(JsonPath, jsonStr);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenJsonFolder()
+    {
+        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
     }
 }

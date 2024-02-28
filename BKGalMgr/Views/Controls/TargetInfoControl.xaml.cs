@@ -21,6 +21,14 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class TargetInfoControl : UserControl
 {
+    public bool SourcesVisible
+    {
+        get { return (bool)GetValue(SourcesVisibleVisibleProperty); }
+        set { SetValue(SourcesVisibleVisibleProperty, value); }
+    }
+    public static readonly DependencyProperty SourcesVisibleVisibleProperty = DependencyProperty.Register("SourcesVisible", typeof(bool), typeof(TargetInfoControl), new PropertyMetadata(true));
+
+
     public TargetInfoControl()
     {
         this.InitializeComponent();

@@ -31,7 +31,8 @@
         <local:HeaderedTextBox
             AcceptsReturn="True"
             Header="Description"
-            Text="{Binding Description, Mode=TwoWay}" />
+            Text="{Binding Description, Mode=TwoWay}"
+            TextWrapping="Wrap" />
 
         <Grid Grid.Row="1" Margin="16,8">
             <Grid.ColumnDefinitions>
@@ -43,12 +44,17 @@
                 Header="Sources"
                 ItemsSource="{Binding Game.Sources, Mode=OneWay}"
                 SelectedItem="{Binding Source, Mode=TwoWay}"
-                SelectionChanged="listview_sources_SelectionChanged">
+                SelectionChanged="listview_sources_SelectionChanged"
+                Visibility="{x:Bind SourcesVisible, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding CreateDate}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
+                                <TextBlock Text="{Binding CreateDate}" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -62,9 +68,13 @@
                 SelectionChanged="listview_localization_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:LocalizationInfo">
-                        <StackPanel>
+                        <StackPanel Margin="0,8">
                             <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding CreateDate}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
+                                <TextBlock Text="{Binding CreateDate}" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

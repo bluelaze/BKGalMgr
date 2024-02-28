@@ -18,7 +18,7 @@
                 <Setter Property="HeaderWidth" Value="98" />
             </Style>
         </StackPanel.Resources>
-        <Grid>
+        <Grid Visibility="{x:Bind FolderPathVisible, Mode=OneWay}">
             <local:HeaderedTextBox
                 x:Name="headeredtextbox_pick_folder"
                 CanEmpty="False"
@@ -67,7 +67,8 @@
         <local:HeaderedTextBox
             AcceptsReturn="True"
             Header="Description"
-            Text="{Binding Description, Mode=TwoWay}" />
+            Text="{Binding Description, Mode=TwoWay}"
+            TextWrapping="Wrap" />
         <ScrollViewer MaxHeight="360">
             <mcontrols:SettingsExpander
                 Description="should be remembered"

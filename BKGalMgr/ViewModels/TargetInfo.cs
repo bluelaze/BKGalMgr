@@ -72,9 +72,22 @@ public partial class TargetInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void OpenJsonFolder()
     {
         Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+    }
+
+    public async Task DecompressLocalization()
+    {
+        if (Localization == null || !File.Exists(Localization.ZipPath))
+            return;
+
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
+            ZipFile.ExtractToDirectory(Localization.ZipPath, TargetPath, true);
+        });
     }
 
     public async Task DecompressSourceAndLocalization()
@@ -82,17 +95,14 @@ public partial class TargetInfo : ObservableObject
         if (Source == null || !File.Exists(Source.ZipPath))
             return;
 
-        await Task.Run(() =>
+        await Task.Run(async () =>
         {
             // dezip source
             Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
             ZipFile.ExtractToDirectory(Source.ZipPath, TargetPath, true);
 
             // dezip target
-            if (Localization != null && File.Exists(Localization.ZipPath))
-            {
-                ZipFile.ExtractToDirectory(Localization.ZipPath, TargetPath, true);
-            }
+            await DecompressLocalization();
 
             SaveJsonFile();
         });

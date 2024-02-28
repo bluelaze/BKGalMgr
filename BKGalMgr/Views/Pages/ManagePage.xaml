@@ -22,6 +22,15 @@
                 ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
                 PlaceholderText="Pick a repository"
                 SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
+                <ComboBox.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Name="menuflyoutitem_edit_repository"
+                            Click="menuflyoutitem_edit_repository_Click"
+                            Text="Edit" />
+                        <MenuFlyoutItem Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" Text="Open Folder" />
+                    </MenuFlyout>
+                </ComboBox.ContextFlyout>
                 <ComboBox.HeaderTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -48,6 +57,11 @@
                 ItemsSource="{x:Bind ViewModel.SelectedRepository.Games, Mode=OneWay}"
                 SelectedItem="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.SelectedRepositoryIsValid, Mode=OneWay}">
+                <ComboBox.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" Text="Open Folder" />
+                    </MenuFlyout>
+                </ComboBox.ContextFlyout>
                 <ComboBox.HeaderTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="8">
@@ -70,7 +84,10 @@
                     <DataTemplate x:DataType="vm:GameInfo">
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding CreateDate}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
+                                <TextBlock Text="{Binding CreateDate}" />
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -83,15 +100,18 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <controls:GameInfoControl DataContext="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
-            <Grid Grid.Row="1" Margin="16,8">
+            <Grid Grid.Row="1" Margin="0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <ListView ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
+                <ListView Padding="0" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
+                        <StackPanel
+                            Margin="16,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
                             <TextBlock VerticalAlignment="Center" Text="Sources" />
                             <Button
                                 x:Name="button_add_source"
@@ -101,28 +121,36 @@
                                     <FontIcon FontSize="16" Glyph="&#xE710;" />
                                 </Button.Content>
                             </Button>
-
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SourceInfo">
-                            <ItemContainer>
-                                <ItemContainer.ContextFlyout>
+                            <StackPanel Margin="0,8">
+                                <StackPanel.ContextFlyout>
                                     <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Name="menuflyoutitem_edit_source"
+                                            Click="menuflyoutitem_edit_source_Click"
+                                            Text="Edit" />
                                         <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
                                     </MenuFlyout>
-                                </ItemContainer.ContextFlyout>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel.ContextFlyout>
+                                <TextBlock Text="{Binding Name}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xEC92;" />
                                     <TextBlock Text="{Binding CreateDate}" />
                                 </StackPanel>
-                            </ItemContainer>
+                                <TextBlock Text="{Binding Description}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
                 <ListView Grid.Column="1" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Localizations, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
+                        <StackPanel
+                            Margin="16,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
                             <TextBlock VerticalAlignment="Center" Text="Localization" />
                             <Button
                                 x:Name="button_add_localization"
@@ -136,23 +164,32 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:LocalizationInfo">
-                            <ItemContainer>
-                                <ItemContainer.ContextFlyout>
+                            <StackPanel Margin="0,8">
+                                <StackPanel.ContextFlyout>
                                     <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Name="menuflyoutitem_edit_localization"
+                                            Click="menuflyoutitem_edit_localization_Click"
+                                            Text="Edit" />
                                         <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
                                     </MenuFlyout>
-                                </ItemContainer.ContextFlyout>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel.ContextFlyout>
+                                <TextBlock Text="{Binding Name}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xEC92;" />
                                     <TextBlock Text="{Binding CreateDate}" />
                                 </StackPanel>
-                            </ItemContainer>
+                                <TextBlock Text="{Binding Description}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
                 <ListView Grid.Column="2" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Targets, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
+                        <StackPanel
+                            Margin="16,0"
+                            Orientation="Horizontal"
+                            Spacing="8">
                             <TextBlock VerticalAlignment="Center" Text="Target" />
                             <Button
                                 x:Name="button_add_target"
@@ -166,17 +203,23 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:TargetInfo">
-                            <ItemContainer>
-                                <ItemContainer.ContextFlyout>
+                            <StackPanel Margin="0,8">
+                                <StackPanel.ContextFlyout>
                                     <MenuFlyout>
+                                        <MenuFlyoutItem
+                                            Name="menuflyoutitem_edit_target"
+                                            Click="menuflyoutitem_edit_target_Click"
+                                            Text="Edit" />
                                         <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
                                     </MenuFlyout>
-                                </ItemContainer.ContextFlyout>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel.ContextFlyout>
+                                <TextBlock Text="{Binding Name}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon FontSize="14" Glyph="&#xEC92;" />
                                     <TextBlock Text="{Binding CreateDate}" />
                                 </StackPanel>
-                            </ItemContainer>
+                                <TextBlock Text="{Binding Description}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

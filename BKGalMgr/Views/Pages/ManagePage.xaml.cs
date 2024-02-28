@@ -128,7 +128,7 @@ public sealed partial class ManagePage : Page
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
         {
-            args.Cancel = !localizationInfoControl.IsValid();
+            args.Cancel = !localizationInfoControl.IsValidLocalization();
         };
 
         var result = await dialog.ShowAsync();
@@ -171,6 +171,153 @@ public sealed partial class ManagePage : Page
             App.ShowLoading();
             await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_edit_repository_Click(object sender, RoutedEventArgs e)
+    {
+        RepositoryInfo editRepository = ViewModel.SelectedRepository;
+        ContentDialog dialog = new ContentDialog()
+        {
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = this.XamlRoot,
+            Title = "Edit repository",
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = new RepositoryInfoControl()
+            {
+                Width = 720,
+                DataContext = editRepository,
+                FolderPathVisible = false
+            }
+        };
+        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !editRepository.IsValid();
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            editRepository.SaveJsonFile();
+        }
+    }
+
+    private async void menuflyoutitem_edit_source_Click(object sender, RoutedEventArgs e)
+    {
+        SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
+        var editSourceInfo = SourceInfo.Open(Path.GetDirectoryName(sourceInfo.JsonPath));
+        SourceInfoControl sourceInfoControl = new()
+        {
+            Width = 720,
+            DataContext = editSourceInfo,
+            FolderPathVisible = false
+        };
+        ContentDialog dialog = new()
+        {
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = this.XamlRoot,
+            Title = "Edit source",
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = sourceInfoControl
+        };
+        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
+        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !sourceInfoControl.IsValidSource();
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            ViewModel.UpdateSource(editSourceInfo);
+        }
+    }
+
+    private async void menuflyoutitem_edit_localization_Click(object sender, RoutedEventArgs e)
+    {
+        LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
+        var editLocalizationInfo = LocalizationInfo.Open(Path.GetDirectoryName(localizationInfo.JsonPath));
+        LocalizationInfoControl localizationInfoControl = new()
+        {
+            Width = 720,
+            DataContext = editLocalizationInfo,
+            FolderPathVisible = false
+        };
+        ContentDialog dialog = new()
+        {
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = this.XamlRoot,
+            Title = "Edit localization",
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = localizationInfoControl
+        };
+        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
+        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !localizationInfoControl.IsValidLocalization();
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            ViewModel.UpdateLocalization(editLocalizationInfo);
+        }
+    }
+
+    private async void menuflyoutitem_edit_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
+        editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
+        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization);
+        TargetInfoControl targetInfoControl = new()
+        {
+            Width = 720,
+            DataContext = editTargetInfo,
+            SourcesVisible = false,
+        };
+        ContentDialog dialog = new()
+        {
+            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+            XamlRoot = this.XamlRoot,
+            Title = "Edit target",
+            PrimaryButtonText = "Confirm",
+            CloseButtonText = "Cancel",
+            DefaultButton = ContentDialogButton.Primary,
+            Content = targetInfoControl
+        };
+        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
+        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !targetInfoControl.IsValidTarget();
+        };
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            // replace new localization
+            if (editTargetInfo.Localization != null && editTargetInfo.Localization.CreateDate != targetInfo.Localization.CreateDate)
+            {
+                App.ShowLoading();
+                await editTargetInfo.DecompressLocalization();
+                App.HideLoading();
+            }
+            else
+            {
+                editTargetInfo.Localization = targetInfo.Localization;
+            }
+
+            ViewModel.UpdateTarget(editTargetInfo);
         }
     }
 }

@@ -45,7 +45,7 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private async void btn_play_Click(object sender, RoutedEventArgs e)
+    private void btn_play_Click(object sender, RoutedEventArgs e)
     {
         var targetInfo = (sender as Button).DataContext as TargetInfo;
         if (targetInfo != null)

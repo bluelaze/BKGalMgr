@@ -28,15 +28,23 @@ public sealed partial class LocalizationInfoControl : UserControl
     }
     public static readonly DependencyProperty FolderPathProperty = DependencyProperty.Register("FolderPath", typeof(string), typeof(LocalizationInfoControl), new PropertyMetadata(default(string)));
 
+    public bool FolderPathVisible
+    {
+        get { return (bool)GetValue(FolderPathVisibleProperty); }
+        set { SetValue(FolderPathVisibleProperty, value); }
+    }
+    public static readonly DependencyProperty FolderPathVisibleProperty = DependencyProperty.Register("FolderPathVisible", typeof(bool), typeof(LocalizationInfoControl), new PropertyMetadata(true));
+
+
     public LocalizationInfoControl()
     {
         this.InitializeComponent();
     }
 
-    public bool IsValid()
+    public bool IsValidLocalization()
     {
         var vm = this.DataContext as LocalizationInfo;
-        return !FolderPath.IsNullOrEmpty() && vm != null && vm.IsValid();
+        return (!FolderPathVisible || !FolderPath.IsNullOrEmpty()) && vm != null && vm.IsValid();
     }
 
     private async void button_pick_folder_Click(object sender, RoutedEventArgs e)

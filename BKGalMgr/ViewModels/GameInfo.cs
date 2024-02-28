@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -156,6 +157,17 @@ public partial class GameInfo : ObservableObject
         Sources.Add(sourceInfo);
     }
 
+    public void UpdateSource(SourceInfo sourceInfo)
+    {
+       for(int i = 0; i < Sources.Count; i++)
+        {
+            if (Sources[i].CreateDate == sourceInfo.CreateDate)
+            {
+                Sources[i] = sourceInfo;
+            }
+        }
+    }
+
     public LocalizationInfo NewLocalization()
     {
         var localizationInfo = new LocalizationInfo();
@@ -163,12 +175,36 @@ public partial class GameInfo : ObservableObject
 
         return localizationInfo;
     }
+
     public async Task AddLocalization(string sourceFolderPath, LocalizationInfo localizationInfo)
     {
         if (sourceFolderPath.IsNullOrEmpty() || localizationInfo.Name.IsNullOrEmpty() || localizationInfo.StartupName.IsNullOrEmpty())
             return;
         await localizationInfo.CompressLocalizationFolder(sourceFolderPath);
         Localizations.Add(localizationInfo);
+    }
+
+    public void UpdateLocalization(LocalizationInfo localizationInfo)
+    {
+        for (int i = 0; i < Localizations.Count; i++)
+        {
+            if (Localizations[i].CreateDate == localizationInfo.CreateDate)
+            {
+                Localizations[i] = localizationInfo;
+            }
+        }
+    }
+
+    public LocalizationInfo FindLocalization(LocalizationInfo localizationInfo)
+    {
+        for (int i = 0; i < Localizations.Count; i++)
+        {
+            if (Localizations[i].CreateDate == localizationInfo.CreateDate)
+            {
+                return Localizations[i];
+            }
+        }
+        return null;
     }
 
     public TargetInfo NewTarget()
@@ -186,12 +222,24 @@ public partial class GameInfo : ObservableObject
         Targets.Add(targetInfo);
     }
 
+    public void UpdateTarget(TargetInfo targetInfo)
+    {
+        for (int i = 0; i < Targets.Count; i++)
+        {
+            if (Targets[i].CreateDate == targetInfo.CreateDate)
+            {
+                Targets[i] = targetInfo;
+            }
+        }
+    }
+
     public void SetRepositoryPath(string dirPath)
     {
         JsonPath = Path.Combine(dirPath, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.GameJsonName);
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void SaveJsonFile()
     {
         if (JsonPath.IsNullOrEmpty()) return;
@@ -199,5 +247,12 @@ public partial class GameInfo : ObservableObject
         string jsonStr = JsonMisc.Serialize(this);
         Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
         File.WriteAllText(JsonPath, jsonStr);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenJsonFolder()
+    {
+        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
     }
 }

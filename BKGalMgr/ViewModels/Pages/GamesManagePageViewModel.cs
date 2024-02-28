@@ -65,4 +65,22 @@ public partial class GamesManagePageViewModel : ObservableObject
         }
         return true;
     }
+
+    public void UpdateSource(SourceInfo source)
+    {
+        source.SaveJsonFile();
+        SelectedRepository.SelectedGame.UpdateSource(source);
+    }
+
+    public void UpdateLocalization(LocalizationInfo localizationInfo)
+    {
+        localizationInfo.SaveJsonFile();
+        SelectedRepository.SelectedGame.UpdateLocalization(localizationInfo);
+    }
+
+    public void UpdateTarget(TargetInfo target)
+    {
+        target.SaveJsonFile();
+        SelectedRepository.SelectedGame.UpdateTarget(target);
+    }
 }

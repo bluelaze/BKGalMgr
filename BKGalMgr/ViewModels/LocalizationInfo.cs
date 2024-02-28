@@ -36,11 +36,6 @@ public partial class LocalizationInfo : ObservableObject
 
     public LocalizationInfo() { }
 
-    public bool IsValid()
-    {
-        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty();
-    }
-
     public static LocalizationInfo Open(string dirPath)
     {
         var path = Path.Combine(dirPath, GlobalInfo.LocalizationJsonName);
@@ -51,6 +46,11 @@ public partial class LocalizationInfo : ObservableObject
         localizationInfo.JsonPath = path;
 
         return localizationInfo;
+    }
+
+    public bool IsValid()
+    {
+        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty();
     }
 
     public void SetGamePath(string dirPath)
@@ -67,6 +67,7 @@ public partial class LocalizationInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void OpenJsonFolder()
     {
         Process.Start("explorer", Path.GetDirectoryName(JsonPath));

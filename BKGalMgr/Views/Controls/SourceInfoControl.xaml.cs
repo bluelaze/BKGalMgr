@@ -28,6 +28,13 @@ public sealed partial class SourceInfoControl : UserControl
     }
     public static readonly DependencyProperty FolderPathProperty = DependencyProperty.Register("FolderPath", typeof(string), typeof(SourceInfoControl), new PropertyMetadata(default(string)));
 
+    public bool FolderPathVisible
+    {
+        get { return (bool)GetValue(FolderPathVisibleProperty); }
+        set { SetValue(FolderPathVisibleProperty, value); }
+    }
+    public static readonly DependencyProperty FolderPathVisibleProperty = DependencyProperty.Register("FolderPathVisible", typeof(bool), typeof(SourceInfoControl), new PropertyMetadata(true));
+
     public SourceInfoControl()
     {
         this.InitializeComponent();
@@ -36,7 +43,7 @@ public sealed partial class SourceInfoControl : UserControl
     public bool IsValidSource()
     {
         var source = this.DataContext as SourceInfo;
-        return !FolderPath.IsNullOrEmpty() && source != null && source.IsValid();
+        return (!FolderPathVisible || !FolderPath.IsNullOrEmpty()) && source != null && source.IsValid();
     }
 
     private async void button_pick_folder_Click(object sender, RoutedEventArgs e)

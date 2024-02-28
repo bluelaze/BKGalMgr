@@ -79,6 +79,13 @@ public sealed partial class HeaderedTextBox : UserControl, INotifyPropertyChange
     }
     public static readonly DependencyProperty AcceptsReturnProperty = DependencyProperty.Register("AcceptsReturn", typeof(bool), typeof(HeaderedTextBox), new PropertyMetadata(default(bool)));
 
+    public TextWrapping TextWrapping
+    {
+        get { return (TextWrapping)GetValue(TextWrappingProperty); }
+        set { SetValue(TextWrappingProperty, value); }
+    }
+    public static readonly DependencyProperty TextWrappingProperty = DependencyProperty.Register("TextWrapping", typeof(bool), typeof(HeaderedTextBox), new PropertyMetadata(default(TextWrapping)));
+
     public bool CanEmpty
     {
         get { return (bool)GetValue(CanEmptyProperty); }

@@ -22,6 +22,13 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class RepositoryInfoControl : UserControl
 {
+    public bool FolderPathVisible
+    {
+        get { return (bool)GetValue(FolderPathVisibleProperty); }
+        set { SetValue(FolderPathVisibleProperty, value); }
+    }
+    public static readonly DependencyProperty FolderPathVisibleProperty = DependencyProperty.Register("FolderPathVisible", typeof(bool), typeof(RepositoryInfoControl), new PropertyMetadata(true));
+
     public RepositoryInfoControl()
     {
         this.InitializeComponent();

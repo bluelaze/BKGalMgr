@@ -67,6 +67,7 @@ public partial class SourceInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void OpenJsonFolder()
     {
         Process.Start("explorer", Path.GetDirectoryName(JsonPath));
