@@ -86,9 +86,17 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public ObservableCollection<MetadataItem> TagItems => new(Tag.Select(tag => new MetadataItem() { Label = tag }));
 
+    [property: JsonIgnore]
+    public string FolderPath => Path.GetDirectoryName(JsonPath);
+
     public GameInfo() { }
 
     public bool IsValid { get { return !Name.IsNullOrEmpty(); } }
+
+    public void SetRepositoryPath(string dirPath)
+    {
+        JsonPath = Path.Combine(dirPath, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.GameJsonName);
+    }
 
     public static GameInfo Open(string dirPath)
     {
@@ -145,7 +153,7 @@ public partial class GameInfo : ObservableObject
     public SourceInfo NewSource()
     {
         var sourceInfo = new SourceInfo();
-        sourceInfo.SetGamePath(Path.GetDirectoryName(JsonPath));
+        sourceInfo.SetGamePath(FolderPath);
 
         return sourceInfo;
     }
@@ -200,10 +208,20 @@ public partial class GameInfo : ObservableObject
         return false;
     }
 
+    public async Task DeleteSource(SourceInfo source)
+    {
+        if (Sources.Contains(source))
+        {
+            if (Directory.Exists(source.FolderPath))
+                await Task.Run(() => { Directory.Delete(source.FolderPath, true); });
+            Sources.Remove(source);
+        }
+    }
+
     public LocalizationInfo NewLocalization()
     {
         var localizationInfo = new LocalizationInfo();
-        localizationInfo.SetGamePath(Path.GetDirectoryName(JsonPath));
+        localizationInfo.SetGamePath(FolderPath);
 
         return localizationInfo;
     }
@@ -271,10 +289,20 @@ public partial class GameInfo : ObservableObject
         return false;
     }
 
+    public async Task DeleteLocalization(LocalizationInfo localization)
+    {
+        if (Localizations.Contains(localization))
+        {
+            if (Directory.Exists(localization.FolderPath))
+                await Task.Run(() => { Directory.Delete(localization.FolderPath, true); });
+            Localizations.Remove(localization);
+        }
+    }
+
     public TargetInfo NewTarget()
     {
         var targetInfo = new TargetInfo() { Game = this };
-        targetInfo.SetGamePath(Path.GetDirectoryName(JsonPath));
+        targetInfo.SetGamePath(FolderPath);
 
         return targetInfo;
     }
@@ -297,9 +325,14 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public void SetRepositoryPath(string dirPath)
+    public async Task DeleteTarget(TargetInfo targetInfo)
     {
-        JsonPath = Path.Combine(dirPath, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.GameJsonName);
+        if (Targets.Contains(targetInfo))
+        {
+            if (Directory.Exists(targetInfo.FolderPath))
+                await Task.Run(() => { Directory.Delete(targetInfo.FolderPath, true); });
+            Targets.Remove(targetInfo);
+        }
     }
 
     [RelayCommand]
@@ -309,7 +342,7 @@ public partial class GameInfo : ObservableObject
         if (JsonPath.IsNullOrEmpty()) return;
 
         string jsonStr = JsonMisc.Serialize(this);
-        Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
+        Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
     }
 
@@ -317,6 +350,6 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenJsonFolder()
     {
-        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+        Process.Start("explorer", FolderPath);
     }
 }

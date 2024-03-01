@@ -9,6 +9,7 @@
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     mc:Ignorable="d">
     <Page.Resources>
@@ -67,10 +68,10 @@
                                 Content="{Binding Name}"
                                 FontSize="16"
                                 FontWeight="Bold" />
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
-                                <TextBlock Text="{Binding CreateDate}" />
-                            </StackPanel>
+                            <SelectorBarItem
+                                Padding="0"
+                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                Text="{Binding CreateDate}" />
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="会社:" />
                                 <HyperlinkButton
@@ -107,14 +108,14 @@
                                     <DataTemplate x:DataType="vm:TargetInfo">
                                         <StackPanel>
                                             <TextBlock Text="{Binding Name}" />
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
-                                                <TextBlock Text="{Binding CreateDate}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <FontIcon FontSize="14" Glyph="&#xE768;" />
-                                                <TextBlock Text="{Binding LastPlayDate}" />
-                                            </StackPanel>
+                                            <SelectorBarItem
+                                                Padding="0"
+                                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                Text="{Binding CreateDate}" />
+                                            <SelectorBarItem
+                                                Padding="0"
+                                                Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                Text="{Binding LastPlayDate}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>

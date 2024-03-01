@@ -7,6 +7,7 @@
     xmlns:local="using:BKGalMgr.Views.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     d:DataContext="{d:DesignInstance vm:ContributorInfo,
                                      IsDesignTimeCreatable=False}"
@@ -38,10 +39,7 @@
             Height="48"
             VerticalAlignment="Center"
             VerticalContentAlignment="Center"
-            Click="delete_Click">
-            <AppBarButton.Icon>
-                <FontIcon Glyph="&#xE74D;" />
-            </AppBarButton.Icon>
-        </AppBarButton>
+            Click="delete_Click"
+            Icon="{mui:FontIcon Glyph=&#xE74D;}" />
     </Grid>
 </UserControl>

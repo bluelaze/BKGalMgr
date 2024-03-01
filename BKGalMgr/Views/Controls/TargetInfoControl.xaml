@@ -7,6 +7,7 @@
     xmlns:local="using:BKGalMgr.Views.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     d:DataContext="{d:DesignInstance vm:TargetInfo,
                                      IsDesignTimeCreatable=False}"
@@ -50,10 +51,10 @@
                     <DataTemplate x:DataType="vm:SourceInfo">
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" />
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
-                                <TextBlock Text="{Binding CreateDate}" />
-                            </StackPanel>
+                            <SelectorBarItem
+                                Padding="0"
+                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                Text="{Binding CreateDate}" />
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
@@ -70,10 +71,10 @@
                     <DataTemplate x:DataType="vm:LocalizationInfo">
                         <StackPanel Margin="0,8">
                             <TextBlock Text="{Binding Name}" />
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon FontSize="14" Glyph="&#xEC92;" />
-                                <TextBlock Text="{Binding CreateDate}" />
-                            </StackPanel>
+                            <SelectorBarItem
+                                Padding="0"
+                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                Text="{Binding CreateDate}" />
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>

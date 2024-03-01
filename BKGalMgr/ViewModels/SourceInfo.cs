@@ -33,7 +33,9 @@ public partial class SourceInfo : ObservableObject
     private ObservableCollection<ContributorInfo> _contributors = new();
 
     [property: JsonIgnore]
-    public string ZipPath => Path.Combine(Path.GetDirectoryName(JsonPath), GlobalInfo.SourceZipName);
+    public string FolderPath => Path.GetDirectoryName(JsonPath);
+    [property: JsonIgnore]
+    public string ZipPath => Path.Combine(FolderPath, GlobalInfo.SourceZipName);
 
     public SourceInfo() { }
 
@@ -62,7 +64,7 @@ public partial class SourceInfo : ObservableObject
     public void SaveJsonFile()
     {
         string jsonStr = JsonMisc.Serialize(this);
-        Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
+        Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
     }
 
@@ -70,7 +72,7 @@ public partial class SourceInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenJsonFolder()
     {
-        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+        Process.Start("explorer", FolderPath);
     }
 
     public async Task CompressSourceFolder(string sourceFolderPath)
@@ -90,7 +92,7 @@ public partial class SourceInfo : ObservableObject
         await Task.Run(() =>
         {
             Directory.CreateDirectory(targetFolderPath);
-            File.Copy(JsonPath, Path.Combine(targetFolderPath,GlobalInfo.SourceJsonName), true);
+            File.Copy(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName), true);
             File.Copy(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName), true);
         });
     }

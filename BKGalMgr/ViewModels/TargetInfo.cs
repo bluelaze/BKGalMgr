@@ -36,7 +36,9 @@ public partial class TargetInfo : ObservableObject
     private LocalizationInfo _localization;
 
     [property: JsonIgnore]
-    public string TargetPath => Path.Combine(Path.GetDirectoryName(JsonPath), GlobalInfo.TargetName);
+    public string FolderPath => Path.GetDirectoryName(JsonPath);
+    [property: JsonIgnore]
+    public string TargetPath => Path.Combine(FolderPath, GlobalInfo.TargetName);
     [property: JsonIgnore]
     public string TargetExePath => Path.Combine(TargetPath, StartupName);
 
@@ -67,7 +69,7 @@ public partial class TargetInfo : ObservableObject
     public void SaveJsonFile()
     {
         string jsonStr = JsonMisc.Serialize(this);
-        Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
+        Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
     }
 
@@ -75,7 +77,7 @@ public partial class TargetInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenJsonFolder()
     {
-        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+        Process.Start("explorer", FolderPath);
     }
 
     public async Task DecompressLocalization()

@@ -32,7 +32,9 @@ public partial class LocalizationInfo : ObservableObject
     private ObservableCollection<ContributorInfo> _contributors;
 
     [property: JsonIgnore]
-    public string ZipPath => Path.Combine(Path.GetDirectoryName(JsonPath), GlobalInfo.LocalizationZipName);
+    public string FolderPath => Path.GetDirectoryName(JsonPath);
+    [property: JsonIgnore]
+    public string ZipPath => Path.Combine(FolderPath, GlobalInfo.LocalizationZipName);
 
     public LocalizationInfo() { }
 
@@ -62,7 +64,7 @@ public partial class LocalizationInfo : ObservableObject
     public void SaveJsonFile()
     {
         string jsonStr = JsonMisc.Serialize(this);
-        Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
+        Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
     }
 
@@ -70,7 +72,7 @@ public partial class LocalizationInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenJsonFolder()
     {
-        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+        Process.Start("explorer", FolderPath);
     }
 
     public async Task CompressLocalizationFolder(string localizationFolderPath)

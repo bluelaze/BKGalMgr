@@ -93,4 +93,24 @@ public partial class GamesManagePageViewModel : ObservableObject
     {
         return await SelectedRepository.SelectedGame.CopyLocalization(jsonPath);
     }
+
+    public async Task DeleteGame(GameInfo game)
+    {
+        await SelectedRepository.DeleteGame(game);
+    }
+
+    public async Task DeleteSource(SourceInfo source)
+    {
+        await SelectedRepository.SelectedGame.DeleteSource(source);
+    }
+
+    public async Task DeleteLocalization(LocalizationInfo localizationInfo)
+    {
+        await SelectedRepository.SelectedGame.DeleteLocalization(localizationInfo);
+    }
+
+    public async Task DeleteTarget(TargetInfo target)
+    {
+        await SelectedRepository.SelectedGame.DeleteTarget(target);
+    }
 }

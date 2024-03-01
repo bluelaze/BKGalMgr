@@ -38,7 +38,7 @@ public partial class RepositoryInfo : ObservableObject
         {
             if (SetProperty(ref _selectedGame, value))
             {
-                SeletedGameCreateDate = _selectedGame.CreateDate;
+                SeletedGameCreateDate = _selectedGame?.CreateDate;
                 OnPropertyChanged(nameof(SelectedGameIsValid));
                 SaveJsonFile();
             }
@@ -46,7 +46,7 @@ public partial class RepositoryInfo : ObservableObject
     }
     [property: JsonIgnore]
     public bool SelectedGameIsValid { get { return _selectedGame != null; } }
-    public DateTime SeletedGameCreateDate { get; set; }
+    public DateTime? SeletedGameCreateDate { get; set; }
 
     [property: JsonIgnore]
     private string JsonPath => Path.Combine(FolderPath, GlobalInfo.RepositoryJsonName);
@@ -103,6 +103,16 @@ public partial class RepositoryInfo : ObservableObject
     public void AddGame(GameInfo game)
     {
         Games.Add(game);
+    }
+
+    public async Task DeleteGame(GameInfo game)
+    {
+        if (Games.Contains(game))
+        {
+            if(Directory.Exists(game.FolderPath))
+                await Task.Run(() => { Directory.Delete(game.FolderPath, true); });
+            Games.Remove(game);
+        }
     }
 
     public void SaveJsonFile()

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BKGalMgr.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d">
 
     <Grid>
@@ -17,31 +18,29 @@
             IsTitleBarAutoPaddingEnabled="True"
             SelectionChanged="navigationview_root_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Name="navitem_games" Content="Games">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7FC;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem x:Name="navitem_manage" Content="Manage">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE70F;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="navitem_games"
+                    Content="Games"
+                    Icon="{mui:FontIcon Glyph=&#xE7FC;}" />
+                <NavigationViewItem
+                    x:Name="navitem_manage"
+                    Content="Manage"
+                    Icon="{mui:FontIcon Glyph=&#xE70F;}" />
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
-
                 <NavigationViewItemSeparator />
-                <NavigationViewItem x:Name="navitem_setting" Content="Setting">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE713;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="navitem_setting"
+                    Content="Setting"
+                    Icon="{mui:FontIcon Glyph=&#xE713;}" />
             </NavigationView.FooterMenuItems>
+
             <Frame
                 x:Name="frame_root"
                 Navigated="frame_root_Navigated"
                 Navigating="frame_root_Navigating" />
+
         </NavigationView>
         <TextBlock
             x:Name="textblock_love_and_peace"

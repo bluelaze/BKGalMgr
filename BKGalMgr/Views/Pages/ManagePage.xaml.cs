@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -355,6 +356,49 @@ public sealed partial class ManagePage : Page
         {
             App.ShowLoading();
             await targetInfo.CopyTargetAsSourceToFolder(folder.Path);
+            App.HideLoading();
+        }
+    }
+
+    private async void button_delete_game_Click(object sender, RoutedEventArgs e)
+    {
+        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        {
+            App.ShowLoading();
+            await ViewModel.DeleteGame(ViewModel.SelectedRepository.SelectedGame);
+            App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_delete_source_Click(object sender, RoutedEventArgs e)
+    {
+        SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
+        if(await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        {
+            App.ShowLoading();
+            await ViewModel.DeleteSource(sourceInfo);
+            App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_delete_localization_Click(object sender, RoutedEventArgs e)
+    {
+        LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
+        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        {
+            App.ShowLoading();
+            await ViewModel.DeleteLocalization(localizationInfo);
+            App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_delete_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        {
+            App.ShowLoading();
+            await ViewModel.DeleteTarget(targetInfo);
             App.HideLoading();
         }
     }
