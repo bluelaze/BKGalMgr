@@ -11,6 +11,7 @@
         <UseWinUI>true</UseWinUI>
         <WindowsPackageType>None</WindowsPackageType>
         <EnableMsixTooling>true</EnableMsixTooling>
+        <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Views\Controls\GameInfoControl.xaml" />
@@ -33,6 +34,7 @@
         <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
         <Content Include="Assets\StoreLogo.png" />
         <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+        <Content Include="BKGalMgr.ico" />
     </ItemGroup>
 
     <ItemGroup>
