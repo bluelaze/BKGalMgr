@@ -90,7 +90,7 @@ public partial class App : Application
 
         // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
         dialog.XamlRoot = MainWindow.Content.XamlRoot;
-        dialog.Title = new FontIcon() { Foreground = (SolidColorBrush)Current.Resources["PaletteRedBrush"], Glyph = "\uE783" };
+        dialog.Title = new FontIcon() { Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCriticalBrush"], Glyph = "\uE783" };
         dialog.PrimaryButtonText = "Confirm";
         dialog.Content = errorMsg;
 
@@ -103,7 +103,7 @@ public partial class App : Application
 
         // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
         dialog.XamlRoot = MainWindow.Content.XamlRoot;
-        dialog.Title = new FontIcon() { Foreground = (SolidColorBrush)Current.Resources["PaletteOrangeBrush"], Glyph = "\uE7BA" };
+        dialog.Title = new FontIcon() { Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCautionBrush"], Glyph = "\uE7BA" };
         dialog.PrimaryButtonText = "Confirm";
         dialog.CloseButtonText = "Cancel";
         dialog.Content = confirmMsg;

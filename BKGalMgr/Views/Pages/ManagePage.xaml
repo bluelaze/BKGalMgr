@@ -149,9 +149,9 @@
                                             Click="menuflyoutitem_delete_source_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="PaletteRedBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -204,9 +204,9 @@
                                             Click="menuflyoutitem_delete_localization_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="PaletteRedBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -256,9 +256,9 @@
                                             Click="menuflyoutitem_delete_target_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="PaletteRedBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="PaletteRedBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
