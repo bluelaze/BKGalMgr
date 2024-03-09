@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -45,9 +47,11 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private void btn_play_Click(object sender, RoutedEventArgs e)
+    private async void btn_play_Click(object sender, RoutedEventArgs e)
     {
-        var targetInfo = (sender as Button).DataContext as TargetInfo;
+        var playBtn = sender as Button;
+        var gameInfo = playBtn.DataContext as GameInfo;
+        var targetInfo = gameInfo.SelectedTarget;
         if (targetInfo != null)
         {
             if (!File.Exists(targetInfo.TargetExePath))
@@ -65,8 +69,40 @@ public sealed partial class GamesPage : Page
             {
                 targetInfo.LastPlayDate = DateTime.Now;
                 targetInfo.SaveJsonFile();
+
+                gameInfo.LastPlayDate = targetInfo.LastPlayDate;
+                gameInfo.SaveJsonFile();
+
+                var savePlayedTime = () =>
+                {
+                    var timeCost = TimeSpan.FromSeconds(1);
+
+                    targetInfo.PlayedTime += timeCost;
+                    targetInfo.SaveJsonFile();
+
+                    gameInfo.PlayedTime += timeCost;
+                    gameInfo.SaveJsonFile();
+                };
+
+                var loopTimer = new Timer((_) =>
+                {
+                    DispatcherQueue?.TryEnqueue(() => { savePlayedTime(); });
+
+                }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+
+                var gamePlayedTimeControl = playBtn.FindParent("grid_gameinfo").FindChild("selectorbaritem_game_playedtime") as Control;
+                var targetPlayedTimeControl = playBtn.FindParent("grid_gameinfo").FindDescendant("selectorbaritem_target_playedtime") as Control;
+                gamePlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SystemFillColorSuccessBrush"];
+                targetPlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SystemFillColorSuccessBrush"];
+
+                await gameProcess.WaitForExitAsync();
+
+                gamePlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
+                targetPlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
+
+                loopTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                loopTimer.Dispose();
             }
         }
     }
-
 }

@@ -26,6 +26,10 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
     [ObservableProperty]
+    private DateTime _lastPlayDate;
+    [ObservableProperty]
+    private TimeSpan _playedTime = TimeSpan.Zero;
+    [ObservableProperty]
     private string _cover;
     [ObservableProperty]
     private string _company;

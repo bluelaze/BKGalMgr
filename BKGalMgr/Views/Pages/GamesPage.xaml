@@ -14,6 +14,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
+        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,7 +46,7 @@
             ItemsSource="{x:Bind ViewModel.SelectedRepository.Games, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
-                    <Grid>
+                    <Grid x:Name="grid_gameinfo">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="*" />
@@ -68,10 +69,21 @@
                                 Content="{Binding Name}"
                                 FontSize="16"
                                 FontWeight="Bold" />
-                            <SelectorBarItem
-                                Padding="0"
-                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                Text="{Binding CreateDate}" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <SelectorBarItem
+                                    Padding="0"
+                                    Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                    Text="{Binding CreateDate}" />
+                                <SelectorBarItem
+                                    Padding="0"
+                                    Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                    Text="{Binding LastPlayDate}" />
+                                <SelectorBarItem
+                                    x:Name="selectorbaritem_game_playedtime"
+                                    Padding="0"
+                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                    Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="会社:" />
                                 <HyperlinkButton
@@ -101,7 +113,7 @@
                             Spacing="8">
                             <ComboBox
                                 VerticalAlignment="Center"
-                                ItemsSource="{x:Bind Targets, Mode=OneWay}"
+                                ItemsSource="{Binding Targets, Mode=OneWay}"
                                 PlaceholderText="Pick a target to launch"
                                 SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
@@ -116,6 +128,11 @@
                                                 Padding="0"
                                                 Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                                 Text="{Binding LastPlayDate}" />
+                                            <SelectorBarItem
+                                                x:Name="selectorbaritem_target_playedtime"
+                                                Padding="0"
+                                                Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -124,7 +141,6 @@
                                 Name="btn_play"
                                 Click="btn_play_Click"
                                 Content="Play"
-                                DataContext="{Binding SelectedTarget}"
                                 Style="{StaticResource AccentButtonStyle}" />
                         </StackPanel>
                     </Grid>
