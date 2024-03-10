@@ -31,8 +31,8 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItemSeparator />
                 <NavigationViewItem
-                    x:Name="navitem_setting"
-                    Content="Setting"
+                    x:Name="navitem_settings"
+                    Content="Settings"
                     Icon="{mui:FontIcon Glyph=&#xE713;}" />
             </NavigationView.FooterMenuItems>
 

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="BKGalMgr.Views.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:BKGalMgr.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:BKGalMgr.ViewModels"
+    xmlns:ziplevel="using:System.IO.Compression"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <x:Double x:Key="SettingsCardSpacing">4</x:Double>
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,30,0,4" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer
+        Padding="36,0"
+        IsTabStop="False"
+        UseSystemFocusVisuals="False"
+        VerticalScrollBarVisibility="Auto"
+        VerticalScrollMode="Auto">
+        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+            <StackPanel.ChildrenTransitions>
+                <EntranceThemeTransition FromVerticalOffset="50" />
+                <RepositionThemeTransition IsStaggeringEnabled="False" />
+            </StackPanel.ChildrenTransitions>
+            <!--  Appearance  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance &amp; behavior" />
+            <mcontrols:SettingsCard
+                Description="Select which app theme to display"
+                Header="App theme"
+                HeaderIcon="{mui:FontIcon Glyph=&#xE790;}">
+                <ComboBox ItemsSource="{mui:EnumValues Type=vm:Theme}" SelectedItem="{x:Bind ViewModel.AppTheme, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+            <mcontrols:SettingsCard
+                Description="Select which app backdrop material to display"
+                Header="App backdrop material"
+                HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
+                <ComboBox ItemsSource="{mui:EnumValues Type=vm:BackdropMaterial}" SelectedItem="{x:Bind ViewModel.AppBackdropMaterial, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+
+            <mcontrols:SettingsCard
+                Description="Compression level which create zip for source and localization"
+                Header="Zip level"
+                HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
+                <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+
+            <!--  About  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
+            <mcontrols:SettingsExpander
+                Description="Copyright (c) bluelaze. All rights reserved."
+                Header="BKGalMgr"
+                HeaderIcon="{mui:BitmapIcon Source='/BKGalMgr.ico'}">
+                <TextBlock
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    IsTextSelectionEnabled="True"
+                    Text="v1.0.0" />
+                <mcontrols:SettingsExpander.Items>
+                    <mcontrols:SettingsCard Header="Project">
+                        <HyperlinkButton Content="https://github.com/bluelaze/BKGalMgr" NavigateUri="https://github.com/bluelaze/BKGalMgr" />
+                    </mcontrols:SettingsCard>
+                </mcontrols:SettingsExpander.Items>
+            </mcontrols:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

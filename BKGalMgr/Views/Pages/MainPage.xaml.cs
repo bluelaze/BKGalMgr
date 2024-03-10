@@ -44,9 +44,13 @@ public sealed partial class MainPage : Page
         {
             frame_root.Navigate(typeof(ManagePage));
         }
-        if (selectedItem == navitem_games)
+        else if (selectedItem == navitem_games)
         {
             frame_root.Navigate(typeof(GamesPage));
+        }
+        else if (selectedItem == navitem_settings)
+        {
+            frame_root.Navigate(typeof(SettingsPage));
         }
     }
 

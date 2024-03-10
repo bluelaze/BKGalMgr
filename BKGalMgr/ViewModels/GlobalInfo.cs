@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace BKGalMgr.ViewModels;
 
+public enum Theme
+{
+    Default,
+    Light,
+    Dark
+}
+
+public enum BackdropMaterial
+{
+    Mica,
+    Mica_Alt,
+    Acrylic
+}
+
 public static class GlobalInfo
 {
     /**

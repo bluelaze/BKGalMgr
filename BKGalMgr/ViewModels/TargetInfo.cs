@@ -127,7 +127,7 @@ public partial class TargetInfo : ObservableObject
                 newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
             newSource.SaveJsonFile();
 
-            ZipFile.CreateFromDirectory(TargetPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
+            ZipFile.CreateFromDirectory(TargetPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName), App.ZipLevel(), false);
         });
     }
 }

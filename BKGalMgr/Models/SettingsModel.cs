@@ -1,7 +1,9 @@
-﻿using System;
+﻿using BKGalMgr.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -19,6 +21,12 @@ public class SettingsModel
     {
         public List<string> RepositoryPath { get; set; } = new();
         public string SelectedRepositoryPath { get; set; }
+
+        public Theme AppTheme { get; set; } = Theme.Light;
+
+        public BackdropMaterial AppBackdropMaterial { get; set; } = BackdropMaterial.Mica;
+
+        public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
 
         public Settings()
         {

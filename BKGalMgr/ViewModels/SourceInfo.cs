@@ -82,7 +82,7 @@ public partial class SourceInfo : ObservableObject
         await Task.Run(() =>
         {
             Directory.CreateDirectory(Path.GetDirectoryName(ZipPath));
-            ZipFile.CreateFromDirectory(sourceFolderPath, ZipPath, CompressionLevel.NoCompression, false);
+            ZipFile.CreateFromDirectory(sourceFolderPath, ZipPath, App.ZipLevel(), false);
             SaveJsonFile();
         });
     }

@@ -51,7 +51,8 @@ public sealed partial class ManagePage : Page
             {
                 Width = 720,
                 DataContext = newRepository
-            }
+            },
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
@@ -89,7 +90,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Add",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = sourceInfoControl
+            Content = sourceInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -123,7 +125,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Add",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = localizationInfoControl
+            Content = localizationInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -157,7 +160,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Add",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = targetInfoControl
+            Content = targetInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -191,7 +195,8 @@ public sealed partial class ManagePage : Page
                 Width = 720,
                 DataContext = editRepository,
                 FolderPathVisible = false
-            }
+            },
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
@@ -224,7 +229,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Confirm",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = sourceInfoControl
+            Content = sourceInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -258,7 +264,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Confirm",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = localizationInfoControl
+            Content = localizationInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -294,7 +301,8 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Confirm",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = targetInfoControl
+            Content = targetInfoControl,
+            RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -373,7 +381,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_delete_source_Click(object sender, RoutedEventArgs e)
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
-        if(await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
         {
             App.ShowLoading();
             await ViewModel.DeleteSource(sourceInfo);

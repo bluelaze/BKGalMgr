@@ -29,7 +29,6 @@ public sealed partial class MainWindow : Window
     {
         this.InitializeComponent();
 
-        SystemBackdrop = new DesktopAcrylicBackdrop();
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(grid_app_titlebar);

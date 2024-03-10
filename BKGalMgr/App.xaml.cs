@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -44,6 +45,7 @@ public partial class App : Application
             services.AddSingleton<MainWindow>();
             // ViewModels
             services.AddSingleton<GamesManagePageViewModel>();
+            services.AddSingleton<SettingsPageViewModel>();
             // Models
             services.AddSingleton<SettingsModel>();
         }).Build();
@@ -54,7 +56,6 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        this.RequestedTheme = ApplicationTheme.Dark;
         this.InitializeComponent();
     }
 
@@ -65,6 +66,8 @@ public partial class App : Application
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         _host.StartAsync();
+        GetRequiredService<SettingsPageViewModel>().ApplyTheme();
+
         MainWindow.Activate();
         MainWindow.Closed += MainWindow_Closed;
     }
@@ -84,6 +87,8 @@ public partial class App : Application
     public static void ShowLoading() => MainWindow.ShowLoading();
     public static void HideLoading() => MainWindow.HideLoading();
 
+    public static CompressionLevel ZipLevel() => GetRequiredService<SettingsModel>().LoadedSettings.ZipLevel;
+
     public static async void ShowDialogError(string errorMsg)
     {
         ContentDialog dialog = new ContentDialog();
@@ -93,6 +98,7 @@ public partial class App : Application
         dialog.Title = new FontIcon() { Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCriticalBrush"], Glyph = "\uE783" };
         dialog.PrimaryButtonText = "Confirm";
         dialog.Content = errorMsg;
+        dialog.RequestedTheme = MainWindow.RequestedTheme();
 
         await dialog.ShowAsync();
     }
@@ -107,6 +113,7 @@ public partial class App : Application
         dialog.PrimaryButtonText = "Confirm";
         dialog.CloseButtonText = "Cancel";
         dialog.Content = confirmMsg;
+        dialog.RequestedTheme = MainWindow.RequestedTheme();
 
         return ContentDialogResult.Primary == await dialog.ShowAsync();
     }

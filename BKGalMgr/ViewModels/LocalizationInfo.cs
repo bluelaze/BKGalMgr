@@ -82,7 +82,7 @@ public partial class LocalizationInfo : ObservableObject
         await Task.Run(() =>
         {
             Directory.CreateDirectory(Path.GetDirectoryName(ZipPath));
-            ZipFile.CreateFromDirectory(localizationFolderPath, ZipPath);
+            ZipFile.CreateFromDirectory(localizationFolderPath, ZipPath, App.ZipLevel(), false);
             SaveJsonFile();
         });
     }
