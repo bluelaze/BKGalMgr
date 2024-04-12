@@ -18,27 +18,6 @@
                 <Setter Property="HeaderWidth" Value="98" />
             </Style>
         </StackPanel.Resources>
-        <Grid Visibility="{x:Bind FolderPathVisible, Mode=OneWay}">
-            <local:HeaderedTextBox
-                x:Name="headeredtextbox_pick_folder"
-                CanEmpty="False"
-                Header="Folder"
-                IsReadOnly="True"
-                PlaceholderText="Pick a folder that game localization files"
-                Text="{x:Bind FolderPath, Mode=TwoWay}" />
-            <Button
-                x:Name="button_pick_folder"
-                Width="32"
-                Height="32"
-                Padding="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Click="button_pick_folder_Click">
-                <FontIcon FontSize="16" Glyph="&#xE712;" />
-            </Button>
-        </Grid>
         <local:HeaderedTextBox
             CanEmpty="False"
             Header="Name"
@@ -63,7 +42,6 @@
                 <FontIcon FontSize="16" Glyph="&#xE712;" />
             </Button>
         </Grid>
-        <local:HeaderedTextBox Header="Webaddress" Text="{Binding Webaddress, Mode=TwoWay}" />
         <local:HeaderedTextBox
             AcceptsReturn="True"
             Header="Description"

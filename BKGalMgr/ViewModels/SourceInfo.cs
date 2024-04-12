@@ -26,8 +26,6 @@ public partial class SourceInfo : ObservableObject
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
     [ObservableProperty]
-    private string _webaddress;
-    [ObservableProperty]
     private string _description;
     [ObservableProperty]
     private ObservableCollection<ContributorInfo> _contributors = new();

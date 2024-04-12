@@ -21,20 +21,6 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class SourceInfoControl : UserControl
 {
-    public string FolderPath
-    {
-        get { return (string)GetValue(FolderPathProperty); }
-        set { SetValue(FolderPathProperty, value); }
-    }
-    public static readonly DependencyProperty FolderPathProperty = DependencyProperty.Register("FolderPath", typeof(string), typeof(SourceInfoControl), new PropertyMetadata(default(string)));
-
-    public bool FolderPathVisible
-    {
-        get { return (bool)GetValue(FolderPathVisibleProperty); }
-        set { SetValue(FolderPathVisibleProperty, value); }
-    }
-    public static readonly DependencyProperty FolderPathVisibleProperty = DependencyProperty.Register("FolderPathVisible", typeof(bool), typeof(SourceInfoControl), new PropertyMetadata(true));
-
     public SourceInfoControl()
     {
         this.InitializeComponent();
@@ -43,17 +29,9 @@ public sealed partial class SourceInfoControl : UserControl
     public bool IsValidSource()
     {
         var source = this.DataContext as SourceInfo;
-        return (!FolderPathVisible || !FolderPath.IsNullOrEmpty()) && source != null && source.IsValid();
+        return source != null && source.IsValid();
     }
 
-    private async void button_pick_folder_Click(object sender, RoutedEventArgs e)
-    {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
-        {
-            headeredtextbox_pick_folder.Text = folder.Path;
-        }
-    }
 
     private async void button_pick_startup_name_Click(object sender, RoutedEventArgs e)
     {

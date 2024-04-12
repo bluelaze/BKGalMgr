@@ -74,76 +74,6 @@ public sealed partial class ManagePage : Page
         ViewModel.SelectedRepository.SelectedGame = newGame;
     }
 
-    private async void button_add_source_Click(object sender, RoutedEventArgs e)
-    {
-        SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
-        SourceInfoControl sourceInfoControl = new()
-        {
-            Width = 720,
-            DataContext = sourceInfo
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Add new source",
-            PrimaryButtonText = "Add",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = sourceInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
-        dialog.Resources["ContentDialogMaxWidth"] = 1080;
-        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-        {
-            args.Cancel = !sourceInfoControl.IsValidSource();
-        };
-
-        var result = await dialog.ShowAsync();
-        if (result == ContentDialogResult.Primary)
-        {
-            App.ShowLoading();
-            await ViewModel.SelectedRepository.SelectedGame.AddSource(sourceInfoControl.FolderPath, sourceInfo);
-            App.HideLoading();
-        }
-    }
-
-    private async void button_add_localization_Click(object sender, RoutedEventArgs e)
-    {
-        LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
-        LocalizationInfoControl localizationInfoControl = new()
-        {
-            Width = 720,
-            DataContext = localizationInfo
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Add new localization",
-            PrimaryButtonText = "Add",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = localizationInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
-        dialog.Resources["ContentDialogMaxWidth"] = 1080;
-        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-        {
-            args.Cancel = !localizationInfoControl.IsValidLocalization();
-        };
-
-        var result = await dialog.ShowAsync();
-        if (result == ContentDialogResult.Primary)
-        {
-            App.ShowLoading();
-            await ViewModel.SelectedRepository.SelectedGame.AddLocalization(localizationInfoControl.FolderPath, localizationInfo);
-            App.HideLoading();
-        }
-    }
-
     private async void button_add_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
@@ -218,8 +148,7 @@ public sealed partial class ManagePage : Page
         SourceInfoControl sourceInfoControl = new()
         {
             Width = 720,
-            DataContext = editSourceInfo,
-            FolderPathVisible = false
+            DataContext = editSourceInfo
         };
         ContentDialog dialog = new()
         {
@@ -253,8 +182,7 @@ public sealed partial class ManagePage : Page
         LocalizationInfoControl localizationInfoControl = new()
         {
             Width = 720,
-            DataContext = editLocalizationInfo,
-            FolderPathVisible = false
+            DataContext = editLocalizationInfo
         };
         ContentDialog dialog = new()
         {
@@ -332,27 +260,90 @@ public sealed partial class ManagePage : Page
 
     private async void button_add_source_folder_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".json" });
-        if (file != null)
+        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
+        if (folder != null)
         {
             App.ShowLoading();
-            var result = await ViewModel.CopySource(file.Path);
+            var existSource = await ViewModel.CopySource(Path.Combine(folder.Path, GlobalInfo.SourceJsonName));
+
+            if (!existSource)
+            {
+                SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
+                SourceInfoControl sourceInfoControl = new()
+                {
+                    Width = 720,
+                    DataContext = sourceInfo
+                };
+                ContentDialog dialog = new()
+                {
+                    // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                    XamlRoot = this.XamlRoot,
+                    Title = "Add new source",
+                    PrimaryButtonText = "Add",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary,
+                    Content = sourceInfoControl,
+                    RequestedTheme = App.MainWindow.RequestedTheme(),
+                };
+                // https://github.com/microsoft/microsoft-ui-xaml/issues/424
+                dialog.Resources["ContentDialogMaxWidth"] = 1080;
+                dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+                {
+                    args.Cancel = !sourceInfoControl.IsValidSource();
+                };
+
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+
+                    await ViewModel.SelectedRepository.SelectedGame.AddSource(folder.Path, sourceInfo);
+                }
+            }
+
             App.HideLoading();
-            if (!result)
-                App.ShowDialogError("Invalid source");
         }
     }
 
     private async void button_add_localization_folder_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".json" });
-        if (file != null)
+        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
+        if (folder != null)
         {
             App.ShowLoading();
-            var result = await ViewModel.CopyLocalization(file.Path);
+            var existLocalization = await ViewModel.CopyLocalization(Path.Combine(folder.Path, GlobalInfo.LocalizationJsonName));
+            if (!existLocalization)
+            {
+                LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
+                LocalizationInfoControl localizationInfoControl = new()
+                {
+                    Width = 720,
+                    DataContext = localizationInfo
+                };
+                ContentDialog dialog = new()
+                {
+                    // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                    XamlRoot = this.XamlRoot,
+                    Title = "Add new localization",
+                    PrimaryButtonText = "Add",
+                    CloseButtonText = "Cancel",
+                    DefaultButton = ContentDialogButton.Primary,
+                    Content = localizationInfoControl,
+                    RequestedTheme = App.MainWindow.RequestedTheme(),
+                };
+                // https://github.com/microsoft/microsoft-ui-xaml/issues/424
+                dialog.Resources["ContentDialogMaxWidth"] = 1080;
+                dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+                {
+                    args.Cancel = !localizationInfoControl.IsValidLocalization();
+                };
+
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    await ViewModel.SelectedRepository.SelectedGame.AddLocalization(folder.Path, localizationInfo);
+                }
+            }
             App.HideLoading();
-            if (!result)
-                App.ShowDialogError("Invalid localization");
         }
     }
 

@@ -37,7 +37,7 @@
                         <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind FakeText, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="textbox_text.BorderBrush" Value="Red" />
+                        <Setter Target="textbox_text.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

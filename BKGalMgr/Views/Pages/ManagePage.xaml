@@ -119,12 +119,6 @@
                             Spacing="8">
                             <TextBlock VerticalAlignment="Center" Text="Sources" />
                             <Button
-                                x:Name="button_add_source"
-                                Click="button_add_source_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE710;}"
-                                IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
-                            <Button
                                 x:Name="button_add_source_folder"
                                 Click="button_add_source_folder_Click"
                                 Content="{mui:FontIcon FontSize=16,
@@ -173,12 +167,6 @@
                             Orientation="Horizontal"
                             Spacing="8">
                             <TextBlock VerticalAlignment="Center" Text="Localization" />
-                            <Button
-                                x:Name="button_add_localization"
-                                Click="button_add_localization_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE710;}"
-                                IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                             <Button
                                 x:Name="button_add_localization_folder"
                                 Click="button_add_localization_folder_Click"
