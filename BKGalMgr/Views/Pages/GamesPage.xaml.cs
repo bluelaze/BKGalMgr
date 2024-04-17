@@ -62,7 +62,19 @@ public sealed partial class GamesPage : Page
             Process gameProcess = new();
             gameProcess.StartInfo.FileName = targetInfo.TargetExePath;
             gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
-            if (!gameProcess.Start())
+            gameProcess.StartInfo.UseShellExecute = true;
+
+            bool startSuccess = false;
+            try
+            {
+                startSuccess = gameProcess.Start();
+            }
+            catch
+            {
+                startSuccess = false;
+            }
+
+            if (!startSuccess)
             {
                 App.ShowDialogError($"Process Start failed, TargetExePath: {targetInfo.TargetExePath}");
             }

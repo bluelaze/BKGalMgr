@@ -35,6 +35,26 @@
             Text="{Binding Description, Mode=TwoWay}"
             TextWrapping="Wrap" />
 
+        <ScrollViewer MaxHeight="360">
+            <mcontrols:SettingsExpander Header="Source Contributors" ItemsSource="{Binding Source.Contributors, Mode=TwoWay}">
+                <mcontrols:SettingsExpander.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ContributorInfo">
+                        <local:ContributorInfoControl Margin="0,4" />
+                    </DataTemplate>
+                </mcontrols:SettingsExpander.ItemTemplate>
+            </mcontrols:SettingsExpander>
+        </ScrollViewer>
+
+        <ScrollViewer MaxHeight="360">
+            <mcontrols:SettingsExpander Header="Localization Contributors" ItemsSource="{Binding Localization.Contributors, Mode=TwoWay}">
+                <mcontrols:SettingsExpander.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ContributorInfo">
+                        <local:ContributorInfoControl Margin="0,4" />
+                    </DataTemplate>
+                </mcontrols:SettingsExpander.ItemTemplate>
+            </mcontrols:SettingsExpander>
+        </ScrollViewer>
+
         <Grid Grid.Row="1" Margin="16,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -45,11 +65,10 @@
                 Header="Sources"
                 ItemsSource="{Binding Game.Sources, Mode=OneWay}"
                 SelectedItem="{Binding Source, Mode=TwoWay}"
-                SelectionChanged="listview_sources_SelectionChanged"
-                Visibility="{x:Bind SourcesVisible, Mode=OneWay}">
+                SelectionChanged="listview_sources_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
-                        <StackPanel>
+                        <StackPanel Margin="0,8">
                             <TextBlock Text="{Binding Name}" />
                             <SelectorBarItem
                                 Padding="0"

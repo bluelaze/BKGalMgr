@@ -44,7 +44,15 @@ public partial class SourceInfo : ObservableObject
             return null;
 
         var sourceInfo = JsonSerializer.Deserialize<SourceInfo>(File.ReadAllBytes(path));
+        if (sourceInfo == null)
+            return null;
+
         sourceInfo.JsonPath = path;
+        if (!sourceInfo.IsValid())
+            return null;
+
+        if (!File.Exists(sourceInfo.ZipPath))
+            return null;
 
         return sourceInfo;
     }

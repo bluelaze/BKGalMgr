@@ -27,7 +27,7 @@ public partial class LocalizationInfo : ObservableObject
     [ObservableProperty]
     private string _description;
     [ObservableProperty]
-    private ObservableCollection<ContributorInfo> _contributors;
+    private ObservableCollection<ContributorInfo> _contributors = new();
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
@@ -43,7 +43,16 @@ public partial class LocalizationInfo : ObservableObject
             return null;
 
         var localizationInfo = JsonSerializer.Deserialize<LocalizationInfo>(File.ReadAllBytes(path));
+        if (localizationInfo == null)
+            return null;
+
         localizationInfo.JsonPath = path;
+        if (!localizationInfo.IsValid())
+            return null;
+
+
+        if (!File.Exists(localizationInfo.ZipPath))
+            return null;
 
         return localizationInfo;
     }

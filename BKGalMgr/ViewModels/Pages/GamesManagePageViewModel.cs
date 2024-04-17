@@ -84,14 +84,14 @@ public partial class GamesManagePageViewModel : ObservableObject
         SelectedRepository.SelectedGame.UpdateTarget(target);
     }
 
-    public async Task<bool> CopySource(string jsonPath)
+    public async Task<bool> CopySource(string dirPath)
     {
-        return await SelectedRepository.SelectedGame.CopySource(jsonPath);
+        return await SelectedRepository.SelectedGame.CopySource(dirPath);
     }
 
-    public async Task<bool> CopyLocalization(string jsonPath)
+    public async Task<bool> CopyLocalization(string dirPath)
     {
-        return await SelectedRepository.SelectedGame.CopyLocalization(jsonPath);
+        return await SelectedRepository.SelectedGame.CopyLocalization(dirPath);
     }
 
     public async Task DeleteGame(GameInfo game)

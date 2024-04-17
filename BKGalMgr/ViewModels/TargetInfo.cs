@@ -42,6 +42,8 @@ public partial class TargetInfo : ObservableObject
     [property: JsonIgnore]
     public string TargetPath => Path.Combine(FolderPath, GlobalInfo.TargetName);
     [property: JsonIgnore]
+    public string TargetZipPath => Path.Combine(FolderPath, GlobalInfo.TargetZipName);
+    [property: JsonIgnore]
     public string TargetExePath => Path.Combine(TargetPath, StartupName);
 
     public TargetInfo() { }
@@ -53,14 +55,22 @@ public partial class TargetInfo : ObservableObject
             return null;
 
         var targetInfo = JsonSerializer.Deserialize<TargetInfo>(File.ReadAllBytes(path));
+        if (targetInfo == null)
+            return null;
+
         targetInfo.JsonPath = path;
+        if (!targetInfo.IsValid())
+            return null;
+
+        if (!Directory.Exists(targetInfo.TargetPath) && !File.Exists(targetInfo.TargetZipPath))
+            return null;
 
         return targetInfo;
     }
 
     public bool IsValid()
     {
-        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty() && Source != null;
+        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty() && (Source != null || Localization != null);
     }
 
     public void SetGamePath(string dirPath)
@@ -82,6 +92,30 @@ public partial class TargetInfo : ObservableObject
         Process.Start("explorer", FolderPath);
     }
 
+    public void SeletedSource()
+    {
+        Name = Source.Name;
+        StartupName = Source.StartupName;
+    }
+
+    public void SeletedLocalization()
+    {
+        Name = Localization.Name;
+        StartupName = Localization.StartupName;
+    }
+
+    public async Task DecompressSource()
+    {
+        if (Source == null || !File.Exists(Source.ZipPath))
+            return;
+
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
+            ZipFile.ExtractToDirectory(Source.ZipPath, TargetPath, true);
+        });
+    }
+
     public async Task DecompressLocalization()
     {
         if (Localization == null || !File.Exists(Localization.ZipPath))
@@ -96,19 +130,43 @@ public partial class TargetInfo : ObservableObject
 
     public async Task DecompressSourceAndLocalization()
     {
-        if (Source == null || !File.Exists(Source.ZipPath))
-            return;
-
         await Task.Run(async () =>
         {
             // dezip source
-            Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
-            ZipFile.ExtractToDirectory(Source.ZipPath, TargetPath, true);
+            await DecompressSource();
 
             // dezip target
             await DecompressLocalization();
 
             SaveJsonFile();
+        });
+    }
+
+    public async Task CopyShareToTargetFolder(string shareFolderPath)
+    {
+        await Task.Run(() =>
+        {
+            Directory.CreateDirectory(TargetPath);
+
+            var targetZipPath = Path.Combine(shareFolderPath, GlobalInfo.TargetZipName);
+            if (Directory.Exists(targetZipPath))
+            {
+                ZipFile.ExtractToDirectory(targetZipPath, TargetPath, true);
+                return;
+            }
+
+            if (Directory.Exists(TargetPath))
+                Directory.Delete(TargetPath, true);
+
+            var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
+            if (Directory.Exists(targetPath))
+            {
+                Directory.Move(targetPath, TargetPath);
+                return;
+            }
+
+            // current folder
+            Directory.Move(shareFolderPath, TargetPath);
         });
     }
 

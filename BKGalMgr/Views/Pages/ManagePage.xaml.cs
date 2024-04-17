@@ -77,30 +77,8 @@ public sealed partial class ManagePage : Page
     private async void button_add_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
-        TargetInfoControl targetInfoControl = new()
-        {
-            Width = 720,
-            DataContext = targetInfo
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Add new target",
-            PrimaryButtonText = "Add",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = targetInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
-        dialog.Resources["ContentDialogMaxWidth"] = 1080;
-        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-        {
-            args.Cancel = !targetInfoControl.IsValidTarget();
-        };
 
-        var result = await dialog.ShowAsync();
+        var result = await EditTargetInfo(targetInfo);
         if (result == ContentDialogResult.Primary)
         {
             App.ShowLoading();
@@ -141,14 +119,12 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_edit_source_Click(object sender, RoutedEventArgs e)
+    private async Task<ContentDialogResult> EditSourceInfo(SourceInfo sourceInfo)
     {
-        SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
-        var editSourceInfo = SourceInfo.Open(Path.GetDirectoryName(sourceInfo.JsonPath));
         SourceInfoControl sourceInfoControl = new()
         {
             Width = 720,
-            DataContext = editSourceInfo
+            DataContext = sourceInfo
         };
         ContentDialog dialog = new()
         {
@@ -168,21 +144,27 @@ public sealed partial class ManagePage : Page
             args.Cancel = !sourceInfoControl.IsValidSource();
         };
 
-        var result = await dialog.ShowAsync();
+        return await dialog.ShowAsync();
+
+    }
+
+    private async void menuflyoutitem_edit_source_Click(object sender, RoutedEventArgs e)
+    {
+        SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
+        var editSourceInfo = SourceInfo.Open(Path.GetDirectoryName(sourceInfo.JsonPath));
+        var result = await EditSourceInfo(editSourceInfo);
         if (result == ContentDialogResult.Primary)
         {
             ViewModel.UpdateSource(editSourceInfo);
         }
     }
 
-    private async void menuflyoutitem_edit_localization_Click(object sender, RoutedEventArgs e)
+    private async Task<ContentDialogResult> EditLocalizationInfo(LocalizationInfo localizationInfo)
     {
-        LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
-        var editLocalizationInfo = LocalizationInfo.Open(Path.GetDirectoryName(localizationInfo.JsonPath));
         LocalizationInfoControl localizationInfoControl = new()
         {
             Width = 720,
-            DataContext = editLocalizationInfo
+            DataContext = localizationInfo
         };
         ContentDialog dialog = new()
         {
@@ -202,24 +184,26 @@ public sealed partial class ManagePage : Page
             args.Cancel = !localizationInfoControl.IsValidLocalization();
         };
 
-        var result = await dialog.ShowAsync();
+        return await dialog.ShowAsync();
+    }
+
+    private async void menuflyoutitem_edit_localization_Click(object sender, RoutedEventArgs e)
+    {
+        LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
+        var editLocalizationInfo = LocalizationInfo.Open(Path.GetDirectoryName(localizationInfo.JsonPath));
+        var result = await EditLocalizationInfo(editLocalizationInfo);
         if (result == ContentDialogResult.Primary)
         {
             ViewModel.UpdateLocalization(editLocalizationInfo);
         }
     }
 
-    private async void menuflyoutitem_edit_target_Click(object sender, RoutedEventArgs e)
+    private async Task<ContentDialogResult> EditTargetInfo(TargetInfo targetInfo)
     {
-        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
-        editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
-        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization);
         TargetInfoControl targetInfoControl = new()
         {
             Width = 720,
-            DataContext = editTargetInfo,
-            SourcesVisible = false,
+            DataContext = targetInfo,
         };
         ContentDialog dialog = new()
         {
@@ -239,9 +223,31 @@ public sealed partial class ManagePage : Page
             args.Cancel = !targetInfoControl.IsValidTarget();
         };
 
-        var result = await dialog.ShowAsync();
+        return await dialog.ShowAsync();
+    }
+    private async void menuflyoutitem_edit_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
+        editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
+        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization);
+        editTargetInfo.Source = ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source);
+
+        var result = await EditTargetInfo(editTargetInfo);
         if (result == ContentDialogResult.Primary)
         {
+            // replace new source
+            if (editTargetInfo.Source != null && editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
+            {
+                App.ShowLoading();
+                await editTargetInfo.DecompressSource();
+                App.HideLoading();
+            }
+            else
+            {
+                editTargetInfo.Source = targetInfo.Source;
+            }
+
             // replace new localization
             if (editTargetInfo.Localization != null && editTargetInfo.Localization.CreateDate != targetInfo.Localization.CreateDate)
             {
@@ -264,35 +270,12 @@ public sealed partial class ManagePage : Page
         if (folder != null)
         {
             App.ShowLoading();
-            var existSource = await ViewModel.CopySource(Path.Combine(folder.Path, GlobalInfo.SourceJsonName));
+            var existSource = await ViewModel.CopySource(folder.Path);
 
             if (!existSource)
             {
                 SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
-                SourceInfoControl sourceInfoControl = new()
-                {
-                    Width = 720,
-                    DataContext = sourceInfo
-                };
-                ContentDialog dialog = new()
-                {
-                    // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                    XamlRoot = this.XamlRoot,
-                    Title = "Add new source",
-                    PrimaryButtonText = "Add",
-                    CloseButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary,
-                    Content = sourceInfoControl,
-                    RequestedTheme = App.MainWindow.RequestedTheme(),
-                };
-                // https://github.com/microsoft/microsoft-ui-xaml/issues/424
-                dialog.Resources["ContentDialogMaxWidth"] = 1080;
-                dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-                {
-                    args.Cancel = !sourceInfoControl.IsValidSource();
-                };
-
-                var result = await dialog.ShowAsync();
+                var result = await EditSourceInfo(sourceInfo);
                 if (result == ContentDialogResult.Primary)
                 {
 
@@ -310,39 +293,64 @@ public sealed partial class ManagePage : Page
         if (folder != null)
         {
             App.ShowLoading();
-            var existLocalization = await ViewModel.CopyLocalization(Path.Combine(folder.Path, GlobalInfo.LocalizationJsonName));
+            var existLocalization = await ViewModel.CopyLocalization(folder.Path);
             if (!existLocalization)
             {
                 LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
-                LocalizationInfoControl localizationInfoControl = new()
-                {
-                    Width = 720,
-                    DataContext = localizationInfo
-                };
-                ContentDialog dialog = new()
-                {
-                    // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                    XamlRoot = this.XamlRoot,
-                    Title = "Add new localization",
-                    PrimaryButtonText = "Add",
-                    CloseButtonText = "Cancel",
-                    DefaultButton = ContentDialogButton.Primary,
-                    Content = localizationInfoControl,
-                    RequestedTheme = App.MainWindow.RequestedTheme(),
-                };
-                // https://github.com/microsoft/microsoft-ui-xaml/issues/424
-                dialog.Resources["ContentDialogMaxWidth"] = 1080;
-                dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-                {
-                    args.Cancel = !localizationInfoControl.IsValidLocalization();
-                };
-
-                var result = await dialog.ShowAsync();
+                var result = await EditLocalizationInfo(localizationInfo);
                 if (result == ContentDialogResult.Primary)
                 {
                     await ViewModel.SelectedRepository.SelectedGame.AddLocalization(folder.Path, localizationInfo);
                 }
             }
+            App.HideLoading();
+        }
+    }
+
+    private async void button_add_target_folder_Click(object sender, RoutedEventArgs e)
+    {
+        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
+        if (folder != null)
+        {
+            App.ShowLoading();
+
+            var targetInfo = TargetInfo.Open(folder.Path);
+            if (targetInfo != null)
+            {
+                targetInfo.CreateDate = DateTime.Now;
+                targetInfo.SetGamePath(ViewModel.SelectedRepository.SelectedGame.FolderPath);
+                await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
+                App.HideLoading();
+                return;
+            }
+
+            targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
+            targetInfo.Source = SourceInfo.Open(folder.Path);
+            targetInfo.Localization = LocalizationInfo.Open(folder.Path);
+
+            if (targetInfo.Localization == null && targetInfo.Source == null)
+            {
+                targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
+                var result = await EditSourceInfo(targetInfo.Source);
+                if (result == ContentDialogResult.Primary)
+                {
+                    targetInfo.SeletedSource();
+                    await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
+                }
+            }
+            else
+            {
+                if (targetInfo.Localization != null)
+                {
+                    targetInfo.SeletedLocalization();
+                }
+                else
+                {
+                    targetInfo.SeletedSource();
+                }
+                await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
+            }
+
             App.HideLoading();
         }
     }

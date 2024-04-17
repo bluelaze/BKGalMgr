@@ -222,6 +222,13 @@
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE710;}"
                                 IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
+                            <Button
+                                x:Name="button_add_target_folder"
+                                Click="button_add_target_folder_Click"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE8F4;}"
+                                IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                ToolTipService.ToolTip="Import exist localization" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>

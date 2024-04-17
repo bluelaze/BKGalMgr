@@ -163,7 +163,7 @@ public partial class GameInfo : ObservableObject
     }
     public async Task AddSource(string sourceFolderPath, SourceInfo sourceInfo)
     {
-        if (sourceFolderPath.IsNullOrEmpty() || sourceInfo.Name.IsNullOrEmpty() || sourceInfo.StartupName.IsNullOrEmpty())
+        if (sourceFolderPath.IsNullOrEmpty() || !sourceInfo.IsValid())
             return;
         await sourceInfo.CompressSourceFolder(sourceFolderPath);
         Sources.Add(sourceInfo);
@@ -180,18 +180,11 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public async Task<bool> CopySource(string jsonFile)
+    public async Task<bool> CopySource(string dirPath)
     {
         do
         {
-            if (!File.Exists(jsonFile))
-                break;
-
-            string jsonName = Path.GetFileName(jsonFile);
-            if (jsonName != GlobalInfo.SourceJsonName)
-                break;
-
-            SourceInfo copySource = SourceInfo.Open(Path.GetDirectoryName(jsonFile));
+            SourceInfo copySource = SourceInfo.Open(dirPath);
             if (copySource == null)
                 break;
             if (!File.Exists(copySource.ZipPath))
@@ -202,7 +195,7 @@ public partial class GameInfo : ObservableObject
             await copySource.CopySourceToFolder(Path.GetDirectoryName(newSource.JsonPath));
 
             copySource.CreateDate = newSource.CreateDate;
-            copySource.JsonPath = newSource.JsonPath;
+            copySource.SetGamePath(FolderPath);
             copySource.SaveJsonFile();
 
             Sources.Add(copySource);
@@ -232,7 +225,7 @@ public partial class GameInfo : ObservableObject
 
     public async Task AddLocalization(string sourceFolderPath, LocalizationInfo localizationInfo)
     {
-        if (sourceFolderPath.IsNullOrEmpty() || localizationInfo.Name.IsNullOrEmpty() || localizationInfo.StartupName.IsNullOrEmpty())
+        if (sourceFolderPath.IsNullOrEmpty() || !localizationInfo.IsValid())
             return;
         await localizationInfo.CompressLocalizationFolder(sourceFolderPath);
         Localizations.Add(localizationInfo);
@@ -249,8 +242,24 @@ public partial class GameInfo : ObservableObject
         }
     }
 
+    public SourceInfo FindSource(SourceInfo sourceInfo)
+    {
+        if (sourceInfo == null) return null;
+
+        for (int i = 0; i < Sources.Count; i++)
+        {
+            if (Sources[i].CreateDate == sourceInfo.CreateDate)
+            {
+                return Sources[i];
+            }
+        }
+        return null;
+    }
+
     public LocalizationInfo FindLocalization(LocalizationInfo localizationInfo)
     {
+        if (localizationInfo == null) return null;
+
         for (int i = 0; i < Localizations.Count; i++)
         {
             if (Localizations[i].CreateDate == localizationInfo.CreateDate)
@@ -261,18 +270,11 @@ public partial class GameInfo : ObservableObject
         return null;
     }
 
-    public async Task<bool> CopyLocalization(string jsonFile)
+    public async Task<bool> CopyLocalization(string dirPath)
     {
         do
         {
-            if (!File.Exists(jsonFile))
-                break;
-
-            string jsonName = Path.GetFileName(jsonFile);
-            if (jsonName != GlobalInfo.LocalizationJsonName)
-                break;
-
-            LocalizationInfo copyLocalization = LocalizationInfo.Open(Path.GetDirectoryName(jsonFile));
+            LocalizationInfo copyLocalization = LocalizationInfo.Open(dirPath);
             if (copyLocalization == null)
                 break;
             if (!File.Exists(copyLocalization.ZipPath))
@@ -283,7 +285,7 @@ public partial class GameInfo : ObservableObject
             await copyLocalization.CopyLocalizationToFolder(Path.GetDirectoryName(newLocalization.JsonPath));
 
             copyLocalization.CreateDate = newLocalization.CreateDate;
-            copyLocalization.JsonPath = newLocalization.JsonPath;
+            copyLocalization.SetGamePath(FolderPath);
             copyLocalization.SaveJsonFile();
 
             Localizations.Add(copyLocalization);
@@ -312,10 +314,30 @@ public partial class GameInfo : ObservableObject
     }
     public async Task AddTarget(TargetInfo targetInfo)
     {
-        if (targetInfo.Name.IsNullOrEmpty() || targetInfo.StartupName.IsNullOrEmpty())
+        if (!targetInfo.IsValid())
             return;
         await targetInfo.DecompressSourceAndLocalization();
         Targets.Add(targetInfo);
+    }
+
+    public async Task<bool> CopyTarget(string shareFolderPath, TargetInfo targetInfo)
+    {
+        do
+        {
+            if (!targetInfo.IsValid())
+                break;
+            if (!Directory.Exists(shareFolderPath))
+                break;
+            // copy to game
+
+            await targetInfo.CopyShareToTargetFolder(shareFolderPath);
+            targetInfo.SaveJsonFile();
+
+            Targets.Add(targetInfo);
+
+            return true;
+        } while (false);
+        return false;
     }
 
     public void UpdateTarget(TargetInfo targetInfo)

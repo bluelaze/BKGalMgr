@@ -21,14 +21,6 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class TargetInfoControl : UserControl
 {
-    public bool SourcesVisible
-    {
-        get { return (bool)GetValue(SourcesVisibleVisibleProperty); }
-        set { SetValue(SourcesVisibleVisibleProperty, value); }
-    }
-    public static readonly DependencyProperty SourcesVisibleVisibleProperty = DependencyProperty.Register("SourcesVisible", typeof(bool), typeof(TargetInfoControl), new PropertyMetadata(true));
-
-
     public TargetInfoControl()
     {
         this.InitializeComponent();
@@ -45,8 +37,7 @@ public sealed partial class TargetInfoControl : UserControl
         var target = this.DataContext as TargetInfo;
         if (target.Source != null)
         {
-            target.Name = target.Source.Name;
-            target.StartupName = target.Source.StartupName;
+            target.SeletedSource();
         }
     }
 
@@ -55,8 +46,7 @@ public sealed partial class TargetInfoControl : UserControl
         var target = this.DataContext as TargetInfo;
         if (target.Localization != null)
         {
-            target.Name = target.Localization.Name;
-            target.StartupName = target.Localization.StartupName;
+            target.SeletedLocalization();
         }
     }
 }
