@@ -14,6 +14,7 @@ using Windows.Devices.Lights;
 
 namespace BKGalMgr.ViewModels;
 
+public record PlayedPeriod(DateTime benginTime, DateTime endTime);
 [Serializable]
 public partial class GameInfo : ObservableObject
 {
@@ -29,6 +30,8 @@ public partial class GameInfo : ObservableObject
     private DateTime _lastPlayDate;
     [ObservableProperty]
     private TimeSpan _playedTime = TimeSpan.Zero;
+    [ObservableProperty]
+    private List<PlayedPeriod> _playedPeriods = new();
     [ObservableProperty]
     private string _cover;
     [ObservableProperty]

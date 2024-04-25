@@ -110,6 +110,9 @@ public sealed partial class GamesPage : Page
 
                 await gameProcess.WaitForExitAsync();
 
+                gameInfo.PlayedPeriods.Insert(0, new(gameInfo.LastPlayDate, DateTime.Now));
+                gameInfo.SaveJsonFile();
+
                 gamePlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
                 targetPlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
 
