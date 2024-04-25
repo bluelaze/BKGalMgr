@@ -8,7 +8,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     NavigationCacheMode="Required"
@@ -22,29 +24,64 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel
-            Margin="16,8"
-            Orientation="Horizontal"
-            Spacing="8">
-            <ComboBox
-                Header="Repository"
-                ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
-                PlaceholderText="Repository"
-                SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:RepositoryInfo">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding FolderPath}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Margin="16,8"
+                Orientation="Horizontal"
+                Spacing="8">
+                <ComboBox
+                    Header="Repository"
+                    ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
+                    PlaceholderText="Repository"
+                    SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:RepositoryInfo">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding FolderPath}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <mcontrols:TokenizingTextBox
+                x:Name="tokenizingtextbox_search"
+                Grid.Column="1"
+                MaxWidth="360"
+                Margin="0,26,0,0"
+                VerticalAlignment="Top"
+                ItemsSource="{x:Bind ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
+                QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
+                                               FontSize=12}"
+                SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
+                Text="{x:Bind ViewModel.SelectedRepository.SearchText, Mode=TwoWay}" />
+
+            <StackPanel
+                Grid.Column="2"
+                Margin="16,36"
+                Orientation="Horizontal"
+                Spacing="8">
+                <ComboBox
+                    MinWidth="130"
+                    ItemsSource="{mui:EnumValues Type=vm:SortType}"
+                    SelectedItem="{x:Bind ViewModel.SelectedRepository.SortType, Mode=TwoWay}" />
+                <ComboBox
+                    MinWidth="80"
+                    ItemsSource="{mui:EnumValues Type=mcollections:SortDirection}"
+                    SelectedItem="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=TwoWay}" />
+            </StackPanel>
+        </Grid>
+
         <ListView
             Grid.Row="1"
             Margin="0,8,8,8"
-            ItemsSource="{x:Bind ViewModel.SelectedRepository.Games, Mode=OneWay}">
+            ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
                     <Grid x:Name="grid_gameinfo">

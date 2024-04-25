@@ -20,6 +20,16 @@ public enum BackdropMaterial
     Acrylic
 }
 
+public enum SortType
+{
+    CreateDate,
+    LastPlayDate,
+    PlayedTime,
+    Name,
+    Company,
+    PublishDate,
+}
+
 public static class GlobalInfo
 {
     /**

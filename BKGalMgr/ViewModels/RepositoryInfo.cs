@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,32 +28,94 @@ public partial class RepositoryInfo : ObservableObject
     private string _description;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SearchSuggestedTags))]
+    [property: JsonIgnore]
+    private string _searchText = string.Empty;
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<string> _searchToken = new();
+    [property: JsonIgnore]
+    public List<string> SearchSuggestedTags => GetSuggestedTags();
+    [ObservableProperty]
+    private SortType _sortType = SortType.CreateDate;
+    [ObservableProperty]
+    private SortDirection _sortOrderType = SortDirection.Descending;
+    partial void OnSortTypeChanged(SortType value) => GamesViewSort();
+    partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private ObservableCollection<GameInfo> _games = new();
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private AdvancedCollectionView _gamesView;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedGameIsValid))]
+    [property: JsonIgnore]
     private GameInfo _selectedGame;
-    [property: JsonIgnore]
-    public GameInfo SelectedGame
+    partial void OnSelectedGameChanged(GameInfo value)
     {
-        get { return _selectedGame; }
-        set
-        {
-            if (SetProperty(ref _selectedGame, value))
-            {
-                SeletedGameCreateDate = _selectedGame?.CreateDate;
-                OnPropertyChanged(nameof(SelectedGameIsValid));
-                SaveJsonFile();
-            }
-        }
+        SeletedGameCreateDate = SelectedGame?.CreateDate ?? new();
+        SaveJsonFile();
     }
+
     [property: JsonIgnore]
-    public bool SelectedGameIsValid { get { return _selectedGame != null; } }
+    public bool SelectedGameIsValid { get { return SelectedGame != null; } }
     public DateTime? SeletedGameCreateDate { get; set; }
 
     [property: JsonIgnore]
     private string JsonPath => Path.Combine(FolderPath, GlobalInfo.RepositoryJsonName);
 
-    public RepositoryInfo() { }
+    public RepositoryInfo()
+    {
+        GamesView = new(Games, true);
+        GamesView.Filter = GamesViewFilter;
+
+        SearchToken.CollectionChanged += (_, _) =>
+        {
+            GamesView.RefreshFilter();
+        };
+    }
+    class StringContainsComparer : IEqualityComparer<string>
+    {
+        public bool Equals(string x, string y)
+        {
+            if (x == null || y == null) return false;
+            return y.Contains(x);
+        }
+
+        public int GetHashCode([DisallowNull] string obj)
+        {
+            // zero to comparer all
+            return 0;
+        }
+    }
+    public bool GamesViewFilter(object game)
+    {
+        GameInfo gameInfo = game as GameInfo;
+        if (gameInfo != null && SearchToken.Count() > 0)
+        {
+            return gameInfo.GetAllTags().Intersect(SearchToken, new StringContainsComparer()).Count() > 0;
+        }
+        return true;
+    }
+    public void GamesViewSort()
+    {
+        GamesView.SortDescriptions.Clear();
+        GamesView.SortDescriptions.Add(new(SortType.ToString(), SortOrderType));
+        SaveJsonFile();
+    }
+
+    public List<string> GetSuggestedTags()
+    {
+        List<string> tags = new List<string>();
+        foreach (var item in Games)
+            tags = tags.Union(item.GetAllTags()).ToList();
+
+        return tags.Where(t => t != null && t.Contains(SearchText)).ToList();
+    }
 
     public static bool IsExistedRepository(string folderPath)
     {
@@ -68,7 +132,7 @@ public partial class RepositoryInfo : ObservableObject
         if (IsExistedRepository(folderPath))
             repositoryInfo = JsonSerializer.Deserialize<RepositoryInfo>(File.ReadAllBytes(jsonPath));
         if (repositoryInfo == null)
-            repositoryInfo = defaultValue == null ? new RepositoryInfo() : defaultValue;
+            repositoryInfo = defaultValue ?? new RepositoryInfo();
 
         repositoryInfo.FolderPath = folderPath;
 
@@ -83,7 +147,7 @@ public partial class RepositoryInfo : ObservableObject
                     repositoryInfo._selectedGame = game;
             }
         }
-        repositoryInfo.SaveJsonFile();
+        repositoryInfo.GamesViewSort();
         return repositoryInfo;
     }
 
@@ -109,14 +173,18 @@ public partial class RepositoryInfo : ObservableObject
     {
         if (Games.Contains(game))
         {
-            if(Directory.Exists(game.FolderPath))
+            if (Directory.Exists(game.FolderPath))
                 await Task.Run(() => { Directory.Delete(game.FolderPath, true); });
             Games.Remove(game);
         }
+        if(SelectedGame == game)
+            SelectedGame = null;
     }
 
     public void SaveJsonFile()
     {
+        if (!IsValid())
+            return;
         string jsonStr = JsonMisc.Serialize(this);
         Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
         File.WriteAllText(JsonPath, jsonStr);

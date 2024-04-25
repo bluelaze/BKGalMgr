@@ -5,6 +5,7 @@ global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Mvvm.Messaging;
 global using CommunityToolkit.Mvvm.Messaging.Messages;
 global using CommunityToolkit.WinUI;
+global using CommunityToolkit.WinUI.Collections;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
