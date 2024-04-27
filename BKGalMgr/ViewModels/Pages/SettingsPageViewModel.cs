@@ -13,10 +13,7 @@ public partial class SettingsPageViewModel : ObservableObject
 {
     public Theme AppTheme
     {
-        get
-        {
-            return _settings.LoadedSettings.AppTheme;
-        }
+        get => _settings.LoadedSettings.AppTheme;
         set
         {
             if (SetProperty(
@@ -29,10 +26,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public BackdropMaterial AppBackdropMaterial
     {
-        get
-        {
-            return _settings.LoadedSettings.AppBackdropMaterial;
-        }
+        get => _settings.LoadedSettings.AppBackdropMaterial;
         set
         {
             if (SetProperty(
@@ -45,10 +39,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public CompressionLevel ZipLevel
     {
-        get
-        {
-            return _settings.LoadedSettings.ZipLevel;
-        }
+        get => _settings.LoadedSettings.ZipLevel;
         set
         {
             if (SetProperty(

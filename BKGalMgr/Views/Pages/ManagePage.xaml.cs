@@ -230,14 +230,14 @@ public sealed partial class ManagePage : Page
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
         editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
-        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization);
-        editTargetInfo.Source = ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source);
+        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization) ?? targetInfo.Localization;
+        editTargetInfo.Source = ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source) ?? targetInfo.Source;
 
         var result = await EditTargetInfo(editTargetInfo);
         if (result == ContentDialogResult.Primary)
         {
             // replace new source
-            if (editTargetInfo.Source != null && editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
+            if (editTargetInfo.Source != null && editTargetInfo.Source?.CreateDate != targetInfo.Source.CreateDate)
             {
                 App.ShowLoading();
                 await editTargetInfo.DecompressSource();
@@ -249,7 +249,7 @@ public sealed partial class ManagePage : Page
             }
 
             // replace new localization
-            if (editTargetInfo.Localization != null && editTargetInfo.Localization.CreateDate != targetInfo.Localization.CreateDate)
+            if (editTargetInfo.Localization != null && editTargetInfo.Localization?.CreateDate != targetInfo.Localization.CreateDate)
             {
                 App.ShowLoading();
                 await editTargetInfo.DecompressLocalization();

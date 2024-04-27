@@ -1,4 +1,4 @@
-using CommunityToolkit.WinUI.Controls;
+﻿using CommunityToolkit.WinUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -77,9 +77,11 @@ public partial class GameInfo : ObservableObject
         get { return _selectedTarget; }
         set
         {
+            if (value == null && Targets.Count() > 0) return;
+
             if (SetProperty(ref _selectedTarget, value))
             {
-                SeletedTargetCreateDate = _selectedTarget.CreateDate;
+                SeletedTargetCreateDate = _selectedTarget?.CreateDate ?? new();
                 SaveJsonFile();
             }
         }
@@ -371,6 +373,11 @@ public partial class GameInfo : ObservableObject
             if (Directory.Exists(targetInfo.FolderPath))
                 await Task.Run(() => { Directory.Delete(targetInfo.FolderPath, true); });
             Targets.Remove(targetInfo);
+        }
+        if (targetInfo == SelectedTarget)
+        {
+            _selectedTarget = null;
+            OnPropertyChanged(nameof(SelectedTarget));
         }
     }
 

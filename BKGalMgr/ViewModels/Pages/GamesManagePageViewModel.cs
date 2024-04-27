@@ -14,21 +14,16 @@ public partial class GamesManagePageViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<RepositoryInfo> _repository = new();
 
-    private RepositoryInfo _selectedRepository;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SelectedRepositoryIsValid))]
     [property: JsonIgnore]
-    public RepositoryInfo SelectedRepository
+    private RepositoryInfo _selectedRepository;
+    partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {
-        get { return _selectedRepository; }
-        set
-        {
-            if (SetProperty(ref _selectedRepository, value))
-            {
-                _settings.LoadedSettings.SelectedRepositoryPath = _selectedRepository.FolderPath;
-                OnPropertyChanged(nameof(SelectedRepositoryIsValid));
-            }
-        }
+        _settings.LoadedSettings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
-    public bool SelectedRepositoryIsValid { get { return _selectedRepository != null; } }
+
+    public bool SelectedRepositoryIsValid { get { return SelectedRepository != null; } }
 
     [ObservableProperty]
     private GameInfo _game = new();
@@ -57,7 +52,7 @@ public partial class GamesManagePageViewModel : ObservableObject
 
         Repository.Add(repository);
         if (repository.FolderPath == _settings.LoadedSettings.SelectedRepositoryPath)
-            _selectedRepository = repository;
+            SelectedRepository = repository;
         if (!_settings.LoadedSettings.RepositoryPath.Contains(repository.FolderPath))
         {
             _settings.LoadedSettings.RepositoryPath.Add(repository.FolderPath);
