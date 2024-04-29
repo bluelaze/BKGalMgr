@@ -60,6 +60,13 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
+    private bool _isPropertyChanged;
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private bool _isPlaying = false;
+
+    [ObservableProperty]
+    [property: JsonIgnore]
     private ObservableCollection<SourceInfo> _sources = new();
 
     [ObservableProperty]
@@ -99,6 +106,13 @@ public partial class GameInfo : ObservableObject
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
     public GameInfo() { }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.PropertyName != nameof(IsPropertyChanged) && !IsPlaying)
+            IsPropertyChanged = true;
+    }
 
     public bool IsValid { get { return !Name.IsNullOrEmpty(); } }
 
@@ -166,6 +180,7 @@ public partial class GameInfo : ObservableObject
             }
         }
 
+        gameInfo.IsPropertyChanged = false;
         return gameInfo;
     }
 
@@ -385,6 +400,7 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public void SaveJsonFile()
     {
+        IsPropertyChanged = false;
         if (JsonPath.IsNullOrEmpty()) return;
 
         string jsonStr = JsonMisc.Serialize(this);

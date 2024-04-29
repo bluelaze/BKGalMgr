@@ -6,6 +6,8 @@
     xmlns:controls="using:BKGalMgr.Views.Controls"
     xmlns:converters="using:BKGalMgr.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mui="using:CommunityToolkit.WinUI"
@@ -44,7 +46,7 @@
                                 x:Name="button_add_repository"
                                 Click="button_add_repository_Click"
                                 Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE710;}" />
+                                                       Glyph=&#xE948;}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.HeaderTemplate>
@@ -75,17 +77,36 @@
                                 x:Name="button_add_game"
                                 Click="button_add_game_Click"
                                 Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE710;}" />
+                                                       Glyph=&#xE948;}" />
                             <Button
+                                x:Name="button_save_game"
                                 Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveJsonFileCommand}"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE74E;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}">
+                                <interactivity:Interaction.Behaviors>
+                                    <interactions:DataTriggerBehavior Binding="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" Value="True">
+                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
+                                    </interactions:DataTriggerBehavior>
+                                    <interactions:DataTriggerBehavior Binding="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" Value="False">
+                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource ButtonForeground}" />
+                                    </interactions:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <Button.Resources>
+                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccess" />
+                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccess" />
+                                </Button.Resources>
+                            </Button>
                             <Button
                                 x:Name="button_delete_game"
                                 Click="button_delete_game_Click"
                                 Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE74D;}" />
+                                                       Glyph=&#xE74D;}">
+                                <Button.Resources>
+                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
+                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCritical" />
+                                </Button.Resources>
+                            </Button>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.HeaderTemplate>
@@ -115,7 +136,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <controls:GameInfoControl DataContext="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
+            <controls:GameInfoControl DataContext="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
             <Grid Grid.Row="1" Margin="0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -140,7 +161,7 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:SourceInfo">
-                            <StackPanel Margin="0,8" Background="Transparent">
+                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
@@ -189,7 +210,7 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:LocalizationInfo">
-                            <StackPanel Margin="0,8" Background="Transparent">
+                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
@@ -231,7 +252,7 @@
                                 x:Name="button_add_target"
                                 Click="button_add_target_Click"
                                 Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE710;}"
+                                                       Glyph=&#xE948;}"
                                 IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                             <Button
                                 x:Name="button_add_target_folder"
@@ -244,7 +265,7 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:TargetInfo">
-                            <StackPanel Margin="0,8" Background="Transparent">
+                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem

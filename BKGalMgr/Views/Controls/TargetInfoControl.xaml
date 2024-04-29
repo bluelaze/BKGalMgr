@@ -68,7 +68,7 @@
                 SelectionChanged="listview_sources_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
-                        <StackPanel Margin="0,8">
+                        <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
                             <SelectorBarItem
                                 Padding="0"
@@ -88,7 +88,7 @@
                 SelectionChanged="listview_localization_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:LocalizationInfo">
-                        <StackPanel Margin="0,8">
+                        <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
                             <SelectorBarItem
                                 Padding="0"

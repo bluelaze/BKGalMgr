@@ -37,6 +37,10 @@ public partial class TargetInfo : ObservableObject
     [ObservableProperty]
     private LocalizationInfo _localization;
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private bool _isPlaying = false;
+
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
     [property: JsonIgnore]

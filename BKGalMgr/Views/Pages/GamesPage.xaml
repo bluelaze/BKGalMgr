@@ -6,6 +6,8 @@
     xmlns:controls="using:BKGalMgr.Views.Controls"
     xmlns:converters="using:BKGalMgr.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
@@ -84,7 +86,7 @@
             ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
-                    <Grid x:Name="grid_gameinfo">
+                    <Grid x:Name="grid_gameinfo" Style="{StaticResource ListViewGridItemStyle}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="*" />
@@ -117,10 +119,18 @@
                                     Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                     Text="{Binding LastPlayDate}" />
                                 <SelectorBarItem
-                                    x:Name="selectorbaritem_game_playedtime"
                                     Padding="0"
                                     Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                    Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                    Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="True">
+                                            <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
+                                        </interactions:DataTriggerBehavior>
+                                        <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="False">
+                                            <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SelectorBarItemForeground}" />
+                                        </interactions:DataTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                </SelectorBarItem>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="会社:" />
@@ -167,10 +177,18 @@
                                                 Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                                 Text="{Binding LastPlayDate}" />
                                             <SelectorBarItem
-                                                x:Name="selectorbaritem_target_playedtime"
                                                 Padding="0"
                                                 Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                                Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}">
+                                                <interactivity:Interaction.Behaviors>
+                                                    <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="True">
+                                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
+                                                    </interactions:DataTriggerBehavior>
+                                                    <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="False">
+                                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SelectorBarItemForeground}" />
+                                                    </interactions:DataTriggerBehavior>
+                                                </interactivity:Interaction.Behaviors>
+                                            </SelectorBarItem>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>

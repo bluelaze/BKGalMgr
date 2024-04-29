@@ -12,6 +12,29 @@
                 <ResourceDictionary Source="Resources/Palette.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
+            <Style x:Key="GridItemStyle" TargetType="Grid">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
+                <Setter Property="CornerRadius" Value="{ThemeResource ListViewItemCornerRadius}" />
+            </Style>
+            <Style
+                x:Key="ListViewGridItemStyle"
+                BasedOn="{StaticResource GridItemStyle}"
+                TargetType="Grid">
+                <Setter Property="Padding" Value="8,0" />
+                <Setter Property="Margin" Value="0,6" />
+            </Style>
+            <Style x:Key="StackItemStyle" TargetType="StackPanel">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
+                <Setter Property="CornerRadius" Value="{ThemeResource ListViewItemCornerRadius}" />
+            </Style>
+            <Style
+                x:Key="ListViewStackItemStyle"
+                BasedOn="{StaticResource StackItemStyle}"
+                TargetType="StackPanel">
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="Margin" Value="0,6" />
+                <Setter Property="Spacing" Value="4" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

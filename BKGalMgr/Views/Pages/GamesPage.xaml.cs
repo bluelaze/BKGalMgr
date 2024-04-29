@@ -103,18 +103,15 @@ public sealed partial class GamesPage : Page
 
                 }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
 
-                var gamePlayedTimeControl = playBtn.FindParent("grid_gameinfo").FindChild("selectorbaritem_game_playedtime") as Control;
-                var targetPlayedTimeControl = playBtn.FindParent("grid_gameinfo").FindDescendant("selectorbaritem_target_playedtime") as Control;
-                gamePlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SystemFillColorSuccessBrush"];
-                targetPlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SystemFillColorSuccessBrush"];
 
+                gameInfo.IsPlaying = true;
+                targetInfo.IsPlaying = true;
                 await gameProcess.WaitForExitAsync();
+                gameInfo.IsPlaying = false;
+                targetInfo.IsPlaying = false;
 
                 gameInfo.PlayedPeriods.Insert(0, new(gameInfo.LastPlayDate, DateTime.Now));
                 gameInfo.SaveJsonFile();
-
-                gamePlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
-                targetPlayedTimeControl.Foreground = (SolidColorBrush)Application.Current.Resources["SelectorBarItemForeground"];
 
                 loopTimer.Change(Timeout.Infinite, Timeout.Infinite);
                 loopTimer.Dispose();

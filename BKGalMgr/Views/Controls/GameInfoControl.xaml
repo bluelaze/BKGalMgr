@@ -111,9 +111,11 @@
                         </DataTemplate>
                     </Expander.HeaderTemplate>
                     <TextBox
+                        MaxHeight="360"
                         HorizontalAlignment="Stretch"
                         AcceptsReturn="True"
                         BorderBrush="Transparent"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
                         Text="{Binding Blog, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </Expander>
@@ -136,7 +138,6 @@
                     Date="{Binding PublishDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
             </Grid>
 
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -149,7 +150,6 @@
                     PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
-
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -180,9 +180,11 @@
                         </DataTemplate>
                     </Expander.HeaderTemplate>
                     <TextBox
+                        MaxHeight="360"
                         HorizontalAlignment="Stretch"
                         AcceptsReturn="True"
                         BorderBrush="Transparent"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
                         Text="{Binding Story, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </Expander>
