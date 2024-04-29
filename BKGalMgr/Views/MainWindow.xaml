@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:BKGalMgr"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
     mc:Ignorable="d">
 
     <Grid>
@@ -48,5 +49,20 @@
                 IsIndeterminate="True"
                 ShowPaused="False" />
         </ContentPresenter>
+        <tb:TaskbarIcon
+            x:Name="taskbaricon"
+            ContextMenuMode="SecondWindow"
+            IconSource="ms-appx:///BKGalMgr.ico"
+            LeftClickCommand="{x:Bind ShowCommand}"
+            NoLeftClickDelay="True"
+            ToolTipText="BKGalMgr">
+            <tb:TaskbarIcon.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Command="{x:Bind ShowCommand}" Text="Show" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem Command="{x:Bind ExitCommand}" Text="Exit" />
+                </MenuFlyout>
+            </tb:TaskbarIcon.ContextFlyout>
+        </tb:TaskbarIcon>
     </Grid>
 </Window>

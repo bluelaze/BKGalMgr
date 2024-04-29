@@ -1,4 +1,5 @@
 using BKGalMgr.Views.Pages;
+using H.NotifyIcon;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -23,6 +24,7 @@ namespace BKGalMgr.Views;
 /// <summary>
 /// An empty window that can be used on its own or navigated to within a Frame.
 /// </summary>
+[ObservableObject]
 public sealed partial class MainWindow : Window
 {
     public MainWindow()
@@ -33,6 +35,7 @@ public sealed partial class MainWindow : Window
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(grid_app_titlebar);
         AppWindow.Changed += AppWindow_Changed;
+        AppWindow.Closing += AppWindow_Closing;
 
         frame_main_root.Navigate(typeof(MainPage));
     }
@@ -45,6 +48,21 @@ public sealed partial class MainWindow : Window
     public void HideLoading()
     {
         contentpresenter_loading.Visibility = Visibility.Collapsed;
+    }
+
+    [RelayCommand]
+    public void Show()
+    {
+        H.NotifyIcon.WindowExtensions.Show(this);
+    }
+
+    private bool _exit = false;
+    [RelayCommand]
+    public void Exit()
+    {
+        _exit = true;
+        taskbaricon.Dispose();
+        Close();
     }
 
     private void AppWindow_Changed(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowChangedEventArgs args)
@@ -79,6 +97,15 @@ public sealed partial class MainWindow : Window
                     sender.TitleBar.ResetToDefault();
                     break;
             }
+        }
+    }
+
+    private void AppWindow_Closing(AppWindow sender, AppWindowClosingEventArgs args)
+    {
+        if (!_exit)
+        {
+            args.Cancel = true;
+            this.Hide();
         }
     }
 
