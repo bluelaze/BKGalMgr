@@ -1,4 +1,5 @@
-﻿using BKGalMgr.ViewModels;
+﻿using BKGalMgr.Helpers;
+using BKGalMgr.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

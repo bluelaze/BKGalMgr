@@ -1,4 +1,5 @@
-﻿using BKGalMgr.Models;
+﻿using BKGalMgr.Helpers;
+using BKGalMgr.Models;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
@@ -50,36 +51,15 @@ public partial class SettingsPageViewModel : ObservableObject
     }
 
     private SettingsModel _settings;
+    private ThemeHelper _themeHelper;
     public SettingsPageViewModel()
     {
         _settings = App.GetRequiredService<SettingsModel>();
+        _themeHelper = new(App.MainWindow);
     }
 
     public void ApplyTheme()
     {
-        switch (_settings.LoadedSettings.AppTheme)
-        {
-            case Theme.Dark:
-                App.MainWindow.ApplyTheme(ElementTheme.Dark);
-                break;
-            case Theme.Light:
-                App.MainWindow.ApplyTheme(ElementTheme.Light);
-                break;
-            default:
-                App.MainWindow.ApplyTheme(ElementTheme.Default);
-                break;
-        }
-        switch (_settings.LoadedSettings.AppBackdropMaterial)
-        {
-            case BackdropMaterial.Mica:
-                App.MainWindow.SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base };
-                break;
-            case BackdropMaterial.Mica_Alt:
-                App.MainWindow.SystemBackdrop = new MicaBackdrop() { Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.BaseAlt };
-                break;
-            default:
-                App.MainWindow.SystemBackdrop = new DesktopAcrylicBackdrop();
-                break;
-        }
+        _themeHelper.ApllyTheme(_settings.LoadedSettings.AppTheme, _settings.LoadedSettings.AppBackdropMaterial);
     }
 }
