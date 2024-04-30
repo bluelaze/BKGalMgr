@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Windows.Devices.Lights;
+using Windows.Graphics.Imaging;
 
 namespace BKGalMgr.ViewModels;
 
@@ -104,6 +106,8 @@ public partial class GameInfo : ObservableObject
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
+    [property: JsonIgnore]
+    public string CoverPath => Path.Combine(FolderPath, GlobalInfo.GameCoverName);
 
     public GameInfo() { }
 
@@ -179,6 +183,8 @@ public partial class GameInfo : ObservableObject
                 }
             }
         }
+        if (File.Exists(gameInfo.CoverPath))
+            gameInfo.Cover = gameInfo.CoverPath;
 
         gameInfo.IsPropertyChanged = false;
         return gameInfo;
@@ -398,9 +404,17 @@ public partial class GameInfo : ObservableObject
 
     [RelayCommand]
     [property: JsonIgnore]
+    public async void SaveGameInfo()
+    {
+        SaveJsonFile();
+        await SaveCover();
+        IsPropertyChanged = false;
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
     public void SaveJsonFile()
     {
-        IsPropertyChanged = false;
         if (JsonPath.IsNullOrEmpty()) return;
 
         string jsonStr = JsonMisc.Serialize(this);
@@ -413,5 +427,29 @@ public partial class GameInfo : ObservableObject
     public void OpenJsonFolder()
     {
         Process.Start("explorer", FolderPath);
+    }
+
+    public async Task SaveCover()
+    {
+        if (!Cover.IsNullOrEmpty() && Cover != CoverPath)
+        {
+            if (File.Exists(Cover))
+            {
+                File.Copy(Cover, CoverPath, true);
+                Cover = CoverPath;
+                return;
+            }
+
+            var fileData = await (new HttpClient()).GetByteArrayAsync(Cover);
+            var decoder = await BitmapDecoder.CreateAsync(new MemoryStream(fileData).AsRandomAccessStream());
+
+            using var imageFile = File.OpenWrite(CoverPath);
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageFile.AsRandomAccessStream());
+            encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
+            await encoder.FlushAsync();
+            await imageFile.FlushAsync();
+
+            Cover = CoverPath;
+        }
     }
 }

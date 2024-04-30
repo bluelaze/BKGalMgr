@@ -80,7 +80,7 @@
                                                        Glyph=&#xE948;}" />
                             <Button
                                 x:Name="button_save_game"
-                                Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveJsonFileCommand}"
+                                Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE74E;}"
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}">
