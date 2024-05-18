@@ -130,7 +130,7 @@ public partial class RepositoryInfo : ObservableObject
         var repositoryInfo = defaultValue;
         var jsonPath = Path.Combine(folderPath, GlobalInfo.RepositoryJsonName);
         if (IsExistedRepository(folderPath))
-            repositoryInfo = JsonSerializer.Deserialize<RepositoryInfo>(File.ReadAllBytes(jsonPath));
+            repositoryInfo = JsonMisc.Deserialize<RepositoryInfo>(File.ReadAllText(jsonPath));
         if (repositoryInfo == null)
             repositoryInfo = defaultValue ?? new RepositoryInfo();
 
@@ -144,7 +144,7 @@ public partial class RepositoryInfo : ObservableObject
             {
                 repositoryInfo.Games.Add(game);
                 if (game.CreateDate == repositoryInfo.SeletedGameCreateDate)
-                    repositoryInfo._selectedGame = game;
+                    repositoryInfo.SelectedGame = game;
             }
         }
         repositoryInfo.GamesViewSort();

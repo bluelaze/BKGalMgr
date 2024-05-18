@@ -13,6 +13,7 @@
     xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
     xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:mtriggers="using:CommunityToolkit.WinUI"
     xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     NavigationCacheMode="Required"
@@ -86,120 +87,132 @@
             ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
-                    <Grid x:Name="grid_gameinfo" Style="{StaticResource ListViewGridItemStyle}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Image Margin="0,8,8,8">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding Cover}" />
-                            </Image.Source>
-                        </Image>
-                        <StackPanel
-                            Grid.Column="1"
-                            Padding="4"
-                            Spacing="4">
-                            <HyperlinkButton
-                                Name="linkbtn_gamename"
-                                Padding="0"
-                                HorizontalContentAlignment="Left"
-                                Click="linkbtn_gamename_Click"
-                                Content="{Binding Name}"
-                                FontSize="16"
-                                FontWeight="Bold" />
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                    Text="{Binding CreateDate}" />
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                    Text="{Binding LastPlayDate}" />
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                    Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}">
-                                    <interactivity:Interaction.Behaviors>
-                                        <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="True">
-                                            <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
-                                        </interactions:DataTriggerBehavior>
-                                        <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="False">
-                                            <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SelectorBarItemForeground}" />
-                                        </interactions:DataTriggerBehavior>
-                                    </interactivity:Interaction.Behaviors>
-                                </SelectorBarItem>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="会社:" />
+                    <UserControl>
+                        <Grid x:Name="grid_gameinfo" Style="{StaticResource ListViewGridItemStyle}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image Margin="0,8,8,8">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding Cover}" />
+                                </Image.Source>
+                            </Image>
+                            <StackPanel
+                                Grid.Column="1"
+                                Padding="4"
+                                Spacing="4">
                                 <HyperlinkButton
+                                    Name="linkbtn_gamename"
                                     Padding="0"
-                                    Content="{Binding Company}"
-                                    NavigateUri="{Binding Website}" />
-                                <TextBlock Text="発売日:" />
-                                <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
+                                    HorizontalContentAlignment="Left"
+                                    Click="linkbtn_gamename_Click"
+                                    Content="{Binding Name}"
+                                    FontSize="16"
+                                    FontWeight="Bold" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <SelectorBarItem
+                                        Padding="0"
+                                        Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                        Text="{Binding CreateDate}" />
+                                    <SelectorBarItem
+                                        Padding="0"
+                                        Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                        Text="{Binding LastPlayDate}" />
+                                    <SelectorBarItem
+                                        x:Name="item_playedtime"
+                                        Padding="0"
+                                        Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                        Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="会社:" />
+                                    <HyperlinkButton
+                                        Padding="0"
+                                        Content="{Binding Company}"
+                                        NavigateUri="{Binding Website}" />
+                                    <TextBlock Text="発売日:" />
+                                    <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="原画:" />
+                                    <mcontrols:MetadataControl Items="{Binding ArtistItems, Mode=OneWay}" Separator=" • " />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="シナリオ:" />
+                                    <mcontrols:MetadataControl Items="{Binding ScenarioItems}" Separator=" • " />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="TAG:" />
+                                    <mcontrols:MetadataControl Items="{Binding TagItems}" Separator=" • " />
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="原画:" />
-                                <mcontrols:MetadataControl Items="{Binding ArtistItems, Mode=OneWay}" Separator=" • " />
+                            <StackPanel
+                                Grid.Column="2"
+                                Padding="4"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <ComboBox
+                                    VerticalAlignment="Center"
+                                    ItemsSource="{Binding Targets, Mode=OneWay}"
+                                    PlaceholderText="Pick a target to launch"
+                                    SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:TargetInfo">
+                                            <UserControl>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Name}" />
+                                                    <SelectorBarItem
+                                                        Padding="0"
+                                                        Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                        Text="{Binding CreateDate}" />
+                                                    <SelectorBarItem
+                                                        Padding="0"
+                                                        Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                        Text="{Binding LastPlayDate}" />
+                                                    <SelectorBarItem
+                                                        x:Name="item_playedtime"
+                                                        Padding="0"
+                                                        Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                        Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup>
+                                                            <VisualState x:Name="PlayingState">
+                                                                <VisualState.StateTriggers>
+                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsPlaying}" To="True" />
+                                                                </VisualState.StateTriggers>
+                                                                <VisualState.Setters>
+                                                                    <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                </StackPanel>
+                                            </UserControl>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button
+                                    Name="btn_play"
+                                    Click="btn_play_Click"
+                                    Content="Play"
+                                    Style="{StaticResource AccentButtonStyle}" />
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="シナリオ:" />
-                                <mcontrols:MetadataControl Items="{Binding ScenarioItems}" Separator=" • " />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="TAG:" />
-                                <mcontrols:MetadataControl Items="{Binding TagItems}" Separator=" • " />
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel
-                            Grid.Column="2"
-                            Padding="4"
-                            Orientation="Horizontal"
-                            Spacing="8">
-                            <ComboBox
-                                VerticalAlignment="Center"
-                                ItemsSource="{Binding Targets, Mode=OneWay}"
-                                PlaceholderText="Pick a target to launch"
-                                SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:TargetInfo">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}" />
-                                            <SelectorBarItem
-                                                Padding="0"
-                                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                Text="{Binding CreateDate}" />
-                                            <SelectorBarItem
-                                                Padding="0"
-                                                Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                Text="{Binding LastPlayDate}" />
-                                            <SelectorBarItem
-                                                Padding="0"
-                                                Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}">
-                                                <interactivity:Interaction.Behaviors>
-                                                    <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="True">
-                                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
-                                                    </interactions:DataTriggerBehavior>
-                                                    <interactions:DataTriggerBehavior Binding="{Binding IsPlaying}" Value="False">
-                                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SelectorBarItemForeground}" />
-                                                    </interactions:DataTriggerBehavior>
-                                                </interactivity:Interaction.Behaviors>
-                                            </SelectorBarItem>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <Button
-                                Name="btn_play"
-                                Click="btn_play_Click"
-                                Content="Play"
-                                Style="{StaticResource AccentButtonStyle}" />
-                        </StackPanel>
-                    </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="PlayingState">
+                                        <VisualState.StateTriggers>
+                                            <mtriggers:IsEqualStateTrigger Value="{Binding IsPlaying}" To="True" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </UserControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

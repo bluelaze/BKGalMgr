@@ -42,7 +42,7 @@ public partial class LocalizationInfo : ObservableObject
         if (!File.Exists(path))
             return null;
 
-        var localizationInfo = JsonSerializer.Deserialize<LocalizationInfo>(File.ReadAllBytes(path));
+        var localizationInfo = JsonMisc.Deserialize<LocalizationInfo>(File.ReadAllText(path));
         if (localizationInfo == null)
             return null;
 

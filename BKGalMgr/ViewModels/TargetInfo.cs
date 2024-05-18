@@ -58,7 +58,7 @@ public partial class TargetInfo : ObservableObject
         if (!File.Exists(path))
             return null;
 
-        var targetInfo = JsonSerializer.Deserialize<TargetInfo>(File.ReadAllBytes(path));
+        var targetInfo = JsonMisc.Deserialize<TargetInfo>(File.ReadAllText(path));
         if (targetInfo == null)
             return null;
 

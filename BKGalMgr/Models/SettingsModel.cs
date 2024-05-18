@@ -49,7 +49,7 @@ public class SettingsModel
         {
             try
             {
-                _settings = JsonSerializer.Deserialize<Settings>(File.ReadAllBytes(_settingsFilePath));
+                _settings = JsonMisc.Deserialize<Settings>(File.ReadAllText(_settingsFilePath));
             }
             catch (Exception e)
             {

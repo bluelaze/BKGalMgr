@@ -43,7 +43,7 @@ public partial class SourceInfo : ObservableObject
         if (!File.Exists(path))
             return null;
 
-        var sourceInfo = JsonSerializer.Deserialize<SourceInfo>(File.ReadAllBytes(path));
+        var sourceInfo = JsonMisc.Deserialize<SourceInfo>(File.ReadAllText(path));
         if (sourceInfo == null)
             return null;
 

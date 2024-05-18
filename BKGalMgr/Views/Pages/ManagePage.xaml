@@ -10,6 +10,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mtriggers="using:CommunityToolkit.WinUI"
     xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     mc:Ignorable="d">
@@ -71,43 +72,49 @@
                 </ComboBox.ContextFlyout>
                 <ComboBox.HeaderTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="Game" />
-                            <Button
-                                x:Name="button_add_game"
-                                Click="button_add_game_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE948;}" />
-                            <Button
-                                x:Name="button_save_game"
-                                Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE74E;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}">
-                                <interactivity:Interaction.Behaviors>
-                                    <interactions:DataTriggerBehavior Binding="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" Value="True">
-                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource SystemFillColorSuccess}" />
-                                    </interactions:DataTriggerBehavior>
-                                    <interactions:DataTriggerBehavior Binding="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" Value="False">
-                                        <interactions:ChangePropertyAction PropertyName="Foreground" Value="{ThemeResource ButtonForeground}" />
-                                    </interactions:DataTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
-                                <Button.Resources>
-                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccess" />
-                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccess" />
-                                </Button.Resources>
-                            </Button>
-                            <Button
-                                x:Name="button_delete_game"
-                                Click="button_delete_game_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE74D;}">
-                                <Button.Resources>
-                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
-                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCritical" />
-                                </Button.Resources>
-                            </Button>
-                        </StackPanel>
+                        <UserControl>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock VerticalAlignment="Center" Text="Game" />
+                                <Button
+                                    x:Name="button_add_game"
+                                    Click="button_add_game_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE948;}" />
+                                <Button
+                                    x:Name="button_save_game"
+                                    Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE74E;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}">
+                                    <Button.Resources>
+                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
+                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
+                                    </Button.Resources>
+                                </Button>
+                                <Button
+                                    x:Name="button_delete_game"
+                                    Click="button_delete_game_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE74D;}">
+                                    <Button.Resources>
+                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                    </Button.Resources>
+                                </Button>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="PropertyChangedState">
+                                            <VisualState.StateTriggers>
+                                                <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="button_save_game.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </StackPanel>
+                        </UserControl>
                     </DataTemplate>
                 </ComboBox.HeaderTemplate>
                 <ComboBox.ItemTemplate>
@@ -175,9 +182,9 @@
                                             Click="menuflyoutitem_delete_source_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -224,9 +231,9 @@
                                             Click="menuflyoutitem_delete_localization_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -283,9 +290,9 @@
                                             Click="menuflyoutitem_delete_target_Click"
                                             Text="Delete">
                                             <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCritical" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCritical" />
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>

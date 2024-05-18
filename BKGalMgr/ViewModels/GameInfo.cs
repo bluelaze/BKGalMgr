@@ -141,7 +141,7 @@ public partial class GameInfo : ObservableObject
         if (!File.Exists(path))
             return null;
 
-        var gameInfo = JsonSerializer.Deserialize<GameInfo>(File.ReadAllBytes(path));
+        var gameInfo = JsonMisc.Deserialize<GameInfo>(File.ReadAllText(path));
         gameInfo.JsonPath = path;
 
         path = Path.Combine(dirPath, GlobalInfo.SourcesFolderName);
@@ -404,7 +404,7 @@ public partial class GameInfo : ObservableObject
 
     [RelayCommand]
     [property: JsonIgnore]
-    public async void SaveGameInfo()
+    public async Task SaveGameInfo()
     {
         SaveJsonFile();
         await SaveCover();
