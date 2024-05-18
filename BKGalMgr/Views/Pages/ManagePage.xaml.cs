@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
@@ -8,12 +14,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -28,7 +28,11 @@ namespace BKGalMgr.Views.Pages;
 public sealed partial class ManagePage : Page
 {
     private GamesManagePageViewModel _viewModel;
-    public GamesManagePageViewModel ViewModel { get { return _viewModel; } }
+    public GamesManagePageViewModel ViewModel
+    {
+        get { return _viewModel; }
+    }
+
     public ManagePage()
     {
         _viewModel = App.GetRequiredService<GamesManagePageViewModel>();
@@ -47,11 +51,7 @@ public sealed partial class ManagePage : Page
             PrimaryButtonText = "Add",
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
-            Content = new RepositoryInfoControl()
-            {
-                Width = 720,
-                DataContext = newRepository
-            },
+            Content = new RepositoryInfoControl() { Width = 720, DataContext = newRepository },
             RequestedTheme = App.MainWindow.RequestedTheme(),
         };
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
@@ -121,22 +121,19 @@ public sealed partial class ManagePage : Page
 
     private async Task<ContentDialogResult> EditSourceInfo(SourceInfo sourceInfo)
     {
-        SourceInfoControl sourceInfoControl = new()
-        {
-            Width = 720,
-            DataContext = sourceInfo
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Edit source",
-            PrimaryButtonText = "Confirm",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = sourceInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
+        SourceInfoControl sourceInfoControl = new() { Width = 720, DataContext = sourceInfo };
+        ContentDialog dialog =
+            new()
+            {
+                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                XamlRoot = this.XamlRoot,
+                Title = "Edit source",
+                PrimaryButtonText = "Confirm",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = sourceInfoControl,
+                RequestedTheme = App.MainWindow.RequestedTheme(),
+            };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
@@ -145,7 +142,6 @@ public sealed partial class ManagePage : Page
         };
 
         return await dialog.ShowAsync();
-
     }
 
     private async void menuflyoutitem_edit_source_Click(object sender, RoutedEventArgs e)
@@ -161,22 +157,19 @@ public sealed partial class ManagePage : Page
 
     private async Task<ContentDialogResult> EditLocalizationInfo(LocalizationInfo localizationInfo)
     {
-        LocalizationInfoControl localizationInfoControl = new()
-        {
-            Width = 720,
-            DataContext = localizationInfo
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Edit localization",
-            PrimaryButtonText = "Confirm",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = localizationInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
+        LocalizationInfoControl localizationInfoControl = new() { Width = 720, DataContext = localizationInfo };
+        ContentDialog dialog =
+            new()
+            {
+                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                XamlRoot = this.XamlRoot,
+                Title = "Edit localization",
+                PrimaryButtonText = "Confirm",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = localizationInfoControl,
+                RequestedTheme = App.MainWindow.RequestedTheme(),
+            };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
@@ -200,22 +193,19 @@ public sealed partial class ManagePage : Page
 
     private async Task<ContentDialogResult> EditTargetInfo(TargetInfo targetInfo)
     {
-        TargetInfoControl targetInfoControl = new()
-        {
-            Width = 720,
-            DataContext = targetInfo,
-        };
-        ContentDialog dialog = new()
-        {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-            XamlRoot = this.XamlRoot,
-            Title = "Edit target",
-            PrimaryButtonText = "Confirm",
-            CloseButtonText = "Cancel",
-            DefaultButton = ContentDialogButton.Primary,
-            Content = targetInfoControl,
-            RequestedTheme = App.MainWindow.RequestedTheme(),
-        };
+        TargetInfoControl targetInfoControl = new() { Width = 720, DataContext = targetInfo, };
+        ContentDialog dialog =
+            new()
+            {
+                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                XamlRoot = this.XamlRoot,
+                Title = "Edit target",
+                PrimaryButtonText = "Confirm",
+                CloseButtonText = "Cancel",
+                DefaultButton = ContentDialogButton.Primary,
+                Content = targetInfoControl,
+                RequestedTheme = App.MainWindow.RequestedTheme(),
+            };
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
@@ -225,13 +215,17 @@ public sealed partial class ManagePage : Page
 
         return await dialog.ShowAsync();
     }
+
     private async void menuflyoutitem_edit_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
         editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
-        editTargetInfo.Localization = ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization) ?? targetInfo.Localization;
-        editTargetInfo.Source = ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source) ?? targetInfo.Source;
+        editTargetInfo.Localization =
+            ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization)
+            ?? targetInfo.Localization;
+        editTargetInfo.Source =
+            ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source) ?? targetInfo.Source;
 
         var result = await EditTargetInfo(editTargetInfo);
         if (result == ContentDialogResult.Primary)
@@ -249,7 +243,10 @@ public sealed partial class ManagePage : Page
             }
 
             // replace new localization
-            if (editTargetInfo.Localization != null && editTargetInfo.Localization?.CreateDate != targetInfo.Localization.CreateDate)
+            if (
+                editTargetInfo.Localization != null
+                && editTargetInfo.Localization?.CreateDate != targetInfo.Localization.CreateDate
+            )
             {
                 App.ShowLoading();
                 await editTargetInfo.DecompressLocalization();
@@ -278,7 +275,6 @@ public sealed partial class ManagePage : Page
                 var result = await EditSourceInfo(sourceInfo);
                 if (result == ContentDialogResult.Primary)
                 {
-
                     await ViewModel.SelectedRepository.SelectedGame.AddSource(folder.Path, sourceInfo);
                 }
             }

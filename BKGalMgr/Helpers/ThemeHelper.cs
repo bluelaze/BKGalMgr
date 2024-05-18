@@ -1,12 +1,12 @@
-﻿using Microsoft.UI.Composition.SystemBackdrops;
-using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml.Media;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Xaml.Media;
 
 namespace BKGalMgr.Helpers;
 
@@ -35,6 +35,7 @@ public abstract class ISystemBackdrop : SystemBackdrop
     public SystemBackdropTheme Theme { get; set; }
 
     protected SystemBackdropConfiguration _configurationSource;
+
     public virtual void ChangeKind(object kind) { }
 
     public virtual void ChangeTheme(SystemBackdropTheme theme)
@@ -53,6 +54,7 @@ public abstract class ISystemBackdrop : SystemBackdrop
 public class MicaSystemBackdrop : ISystemBackdrop
 {
     MicaController _micaController;
+
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
     {
         // Call the base method to initialize the default configuration object.
@@ -83,7 +85,10 @@ public class MicaSystemBackdrop : ISystemBackdrop
         _micaController = null;
     }
 
-    protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
+    protected override void OnDefaultSystemBackdropConfigurationChanged(
+        ICompositionSupportsSystemBackdrop target,
+        XamlRoot xamlRoot
+    )
     {
         //_configurationSource = new SystemBackdropConfiguration() { Theme = _configurationSource.Theme };
         //_micaController.SetSystemBackdropConfiguration(_configurationSource);
@@ -98,6 +103,7 @@ public class MicaSystemBackdrop : ISystemBackdrop
 public class AcrylicSystemBackdrop : ISystemBackdrop
 {
     DesktopAcrylicController _acrylicController;
+
     protected override void OnTargetConnected(ICompositionSupportsSystemBackdrop connectedTarget, XamlRoot xamlRoot)
     {
         // Call the base method to initialize the default configuration object.
@@ -128,7 +134,10 @@ public class AcrylicSystemBackdrop : ISystemBackdrop
         _acrylicController = null;
     }
 
-    protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
+    protected override void OnDefaultSystemBackdropConfigurationChanged(
+        ICompositionSupportsSystemBackdrop target,
+        XamlRoot xamlRoot
+    )
     {
         //_configurationSource = new SystemBackdropConfiguration() { Theme = _configurationSource.Theme };
         //_micaController.SetSystemBackdropConfiguration(_configurationSource);
@@ -145,17 +154,20 @@ public class ThemeHelper
     private ISystemBackdrop _systemBackdrop;
     private Window _window;
     private BackdropMaterial _backdrop = BackdropMaterial.Acrylic_Thin;
+
     public ThemeHelper(Window window)
     {
         _window = window;
         _window.Activated += Window_Activated;
-        ((FrameworkElement)_window.Content).ActualThemeChanged += Window_ActualThemeChanged; ;
+        ((FrameworkElement)_window.Content).ActualThemeChanged += Window_ActualThemeChanged;
+        ;
     }
 
     private void Window_Activated(object sender, WindowActivatedEventArgs args)
     {
         _systemBackdrop?.WindowActivated(sender, args);
     }
+
     private void Window_ActualThemeChanged(FrameworkElement sender, object args)
     {
         _systemBackdrop?.ChangeTheme(ToSystemBackdropTheme(sender.ActualTheme));
@@ -227,9 +239,17 @@ public class ThemeHelper
         {
             _backdrop = backdrop;
             if (IsMicaBackdropMaterial(backdrop))
-                _systemBackdrop = new MicaSystemBackdrop() { Kind = ToMicaKind(_backdrop), Theme = ToSystemBackdropTheme(_window.RequestedTheme()) };
+                _systemBackdrop = new MicaSystemBackdrop()
+                {
+                    Kind = ToMicaKind(_backdrop),
+                    Theme = ToSystemBackdropTheme(_window.RequestedTheme())
+                };
             else
-                _systemBackdrop = new AcrylicSystemBackdrop() { Kind = ToAcrylicKind(_backdrop), Theme = ToSystemBackdropTheme(_window.RequestedTheme()) };
+                _systemBackdrop = new AcrylicSystemBackdrop()
+                {
+                    Kind = ToAcrylicKind(_backdrop),
+                    Theme = ToSystemBackdropTheme(_window.RequestedTheme())
+                };
             _window.SystemBackdrop = _systemBackdrop;
             return;
         }

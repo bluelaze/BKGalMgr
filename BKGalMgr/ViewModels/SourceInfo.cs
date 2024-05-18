@@ -18,20 +18,26 @@ public partial class SourceInfo : ObservableObject
 {
     [ObservableProperty]
     private string _name;
+
     [ObservableProperty]
     [property: JsonIgnore]
     private string _jsonPath;
+
     [ObservableProperty]
     private string _startupName;
+
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
+
     [ObservableProperty]
     private string _description;
+
     [ObservableProperty]
     private ObservableCollection<ContributorInfo> _contributors = new();
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
+
     [property: JsonIgnore]
     public string ZipPath => Path.Combine(FolderPath, GlobalInfo.SourceZipName);
 
@@ -64,7 +70,12 @@ public partial class SourceInfo : ObservableObject
 
     public void SetGamePath(string dirPath)
     {
-        JsonPath = Path.Combine(dirPath, GlobalInfo.SourcesFolderName, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.SourceJsonName);
+        JsonPath = Path.Combine(
+            dirPath,
+            GlobalInfo.SourcesFolderName,
+            CreateDate.ToString(GlobalInfo.FolderFormatStr),
+            GlobalInfo.SourceJsonName
+        );
     }
 
     public void SaveJsonFile()

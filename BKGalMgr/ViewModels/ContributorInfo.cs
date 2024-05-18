@@ -10,8 +10,10 @@ public partial class ContributorInfo : ObservableObject
 {
     [ObservableProperty]
     private string _avatar;
+
     [ObservableProperty]
     private string _name;
+
     [ObservableProperty]
     private string _description;
 }

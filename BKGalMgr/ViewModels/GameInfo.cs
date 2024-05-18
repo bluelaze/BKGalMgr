@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.WinUI.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,58 +10,77 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using CommunityToolkit.WinUI.Controls;
 using Windows.Devices.Lights;
 using Windows.Graphics.Imaging;
 
 namespace BKGalMgr.ViewModels;
 
 public record PlayedPeriod(DateTime benginTime, DateTime endTime);
+
 [Serializable]
 public partial class GameInfo : ObservableObject
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
     private string _name = "";
+
     [ObservableProperty]
     [property: JsonIgnore]
     private string _jsonPath;
+
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
+
     [ObservableProperty]
     private DateTime _lastPlayDate;
+
     [ObservableProperty]
     private TimeSpan _playedTime = TimeSpan.Zero;
+
     [ObservableProperty]
     private List<PlayedPeriod> _playedPeriods = new();
+
     [ObservableProperty]
     private string _cover;
+
     [ObservableProperty]
     private string _company;
+
     [ObservableProperty]
     private DateTime _publishDate;
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ArtistItems))]
     private ObservableCollection<string> _artist = new();
+
     [ObservableProperty]
     private ObservableCollection<string> _cv = new();
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ScenarioItems))]
     private ObservableCollection<string> _scenario = new();
+
     [ObservableProperty]
     private ObservableCollection<string> _musician = new();
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TagItems))]
     private ObservableCollection<string> _tag = new();
+
     [ObservableProperty]
     private string _website;
+
     [ObservableProperty]
     private string _story;
+
     [ObservableProperty]
     private string _blog;
 
     [ObservableProperty]
     [property: JsonIgnore]
     private bool _isPropertyChanged;
+
     [ObservableProperty]
     [property: JsonIgnore]
     private bool _isPlaying = false;
@@ -80,13 +98,15 @@ public partial class GameInfo : ObservableObject
     private ObservableCollection<TargetInfo> _targets = new();
 
     private TargetInfo _selectedTarget;
+
     [property: JsonIgnore]
     public TargetInfo SelectedTarget
     {
         get { return _selectedTarget; }
         set
         {
-            if (value == null && Targets.Count() > 0) return;
+            if (value == null && Targets.Count() > 0)
+                return;
 
             if (SetProperty(ref _selectedTarget, value))
             {
@@ -98,14 +118,19 @@ public partial class GameInfo : ObservableObject
     public DateTime SeletedTargetCreateDate { get; set; }
 
     [property: JsonIgnore]
-    public ObservableCollection<MetadataItem> ArtistItems => new(Artist.Select(art => new MetadataItem() { Label = art }));
+    public ObservableCollection<MetadataItem> ArtistItems =>
+        new(Artist.Select(art => new MetadataItem() { Label = art }));
+
     [property: JsonIgnore]
-    public ObservableCollection<MetadataItem> ScenarioItems => new(Scenario.Select(scenario => new MetadataItem() { Label = scenario }));
+    public ObservableCollection<MetadataItem> ScenarioItems =>
+        new(Scenario.Select(scenario => new MetadataItem() { Label = scenario }));
+
     [property: JsonIgnore]
     public ObservableCollection<MetadataItem> TagItems => new(Tag.Select(tag => new MetadataItem() { Label = tag }));
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
+
     [property: JsonIgnore]
     public string CoverPath => Path.Combine(FolderPath, GlobalInfo.GameCoverName);
 
@@ -118,7 +143,10 @@ public partial class GameInfo : ObservableObject
             IsPropertyChanged = true;
     }
 
-    public bool IsValid { get { return !Name.IsNullOrEmpty(); } }
+    public bool IsValid
+    {
+        get { return !Name.IsNullOrEmpty(); }
+    }
 
     public void SetRepositoryPath(string dirPath)
     {
@@ -130,8 +158,9 @@ public partial class GameInfo : ObservableObject
         List<string> tags = [Name, Company];
         tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(tags).ToList();
         tags = tags.Union(Sources.Select(item => item.Name))
-                   .Union(Localizations.Select(item => item.Name))
-                   .Union(Targets.Select(item => item.Name)).ToList();
+            .Union(Localizations.Select(item => item.Name))
+            .Union(Targets.Select(item => item.Name))
+            .ToList();
         return tags;
     }
 
@@ -197,6 +226,7 @@ public partial class GameInfo : ObservableObject
 
         return sourceInfo;
     }
+
     public async Task AddSource(string sourceFolderPath, SourceInfo sourceInfo)
     {
         if (sourceFolderPath.IsNullOrEmpty() || !sourceInfo.IsValid())
@@ -246,7 +276,10 @@ public partial class GameInfo : ObservableObject
         if (Sources.Contains(source))
         {
             if (Directory.Exists(source.FolderPath))
-                await Task.Run(() => { Directory.Delete(source.FolderPath, true); });
+                await Task.Run(() =>
+                {
+                    Directory.Delete(source.FolderPath, true);
+                });
             Sources.Remove(source);
         }
     }
@@ -280,7 +313,8 @@ public partial class GameInfo : ObservableObject
 
     public SourceInfo FindSource(SourceInfo sourceInfo)
     {
-        if (sourceInfo == null) return null;
+        if (sourceInfo == null)
+            return null;
 
         for (int i = 0; i < Sources.Count; i++)
         {
@@ -294,7 +328,8 @@ public partial class GameInfo : ObservableObject
 
     public LocalizationInfo FindLocalization(LocalizationInfo localizationInfo)
     {
-        if (localizationInfo == null) return null;
+        if (localizationInfo == null)
+            return null;
 
         for (int i = 0; i < Localizations.Count; i++)
         {
@@ -336,7 +371,10 @@ public partial class GameInfo : ObservableObject
         if (Localizations.Contains(localization))
         {
             if (Directory.Exists(localization.FolderPath))
-                await Task.Run(() => { Directory.Delete(localization.FolderPath, true); });
+                await Task.Run(() =>
+                {
+                    Directory.Delete(localization.FolderPath, true);
+                });
             Localizations.Remove(localization);
         }
     }
@@ -348,6 +386,7 @@ public partial class GameInfo : ObservableObject
 
         return targetInfo;
     }
+
     public async Task AddTarget(TargetInfo targetInfo)
     {
         if (!targetInfo.IsValid())
@@ -392,7 +431,10 @@ public partial class GameInfo : ObservableObject
         if (Targets.Contains(targetInfo))
         {
             if (Directory.Exists(targetInfo.FolderPath))
-                await Task.Run(() => { Directory.Delete(targetInfo.FolderPath, true); });
+                await Task.Run(() =>
+                {
+                    Directory.Delete(targetInfo.FolderPath, true);
+                });
             Targets.Remove(targetInfo);
         }
         if (targetInfo == SelectedTarget)
@@ -415,7 +457,8 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public void SaveJsonFile()
     {
-        if (JsonPath.IsNullOrEmpty()) return;
+        if (JsonPath.IsNullOrEmpty())
+            return;
 
         string jsonStr = JsonMisc.Serialize(this);
         Directory.CreateDirectory(FolderPath);

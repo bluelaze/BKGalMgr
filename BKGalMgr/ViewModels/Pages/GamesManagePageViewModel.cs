@@ -1,11 +1,11 @@
-﻿using BKGalMgr.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BKGalMgr.Models;
 
 namespace BKGalMgr.ViewModels.Pages;
 
@@ -18,12 +18,16 @@ public partial class GamesManagePageViewModel : ObservableObject
     [NotifyPropertyChangedFor(nameof(SelectedRepositoryIsValid))]
     [property: JsonIgnore]
     private RepositoryInfo _selectedRepository;
+
     partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {
         _settings.LoadedSettings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
 
-    public bool SelectedRepositoryIsValid { get { return SelectedRepository != null; } }
+    public bool SelectedRepositoryIsValid
+    {
+        get { return SelectedRepository != null; }
+    }
 
     [ObservableProperty]
     private GameInfo _game = new();
@@ -32,6 +36,7 @@ public partial class GamesManagePageViewModel : ObservableObject
     private SourceInfo _source = new();
 
     private SettingsModel _settings;
+
     public GamesManagePageViewModel()
     {
         _settings = App.GetRequiredService<SettingsModel>();

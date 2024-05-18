@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 
 namespace BKGalMgr.ViewModels;
 
@@ -19,11 +19,14 @@ public partial class RepositoryInfo : ObservableObject
 {
     [ObservableProperty]
     private string _name;
+
     [ObservableProperty]
     [property: JsonIgnore]
     private string _folderPath;
+
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
+
     [ObservableProperty]
     private string _description;
 
@@ -31,16 +34,22 @@ public partial class RepositoryInfo : ObservableObject
     [NotifyPropertyChangedFor(nameof(SearchSuggestedTags))]
     [property: JsonIgnore]
     private string _searchText = string.Empty;
+
     [ObservableProperty]
     [property: JsonIgnore]
     private ObservableCollection<string> _searchToken = new();
+
     [property: JsonIgnore]
     public List<string> SearchSuggestedTags => GetSuggestedTags();
+
     [ObservableProperty]
     private SortType _sortType = SortType.CreateDate;
+
     [ObservableProperty]
     private SortDirection _sortOrderType = SortDirection.Descending;
+
     partial void OnSortTypeChanged(SortType value) => GamesViewSort();
+
     partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
 
     [ObservableProperty]
@@ -55,6 +64,7 @@ public partial class RepositoryInfo : ObservableObject
     [NotifyPropertyChangedFor(nameof(SelectedGameIsValid))]
     [property: JsonIgnore]
     private GameInfo _selectedGame;
+
     partial void OnSelectedGameChanged(GameInfo value)
     {
         SeletedGameCreateDate = SelectedGame?.CreateDate ?? new();
@@ -62,7 +72,10 @@ public partial class RepositoryInfo : ObservableObject
     }
 
     [property: JsonIgnore]
-    public bool SelectedGameIsValid { get { return SelectedGame != null; } }
+    public bool SelectedGameIsValid
+    {
+        get { return SelectedGame != null; }
+    }
     public DateTime? SeletedGameCreateDate { get; set; }
 
     [property: JsonIgnore]
@@ -78,11 +91,13 @@ public partial class RepositoryInfo : ObservableObject
             GamesView.RefreshFilter();
         };
     }
+
     class StringContainsComparer : IEqualityComparer<string>
     {
         public bool Equals(string x, string y)
         {
-            if (x == null || y == null) return false;
+            if (x == null || y == null)
+                return false;
             return y.Contains(x);
         }
 
@@ -92,6 +107,7 @@ public partial class RepositoryInfo : ObservableObject
             return 0;
         }
     }
+
     public bool GamesViewFilter(object game)
     {
         GameInfo gameInfo = game as GameInfo;
@@ -101,6 +117,7 @@ public partial class RepositoryInfo : ObservableObject
         }
         return true;
     }
+
     public void GamesViewSort()
     {
         GamesView.SortDescriptions.Clear();
@@ -174,10 +191,13 @@ public partial class RepositoryInfo : ObservableObject
         if (Games.Contains(game))
         {
             if (Directory.Exists(game.FolderPath))
-                await Task.Run(() => { Directory.Delete(game.FolderPath, true); });
+                await Task.Run(() =>
+                {
+                    Directory.Delete(game.FolderPath, true);
+                });
             Games.Remove(game);
         }
-        if(SelectedGame == game)
+        if (SelectedGame == game)
             SelectedGame = null;
     }
 

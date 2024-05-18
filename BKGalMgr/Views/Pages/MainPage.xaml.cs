@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -5,11 +10,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -24,6 +24,7 @@ namespace BKGalMgr.Views.Pages;
 public sealed partial class MainPage : Page
 {
     private static MainPage _mainpage;
+
     public MainPage()
     {
         this.InitializeComponent();
@@ -36,7 +37,10 @@ public sealed partial class MainPage : Page
             _mainpage.navigationview_root.SelectedItem = _mainpage.navitem_manage;
     }
 
-    private void navigationview_root_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    private void navigationview_root_SelectionChanged(
+        NavigationView sender,
+        NavigationViewSelectionChangedEventArgs args
+    )
     {
         textblock_love_and_peace.Visibility = Visibility.Collapsed;
         var selectedItem = args.SelectedItemContainer;
@@ -54,13 +58,7 @@ public sealed partial class MainPage : Page
         }
     }
 
-    private void frame_root_Navigated(object sender, NavigationEventArgs e)
-    {
+    private void frame_root_Navigated(object sender, NavigationEventArgs e) { }
 
-    }
-
-    private void frame_root_Navigating(object sender, NavigatingCancelEventArgs e)
-    {
-
-    }
+    private void frame_root_Navigating(object sender, NavigatingCancelEventArgs e) { }
 }

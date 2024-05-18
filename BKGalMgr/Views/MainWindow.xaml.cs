@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
 using Microsoft.UI.Windowing;
@@ -8,11 +13,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -57,6 +57,7 @@ public sealed partial class MainWindow : Window
     }
 
     private bool _exit = false;
+
     [RelayCommand]
     public void Exit()
     {
@@ -109,13 +110,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void frame_main_root_Navigated(object sender, NavigationEventArgs e)
-    {
+    private void frame_main_root_Navigated(object sender, NavigationEventArgs e) { }
 
-    }
-
-    private void frame_main_root_Navigating(object sender, NavigatingCancelEventArgs e)
-    {
-
-    }
+    private void frame_main_root_Navigating(object sender, NavigatingCancelEventArgs e) { }
 }

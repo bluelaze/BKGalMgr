@@ -1,6 +1,4 @@
-﻿using BKGalMgr.Helpers;
-using BKGalMgr.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,12 +9,13 @@ using System.Runtime.CompilerServices;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using BKGalMgr.Helpers;
+using BKGalMgr.ViewModels;
 
 namespace BKGalMgr.Models;
 
 public class SettingsModel
 {
-
     [Serializable]
     public class Settings
     {
@@ -29,10 +28,9 @@ public class SettingsModel
 
         public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
 
-        public Settings()
-        {
-        }
+        public Settings() { }
     }
+
     private Settings _settings;
     public Settings LoadedSettings => _settings;
 

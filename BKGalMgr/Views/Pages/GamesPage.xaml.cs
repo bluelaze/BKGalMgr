@@ -1,3 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using Microsoft.UI.Xaml;
@@ -7,14 +15,6 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -29,7 +29,11 @@ namespace BKGalMgr.Views.Pages;
 public sealed partial class GamesPage : Page
 {
     private GamesManagePageViewModel _viewModel;
-    public GamesManagePageViewModel ViewModel { get { return _viewModel; } }
+    public GamesManagePageViewModel ViewModel
+    {
+        get { return _viewModel; }
+    }
+
     public GamesPage()
     {
         _viewModel = App.GetRequiredService<GamesManagePageViewModel>();
@@ -97,12 +101,18 @@ public sealed partial class GamesPage : Page
                     gameInfo.SaveJsonFile();
                 };
 
-                var loopTimer = new Timer((_) =>
-                {
-                    DispatcherQueue?.TryEnqueue(() => { savePlayedTime(); });
-
-                }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
-
+                var loopTimer = new Timer(
+                    (_) =>
+                    {
+                        DispatcherQueue?.TryEnqueue(() =>
+                        {
+                            savePlayedTime();
+                        });
+                    },
+                    null,
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(1)
+                );
 
                 gameInfo.IsPlaying = true;
                 targetInfo.IsPlaying = true;

@@ -16,24 +16,32 @@ public partial class TargetInfo : ObservableObject
 {
     [ObservableProperty]
     private string _name;
+
     [ObservableProperty]
     [property: JsonIgnore]
     private string _jsonPath;
+
     [ObservableProperty]
     private string _startupName;
+
     [ObservableProperty]
     private DateTime _createDate = DateTime.Now;
+
     [ObservableProperty]
     private DateTime _lastPlayDate;
+
     [ObservableProperty]
     private TimeSpan _playedTime = TimeSpan.Zero;
+
     [ObservableProperty]
     private string _description;
 
     [ObservableProperty]
     private GameInfo _game;
+
     [ObservableProperty]
     private SourceInfo _source;
+
     [ObservableProperty]
     private LocalizationInfo _localization;
 
@@ -43,10 +51,13 @@ public partial class TargetInfo : ObservableObject
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
+
     [property: JsonIgnore]
     public string TargetPath => Path.Combine(FolderPath, GlobalInfo.TargetName);
+
     [property: JsonIgnore]
     public string TargetZipPath => Path.Combine(FolderPath, GlobalInfo.TargetZipName);
+
     [property: JsonIgnore]
     public string TargetExePath => Path.Combine(TargetPath, StartupName);
 
@@ -74,12 +85,20 @@ public partial class TargetInfo : ObservableObject
 
     public bool IsValid()
     {
-        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty() && (Source != null || Localization != null);
+        return !Name.IsNullOrEmpty()
+            && !JsonPath.IsNullOrEmpty()
+            && !StartupName.IsNullOrEmpty()
+            && (Source != null || Localization != null);
     }
 
     public void SetGamePath(string dirPath)
     {
-        JsonPath = Path.Combine(dirPath, GlobalInfo.TargetsFolderName, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.TargetJsonName);
+        JsonPath = Path.Combine(
+            dirPath,
+            GlobalInfo.TargetsFolderName,
+            CreateDate.ToString(GlobalInfo.FolderFormatStr),
+            GlobalInfo.TargetJsonName
+        );
     }
 
     public void SaveJsonFile()
@@ -189,7 +208,12 @@ public partial class TargetInfo : ObservableObject
                 newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
             newSource.SaveJsonFile();
 
-            ZipFile.CreateFromDirectory(TargetPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName), App.ZipLevel(), false);
+            ZipFile.CreateFromDirectory(
+                TargetPath,
+                Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
+                App.ZipLevel(),
+                false
+            );
         });
     }
 }

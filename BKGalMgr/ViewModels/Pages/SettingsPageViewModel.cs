@@ -1,12 +1,12 @@
-﻿using BKGalMgr.Helpers;
-using BKGalMgr.Models;
-using Microsoft.UI.Xaml.Media;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
+using BKGalMgr.Models;
+using Microsoft.UI.Xaml.Media;
 
 namespace BKGalMgr.ViewModels.Pages;
 
@@ -17,8 +17,16 @@ public partial class SettingsPageViewModel : ObservableObject
         get => _settings.LoadedSettings.AppTheme;
         set
         {
-            if (SetProperty(
-                _settings.LoadedSettings.AppTheme, value, (newValue) => { _settings.LoadedSettings.AppTheme = newValue; }))
+            if (
+                SetProperty(
+                    _settings.LoadedSettings.AppTheme,
+                    value,
+                    (newValue) =>
+                    {
+                        _settings.LoadedSettings.AppTheme = newValue;
+                    }
+                )
+            )
             {
                 ApplyTheme();
             }
@@ -30,8 +38,16 @@ public partial class SettingsPageViewModel : ObservableObject
         get => _settings.LoadedSettings.AppBackdropMaterial;
         set
         {
-            if (SetProperty(
-                _settings.LoadedSettings.AppBackdropMaterial, value, (newValue) => { _settings.LoadedSettings.AppBackdropMaterial = newValue; }))
+            if (
+                SetProperty(
+                    _settings.LoadedSettings.AppBackdropMaterial,
+                    value,
+                    (newValue) =>
+                    {
+                        _settings.LoadedSettings.AppBackdropMaterial = newValue;
+                    }
+                )
+            )
             {
                 ApplyTheme();
             }
@@ -43,15 +59,22 @@ public partial class SettingsPageViewModel : ObservableObject
         get => _settings.LoadedSettings.ZipLevel;
         set
         {
-            if (SetProperty(
-                _settings.LoadedSettings.ZipLevel, value, (newValue) => { _settings.LoadedSettings.ZipLevel = newValue; }))
-            {
-            }
+            if (
+                SetProperty(
+                    _settings.LoadedSettings.ZipLevel,
+                    value,
+                    (newValue) =>
+                    {
+                        _settings.LoadedSettings.ZipLevel = newValue;
+                    }
+                )
+            ) { }
         }
     }
 
     private SettingsModel _settings;
     private ThemeHelper _themeHelper;
+
     public SettingsPageViewModel()
     {
         _settings = App.GetRequiredService<SettingsModel>();

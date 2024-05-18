@@ -58,5 +58,4 @@ public static class GlobalInfo
     public const string TargetJsonName = "targetinfo.json";
     public const string TargetName = "target";
     public const string TargetZipName = "target.zip";
-
 }
