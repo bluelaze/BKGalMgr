@@ -43,7 +43,7 @@
             Margin="16,0"
             VerticalAlignment="Top">
             <Image.Source>
-                <BitmapImage UriSource="{Binding Cover}" />
+                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
             </Image.Source>
         </Image>
         <StackPanel Grid.Column="1">

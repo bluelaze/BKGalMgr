@@ -44,7 +44,9 @@ public static class GlobalInfo
     public const string RepositoryJsonName = "repositoryinfo.json";
 
     public const string GameJsonName = "gameinfo.json";
-    public const string GameCoverName = "cover.png";
+
+    public const string GameCoverName = "cover";
+    public static readonly string[] GameCoverSupportFormats = [".jpg", ".jpeg", ".png", ".gif"];
 
     public const string SourcesFolderName = "sources";
     public const string SourceJsonName = "sourceinfo.json";

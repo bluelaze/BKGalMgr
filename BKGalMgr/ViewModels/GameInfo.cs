@@ -131,9 +131,6 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
-    [property: JsonIgnore]
-    public string CoverPath => Path.Combine(FolderPath, GlobalInfo.GameCoverName);
-
     public GameInfo() { }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -212,9 +209,8 @@ public partial class GameInfo : ObservableObject
                 }
             }
         }
-        if (File.Exists(gameInfo.CoverPath))
-            gameInfo.Cover = gameInfo.CoverPath;
 
+        gameInfo.LoadCover();
         gameInfo.IsPropertyChanged = false;
         return gameInfo;
     }
@@ -472,27 +468,55 @@ public partial class GameInfo : ObservableObject
         Process.Start("explorer", FolderPath);
     }
 
+    public void LoadCover()
+    {
+        foreach (var format in GlobalInfo.GameCoverSupportFormats)
+        {
+            var coverPath = Path.Combine(FolderPath, GlobalInfo.GameCoverName + format);
+            if (File.Exists(coverPath))
+            {
+                Cover = coverPath;
+                break;
+            }
+        }
+    }
+
+    public string TransformCoverPath(string path)
+    {
+        var format = Path.GetExtension(path).ToLower();
+        if (GlobalInfo.GameCoverSupportFormats.Contains(format))
+            return Path.Combine(FolderPath, GlobalInfo.GameCoverName + format);
+        return string.Empty;
+    }
+
     public async Task SaveCover()
     {
-        if (!Cover.IsNullOrEmpty() && Cover != CoverPath)
+        if (!Cover.IsNullOrEmpty())
         {
-            if (File.Exists(Cover))
+            var coverPath = TransformCoverPath(Cover);
+            if (coverPath.IsNullOrEmpty())
+                return;
+
+            if (File.Exists(Cover) && Path.GetDirectoryName(Cover) != FolderPath)
             {
-                File.Copy(Cover, CoverPath, true);
-                Cover = CoverPath;
+                File.Copy(Cover, coverPath, true);
+                Cover = coverPath;
                 return;
             }
 
-            var fileData = await (new HttpClient()).GetByteArrayAsync(Cover);
-            var decoder = await BitmapDecoder.CreateAsync(new MemoryStream(fileData).AsRandomAccessStream());
-
-            using var imageFile = File.OpenWrite(CoverPath);
-            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, imageFile.AsRandomAccessStream());
-            encoder.SetSoftwareBitmap(await decoder.GetSoftwareBitmapAsync());
-            await encoder.FlushAsync();
-            await imageFile.FlushAsync();
-
-            Cover = CoverPath;
+            if (!Cover.StartsWith("http"))
+                return;
+            try
+            {
+                var fileData = await (new HttpClient()).GetByteArrayAsync(Cover);
+                await File.WriteAllBytesAsync(coverPath, fileData);
+                Cover = coverPath;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return;
+            }
         }
     }
 }

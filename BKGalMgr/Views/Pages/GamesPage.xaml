@@ -96,7 +96,7 @@
                             </Grid.ColumnDefinitions>
                             <Image Margin="0,8,8,8">
                                 <Image.Source>
-                                    <BitmapImage UriSource="{Binding Cover}" />
+                                    <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
                                 </Image.Source>
                             </Image>
                             <StackPanel
