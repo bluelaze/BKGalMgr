@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BKGalMgr.Common;
 
-public class JsonMisc
+internal class JsonMisc
 {
     public static string Serialize<T>(
         T obj,

@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Models;
 using BKGalMgr.Services;
@@ -64,17 +65,59 @@ public partial class App : Application
         this.InitializeComponent();
     }
 
+    Mutex _mutex;
+
+    private bool ExistLaunchedApp()
+    {
+        //https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
+        bool isOwned;
+        _mutex = new Mutex(true, Directory.GetCurrentDirectory().MD5(), out isOwned);
+        EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "MainWindowWake");
+
+        // So, R# would not give a warning that this variable is not used.
+        GC.KeepAlive(_mutex);
+
+        if (isOwned)
+        {
+            // Spawn a thread which will be waiting for our event
+            var thread = new Thread(() =>
+            {
+                while (eventWaitHandle.WaitOne())
+                {
+                    MainWindow.DispatcherQueue.TryEnqueue(() => MainWindow.Show());
+                }
+            });
+
+            // It is important mark it as background otherwise it will prevent app from exiting.
+            thread.IsBackground = true;
+
+            thread.Start();
+            return false;
+        }
+
+        // Notify other instance so it could bring itself to foreground.
+        eventWaitHandle.Set();
+
+        // Terminate this instance.
+        Exit();
+
+        return true;
+    }
+
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
+        if (ExistLaunchedApp())
+            return;
+
         _host.StartAsync();
         GetRequiredService<SettingsPageViewModel>().ApplyTheme();
 
-        MainWindow.Activate();
         MainWindow.Closed += MainWindow_Closed;
+        MainWindow.Show();
     }
 
     public static MainWindow MainWindow => GetRequiredService<MainWindow>();

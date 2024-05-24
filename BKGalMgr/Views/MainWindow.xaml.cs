@@ -54,6 +54,7 @@ public sealed partial class MainWindow : Window
     public void Show()
     {
         H.NotifyIcon.WindowExtensions.Show(this);
+        Activate();
     }
 
     private bool _exit = false;

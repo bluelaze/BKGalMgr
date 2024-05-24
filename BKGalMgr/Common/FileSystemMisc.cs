@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace BKGalMgr.Common;
 
-class FileSystemMisc
+internal class FileSystemMisc
 {
     public static async Task<StorageFile> PickFile(List<string> fileTypeFilter)
     {
