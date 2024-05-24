@@ -39,9 +39,9 @@
                 Spacing="8">
                 <ComboBox
                     Header="Repository"
-                    ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
+                    ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
                     PlaceholderText="Repository"
-                    SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
+                    SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
                             <StackPanel>
@@ -59,11 +59,11 @@
                 MaxWidth="360"
                 Margin="0,26,0,0"
                 VerticalAlignment="Top"
-                ItemsSource="{x:Bind ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
+                ItemsSource="{Binding ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
                 QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
                                                FontSize=12}"
-                SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
-                Text="{x:Bind ViewModel.SelectedRepository.SearchText, Mode=TwoWay}" />
+                SuggestedItemsSource="{Binding ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
+                Text="{Binding ViewModel.SelectedRepository.SearchText, Mode=TwoWay}" />
 
             <StackPanel
                 Grid.Column="2"
@@ -73,18 +73,18 @@
                 <ComboBox
                     MinWidth="130"
                     ItemsSource="{mui:EnumValues Type=vm:SortType}"
-                    SelectedItem="{x:Bind ViewModel.SelectedRepository.SortType, Mode=TwoWay}" />
+                    SelectedItem="{Binding ViewModel.SelectedRepository.SortType, Mode=TwoWay}" />
                 <ComboBox
                     MinWidth="80"
                     ItemsSource="{mui:EnumValues Type=mcollections:SortDirection}"
-                    SelectedItem="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=TwoWay}" />
+                    SelectedItem="{Binding ViewModel.SelectedRepository.SortOrderType, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
 
         <ListView
             Grid.Row="1"
             Margin="0,8,8,8"
-            ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
+            ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
                     <UserControl>

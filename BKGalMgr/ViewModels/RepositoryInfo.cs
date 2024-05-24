@@ -60,15 +60,24 @@ public partial class RepositoryInfo : ObservableObject
     [property: JsonIgnore]
     private AdvancedCollectionView _gamesView;
 
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SelectedGameIsValid))]
-    [property: JsonIgnore]
     private GameInfo _selectedGame;
 
-    partial void OnSelectedGameChanged(GameInfo value)
+    [property: JsonIgnore]
+    public GameInfo SelectedGame
     {
-        SeletedGameCreateDate = SelectedGame?.CreateDate ?? new();
-        SaveJsonFile();
+        get => _selectedGame;
+        set
+        {
+            if (value == null && Games.Count > 0)
+                return;
+            if (SetProperty(ref _selectedGame, value))
+            {
+                OnPropertyChanged(nameof(SelectedGameIsValid));
+
+                SeletedGameCreateDate = SelectedGame?.CreateDate ?? new();
+                SaveJsonFile();
+            }
+        }
     }
 
     [property: JsonIgnore]
