@@ -49,6 +49,10 @@ public partial class TargetInfo : ObservableObject
     [property: JsonIgnore]
     private bool _isPlaying = false;
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private bool _isArchive = false;
+
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
@@ -80,6 +84,7 @@ public partial class TargetInfo : ObservableObject
         if (!Directory.Exists(targetInfo.TargetPath) && !File.Exists(targetInfo.TargetZipPath))
             return null;
 
+        targetInfo.CheckArchiveStatus();
         return targetInfo;
     }
 
@@ -218,12 +223,54 @@ public partial class TargetInfo : ObservableObject
                 newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
             newSource.SaveJsonFile();
 
-            ZipFile.CreateFromDirectory(
-                TargetPath,
-                Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
-                CompressionLevel.SmallestSize,
-                false
-            );
+            if (IsArchive)
+                File.Copy(TargetZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
+            else
+                ZipFile.CreateFromDirectory(
+                    TargetPath,
+                    Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
+                    CompressionLevel.SmallestSize,
+                    false
+                );
+        });
+    }
+
+    public bool CheckArchiveStatus()
+    {
+        if (File.Exists(TargetZipPath))
+            IsArchive = true;
+        else
+            IsArchive = false;
+        return IsArchive;
+    }
+
+    public async Task Archive()
+    {
+        await Task.Run(() =>
+        {
+            if (File.Exists(TargetZipPath))
+                File.Delete(TargetZipPath);
+            ZipFile.CreateFromDirectory(TargetPath, TargetZipPath, CompressionLevel.SmallestSize, false);
+        });
+    }
+
+    public async Task DeArchive()
+    {
+        await Task.Run(() =>
+        {
+            if (!Directory.Exists(TargetPath))
+                Directory.CreateDirectory(TargetPath);
+            ZipFile.ExtractToDirectory(TargetZipPath, TargetPath);
+        });
+    }
+
+    public async Task DeleteFolderOnly()
+    {
+        if (!IsArchive)
+            return;
+        await Task.Run(() =>
+        {
+            Directory.Delete(TargetPath, true);
         });
     }
 }

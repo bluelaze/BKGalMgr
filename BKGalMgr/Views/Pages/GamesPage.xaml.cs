@@ -60,8 +60,17 @@ public sealed partial class GamesPage : Page
         {
             if (!File.Exists(targetInfo.TargetExePath))
             {
-                App.ShowDialogError($"Invalid TargetExePath: {targetInfo.TargetExePath}");
-                return;
+                if (targetInfo.IsArchive && await App.ShowDialogConfirm("Target is archive, confirm to deachive?"))
+                {
+                    App.ShowLoading();
+                    await targetInfo.DeArchive();
+                    App.HideLoading();
+                }
+                if (!File.Exists(targetInfo.TargetExePath))
+                {
+                    App.ShowDialogError($"Invalid TargetExePath: {targetInfo.TargetExePath}");
+                    return;
+                }
             }
             Process gameProcess = new();
             gameProcess.StartInfo.FileName = targetInfo.TargetExePath;

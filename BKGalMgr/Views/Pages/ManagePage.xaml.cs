@@ -409,4 +409,40 @@ public sealed partial class ManagePage : Page
             App.HideLoading();
         }
     }
+
+    private async void menuflyoutitem_archive_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        if (await App.ShowDialogConfirm("Archive will SmallestSize level to zip files, maybe take long time."))
+        {
+            App.ShowLoading();
+            await targetInfo.Archive();
+            targetInfo.CheckArchiveStatus();
+            App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_dearchive_target_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        if (await App.ShowDialogConfirm("DeArchive will overwrite exist target, confirm to dearchive?"))
+        {
+            App.ShowLoading();
+            await targetInfo.DeArchive();
+            targetInfo.CheckArchiveStatus();
+            App.HideLoading();
+        }
+    }
+
+    private async void menuflyoutitem_delete_target_folder_only_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        if (await App.ShowDialogConfirm("Delete target folder only after archive, confirm to delete?"))
+        {
+            App.ShowLoading();
+            targetInfo.CheckArchiveStatus();
+            await targetInfo.DeleteFolderOnly();
+            App.HideLoading();
+        }
+    }
 }

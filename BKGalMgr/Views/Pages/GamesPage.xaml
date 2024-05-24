@@ -162,7 +162,11 @@
                                         <DataTemplate x:DataType="vm:TargetInfo">
                                             <UserControl>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" />
+                                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                                        <SelectorBarItem.Icon>
+                                                            <FontIcon Name="fonticon_target" Glyph="&#xE736;" />
+                                                        </SelectorBarItem.Icon>
+                                                    </SelectorBarItem>
                                                     <SelectorBarItem
                                                         Padding="0"
                                                         Icon="{mui:FontIcon Glyph='&#xEC92;'}"
@@ -184,6 +188,15 @@
                                                                 </VisualState.StateTriggers>
                                                                 <VisualState.Setters>
                                                                     <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                            <VisualState x:Name="ArchiveState">
+                                                                <VisualState.StateTriggers>
+                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                                </VisualState.StateTriggers>
+                                                                <VisualState.Setters>
+                                                                    <Setter Target="fonticon_target.Glyph" Value="&#xE82D;" />
+                                                                    <Setter Target="fonticon_target.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                         </VisualStateGroup>

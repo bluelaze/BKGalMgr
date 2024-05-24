@@ -272,38 +272,72 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:TargetInfo">
-                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
-                                <StackPanel.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            Name="menuflyoutitem_edit_target"
-                                            Click="menuflyoutitem_edit_target_Click"
-                                            Text="Edit" />
-                                        <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
-                                        <MenuFlyoutItem
-                                            Name="menuflyoutitem_export_target"
-                                            Click="menuflyoutitem_export_target_Click"
-                                            Text="Export as Source" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem
-                                            Name="menuflyoutitem_delete_target"
-                                            Click="menuflyoutitem_delete_target_Click"
-                                            Text="Delete">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </StackPanel.ContextFlyout>
-                                <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                    Text="{Binding CreateDate}" />
-                                <TextBlock Text="{Binding Description}" />
-                            </StackPanel>
+                            <UserControl>
+                                <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                    <StackPanel.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_edit_target"
+                                                Click="menuflyoutitem_edit_target_Click"
+                                                Text="Edit" />
+                                            <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_export_target"
+                                                Click="menuflyoutitem_export_target_Click"
+                                                Text="Export as Source" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_archive_target"
+                                                Click="menuflyoutitem_archive_target_Click"
+                                                Text="Archive" />
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_dearchive_target"
+                                                Click="menuflyoutitem_dearchive_target_Click"
+                                                IsEnabled="{Binding IsArchive}"
+                                                Text="DeArchive" />
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_delete_target_folder_only"
+                                                Click="menuflyoutitem_delete_target_folder_only_Click"
+                                                IsEnabled="{Binding IsArchive}"
+                                                Text="Delete folder only" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem
+                                                Name="menuflyoutitem_delete_target"
+                                                Click="menuflyoutitem_delete_target_Click"
+                                                Text="Delete">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </StackPanel.ContextFlyout>
+                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                        <SelectorBarItem.Icon>
+                                            <FontIcon Name="fonticon_target" Glyph="&#xE736;" />
+                                        </SelectorBarItem.Icon>
+                                    </SelectorBarItem>
+                                    <SelectorBarItem
+                                        Padding="0"
+                                        Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                        Text="{Binding CreateDate}" />
+                                    <TextBlock Text="{Binding Description}" />
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="ArchiveState">
+                                                <VisualState.StateTriggers>
+                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="fonticon_target.Glyph" Value="&#xE82D;" />
+                                                    <Setter Target="fonticon_target.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                </StackPanel>
+                            </UserControl>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
