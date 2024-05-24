@@ -229,7 +229,7 @@ public partial class TargetInfo : ObservableObject
                 ZipFile.CreateFromDirectory(
                     TargetPath,
                     Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
-                    CompressionLevel.SmallestSize,
+                    App.ZipLevel(),
                     false
                 );
         });
@@ -250,7 +250,7 @@ public partial class TargetInfo : ObservableObject
         {
             if (File.Exists(TargetZipPath))
                 File.Delete(TargetZipPath);
-            ZipFile.CreateFromDirectory(TargetPath, TargetZipPath, CompressionLevel.SmallestSize, false);
+            ZipFile.CreateFromDirectory(TargetPath, TargetZipPath, App.ZipLevel(), false);
         });
     }
 

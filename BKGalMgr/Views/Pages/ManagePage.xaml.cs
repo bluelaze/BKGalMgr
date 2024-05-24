@@ -358,6 +358,10 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_export_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+
+        if (targetInfo.IsArchive && !await App.ShowDialogConfirm("Target is archive, will copy archive file to export, confirm to copy?"))
+            return;
+
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
@@ -413,7 +417,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_archive_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        if (await App.ShowDialogConfirm("Archive will SmallestSize level to zip files, maybe take long time."))
+        if (await App.ShowDialogConfirm($"Archive will {App.ZipLevel()} level to zip files, maybe take long time."))
         {
             App.ShowLoading();
             await targetInfo.Archive();

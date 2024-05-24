@@ -36,21 +36,15 @@
             </StackPanel.ChildrenTransitions>
             <!--  Appearance  -->
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance &amp; behavior" />
-            <mcontrols:SettingsCard
-                Description="Select which app theme to display"
-                Header="App theme"
-                HeaderIcon="{mui:FontIcon Glyph=&#xE790;}">
+            <mcontrols:SettingsCard Header="App theme" HeaderIcon="{mui:FontIcon Glyph=&#xE790;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=helpers:Theme}" SelectedItem="{x:Bind ViewModel.AppTheme, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
-            <mcontrols:SettingsCard
-                Description="Select which app backdrop material to display"
-                Header="App backdrop material"
-                HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
+            <mcontrols:SettingsCard Header="App backdrop material" HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=helpers:BackdropMaterial}" SelectedItem="{x:Bind ViewModel.AppBackdropMaterial, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
 
             <mcontrols:SettingsCard
-                Description="Compression level which create zip for source and localization"
+                Description="Compression level when create zip, NoCompression is optimal"
                 Header="Zip level"
                 HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />
