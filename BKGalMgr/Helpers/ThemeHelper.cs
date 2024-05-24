@@ -158,14 +158,7 @@ public class ThemeHelper
     public ThemeHelper(Window window)
     {
         _window = window;
-        _window.Activated += Window_Activated;
         ((FrameworkElement)_window.Content).ActualThemeChanged += Window_ActualThemeChanged;
-        ;
-    }
-
-    private void Window_Activated(object sender, WindowActivatedEventArgs args)
-    {
-        _systemBackdrop?.WindowActivated(sender, args);
     }
 
     private void Window_ActualThemeChanged(FrameworkElement sender, object args)

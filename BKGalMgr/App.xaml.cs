@@ -150,9 +150,10 @@ public partial class App : Application
             Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCriticalBrush"],
             Glyph = "\uE783"
         };
+        dialog.RequestedTheme = MainWindow.RequestedTheme();
         dialog.PrimaryButtonText = "Confirm";
         dialog.Content = errorMsg;
-        dialog.RequestedTheme = MainWindow.RequestedTheme();
+        dialog.DefaultButton = ContentDialogButton.Primary;
 
         await dialog.ShowAsync();
     }
@@ -168,10 +169,11 @@ public partial class App : Application
             Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCautionBrush"],
             Glyph = "\uE7BA"
         };
+        dialog.RequestedTheme = MainWindow.RequestedTheme();
         dialog.PrimaryButtonText = "Confirm";
         dialog.CloseButtonText = "Cancel";
         dialog.Content = confirmMsg;
-        dialog.RequestedTheme = MainWindow.RequestedTheme();
+        dialog.DefaultButton = ContentDialogButton.Primary;
 
         return ContentDialogResult.Primary == await dialog.ShowAsync();
     }
