@@ -25,7 +25,6 @@
         <Grid>
             <local:HeaderedTextBox
                 x:Name="headeredtextbox_pick_startup_name"
-                CanEmpty="False"
                 Header="StartupName"
                 PlaceholderText="Startup exe name"
                 Text="{Binding StartupName, Mode=TwoWay}" />

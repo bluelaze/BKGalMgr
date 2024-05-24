@@ -64,7 +64,7 @@ public partial class LocalizationInfo : ObservableObject
 
     public bool IsValid()
     {
-        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty() && !StartupName.IsNullOrEmpty();
+        return !Name.IsNullOrEmpty() && !JsonPath.IsNullOrEmpty();
     }
 
     public void SetGamePath(string dirPath)

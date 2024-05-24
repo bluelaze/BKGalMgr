@@ -117,14 +117,19 @@ public partial class TargetInfo : ObservableObject
 
     public void SeletedSource()
     {
+        if (Source is null)
+            return;
         Name = Source.Name;
         StartupName = Source.StartupName;
     }
 
     public void SeletedLocalization()
     {
+        if (Localization is null)
+            return;
         Name = Localization.Name;
-        StartupName = Localization.StartupName;
+        if (!Localization.StartupName.IsNullOrEmpty())
+            StartupName = Localization.StartupName;
     }
 
     public async Task DecompressSource()
@@ -171,6 +176,7 @@ public partial class TargetInfo : ObservableObject
         {
             Directory.CreateDirectory(TargetPath);
 
+            // dezip archive target
             var targetZipPath = Path.Combine(shareFolderPath, GlobalInfo.TargetZipName);
             if (Directory.Exists(targetZipPath))
             {
@@ -178,9 +184,11 @@ public partial class TargetInfo : ObservableObject
                 return;
             }
 
+            // move need delete target folder
             if (Directory.Exists(TargetPath))
                 Directory.Delete(TargetPath, true);
 
+            // copy target folder
             var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
             if (Directory.Exists(targetPath))
             {
@@ -188,7 +196,7 @@ public partial class TargetInfo : ObservableObject
                 return;
             }
 
-            // current folder
+            // copy current folder as a new target
             Directory.Move(shareFolderPath, TargetPath);
         });
     }
@@ -199,11 +207,13 @@ public partial class TargetInfo : ObservableObject
         {
             Directory.CreateDirectory(targetFolderPath);
 
-            SourceInfo newSource = JsonMisc.Deserialize<SourceInfo>(JsonMisc.Serialize(Source));
+            SourceInfo newSource = new();
             newSource.Name = Name;
             newSource.StartupName = StartupName;
             newSource.Description = Description;
             newSource.JsonPath = Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName);
+            if (Source != null && Source.Contributors != null)
+                newSource.Contributors = new(newSource.Contributors.Concat(Source.Contributors));
             if (Localization != null && Localization.Contributors != null)
                 newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
             newSource.SaveJsonFile();
@@ -211,7 +221,7 @@ public partial class TargetInfo : ObservableObject
             ZipFile.CreateFromDirectory(
                 TargetPath,
                 Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
-                App.ZipLevel(),
+                CompressionLevel.SmallestSize,
                 false
             );
         });

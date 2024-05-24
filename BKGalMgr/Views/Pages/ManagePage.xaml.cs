@@ -309,10 +309,11 @@ public sealed partial class ManagePage : Page
         if (folder != null)
         {
             App.ShowLoading();
-
+            // check whether exist valid target that archive or not
             var targetInfo = TargetInfo.Open(folder.Path);
             if (targetInfo != null)
             {
+                // copy to local
                 targetInfo.CreateDate = DateTime.Now;
                 targetInfo.SetGamePath(ViewModel.SelectedRepository.SelectedGame.FolderPath);
                 await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
@@ -320,12 +321,14 @@ public sealed partial class ManagePage : Page
                 return;
             }
 
+            // check exist source or localization
             targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
             targetInfo.Source = SourceInfo.Open(folder.Path);
             targetInfo.Localization = LocalizationInfo.Open(folder.Path);
 
             if (targetInfo.Localization == null && targetInfo.Source == null)
             {
+                // don't both exist, create as new source to add target
                 targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
                 var result = await EditSourceInfo(targetInfo.Source);
                 if (result == ContentDialogResult.Primary)
@@ -336,15 +339,16 @@ public sealed partial class ManagePage : Page
             }
             else
             {
+                // dezip to add target
                 if (targetInfo.Localization != null)
-                {
                     targetInfo.SeletedLocalization();
-                }
                 else
-                {
                     targetInfo.SeletedSource();
-                }
-                await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
+
+                if (!targetInfo.IsValid())
+                    App.ShowDialogError("Invalid Source or Localization");
+                else
+                    await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }
 
             App.HideLoading();

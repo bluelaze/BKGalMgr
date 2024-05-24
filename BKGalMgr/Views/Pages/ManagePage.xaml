@@ -283,7 +283,7 @@
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_export_target"
                                             Click="menuflyoutitem_export_target_Click"
-                                            Text="Export as source" />
+                                            Text="Export as Source" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_delete_target"
