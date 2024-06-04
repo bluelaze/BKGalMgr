@@ -125,7 +125,11 @@ public sealed partial class GamesPage : Page
 
                 gameInfo.IsPlaying = true;
                 targetInfo.IsPlaying = true;
+
                 await gameProcess.WaitForExitAsync();
+                foreach (var childProcess in gameProcess.GetChildProcesses())
+                    await childProcess.WaitForExitAsync();
+
                 gameInfo.IsPlaying = false;
                 targetInfo.IsPlaying = false;
 
