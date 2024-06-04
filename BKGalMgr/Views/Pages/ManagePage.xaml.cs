@@ -231,7 +231,7 @@ public sealed partial class ManagePage : Page
         if (result == ContentDialogResult.Primary)
         {
             // replace new source
-            if (editTargetInfo.Source != null && editTargetInfo.Source?.CreateDate != targetInfo.Source.CreateDate)
+            if (editTargetInfo.Source != null && editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
             {
                 App.ShowLoading();
                 await editTargetInfo.DecompressSource();
@@ -245,7 +245,7 @@ public sealed partial class ManagePage : Page
             // replace new localization
             if (
                 editTargetInfo.Localization != null
-                && editTargetInfo.Localization?.CreateDate != targetInfo.Localization.CreateDate
+                && editTargetInfo.Localization.CreateDate != targetInfo.Localization?.CreateDate
             )
             {
                 App.ShowLoading();
@@ -359,7 +359,10 @@ public sealed partial class ManagePage : Page
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
 
-        if (targetInfo.IsArchive && !await App.ShowDialogConfirm("Target is archive, will copy archive file to export, confirm to copy?"))
+        if (
+            targetInfo.IsArchive
+            && !await App.ShowDialogConfirm("Target is archive, will copy archive file to export, confirm to copy?")
+        )
             return;
 
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
