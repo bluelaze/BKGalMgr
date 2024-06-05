@@ -169,6 +169,19 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="歌手" />
+                <mcontrols:TokenizingTextBox
+                    Grid.Column="1"
+                    ItemsSource="{Binding Singer, Mode=TwoWay}"
+                    PlaceholderText="type ',' to split"
+                    TokenDelimiter="," />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="STORY" />
                 <Expander
                     Grid.Column="1"

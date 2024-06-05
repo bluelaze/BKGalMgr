@@ -66,6 +66,9 @@ public partial class GameInfo : ObservableObject
     private ObservableCollection<string> _musician = new();
 
     [ObservableProperty]
+    private ObservableCollection<string> _singer = new();
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TagItems))]
     private ObservableCollection<string> _tag = new();
 
@@ -157,7 +160,7 @@ public partial class GameInfo : ObservableObject
     public List<string> GetAllTags()
     {
         List<string> tags = [Name, Company];
-        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(tags).ToList();
+        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(Singer).Union(tags).ToList();
         tags = tags.Union(Sources.Select(item => item.Name))
             .Union(Localizations.Select(item => item.Name))
             .Union(Targets.Select(item => item.Name))
