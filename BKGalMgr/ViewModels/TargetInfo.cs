@@ -8,6 +8,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows;
+using BKGalMgr.Helpers;
+using BKGalMgr.ThirdParty;
 
 namespace BKGalMgr.ViewModels;
 
@@ -37,6 +40,20 @@ public partial class TargetInfo : ObservableObject
     private string _description;
 
     [ObservableProperty]
+    private bool _enableScreenCapture;
+    partial void OnEnableScreenCaptureChanged(bool value)
+    {
+        if (IsPlaying)
+        {
+            ScreenCaptureActive(value);
+        }
+    }
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private string _screenCaptureHotkey = string.Empty;
+
+    [ObservableProperty]
     private GameInfo _game;
 
     [ObservableProperty]
@@ -48,6 +65,14 @@ public partial class TargetInfo : ObservableObject
     [ObservableProperty]
     [property: JsonIgnore]
     private bool _isPlaying = false;
+
+    partial void OnIsPlayingChanged(bool value)
+    {
+        if (EnableScreenCapture)
+        {
+            ScreenCaptureActive(value);
+        }
+    }
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -272,5 +297,32 @@ public partial class TargetInfo : ObservableObject
         {
             Directory.Delete(TargetPath, true);
         });
+    }
+
+    public void ScreenCaptureActive(bool active)
+    {
+        if (active)
+        {
+            // copy lastest capture to clipboard, and save to game capture folder,
+            // if launch mutil target, hotkey maybe not same each start.
+            ScreenCaptureHotkey = HotkeyHelper.AddOrReplace(
+                (e) =>
+                {
+                    var capture = ScreenCapture.CaptureRegion();
+                    if (capture.captureBmp != null)
+                    {
+                        Clipboard.SetImage(capture.captureBmp.ToBitmapImage());
+                        Game.SaveScreenCapture(this, capture.captureBmp);
+                        capture.captureBmp.Dispose();
+                    }
+                    e.Handled = true;
+                }
+            );
+        }
+        else
+        {
+            HotkeyHelper.Remove(ScreenCaptureHotkey);
+            ScreenCaptureHotkey = string.Empty;
+        }
     }
 }

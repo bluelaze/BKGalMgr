@@ -88,6 +88,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
                     <UserControl>
+                        <UserControl.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                            </MenuFlyout>
+                        </UserControl.ContextFlyout>
                         <Grid x:Name="grid_gameinfo" Style="{StaticResource ListViewGridItemStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
@@ -161,6 +166,11 @@
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate x:DataType="vm:TargetInfo">
                                             <UserControl>
+                                                <UserControl.ContextFlyout>
+                                                    <MenuFlyout>
+                                                        <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                                    </MenuFlyout>
+                                                </UserControl.ContextFlyout>
                                                 <StackPanel>
                                                     <SelectorBarItem Padding="0" Text="{Binding Name}">
                                                         <SelectorBarItem.Icon>
@@ -180,6 +190,12 @@
                                                         Padding="0"
                                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                                    <SelectorBarItem
+                                                        Padding="0"
+                                                        Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                        IsEnabled="{Binding IsPlaying}"
+                                                        Text="{Binding ScreenCaptureHotkey}"
+                                                        Visibility="{Binding EnableScreenCapture}" />
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup>
                                                             <VisualState x:Name="PlayingState">
@@ -206,11 +222,24 @@
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
-                                <Button
-                                    Name="btn_play"
-                                    Click="btn_play_Click"
-                                    Content="Play"
-                                    Style="{StaticResource AccentButtonStyle}" />
+                                <SplitButton
+                                    x:Name="splitbtn_play"
+                                    Click="splitbtn_play_Click"
+                                    Content="Play">
+                                    <SplitButton.Flyout>
+                                        <Flyout Placement="Bottom">
+                                            <mcontrols:WrapPanel
+                                                MaxWidth="{ThemeResource TeachingTipMaxWidth}"
+                                                HorizontalSpacing="4"
+                                                VerticalSpacing="8">
+                                                <ToggleButton
+                                                    x:Name="togglebtn_screencapture"
+                                                    Content="{mui:FontIcon Glyph='&#xF406;'}"
+                                                    IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
+                                            </mcontrols:WrapPanel>
+                                        </Flyout>
+                                    </SplitButton.Flyout>
+                                </SplitButton>
                             </StackPanel>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup>

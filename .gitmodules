@@ -1,0 +1,3 @@
+[submodule "ShareX"]
+	path = ThirdParty/ShareX
+	url = https://github.com/ShareX/ShareX.git

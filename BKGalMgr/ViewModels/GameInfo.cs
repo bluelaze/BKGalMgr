@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -130,6 +131,9 @@ public partial class GameInfo : ObservableObject
 
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
+
+    [property: JsonIgnore]
+    public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
 
     public GameInfo() { }
 
@@ -518,5 +522,16 @@ public partial class GameInfo : ObservableObject
                 return;
             }
         }
+    }
+
+    public void SaveScreenCapture(TargetInfo targetInfo, Bitmap bitmap)
+    {
+        Directory.CreateDirectory(ScreenCaptureFolderPath);
+        bitmap.Save(
+            Path.Combine(
+                ScreenCaptureFolderPath,
+                $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
+            )
+        );
     }
 }

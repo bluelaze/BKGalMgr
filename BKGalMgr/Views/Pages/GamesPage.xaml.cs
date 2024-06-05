@@ -51,9 +51,9 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private async void btn_play_Click(object sender, RoutedEventArgs e)
+    private async void splitbtn_play_Click(SplitButton sender, SplitButtonClickEventArgs args)
     {
-        var playBtn = sender as Button;
+        var playBtn = sender;
         var gameInfo = playBtn.DataContext as GameInfo;
         var targetInfo = gameInfo.SelectedTarget;
         if (targetInfo != null)
@@ -122,6 +122,9 @@ public sealed partial class GamesPage : Page
                     TimeSpan.FromSeconds(1),
                     TimeSpan.FromSeconds(1)
                 );
+
+                // update game here, but need in open target?
+                targetInfo.Game = gameInfo;
 
                 gameInfo.IsPlaying = true;
                 targetInfo.IsPlaying = true;

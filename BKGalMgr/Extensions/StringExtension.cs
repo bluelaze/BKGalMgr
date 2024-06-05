@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BKGalMgr.Extensions;
@@ -27,5 +28,11 @@ public static class StringExtensions
         }
 
         return sBuilder.ToString();
+    }
+
+    public static string ValidFileName(this string value, string replaceChar)
+    {
+        //https://stackoverflow.com/questions/146134/how-to-remove-illegal-characters-from-path-and-filenames
+        return string.Join(replaceChar, value.Split(Path.GetInvalidFileNameChars()));
     }
 }

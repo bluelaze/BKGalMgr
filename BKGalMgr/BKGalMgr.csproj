@@ -12,6 +12,7 @@
         <WindowsPackageType>None</WindowsPackageType>
         <EnableMsixTooling>true</EnableMsixTooling>
         <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Views\Controls\GameInfoControl.xaml" />
@@ -62,6 +63,9 @@
 	-->
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\BKGalMgr.ThirdParty\BKGalMgr.ThirdParty.csproj" />
     </ItemGroup>
     <ItemGroup>
         <Page Update="Views\Controls\ContributorInfoControl.xaml">

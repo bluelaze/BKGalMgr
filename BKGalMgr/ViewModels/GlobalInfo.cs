@@ -48,6 +48,9 @@ public static class GlobalInfo
     public const string GameCoverName = "cover";
     public static readonly string[] GameCoverSupportFormats = [".jpg", ".jpeg", ".png", ".gif"];
 
+    public const string GameScreenCaptureFolderName = "screencaptures";
+    public const string GameScreenCaptureFileFormatStr = "yyyy-MM-dd_HH-mm-ss";
+
     public const string SourcesFolderName = "sources";
     public const string SourceJsonName = "sourceinfo.json";
     public const string SourceZipName = "source.zip";
