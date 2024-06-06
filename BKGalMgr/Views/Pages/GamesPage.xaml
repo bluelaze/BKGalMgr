@@ -103,6 +103,13 @@
                                 <Image.Source>
                                     <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
                                 </Image.Source>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip MaxWidth="720" Placement="Right">
+                                        <ToolTip.Content>
+                                            <Image Source="{Binding Cover}" Stretch="None" />
+                                        </ToolTip.Content>
+                                    </ToolTip>
+                                </ToolTipService.ToolTip>
                             </Image>
                             <StackPanel
                                 Grid.Column="1"
