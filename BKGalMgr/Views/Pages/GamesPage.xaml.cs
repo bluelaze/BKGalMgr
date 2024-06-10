@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Concurrency;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
@@ -110,37 +112,31 @@ public sealed partial class GamesPage : Page
                     gameInfo.SaveJsonFile();
                 };
 
-                var loopTimer = new Timer(
-                    (_) =>
-                    {
-                        DispatcherQueue?.TryEnqueue(() =>
-                        {
-                            savePlayedTime();
-                        });
-                    },
-                    null,
-                    TimeSpan.FromSeconds(1),
-                    TimeSpan.FromSeconds(1)
-                );
-
                 // update game here, but need in open target?
                 targetInfo.Game = gameInfo;
 
                 gameInfo.IsPlaying = true;
                 targetInfo.IsPlaying = true;
 
+                var timer = Observable
+                    .Interval(TimeSpan.FromSeconds(1))
+                    .ObserveOn(SynchronizationContext.Current)
+                    .Subscribe(_ =>
+                    {
+                        savePlayedTime();
+                    });
+
                 await gameProcess.WaitForExitAsync();
                 foreach (var childProcess in gameProcess.GetChildProcesses())
                     await childProcess.WaitForExitAsync();
+
+                timer.Dispose();
 
                 gameInfo.IsPlaying = false;
                 targetInfo.IsPlaying = false;
 
                 gameInfo.PlayedPeriods.Insert(0, new(gameInfo.LastPlayDate, DateTime.Now));
                 gameInfo.SaveJsonFile();
-
-                loopTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                loopTimer.Dispose();
             }
         }
     }
