@@ -1,88 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.Models;
-using Microsoft.UI.Xaml.Media;
+using Mapster;
 
 namespace BKGalMgr.ViewModels.Pages;
 
 public partial class SettingsPageViewModel : ObservableObject
 {
-    public Theme AppTheme
-    {
-        get => _settings.LoadedSettings.AppTheme;
-        set
-        {
-            if (
-                SetProperty(
-                    _settings.LoadedSettings.AppTheme,
-                    value,
-                    (newValue) =>
-                    {
-                        _settings.LoadedSettings.AppTheme = newValue;
-                    }
-                )
-            )
-            {
-                ApplyTheme();
-            }
-        }
-    }
+    [ObservableProperty]
+    private Theme _appTheme;
 
-    public BackdropMaterial AppBackdropMaterial
-    {
-        get => _settings.LoadedSettings.AppBackdropMaterial;
-        set
-        {
-            if (
-                SetProperty(
-                    _settings.LoadedSettings.AppBackdropMaterial,
-                    value,
-                    (newValue) =>
-                    {
-                        _settings.LoadedSettings.AppBackdropMaterial = newValue;
-                    }
-                )
-            )
-            {
-                ApplyTheme();
-            }
-        }
-    }
+    [ObservableProperty]
+    private BackdropMaterial _appBackdropMaterial;
 
-    public CompressionLevel ZipLevel
-    {
-        get => _settings.LoadedSettings.ZipLevel;
-        set
-        {
-            if (
-                SetProperty(
-                    _settings.LoadedSettings.ZipLevel,
-                    value,
-                    (newValue) =>
-                    {
-                        _settings.LoadedSettings.ZipLevel = newValue;
-                    }
-                )
-            ) { }
-        }
-    }
+    [ObservableProperty]
+    private CompressionLevel _zipLevel;
 
-    private SettingsModel _settings;
+    private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
+    private bool _isInit = false;
 
     public SettingsPageViewModel()
     {
-        _settings = App.GetRequiredService<SettingsModel>();
         _themeHelper = new(App.MainWindow);
+
+        _settings = App.GetRequiredService<SettingsDto>();
+        _settings.Adapt(this);
+        _isInit = true;
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (!_isInit)
+            return;
+
+        this.Adapt(_settings);
+        if (e.PropertyName == nameof(AppTheme) || e.PropertyName == nameof(AppBackdropMaterial))
+            ApplyTheme();
     }
 
     public void ApplyTheme()
     {
-        _themeHelper.ApllyTheme(_settings.LoadedSettings.AppTheme, _settings.LoadedSettings.AppBackdropMaterial);
+        _themeHelper.ApllyTheme(_settings.AppTheme, _settings.AppBackdropMaterial);
     }
 }

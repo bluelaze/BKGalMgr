@@ -21,7 +21,7 @@ public partial class GamesManagePageViewModel : ObservableObject
 
     partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {
-        _settings.LoadedSettings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
+        _settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
 
     public bool SelectedRepositoryIsValid
@@ -35,12 +35,12 @@ public partial class GamesManagePageViewModel : ObservableObject
     [ObservableProperty]
     private SourceInfo _source = new();
 
-    private SettingsModel _settings;
+    private readonly SettingsDto _settings;
 
     public GamesManagePageViewModel()
     {
-        _settings = App.GetRequiredService<SettingsModel>();
-        foreach (var path in _settings.LoadedSettings.RepositoryPath)
+        _settings = App.GetRequiredService<SettingsDto>();
+        foreach (var path in _settings.RepositoryPath)
         {
             AddRepository(new RepositoryInfo() { FolderPath = path });
         }
@@ -56,11 +56,11 @@ public partial class GamesManagePageViewModel : ObservableObject
             return false;
 
         Repository.Add(repository);
-        if (repository.FolderPath == _settings.LoadedSettings.SelectedRepositoryPath)
+        if (repository.FolderPath == _settings.SelectedRepositoryPath)
             SelectedRepository = repository;
-        if (!_settings.LoadedSettings.RepositoryPath.Contains(repository.FolderPath))
+        if (!_settings.RepositoryPath.Contains(repository.FolderPath))
         {
-            _settings.LoadedSettings.RepositoryPath.Add(repository.FolderPath);
+            _settings.RepositoryPath.Add(repository.FolderPath);
             _settings.SaveSettings();
         }
         return true;

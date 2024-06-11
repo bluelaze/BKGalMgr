@@ -51,7 +51,7 @@ public partial class App : Application
                 services.AddSingleton<GamesManagePageViewModel>();
                 services.AddSingleton<SettingsPageViewModel>();
                 // Models
-                services.AddSingleton<SettingsModel>();
+                services.AddSingleton<SettingsDto>();
             }
         )
         .Build();
@@ -124,7 +124,7 @@ public partial class App : Application
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-        GetRequiredService<SettingsModel>().SaveSettings();
+        GetRequiredService<SettingsDto>().SaveSettings();
     }
 
     public static T GetRequiredService<T>()
@@ -137,7 +137,7 @@ public partial class App : Application
 
     public static void HideLoading() => MainWindow.HideLoading();
 
-    public static CompressionLevel ZipLevel() => GetRequiredService<SettingsModel>().LoadedSettings.ZipLevel;
+    public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
 
     public static async void ShowDialogError(string errorMsg)
     {
