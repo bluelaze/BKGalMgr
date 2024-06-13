@@ -10,9 +10,9 @@
         <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
         <UseWinUI>true</UseWinUI>
         <WindowsPackageType>None</WindowsPackageType>
-        <EnableMsixTooling>true</EnableMsixTooling>
         <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Views\Controls\GameInfoControl.xaml" />
@@ -50,7 +50,7 @@
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.0.131" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
         <PackageReference Include="System.Interactive.Async" Version="6.0.1" />
