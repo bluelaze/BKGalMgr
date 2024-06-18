@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
+using H.NotifyIcon;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -139,5 +140,20 @@ public sealed partial class GamesPage : Page
                 gameInfo.SaveJsonFile();
             }
         }
+    }
+
+    private void btn_capture_hotkey_Click(object sender, RoutedEventArgs e)
+    {
+        var targetInfo = (sender as FrameworkElement).DataContext as TargetInfo;
+        App.MainWindow.Hide();
+        Task.Delay(225)
+            .ContinueWith(
+                t =>
+                {
+                    targetInfo.DoScreenCapture();
+                    App.MainWindow.Show();
+                },
+                TaskScheduler.FromCurrentSynchronizationContext()
+            );
     }
 }

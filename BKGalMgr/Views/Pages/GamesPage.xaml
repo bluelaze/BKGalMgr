@@ -197,12 +197,19 @@
                                                         Padding="0"
                                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
-                                                    <SelectorBarItem
+                                                    <HyperlinkButton
+                                                        x:Name="btn_capture_hotkey"
+                                                        Margin="0"
                                                         Padding="0"
-                                                        Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                        Click="btn_capture_hotkey_Click"
                                                         IsEnabled="{Binding IsPlaying}"
-                                                        Text="{Binding ScreenCaptureHotkey}"
-                                                        Visibility="{Binding EnableScreenCapture}" />
+                                                        Visibility="{Binding EnableScreenCapture}">
+                                                        <SelectorBarItem
+                                                            Padding="0"
+                                                            Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                            Text="{Binding ScreenCaptureHotkey}" />
+                                                    </HyperlinkButton>
+
                                                     <VisualStateManager.VisualStateGroups>
                                                         <VisualStateGroup>
                                                             <VisualState x:Name="PlayingState">

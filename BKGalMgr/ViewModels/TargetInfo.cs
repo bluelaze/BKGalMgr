@@ -41,6 +41,7 @@ public partial class TargetInfo : ObservableObject
 
     [ObservableProperty]
     private bool _enableScreenCapture;
+
     partial void OnEnableScreenCaptureChanged(bool value)
     {
         if (IsPlaying)
@@ -308,13 +309,7 @@ public partial class TargetInfo : ObservableObject
             ScreenCaptureHotkey = HotkeyHelper.AddOrReplace(
                 (e) =>
                 {
-                    var capture = ScreenCapture.CaptureRegion();
-                    if (capture.captureBmp != null)
-                    {
-                        Clipboard.SetImage(capture.captureBmp.ToBitmapImage());
-                        Game.SaveScreenCapture(this, capture.captureBmp);
-                        capture.captureBmp.Dispose();
-                    }
+                    DoScreenCapture();
                     e.Handled = true;
                 }
             );
@@ -323,6 +318,17 @@ public partial class TargetInfo : ObservableObject
         {
             HotkeyHelper.Remove(ScreenCaptureHotkey);
             ScreenCaptureHotkey = string.Empty;
+        }
+    }
+
+    public void DoScreenCapture()
+    {
+        var capture = ScreenCapture.CaptureRegion();
+        if (capture.captureBmp != null)
+        {
+            Clipboard.SetImage(capture.captureBmp.ToBitmapImage());
+            Game.SaveScreenCapture(this, capture.captureBmp);
+            capture.captureBmp.Dispose();
         }
     }
 }
