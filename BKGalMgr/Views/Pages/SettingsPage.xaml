@@ -34,24 +34,29 @@
                 <EntranceThemeTransition FromVerticalOffset="50" />
                 <RepositionThemeTransition IsStaggeringEnabled="False" />
             </StackPanel.ChildrenTransitions>
-            <!--  Appearance  -->
-            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Appearance &amp; behavior" />
-            <mcontrols:SettingsCard Header="App theme" HeaderIcon="{mui:FontIcon Glyph=&#xE790;}">
+            <!--  Generic  -->
+            <TextBlock x:Uid="Settings_Generic" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <mcontrols:SettingsCard x:Uid="Settings_Generic_App_Theme" HeaderIcon="{mui:FontIcon Glyph=&#xE790;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=helpers:Theme}" SelectedItem="{x:Bind ViewModel.AppTheme, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
-            <mcontrols:SettingsCard Header="App backdrop material" HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
+            <mcontrols:SettingsCard x:Uid="Settings_Generic_App_Backdrop_Material" HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=helpers:BackdropMaterial}" SelectedItem="{x:Bind ViewModel.AppBackdropMaterial, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
 
-            <mcontrols:SettingsCard
-                Description="Compression level when create zip, NoCompression is optimal"
-                Header="Zip level"
-                HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
+            <mcontrols:SettingsCard x:Uid="Settings_Generic_Zip_Level" HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
                 <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
 
+            <!--  unpackaged app not support change language, https://github.com/microsoft/WindowsAppSDK/issues/1687  -->
+            <!--<mcontrols:SettingsCard x:Uid="Settings_Generic_Language" HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
+                <ComboBox
+                    DisplayMemberPath="Value"
+                    ItemsSource="{x:Bind ViewModel.Languages}"
+                    SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>-->
+
             <!--  About  -->
-            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="About" />
+            <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
             <mcontrols:SettingsExpander
                 Description="Copyright (c) bluelaze. All rights reserved."
                 Header="BKGalMgr"
@@ -61,7 +66,7 @@
                     IsTextSelectionEnabled="True"
                     Text="v1.0.0" />
                 <mcontrols:SettingsExpander.Items>
-                    <mcontrols:SettingsCard Header="Project">
+                    <mcontrols:SettingsCard x:Uid="Settings_About_Project">
                         <HyperlinkButton Content="https://github.com/bluelaze/BKGalMgr" NavigateUri="https://github.com/bluelaze/BKGalMgr" />
                     </mcontrols:SettingsCard>
                 </mcontrols:SettingsExpander.Items>

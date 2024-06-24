@@ -19,14 +19,13 @@
             </Style>
         </StackPanel.Resources>
         <local:HeaderedTextBox
+            x:Uid="LocalizationInfo_Name"
             CanEmpty="False"
-            Header="Name"
             Text="{Binding Name, Mode=TwoWay}" />
         <Grid>
             <local:HeaderedTextBox
                 x:Name="headeredtextbox_pick_startup_name"
-                Header="StartupName"
-                PlaceholderText="Startup exe name"
+                x:Uid="LocalizationInfo_StartupName"
                 Text="{Binding StartupName, Mode=TwoWay}" />
             <Button
                 x:Name="button_pick_startup_name"
@@ -42,20 +41,17 @@
             </Button>
         </Grid>
         <local:HeaderedTextBox
+            x:Uid="LocalizationInfo_Description"
             AcceptsReturn="True"
-            Header="Description"
             Text="{Binding Description, Mode=TwoWay}"
             TextWrapping="Wrap" />
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander
-                Description="should be remembered"
-                Header="Contributors"
-                ItemsSource="{Binding Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="LocalizationInfo_Contributors" ItemsSource="{Binding Contributors, Mode=TwoWay}">
                 <mcontrols:SettingsExpander.Content>
                     <Button
                         x:Name="button_add_contributor"
-                        Click="button_add_contributor_Click"
-                        Content="Add" />
+                        x:Uid="LocalizationInfo_Contributors_Add"
+                        Click="button_add_contributor_Click" />
                 </mcontrols:SettingsExpander.Content>
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">

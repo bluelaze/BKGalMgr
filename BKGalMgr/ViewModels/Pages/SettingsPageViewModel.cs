@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
@@ -22,6 +23,15 @@ public partial class SettingsPageViewModel : ObservableObject
     [ObservableProperty]
     private CompressionLevel _zipLevel;
 
+    [ObservableProperty]
+    private SupportLanguages _language;
+
+    [ObservableProperty]
+    private int _languageIndex = -1;
+
+    [ObservableProperty]
+    private Dictionary<SupportLanguages, string> _languages;
+
     private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
     private bool _isInit = false;
@@ -32,6 +42,15 @@ public partial class SettingsPageViewModel : ObservableObject
 
         _settings = App.GetRequiredService<SettingsDto>();
         _settings.Adapt(this);
+
+        _languages = LanguageHelper.GetSupportLangugesName();
+        foreach (var language in _languages)
+        {
+            LanguageIndex++;
+            if (language.Key == _language)
+                break;
+        }
+
         _isInit = true;
     }
 
@@ -44,7 +63,14 @@ public partial class SettingsPageViewModel : ObservableObject
 
         this.Adapt(_settings);
         if (e.PropertyName == nameof(AppTheme) || e.PropertyName == nameof(AppBackdropMaterial))
+        {
             ApplyTheme();
+        }
+        else if (e.PropertyName == nameof(LanguageIndex))
+        {
+            Language = Languages.ToList().ElementAt(LanguageIndex).Key;
+            // TODO: change language
+        }
     }
 
     public void ApplyTheme()

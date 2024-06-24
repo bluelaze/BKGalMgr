@@ -20,10 +20,9 @@
         <Grid Visibility="{x:Bind FolderPathVisible, Mode=OneWay}">
             <local:HeaderedTextBox
                 x:Name="headeredtextbox_pick_folder"
+                x:Uid="RepositoryInfo_Folder"
                 CanEmpty="False"
-                Header="Folder"
                 IsReadOnly="True"
-                PlaceholderText="Pick a game repository folder"
                 Text="{Binding FolderPath, Mode=TwoWay}" />
             <Button
                 x:Name="button_pick_folder"
@@ -40,12 +39,12 @@
         </Grid>
         <local:HeaderedTextBox
             x:Name="headeredtextbox_name"
+            x:Uid="RepositoryInfo_Name"
             CanEmpty="False"
-            Header="Name"
             Text="{Binding Name, Mode=TwoWay}" />
         <local:HeaderedTextBox
+            x:Uid="RepositoryInfo_Description"
             AcceptsReturn="True"
-            Header="Description"
             Text="{Binding Description, Mode=TwoWay}"
             TextWrapping="Wrap" />
     </StackPanel>

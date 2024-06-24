@@ -55,37 +55,36 @@
         </Image>
         <StackPanel Grid.Column="1">
             <local:HeaderedTextBox
+                x:Uid="GameInfo_Name"
                 CanEmpty="False"
-                Header="Name"
                 Text="{Binding Name, Mode=TwoWay}" />
 
-            <local:HeaderedTextBox Header="会社" Text="{Binding Company, Mode=TwoWay}" />
-            <local:HeaderedTextBox Header="WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_Company" Text="{Binding Company, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="原画" />
+                <TextBlock x:Uid="GameInfo_Artist" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Artist, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
-
 
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="シナリオ" />
+                <TextBlock x:Uid="GameInfo_Scenario" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Scenario, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
 
@@ -94,11 +93,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
+                <TextBlock x:Uid="GameInfo_Tag" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Tag, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
 
@@ -107,7 +106,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="Blog" />
+                <TextBlock x:Uid="GameInfo_Blog" Style="{StaticResource HeaderTextBlockStyle}" />
                 <Expander
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
@@ -129,14 +128,14 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="2" Margin="8,0">
-            <local:HeaderedTextBox Header="Cover" Text="{Binding Cover, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_Cover" Text="{Binding Cover, Mode=TwoWay}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="発売日" />
+                <TextBlock x:Uid="GameInfo_PublishDate" Style="{StaticResource HeaderTextBlockStyle}" />
                 <DatePicker
                     Grid.Column="1"
                     MaxWidth="1080"
@@ -150,11 +149,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CV" />
+                <TextBlock x:Uid="GameInfo_CV" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Cv, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
 
@@ -163,11 +162,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="音楽" />
+                <TextBlock x:Uid="GameInfo_Musician" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Musician, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
 
@@ -176,11 +175,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="歌手" />
+                <TextBlock x:Uid="GameInfo_Singer" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Singer, Mode=TwoWay}"
-                    PlaceholderText="type ',' to split"
                     TokenDelimiter="," />
             </Grid>
 
@@ -189,7 +188,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="STORY" />
+                <TextBlock x:Uid="GameInfo_STORY" Style="{StaticResource HeaderTextBlockStyle}" />
                 <Expander
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"

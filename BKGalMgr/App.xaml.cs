@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
 using BKGalMgr.Models;
 using BKGalMgr.Services;
 using BKGalMgr.ViewModels.Pages;
@@ -151,7 +152,7 @@ public partial class App : Application
             Glyph = "\uE783"
         };
         dialog.RequestedTheme = MainWindow.RequestedTheme();
-        dialog.PrimaryButtonText = "Confirm";
+        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
         dialog.Content = errorMsg;
         dialog.DefaultButton = ContentDialogButton.Primary;
 
@@ -170,8 +171,8 @@ public partial class App : Application
             Glyph = "\uE7BA"
         };
         dialog.RequestedTheme = MainWindow.RequestedTheme();
-        dialog.PrimaryButtonText = "Confirm";
-        dialog.CloseButtonText = "Cancel";
+        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
+        dialog.CloseButtonText = LanguageHelper.GetString("Dlg_Cancel");
         dialog.Content = confirmMsg;
         dialog.DefaultButton = ContentDialogButton.Primary;
 

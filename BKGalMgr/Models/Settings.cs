@@ -15,4 +15,5 @@ public class Settings
     public Theme AppTheme { get; set; } = Theme.Light;
     public BackdropMaterial AppBackdropMaterial { get; set; } = BackdropMaterial.Mica;
     public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
+    public SupportLanguages Language { get; set; } = SupportLanguages.system;
 }

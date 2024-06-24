@@ -26,11 +26,11 @@
             VerticalAlignment="Top"
             ProfilePicture="{Binding Avatar, Mode=OneWay}" />
         <StackPanel Grid.Column="1">
-            <local:HeaderedTextBox Header="Avatar" Text="{Binding Avatar, Mode=TwoWay}" />
-            <local:HeaderedTextBox Header="Name" Text="{Binding Name, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="ContributorInfo_Avatar" Text="{Binding Avatar, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="ContributorInfo_Name" Text="{Binding Name, Mode=TwoWay}" />
             <local:HeaderedTextBox
+                x:Uid="ContributorInfo_Description"
                 AcceptsReturn="True"
-                Header="Description"
                 Text="{Binding Description, Mode=TwoWay}" />
         </StackPanel>
         <AppBarButton

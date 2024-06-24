@@ -20,23 +20,22 @@
             </Style>
         </StackPanel.Resources>
         <local:HeaderedTextBox
+            x:Uid="TargetInfo_Name"
             CanEmpty="False"
-            Header="Name"
             Text="{Binding Name, Mode=TwoWay}" />
         <local:HeaderedTextBox
             x:Name="headeredtextbox_pick_startup_name"
+            x:Uid="TargetInfo_StartupName"
             CanEmpty="False"
-            Header="StartupName"
-            PlaceholderText="Startup exe name"
             Text="{Binding StartupName, Mode=TwoWay}" />
         <local:HeaderedTextBox
+            x:Uid="TargetInfo_Description"
             AcceptsReturn="True"
-            Header="Description"
             Text="{Binding Description, Mode=TwoWay}"
             TextWrapping="Wrap" />
 
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander Header="Source Contributors" ItemsSource="{Binding Source.Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="TargetInfo_Source_Contributors" ItemsSource="{Binding Source.Contributors, Mode=TwoWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
                         <local:ContributorInfoControl Margin="0,4" />
@@ -46,7 +45,7 @@
         </ScrollViewer>
 
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander Header="Localization Contributors" ItemsSource="{Binding Localization.Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="TargetInfo_Localization_Contributors" ItemsSource="{Binding Localization.Contributors, Mode=TwoWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
                         <local:ContributorInfoControl Margin="0,4" />
@@ -61,8 +60,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <ListView
-                Name="listview_sources"
-                Header="Sources"
+                x:Name="listview_sources"
+                x:Uid="TargetInfo_Sources"
                 ItemsSource="{Binding Game.Sources, Mode=OneWay}"
                 SelectedItem="{Binding Source, Mode=TwoWay}"
                 SelectionChanged="listview_sources_SelectionChanged">
@@ -80,9 +79,9 @@
                 </ListView.ItemTemplate>
             </ListView>
             <ListView
-                Name="listview_localization"
+                x:Name="listview_localization"
+                x:Uid="TargetInfo_Localization"
                 Grid.Column="1"
-                Header="Localization"
                 ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
                 SelectedItem="{Binding Localization, Mode=TwoWay}"
                 SelectionChanged="listview_localization_SelectionChanged">

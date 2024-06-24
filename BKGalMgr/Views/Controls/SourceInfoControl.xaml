@@ -19,15 +19,14 @@
             </Style>
         </StackPanel.Resources>
         <local:HeaderedTextBox
+            x:Uid="SourceInfo_Name"
             CanEmpty="False"
-            Header="Name"
             Text="{Binding Name, Mode=TwoWay}" />
         <Grid>
             <local:HeaderedTextBox
                 x:Name="headeredtextbox_pick_startup_name"
+                x:Uid="SourceInfo_StartupName"
                 CanEmpty="False"
-                Header="StartupName"
-                PlaceholderText="Startup exe name"
                 Text="{Binding StartupName, Mode=TwoWay}" />
             <Button
                 x:Name="button_pick_startup_name"
@@ -43,20 +42,17 @@
             </Button>
         </Grid>
         <local:HeaderedTextBox
+            x:Uid="SourceInfo_Description"
             AcceptsReturn="True"
-            Header="Description"
             Text="{Binding Description, Mode=TwoWay}"
             TextWrapping="Wrap" />
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander
-                Description="should be remembered"
-                Header="Contributors"
-                ItemsSource="{Binding Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="SourceInfo_Contributors" ItemsSource="{Binding Contributors, Mode=TwoWay}">
                 <mcontrols:SettingsExpander.Content>
                     <Button
                         x:Name="button_add_contributor"
-                        Click="button_add_contributor_Click"
-                        Content="Add" />
+                        x:Uid="SourceInfo_Contributors_Add"
+                        Click="button_add_contributor_Click" />
                 </mcontrols:SettingsExpander.Content>
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">

@@ -19,6 +19,7 @@ public class SettingsDto
     public Theme AppTheme { get; set; }
     public BackdropMaterial AppBackdropMaterial { get; set; }
     public CompressionLevel ZipLevel { get; set; }
+    public SupportLanguages Language { get; set; }
 
     // dto
     private readonly Settings _settings;

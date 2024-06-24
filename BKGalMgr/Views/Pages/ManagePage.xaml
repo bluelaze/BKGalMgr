@@ -27,22 +27,22 @@
             Orientation="Horizontal"
             Spacing="8">
             <ComboBox
+                x:Uid="Manage_Repository_ComboBox"
                 ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
-                PlaceholderText="Pick a repository"
                 SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
                             x:Name="menuflyoutitem_edit_repository"
-                            Click="menuflyoutitem_edit_repository_Click"
-                            Text="Edit" />
-                        <MenuFlyoutItem Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" Text="Open Folder" />
+                            x:Uid="Commom_MenuItem_Edit"
+                            Click="menuflyoutitem_edit_repository_Click" />
+                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
                     </MenuFlyout>
                 </ComboBox.ContextFlyout>
                 <ComboBox.HeaderTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="Repository" />
+                            <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
                             <Button
                                 x:Name="button_add_repository"
                                 Click="button_add_repository_Click"
@@ -67,14 +67,14 @@
                 Visibility="{Binding ViewModel.SelectedRepositoryIsValid, Mode=OneWay}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" Text="Open Folder" />
+                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" />
                     </MenuFlyout>
                 </ComboBox.ContextFlyout>
                 <ComboBox.HeaderTemplate>
                     <DataTemplate>
                         <UserControl>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock VerticalAlignment="Center" Text="Game" />
+                                <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
                                 <Button
                                     x:Name="button_add_game"
                                     Click="button_add_game_Click"
@@ -156,14 +156,14 @@
                             Margin="16,0"
                             Orientation="Horizontal"
                             Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="Sources" />
+                            <TextBlock x:Uid="Manage_Sources" VerticalAlignment="Center" />
                             <Button
                                 x:Name="button_add_source_folder"
+                                x:Uid="Manage_Sources_Add"
                                 Click="button_add_source_folder_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                ToolTipService.ToolTip="Import exist source" />
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -173,14 +173,14 @@
                                     <MenuFlyout>
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_edit_source"
-                                            Click="menuflyoutitem_edit_source_Click"
-                                            Text="Edit" />
-                                        <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                            x:Uid="Commom_MenuItem_Edit"
+                                            Click="menuflyoutitem_edit_source_Click" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_delete_source"
-                                            Click="menuflyoutitem_delete_source_Click"
-                                            Text="Delete">
+                                            x:Uid="Commom_MenuItem_Delete"
+                                            Click="menuflyoutitem_delete_source_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -205,14 +205,14 @@
                             Margin="16,0"
                             Orientation="Horizontal"
                             Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="Localization" />
+                            <TextBlock x:Uid="Manage_Localization" VerticalAlignment="Center" />
                             <Button
                                 x:Name="button_add_localization_folder"
+                                x:Uid="Manage_Localization_Add"
                                 Click="button_add_localization_folder_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                ToolTipService.ToolTip="Import exist localization" />
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -222,14 +222,14 @@
                                     <MenuFlyout>
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_edit_localization"
-                                            Click="menuflyoutitem_edit_localization_Click"
-                                            Text="Edit" />
-                                        <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                            x:Uid="Commom_MenuItem_Edit"
+                                            Click="menuflyoutitem_edit_localization_Click" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem
                                             Name="menuflyoutitem_delete_localization"
-                                            Click="menuflyoutitem_delete_localization_Click"
-                                            Text="Delete">
+                                            x:Uid="Commom_MenuItem_Delete"
+                                            Click="menuflyoutitem_delete_localization_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -254,7 +254,7 @@
                             Margin="16,0"
                             Orientation="Horizontal"
                             Spacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="Target" />
+                            <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
                             <Button
                                 x:Name="button_add_target"
                                 Click="button_add_target_Click"
@@ -263,11 +263,11 @@
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                             <Button
                                 x:Name="button_add_target_folder"
+                                x:Uid="Manage_Target_Add"
                                 Click="button_add_target_folder_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                ToolTipService.ToolTip="Import exist localization" />
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -278,33 +278,33 @@
                                         <MenuFlyout>
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_edit_target"
-                                                Click="menuflyoutitem_edit_target_Click"
-                                                Text="Edit" />
-                                            <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
+                                                x:Uid="Commom_MenuItem_Edit"
+                                                Click="menuflyoutitem_edit_target_Click" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_export_target"
-                                                Click="menuflyoutitem_export_target_Click"
-                                                Text="Export as Source" />
+                                                x:Uid="Commom_MenuItem_Export_As_Source"
+                                                Click="menuflyoutitem_export_target_Click" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_archive_target"
-                                                Click="menuflyoutitem_archive_target_Click"
-                                                Text="Archive" />
+                                                x:Uid="Commom_MenuItem_Archive"
+                                                Click="menuflyoutitem_archive_target_Click" />
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_dearchive_target"
+                                                x:Uid="Commom_MenuItem_DeArchive"
                                                 Click="menuflyoutitem_dearchive_target_Click"
-                                                IsEnabled="{Binding IsArchive}"
-                                                Text="DeArchive" />
+                                                IsEnabled="{Binding IsArchive}" />
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_delete_target_folder_only"
+                                                x:Uid="Commom_MenuItem_Delete_Folder_Only"
                                                 Click="menuflyoutitem_delete_target_folder_only_Click"
-                                                IsEnabled="{Binding IsArchive}"
-                                                Text="Delete folder only" />
+                                                IsEnabled="{Binding IsArchive}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem
                                                 Name="menuflyoutitem_delete_target"
-                                                Click="menuflyoutitem_delete_target_Click"
-                                                Text="Delete">
+                                                x:Uid="Commom_MenuItem_Delete"
+                                                Click="menuflyoutitem_delete_target_Click">
                                                 <MenuFlyoutItem.Resources>
                                                     <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                     <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />

@@ -20,11 +20,11 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     x:Name="navitem_games"
-                    Content="Games"
-                    Icon="{mui:FontIcon Glyph=&#xE7FC;}" />
+                    x:Uid="Main_Nav_Games"
+                    Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
                 <NavigationViewItem
                     x:Name="navitem_manage"
-                    Content="Manage"
+                    x:Uid="Main_Nav_Manage"
                     Icon="{mui:FontIcon Glyph=&#xE70F;}" />
             </NavigationView.MenuItems>
 
@@ -32,7 +32,7 @@
                 <NavigationViewItemSeparator />
                 <NavigationViewItem
                     x:Name="navitem_settings"
-                    Content="Settings"
+                    x:Uid="Main_Nav_Settings"
                     Icon="{mui:FontIcon Glyph=&#xE713;}" />
             </NavigationView.FooterMenuItems>
 

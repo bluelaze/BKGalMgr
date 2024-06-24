@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using H.NotifyIcon;
@@ -63,7 +64,9 @@ public sealed partial class GamesPage : Page
         {
             if (!File.Exists(targetInfo.TargetExePath))
             {
-                if (targetInfo.IsArchive && await App.ShowDialogConfirm("Target is archive, confirm to deachive?"))
+                if (
+                    targetInfo.IsArchive && await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
+                )
                 {
                     App.ShowLoading();
                     await targetInfo.DeArchive();
@@ -71,7 +74,9 @@ public sealed partial class GamesPage : Page
                 }
                 if (!File.Exists(targetInfo.TargetExePath))
                 {
-                    App.ShowDialogError($"Invalid TargetExePath: {targetInfo.TargetExePath}");
+                    App.ShowDialogError(
+                        LanguageHelper.GetString("Msg_TargetExe_Invalid").Format(targetInfo.TargetExePath)
+                    );
                     return;
                 }
             }
@@ -92,7 +97,9 @@ public sealed partial class GamesPage : Page
 
             if (!startSuccess)
             {
-                App.ShowDialogError($"Process Start failed, TargetExePath: {targetInfo.TargetExePath}");
+                App.ShowDialogError(
+                    LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath)
+                );
             }
             else
             {

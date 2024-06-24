@@ -38,9 +38,8 @@
                 Orientation="Horizontal"
                 Spacing="8">
                 <ComboBox
-                    Header="Repository"
+                    x:Uid="Games_Repository"
                     ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
-                    PlaceholderText="Repository"
                     SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
@@ -139,24 +138,24 @@
                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="会社:" />
+                                    <TextBlock x:Uid="Games_GameInfo_Company" />
                                     <HyperlinkButton
                                         Padding="0"
                                         Content="{Binding Company}"
                                         NavigateUri="{Binding Website}" />
-                                    <TextBlock Text="発売日:" />
+                                    <TextBlock x:Uid="Games_GameInfo_PublishDate" />
                                     <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="原画:" />
+                                    <TextBlock x:Uid="Games_GameInfo_Artist" />
                                     <mcontrols:MetadataControl Items="{Binding ArtistItems, Mode=OneWay}" Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="シナリオ:" />
+                                    <TextBlock x:Uid="Games_GameInfo_Scenario" />
                                     <mcontrols:MetadataControl Items="{Binding ScenarioItems}" Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="TAG:" />
+                                    <TextBlock x:Uid="Games_GameInfo_TAG" />
                                     <mcontrols:MetadataControl Items="{Binding TagItems}" Separator=" • " />
                                 </StackPanel>
                             </StackPanel>
@@ -238,8 +237,8 @@
                                 </ComboBox>
                                 <SplitButton
                                     x:Name="splitbtn_play"
-                                    Click="splitbtn_play_Click"
-                                    Content="Play">
+                                    x:Uid="Games_GameInfo_Play"
+                                    Click="splitbtn_play_Click">
                                     <SplitButton.Flyout>
                                         <Flyout Placement="Bottom">
                                             <mcontrols:WrapPanel

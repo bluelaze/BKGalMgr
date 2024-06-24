@@ -58,9 +58,9 @@
             ToolTipText="BKGalMgr">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Command="{x:Bind ShowCommand}" Text="Show" />
+                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Show" Command="{x:Bind ShowCommand}" />
                     <MenuFlyoutSeparator />
-                    <MenuFlyoutItem Command="{x:Bind ExitCommand}" Text="Exit" />
+                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Exit" Command="{x:Bind ExitCommand}" />
                 </MenuFlyout>
             </tb:TaskbarIcon.ContextFlyout>
         </tb:TaskbarIcon>

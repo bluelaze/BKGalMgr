@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
@@ -47,9 +48,9 @@ public sealed partial class ManagePage : Page
         {
             // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             XamlRoot = this.XamlRoot,
-            Title = "Add new repository",
-            PrimaryButtonText = "Add",
-            CloseButtonText = "Cancel",
+            Title = LanguageHelper.GetString("Dlg_Repository_New"),
+            PrimaryButtonText = LanguageHelper.GetString("Dlg_Add"),
+            CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
             DefaultButton = ContentDialogButton.Primary,
             Content = new RepositoryInfoControl() { Width = 720, DataContext = newRepository },
             RequestedTheme = App.MainWindow.RequestedTheme(),
@@ -94,9 +95,9 @@ public sealed partial class ManagePage : Page
         {
             // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             XamlRoot = this.XamlRoot,
-            Title = "Edit repository",
-            PrimaryButtonText = "Confirm",
-            CloseButtonText = "Cancel",
+            Title = LanguageHelper.GetString("Dlg_Repository_Edit"),
+            PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
+            CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
             DefaultButton = ContentDialogButton.Primary,
             Content = new RepositoryInfoControl()
             {
@@ -127,9 +128,9 @@ public sealed partial class ManagePage : Page
             {
                 // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
-                Title = "Edit source",
-                PrimaryButtonText = "Confirm",
-                CloseButtonText = "Cancel",
+                Title = LanguageHelper.GetString("Dlg_Source_Edit"),
+                PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
+                CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
                 DefaultButton = ContentDialogButton.Primary,
                 Content = sourceInfoControl,
                 RequestedTheme = App.MainWindow.RequestedTheme(),
@@ -163,9 +164,9 @@ public sealed partial class ManagePage : Page
             {
                 // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
-                Title = "Edit localization",
-                PrimaryButtonText = "Confirm",
-                CloseButtonText = "Cancel",
+                Title = LanguageHelper.GetString("Dlg_Localization_Edit"),
+                PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
+                CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
                 DefaultButton = ContentDialogButton.Primary,
                 Content = localizationInfoControl,
                 RequestedTheme = App.MainWindow.RequestedTheme(),
@@ -199,9 +200,9 @@ public sealed partial class ManagePage : Page
             {
                 // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
-                Title = "Edit target",
-                PrimaryButtonText = "Confirm",
-                CloseButtonText = "Cancel",
+                Title = LanguageHelper.GetString("Dlg_Target_Edit"),
+                PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
+                CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
                 DefaultButton = ContentDialogButton.Primary,
                 Content = targetInfoControl,
                 RequestedTheme = App.MainWindow.RequestedTheme(),
@@ -346,7 +347,7 @@ public sealed partial class ManagePage : Page
                     targetInfo.SeletedSource();
 
                 if (!targetInfo.IsValid())
-                    App.ShowDialogError("Invalid Source or Localization");
+                    App.ShowDialogError(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
                 else
                     await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }
@@ -359,10 +360,7 @@ public sealed partial class ManagePage : Page
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
 
-        if (
-            targetInfo.IsArchive
-            && !await App.ShowDialogConfirm("Target is archive, will copy archive file to export, confirm to copy?")
-        )
+        if (targetInfo.IsArchive && !await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Archive_Copy")))
             return;
 
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
@@ -376,7 +374,7 @@ public sealed partial class ManagePage : Page
 
     private async void button_delete_game_Click(object sender, RoutedEventArgs e)
     {
-        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
             App.ShowLoading();
             await ViewModel.DeleteGame(ViewModel.SelectedRepository.SelectedGame);
@@ -387,7 +385,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_delete_source_Click(object sender, RoutedEventArgs e)
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
-        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
             App.ShowLoading();
             await ViewModel.DeleteSource(sourceInfo);
@@ -398,7 +396,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_delete_localization_Click(object sender, RoutedEventArgs e)
     {
         LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
-        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
             App.ShowLoading();
             await ViewModel.DeleteLocalization(localizationInfo);
@@ -409,7 +407,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_delete_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        if (await App.ShowDialogConfirm("Unable to restore, confirm to delete?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
             App.ShowLoading();
             await ViewModel.DeleteTarget(targetInfo);
@@ -420,7 +418,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_archive_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        if (await App.ShowDialogConfirm($"Archive will {App.ZipLevel()} level to zip files, maybe take long time."))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Archive").Format(App.ZipLevel())))
         {
             App.ShowLoading();
             await targetInfo.Archive();
@@ -432,7 +430,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_dearchive_target_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        if (await App.ShowDialogConfirm("DeArchive will overwrite exist target, confirm to dearchive?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_DeArchive")))
         {
             App.ShowLoading();
             await targetInfo.DeArchive();
@@ -444,7 +442,7 @@ public sealed partial class ManagePage : Page
     private async void menuflyoutitem_delete_target_folder_only_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        if (await App.ShowDialogConfirm("Delete target folder only after archive, confirm to delete?"))
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Delete_Folder_Only")))
         {
             App.ShowLoading();
             targetInfo.CheckArchiveStatus();

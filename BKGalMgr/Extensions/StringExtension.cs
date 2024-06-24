@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,6 +14,11 @@ public static class StringExtensions
     public static bool IsNullOrEmpty(this string value)
     {
         return string.IsNullOrEmpty(value);
+    }
+
+    public static string Format(this string format, params object?[] args)
+    {
+        return string.Format(format, args);
     }
 
     public static string MD5(this string value)
