@@ -94,13 +94,21 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="GameInfo_Tag" Style="{StaticResource HeaderTextBlockStyle}" />
+                <TextBlock x:Uid="GameInfo_Character" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
+                    x:Name="tokentextbox_characters"
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
-                    ItemsSource="{Binding Tag, Mode=TwoWay}"
+                    ItemsSource="{Binding Characters, Mode=TwoWay}"
                     Loaded="TokenizingTextBox_Loaded"
-                    TokenDelimiter="," />
+                    TokenDelimiter=","
+                    TokenItemAdding="tokentextbox_characters_TokenItemAdding">
+                    <mcontrols:TokenizingTextBox.TokenItemTemplate>
+                        <DataTemplate x:DataType="vm:CharacterInfo">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </mcontrols:TokenizingTextBox.TokenItemTemplate>
+                </mcontrols:TokenizingTextBox>
             </Grid>
 
             <Grid>
@@ -151,20 +159,6 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="GameInfo_CV" Style="{StaticResource HeaderTextBlockStyle}" />
-                <mcontrols:TokenizingTextBox
-                    x:Uid="Commom_TokenizingTextBox"
-                    Grid.Column="1"
-                    ItemsSource="{Binding Cv, Mode=TwoWay}"
-                    Loaded="TokenizingTextBox_Loaded"
-                    TokenDelimiter="," />
-            </Grid>
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="GameInfo_Musician" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
                     x:Uid="Commom_TokenizingTextBox"
@@ -184,6 +178,34 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Singer, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
+                    TokenDelimiter="," />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="GameInfo_CV" Style="{StaticResource HeaderTextBlockStyle}" />
+                <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
+                    Grid.Column="1"
+                    ItemsSource="{Binding Cv, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
+                    TokenDelimiter="," />
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="GameInfo_Tag" Style="{StaticResource HeaderTextBlockStyle}" />
+                <mcontrols:TokenizingTextBox
+                    x:Uid="Commom_TokenizingTextBox"
+                    Grid.Column="1"
+                    ItemsSource="{Binding Tag, Mode=TwoWay}"
                     Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>

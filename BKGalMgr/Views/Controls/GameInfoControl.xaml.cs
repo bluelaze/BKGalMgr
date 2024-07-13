@@ -37,4 +37,12 @@ public sealed partial class GameInfoControl : UserControl
             queryButton.Width = 0;
         }
     }
+
+    private void tokentextbox_characters_TokenItemAdding(
+        CommunityToolkit.WinUI.Controls.TokenizingTextBox sender,
+        CommunityToolkit.WinUI.Controls.TokenItemAddingEventArgs args
+    )
+    {
+        args.Item = new CharacterInfo() { Name = args.TokenText };
+    }
 }

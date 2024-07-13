@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -251,6 +251,9 @@
   </data>
   <data name="GameInfo_Singer.Text" xml:space="preserve">
     <value>歌手</value>
+  </data>
+  <data name="GameInfo_Character.Text" xml:space="preserve">
+    <value>角色</value>
   </data>
   <data name="GameInfo_STORY.Text" xml:space="preserve">
     <value>故事</value>

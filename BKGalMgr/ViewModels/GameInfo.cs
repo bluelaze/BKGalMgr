@@ -73,6 +73,9 @@ public partial class GameInfo : ObservableObject
     private ObservableCollection<string> _singer = new();
 
     [ObservableProperty]
+    private ObservableCollection<CharacterInfo> _characters = new();
+
+    [ObservableProperty]
     private ObservableCollection<string> _tag = new();
 
     partial void OnTagChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
