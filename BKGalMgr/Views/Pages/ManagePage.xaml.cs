@@ -46,7 +46,6 @@ public sealed partial class ManagePage : Page
         RepositoryInfo newRepository = new();
         ContentDialog dialog = new ContentDialog()
         {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             XamlRoot = this.XamlRoot,
             Title = LanguageHelper.GetString("Dlg_Repository_New"),
             PrimaryButtonText = LanguageHelper.GetString("Dlg_Add"),
@@ -93,7 +92,6 @@ public sealed partial class ManagePage : Page
         RepositoryInfo editRepository = ViewModel.SelectedRepository;
         ContentDialog dialog = new ContentDialog()
         {
-            // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
             XamlRoot = this.XamlRoot,
             Title = LanguageHelper.GetString("Dlg_Repository_Edit"),
             PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
@@ -126,7 +124,6 @@ public sealed partial class ManagePage : Page
         ContentDialog dialog =
             new()
             {
-                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
                 Title = LanguageHelper.GetString("Dlg_Source_Edit"),
                 PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
@@ -162,7 +159,6 @@ public sealed partial class ManagePage : Page
         ContentDialog dialog =
             new()
             {
-                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
                 Title = LanguageHelper.GetString("Dlg_Localization_Edit"),
                 PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
@@ -171,7 +167,6 @@ public sealed partial class ManagePage : Page
                 Content = localizationInfoControl,
                 RequestedTheme = App.MainWindow.RequestedTheme(),
             };
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
         {
@@ -198,7 +193,6 @@ public sealed partial class ManagePage : Page
         ContentDialog dialog =
             new()
             {
-                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
                 XamlRoot = this.XamlRoot,
                 Title = LanguageHelper.GetString("Dlg_Target_Edit"),
                 PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
@@ -207,7 +201,6 @@ public sealed partial class ManagePage : Page
                 Content = targetInfoControl,
                 RequestedTheme = App.MainWindow.RequestedTheme(),
             };
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
         {

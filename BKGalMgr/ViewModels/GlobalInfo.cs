@@ -43,6 +43,9 @@ public static class GlobalInfo
 
     public const string RepositoryJsonName = "repositoryinfo.json";
 
+    public const string GroupItemCase_Group = "Group";
+    public const string GroupItemCase_Add = "PlaceholderForAdd";
+
     public const string GameJsonName = "gameinfo.json";
 
     public const string GameCoverName = "cover";

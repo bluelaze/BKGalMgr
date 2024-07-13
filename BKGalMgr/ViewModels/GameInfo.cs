@@ -52,15 +52,19 @@ public partial class GameInfo : ObservableObject
     private DateTime _publishDate;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ArtistItems))]
     private ObservableCollection<string> _artist = new();
+
+    partial void OnArtistChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _cv = new();
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(ScenarioItems))]
     private ObservableCollection<string> _scenario = new();
+
+    partial void OnScenarioChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _musician = new();
@@ -69,8 +73,16 @@ public partial class GameInfo : ObservableObject
     private ObservableCollection<string> _singer = new();
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(TagItems))]
     private ObservableCollection<string> _tag = new();
+
+    partial void OnTagChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
+
+    [ObservableProperty]
+    private ObservableCollection<string> _group = new();
+
+    partial void OnGroupChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private string _website;
@@ -88,6 +100,10 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     [property: JsonIgnore]
     private bool _isPlaying = false;
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private RepositoryInfo _repository;
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -109,7 +125,7 @@ public partial class GameInfo : ObservableObject
         get { return _selectedTarget; }
         set
         {
-            if (value == null && Targets.Count() > 0)
+            if (value == null && Targets.Any())
                 return;
 
             if (SetProperty(ref _selectedTarget, value))
@@ -122,50 +138,18 @@ public partial class GameInfo : ObservableObject
     public DateTime SeletedTargetCreateDate { get; set; }
 
     [property: JsonIgnore]
-    public ObservableCollection<MetadataItem> ArtistItems =>
-        new(Artist.Select(art => new MetadataItem() { Label = art }));
-
-    [property: JsonIgnore]
-    public ObservableCollection<MetadataItem> ScenarioItems =>
-        new(Scenario.Select(scenario => new MetadataItem() { Label = scenario }));
-
-    [property: JsonIgnore]
-    public ObservableCollection<MetadataItem> TagItems => new(Tag.Select(tag => new MetadataItem() { Label = tag }));
-
-    [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
     [property: JsonIgnore]
     public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
 
-    public GameInfo() { }
-
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    public GameInfo()
     {
-        base.OnPropertyChanged(e);
-        if (e.PropertyName != nameof(IsPropertyChanged) && !IsPlaying)
-            IsPropertyChanged = true;
-    }
-
-    public bool IsValid
-    {
-        get { return !Name.IsNullOrEmpty(); }
-    }
-
-    public void SetRepositoryPath(string dirPath)
-    {
-        JsonPath = Path.Combine(dirPath, CreateDate.ToString(GlobalInfo.FolderFormatStr), GlobalInfo.GameJsonName);
-    }
-
-    public List<string> GetAllTags()
-    {
-        List<string> tags = [Name, Company];
-        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(Singer).Union(tags).ToList();
-        tags = tags.Union(Sources.Select(item => item.Name))
-            .Union(Localizations.Select(item => item.Name))
-            .Union(Targets.Select(item => item.Name))
-            .ToList();
-        return tags;
+        // notify for MetadataControl
+        Artist.CollectionChanged += CollectionChanged;
+        Scenario.CollectionChanged += CollectionChanged;
+        Tag.CollectionChanged += CollectionChanged;
+        Group.CollectionChanged += CollectionChanged;
     }
 
     public static GameInfo Open(string dirPath)
@@ -220,6 +204,87 @@ public partial class GameInfo : ObservableObject
         gameInfo.LoadCover();
         gameInfo.IsPropertyChanged = false;
         return gameInfo;
+    }
+
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.PropertyName != nameof(IsPropertyChanged) && !IsPlaying)
+            IsPropertyChanged = true;
+    }
+
+    private void OnCollectionChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue)
+    {
+        if (oldValue != null)
+            oldValue.CollectionChanged -= CollectionChanged;
+        if (newValue != null)
+            newValue.CollectionChanged += CollectionChanged;
+    }
+
+    private void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        // notify for MetadataControl
+        if (sender == Artist)
+            OnPropertyChanged(nameof(Artist));
+        else if (sender == Scenario)
+            OnPropertyChanged(nameof(Scenario));
+        else if (sender == Tag)
+            OnPropertyChanged(nameof(Tag));
+        else if (sender == Group)
+            OnPropertyChanged(nameof(Group));
+
+        SaveJsonFile();
+    }
+
+    public bool IsValid
+    {
+        get { return !Name.IsNullOrEmpty(); }
+    }
+
+    public void SetRepository(RepositoryInfo repository)
+    {
+        Repository = repository;
+        if (JsonPath.IsNullOrEmpty())
+            JsonPath = Path.Combine(
+                repository.FolderPath,
+                CreateDate.ToString(GlobalInfo.FolderFormatStr),
+                GlobalInfo.GameJsonName
+            );
+    }
+
+    public List<string> GetAllTags()
+    {
+        List<string> tags = [Name, Company];
+        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(Singer).Union(tags).ToList();
+        tags = tags.Union(Sources.Select(item => item.Name))
+            .Union(Localizations.Select(item => item.Name))
+            .Union(Targets.Select(item => item.Name))
+            .ToList();
+        return tags;
+    }
+
+    public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
+    {
+        switch (type)
+        {
+            case GroupChangedType.Add:
+                OnPropertyChanged(nameof(Group));
+                break;
+            case GroupChangedType.Remove:
+                Group.Remove(oldGroup.Name);
+                break;
+            case GroupChangedType.Edit:
+                var index = Group.IndexOf(oldGroup?.Name);
+                if (index == -1)
+                {
+                    OnPropertyChanged(nameof(Group));
+                    break;
+                }
+                Group.Insert(index, newGroup.Name);
+                Group.Remove(oldGroup.Name);
+                break;
+        }
+        SaveJsonFile();
     }
 
     public SourceInfo NewSource()

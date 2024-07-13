@@ -17,6 +17,7 @@
     <ItemGroup>
         <None Remove="Views\Controls\GameInfoControl.xaml" />
         <None Remove="Views\Controls\ContributorInfoControl.xaml" />
+        <None Remove="Views\Controls\GroupInfoControl.xaml" />
         <None Remove="Views\Controls\HeaderedTextBox.xaml" />
         <None Remove="Views\Controls\LocalizationInfoControl.xaml" />
         <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
@@ -116,4 +117,10 @@
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
     </PropertyGroup>
+    <ItemGroup>
+      <CustomAdditionalCompileInputs Remove="Views\Controls\GroupInfoControl.xaml" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Remove="Views\Controls\GroupInfoControl.xaml" />
+    </ItemGroup>
 </Project>

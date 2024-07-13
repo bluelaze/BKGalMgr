@@ -168,6 +168,9 @@
   <data name="Dlg_Target_Edit" xml:space="preserve">
     <value>编辑本</value>
   </data>
+  <data name="Dlg_Group_Edit" xml:space="preserve">
+    <value>编辑分组</value>
+  </data>
   <data name="Commom_TokenizingTextBox.PlaceholderText" xml:space="preserve">
     <value>英文 "," 以拆分</value>
   </data>
@@ -327,6 +330,9 @@
   <data name="TargetInfo_Localization.Header" xml:space="preserve">
     <value>本地化</value>
   </data>
+  <data name="Group_Name.Header" xml:space="preserve">
+    <value>名称</value>
+  </data>
   <data name="Main_Nav_Games.Content" xml:space="preserve">
     <value>库</value>
   </data>
@@ -338,6 +344,9 @@
   </data>
   <data name="Games_Repository.Header" xml:space="preserve">
     <value>仓库</value>
+  </data>
+  <data name="Games_Group.Content" xml:space="preserve">
+    <value>分组</value>
   </data>
   <data name="Games_GameInfo_Company.Text" xml:space="preserve">
     <value>制作社:</value>
@@ -353,6 +362,9 @@
   </data>
   <data name="Games_GameInfo_TAG.Text" xml:space="preserve">
     <value>标签:</value>
+  </data>
+  <data name="Games_GameInfo_Group.Text" xml:space="preserve">
+    <value>分组:</value>
   </data>
   <data name="Games_GameInfo_Play.Content" xml:space="preserve">
     <value>启动</value>

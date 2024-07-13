@@ -29,12 +29,6 @@ public partial class GamesManagePageViewModel : ObservableObject
         get { return SelectedRepository != null; }
     }
 
-    [ObservableProperty]
-    private GameInfo _game = new();
-
-    [ObservableProperty]
-    private SourceInfo _source = new();
-
     private readonly SettingsDto _settings;
 
     public GamesManagePageViewModel()

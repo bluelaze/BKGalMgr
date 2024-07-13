@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
+using BKGalMgr.Views.Controls;
 using H.NotifyIcon;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -162,5 +163,75 @@ public sealed partial class GamesPage : Page
                 },
                 TaskScheduler.FromCurrentSynchronizationContext()
             );
+    }
+
+    private void ToggleButton_Group_IsCheckedChanged(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.IsEnableGroup)
+        {
+            // delay to IsChecked TwoWay binding valid
+            Task.Delay(33)
+                .ContinueWith(
+                    _ => ViewModel.SelectedRepository.GamesViewRefreshFilter(),
+                    TaskScheduler.FromCurrentSynchronizationContext()
+                );
+        }
+    }
+
+    private async Task<ContentDialogResult> EditGroupInfo(GroupInfo groupInfo)
+    {
+        GroupInfoControl groupInfoControl = new() { Width = 720, DataContext = groupInfo };
+        ContentDialog dialog =
+            new()
+            {
+                XamlRoot = this.XamlRoot,
+                Title = LanguageHelper.GetString("Dlg_Group_Edit"),
+                PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
+                CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
+                DefaultButton = ContentDialogButton.Primary,
+                Content = groupInfoControl,
+                RequestedTheme = App.MainWindow.RequestedTheme(),
+            };
+        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = groupInfo.Name.IsNullOrEmpty();
+        };
+
+        return await dialog.ShowAsync();
+    }
+
+    private async void btn_add_group_Click(object sender, RoutedEventArgs e)
+    {
+        App.ShowLoading();
+        GroupInfo groupInfo = new();
+        var result = await EditGroupInfo(groupInfo);
+        if (result == ContentDialogResult.Primary && !groupInfo.Name.IsNullOrEmpty())
+        {
+            ViewModel.SelectedRepository.GroupChanged(null, groupInfo, GroupChangedType.Add);
+        }
+        App.HideLoading();
+    }
+
+    private async void menuflyoutitem_edit_group_Click(object sender, RoutedEventArgs e)
+    {
+        GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
+        GroupInfo newGroupInfo = JsonMisc.Deserialize<GroupInfo>(JsonMisc.Serialize(groupInfo));
+        var result = await EditGroupInfo(newGroupInfo);
+        if (result == ContentDialogResult.Primary)
+        {
+            ViewModel.SelectedRepository.GroupChanged(groupInfo, newGroupInfo, GroupChangedType.Edit);
+        }
+    }
+
+    private async void menuflyoutitem_delete_group_Click(object sender, RoutedEventArgs e)
+    {
+        GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
+        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
+        {
+            App.ShowLoading();
+            ViewModel.SelectedRepository.GroupChanged(groupInfo, null, GroupChangedType.Remove);
+            App.HideLoading();
+        }
     }
 }
