@@ -19,6 +19,13 @@ namespace BKGalMgr.ViewModels;
 
 public record PlayedPeriod(DateTime benginTime, DateTime endTime);
 
+public enum PlayStatus
+{
+    Stop,
+    Playing,
+    Pause
+}
+
 [Serializable]
 public partial class GameInfo : ObservableObject
 {
@@ -102,7 +109,7 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
-    private bool _isPlaying = false;
+    private PlayStatus _playStatus = PlayStatus.Stop;
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -212,7 +219,7 @@ public partial class GameInfo : ObservableObject
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName != nameof(IsPropertyChanged) && !IsPlaying)
+        if (e.PropertyName != nameof(IsPropertyChanged) && PlayStatus == PlayStatus.Stop)
             IsPropertyChanged = true;
     }
 

@@ -24,6 +24,7 @@
         <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <converters:IEnumerableToMetadataItemsConverter x:Key="IEnumerableToMetadataItemsConverter" />
         <converters:GroupItemSwitchConverter x:Key="GroupItemSwitchConverter" />
+        <converters:ObjectToVisibilityConverter x:Key="PlayStatusToVisibilityConverter" To="Playing" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -308,7 +309,7 @@
                                                         Margin="0"
                                                         Padding="0"
                                                         Click="btn_capture_hotkey_Click"
-                                                        IsEnabled="{Binding IsPlaying}"
+                                                        IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToVisibilityConverter}}"
                                                         Visibility="{Binding EnableScreenCapture}">
                                                         <SelectorBarItem
                                                             Padding="0"
@@ -320,10 +321,19 @@
                                                         <VisualStateGroup>
                                                             <VisualState x:Name="PlayingState">
                                                                 <VisualState.StateTriggers>
-                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsPlaying}" To="True" />
+                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
                                                                 </VisualState.StateTriggers>
                                                                 <VisualState.Setters>
                                                                     <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                </VisualState.Setters>
+                                                            </VisualState>
+                                                            <VisualState x:Name="PauseState">
+                                                                <VisualState.StateTriggers>
+                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                                </VisualState.StateTriggers>
+                                                                <VisualState.Setters>
+                                                                    <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                                    <Setter Target="item_playedtime.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="ArchiveState">
@@ -366,10 +376,20 @@
                                 <VisualStateGroup>
                                     <VisualState x:Name="PlayingState">
                                         <VisualState.StateTriggers>
-                                            <mtriggers:IsEqualStateTrigger Value="{Binding IsPlaying}" To="True" />
+                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                            <Setter x:Uid="Games_GameInfo_Playing" Target="splitbtn_play.Content" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PauseState">
+                                        <VisualState.StateTriggers>
+                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                            <Setter x:Uid="Games_GameInfo_Pause" Target="splitbtn_play.Content" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>

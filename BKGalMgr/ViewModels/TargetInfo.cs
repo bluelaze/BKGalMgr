@@ -44,7 +44,7 @@ public partial class TargetInfo : ObservableObject
 
     partial void OnEnableScreenCaptureChanged(bool value)
     {
-        if (IsPlaying)
+        if (PlayStatus == PlayStatus.Playing)
         {
             ScreenCaptureActive(value);
         }
@@ -65,13 +65,13 @@ public partial class TargetInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
-    private bool _isPlaying = false;
+    private PlayStatus _playStatus = PlayStatus.Stop;
 
-    partial void OnIsPlayingChanged(bool value)
+    partial void OnPlayStatusChanged(PlayStatus value)
     {
         if (EnableScreenCapture)
         {
-            ScreenCaptureActive(value);
+            ScreenCaptureActive(value == PlayStatus.Playing);
         }
     }
 

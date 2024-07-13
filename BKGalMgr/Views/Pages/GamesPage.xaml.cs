@@ -63,6 +63,19 @@ public sealed partial class GamesPage : Page
         var targetInfo = gameInfo.SelectedTarget;
         if (targetInfo != null)
         {
+            if (gameInfo.PlayStatus == PlayStatus.Playing)
+            {
+                gameInfo.PlayStatus = PlayStatus.Pause;
+                targetInfo.PlayStatus = PlayStatus.Pause;
+                return;
+            }
+            else if (gameInfo.PlayStatus == PlayStatus.Pause)
+            {
+                gameInfo.PlayStatus = PlayStatus.Playing;
+                targetInfo.PlayStatus = PlayStatus.Playing;
+                return;
+            }
+
             if (!File.Exists(targetInfo.TargetExePath))
             {
                 if (
@@ -112,6 +125,9 @@ public sealed partial class GamesPage : Page
 
                 var savePlayedTime = () =>
                 {
+                    if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
+                        return;
+
                     var timeCost = TimeSpan.FromSeconds(1);
 
                     targetInfo.PlayedTime += timeCost;
@@ -124,8 +140,8 @@ public sealed partial class GamesPage : Page
                 // update game here, but need in open target?
                 targetInfo.Game = gameInfo;
 
-                gameInfo.IsPlaying = true;
-                targetInfo.IsPlaying = true;
+                gameInfo.PlayStatus = PlayStatus.Playing;
+                targetInfo.PlayStatus = PlayStatus.Playing;
 
                 var timer = Observable
                     .Interval(TimeSpan.FromSeconds(1))
@@ -141,8 +157,8 @@ public sealed partial class GamesPage : Page
 
                 timer.Dispose();
 
-                gameInfo.IsPlaying = false;
-                targetInfo.IsPlaying = false;
+                gameInfo.PlayStatus = PlayStatus.Stop;
+                targetInfo.PlayStatus = PlayStatus.Stop;
 
                 gameInfo.PlayedPeriods.Insert(0, new(gameInfo.LastPlayDate, DateTime.Now));
                 gameInfo.SaveJsonFile();
