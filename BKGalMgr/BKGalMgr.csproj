@@ -13,6 +13,7 @@
         <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
+        <NoWarn>NU1701;NU1702;</NoWarn>
     </PropertyGroup>
     <ItemGroup>
         <None Remove="Views\Controls\GameInfoControl.xaml" />

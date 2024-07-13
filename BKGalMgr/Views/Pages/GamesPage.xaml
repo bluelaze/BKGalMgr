@@ -91,7 +91,7 @@
                                     <DataTemplate x:DataType="vm:GroupInfo">
                                         <!--  use Binding will bind error, maybe because of the Converter  -->
                                         <mcontrols:SwitchPresenter Value="{x:Bind Name, Converter={StaticResource GroupItemSwitchConverter}, Mode=OneWay}">
-                                            <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Group, Mode=OneWay}">
+                                            <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Group}">
                                                 <ToggleButton
                                                     Checked="ToggleButton_Group_IsCheckedChanged"
                                                     Content="{x:Bind Name, Mode=OneWay}"
@@ -121,7 +121,7 @@
                                                     </ToggleButton.ContextFlyout>
                                                 </ToggleButton>
                                             </mcontrols:Case>
-                                            <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Add, Mode=OneWay}">
+                                            <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Add}">
                                                 <Button
                                                     x:Name="btn_add_group"
                                                     Padding="6"

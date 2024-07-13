@@ -7,6 +7,7 @@
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+        <NoWarn>NU1701;NU1702;</NoWarn>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />

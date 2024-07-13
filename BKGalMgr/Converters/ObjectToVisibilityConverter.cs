@@ -47,7 +47,7 @@ public class ObjectToVisibilityConverter : DependencyObject, IValueConverter
         throw new NotSupportedException();
     }
 
-    private static bool ConvertTypeEquals(object? value1, object value2)
+    private static bool ConvertTypeEquals(object value1, object value2)
     {
         // Let's see if we can convert:
         if (value2 is Enum)
@@ -62,7 +62,7 @@ public class ObjectToVisibilityConverter : DependencyObject, IValueConverter
         return value2.Equals(value1);
     }
 
-    private static object? ConvertToEnum(Type enumType, object? value)
+    private static object ConvertToEnum(Type enumType, object value)
     {
         // value cannot be the same type of enum now
         return value switch
