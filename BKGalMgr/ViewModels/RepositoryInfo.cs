@@ -128,10 +128,9 @@ public partial class RepositoryInfo : ObservableObject
         var dirs = Directory.GetDirectories(folderPath);
         foreach (var dir in dirs)
         {
-            var game = GameInfo.Open(dir);
+            var game = GameInfo.Open(dir, repositoryInfo);
             if (game != null)
             {
-                game.SetRepository(repositoryInfo);
                 repositoryInfo.Games.Add(game);
                 if (game.CreateDate == repositoryInfo.SeletedGameCreateDate)
                     repositoryInfo.SelectedGame = game;

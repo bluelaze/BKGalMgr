@@ -67,6 +67,9 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     private ObservableCollection<string> _cv = new();
 
+    partial void OnCvChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
+
     [ObservableProperty]
     private ObservableCollection<string> _scenario = new();
 
@@ -76,11 +79,22 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     private ObservableCollection<string> _musician = new();
 
+    partial void OnMusicianChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
+
     [ObservableProperty]
     private ObservableCollection<string> _singer = new();
 
+    partial void OnSingerChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
+        OnCollectionChanged(oldValue, newValue);
+
     [ObservableProperty]
     private ObservableCollection<CharacterInfo> _characters = new();
+
+    partial void OnCharactersChanged(
+        ObservableCollection<CharacterInfo> oldValue,
+        ObservableCollection<CharacterInfo> newValue
+    ) => OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _tag = new();
@@ -162,7 +176,7 @@ public partial class GameInfo : ObservableObject
         Group.CollectionChanged += CollectionChanged;
     }
 
-    public static GameInfo Open(string dirPath)
+    public static GameInfo Open(string dirPath, RepositoryInfo repo)
     {
         var path = Path.Combine(dirPath, GlobalInfo.GameJsonName);
         if (!File.Exists(path))
@@ -212,6 +226,7 @@ public partial class GameInfo : ObservableObject
         }
 
         gameInfo.LoadCover();
+        gameInfo.Repository = repo;
         gameInfo.IsPropertyChanged = false;
         return gameInfo;
     }
@@ -223,7 +238,7 @@ public partial class GameInfo : ObservableObject
             IsPropertyChanged = true;
     }
 
-    private void OnCollectionChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue)
+    private void OnCollectionChanged<T>(ObservableCollection<T> oldValue, ObservableCollection<T> newValue)
     {
         if (oldValue != null)
             oldValue.CollectionChanged -= CollectionChanged;
