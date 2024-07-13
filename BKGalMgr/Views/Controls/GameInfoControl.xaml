@@ -8,7 +8,6 @@
     xmlns:local="using:BKGalMgr.Views.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
-    xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     d:DataContext="{d:DesignInstance vm:GameInfo,
                                      IsDesignTimeCreatable=False}"
@@ -72,6 +71,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Artist, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 
@@ -85,6 +85,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Scenario, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 
@@ -98,6 +99,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Tag, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 
@@ -154,6 +156,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Cv, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 
@@ -167,6 +170,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Musician, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 
@@ -180,6 +184,7 @@
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Singer, Mode=TwoWay}"
+                    Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter="," />
             </Grid>
 

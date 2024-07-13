@@ -26,4 +26,15 @@ public sealed partial class GameInfoControl : UserControl
     {
         this.InitializeComponent();
     }
+
+    private void TokenizingTextBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        var ele = sender as FrameworkElement;
+        if (ele?.FindDescendant("QueryButton") is Button queryButton)
+        {
+            //queryButton.Visibility = Visibility.Collapsed;
+            queryButton.Opacity = 0;
+            queryButton.Width = 0;
+        }
+    }
 }
