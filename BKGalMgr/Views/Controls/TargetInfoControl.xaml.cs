@@ -32,7 +32,7 @@ public sealed partial class TargetInfoControl : UserControl
         return target != null && target.IsValid();
     }
 
-    private void listview_sources_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void sources_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var target = this.DataContext as TargetInfo;
         if (target.Source != null)
@@ -41,7 +41,7 @@ public sealed partial class TargetInfoControl : UserControl
         }
     }
 
-    private void listview_localization_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void localization_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var target = this.DataContext as TargetInfo;
         if (target.Localization != null)

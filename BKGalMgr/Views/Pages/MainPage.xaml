@@ -11,19 +11,19 @@
 
     <Grid>
         <NavigationView
-            x:Name="navigationview_root"
+            x:Name="root_navigationview"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="True"
-            SelectionChanged="navigationview_root_SelectionChanged">
+            SelectionChanged="root_navigationview_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    x:Name="navitem_games"
+                    x:Name="games_navitem"
                     x:Uid="Main_Nav_Games"
                     Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
                 <NavigationViewItem
-                    x:Name="navitem_manage"
+                    x:Name="manage_navitem"
                     x:Uid="Main_Nav_Manage"
                     Icon="{mui:FontIcon Glyph=&#xE70F;}" />
             </NavigationView.MenuItems>
@@ -31,19 +31,19 @@
             <NavigationView.FooterMenuItems>
                 <NavigationViewItemSeparator />
                 <NavigationViewItem
-                    x:Name="navitem_settings"
+                    x:Name="settings_navitem"
                     x:Uid="Main_Nav_Settings"
                     Icon="{mui:FontIcon Glyph=&#xE713;}" />
             </NavigationView.FooterMenuItems>
 
             <Frame
-                x:Name="frame_root"
-                Navigated="frame_root_Navigated"
-                Navigating="frame_root_Navigating" />
+                x:Name="root_frame"
+                Navigated="root_frame_Navigated"
+                Navigating="root_frame_Navigating" />
 
         </NavigationView>
         <TextBlock
-            x:Name="textblock_love_and_peace"
+            x:Name="love_and_peace_textblock"
             Margin="0,-48,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

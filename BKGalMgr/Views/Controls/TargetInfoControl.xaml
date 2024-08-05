@@ -24,7 +24,7 @@
             CanEmpty="False"
             Text="{Binding Name, Mode=TwoWay}" />
         <local:HeaderedTextBox
-            x:Name="headeredtextbox_pick_startup_name"
+            x:Name="pick_startup_name_headeredtextbox"
             x:Uid="TargetInfo_StartupName"
             CanEmpty="False"
             Text="{Binding StartupName, Mode=TwoWay}" />
@@ -60,11 +60,11 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <ListView
-                x:Name="listview_sources"
+                x:Name="sources_listview"
                 x:Uid="TargetInfo_Sources"
                 ItemsSource="{Binding Game.Sources, Mode=OneWay}"
                 SelectedItem="{Binding Source, Mode=TwoWay}"
-                SelectionChanged="listview_sources_SelectionChanged">
+                SelectionChanged="sources_listview_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
@@ -79,12 +79,12 @@
                 </ListView.ItemTemplate>
             </ListView>
             <ListView
-                x:Name="listview_localization"
+                x:Name="localization_listview"
                 x:Uid="TargetInfo_Localization"
                 Grid.Column="1"
                 ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
                 SelectedItem="{Binding Localization, Mode=TwoWay}"
-                SelectionChanged="listview_localization_SelectionChanged">
+                SelectionChanged="localization_listview_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:LocalizationInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">

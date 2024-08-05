@@ -57,7 +57,7 @@
             </StackPanel>
 
             <mcontrols:TokenizingTextBox
-                x:Name="tokenizingtextbox_search"
+                x:Name="search_tokenizingtextbox"
                 Grid.Column="1"
                 MaxWidth="360"
                 Margin="0,26,0,0"
@@ -93,23 +93,24 @@
                                         <mcontrols:SwitchPresenter Value="{x:Bind Name, Converter={StaticResource GroupItemSwitchConverter}, Mode=OneWay}">
                                             <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Group}">
                                                 <ToggleButton
-                                                    Checked="ToggleButton_Group_IsCheckedChanged"
+                                                    x:Name="group_togglebutton"
+                                                    Checked="group_togglebutton_IsCheckedChanged"
                                                     Content="{x:Bind Name, Mode=OneWay}"
                                                     FontSize="12"
                                                     IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
-                                                    Unchecked="ToggleButton_Group_IsCheckedChanged">
+                                                    Unchecked="group_togglebutton_IsCheckedChanged">
                                                     <ToggleButton.ContextFlyout>
                                                         <MenuFlyout>
                                                             <MenuFlyoutItem
-                                                                Name="menuflyoutitem_edit_group"
+                                                                x:Name="edit_group_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Edit"
-                                                                Click="menuflyoutitem_edit_group_Click"
+                                                                Click="edit_group_menuflyoutitem_Click"
                                                                 DataContext="{x:Bind}" />
                                                             <MenuFlyoutSeparator />
                                                             <MenuFlyoutItem
-                                                                Name="menuflyoutitem_delete_group"
+                                                                x:Name="delete_group_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Delete"
-                                                                Click="menuflyoutitem_delete_group_Click"
+                                                                Click="delete_group_menuflyoutitem_Click"
                                                                 DataContext="{x:Bind}">
                                                                 <MenuFlyoutItem.Resources>
                                                                     <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
@@ -123,10 +124,10 @@
                                             </mcontrols:Case>
                                             <mcontrols:Case Value="{x:Bind vm:GlobalInfo.GroupItemCase_Add}">
                                                 <Button
-                                                    x:Name="btn_add_group"
+                                                    x:Name="add_group_button"
                                                     Padding="6"
                                                     BorderBrush="{x:Null}"
-                                                    Click="btn_add_group_Click"
+                                                    Click="add_group_button_Click"
                                                     Content="{mui:FontIcon FontSize=16,
                                                                            Glyph=&#xE948;}" />
                                             </mcontrols:Case>
@@ -163,7 +164,7 @@
                                 <MenuFlyoutItem Command="{Binding OpenJsonFolderCommand}" Text="Open Folder" />
                             </MenuFlyout>
                         </UserControl.ContextFlyout>
-                        <Grid x:Name="grid_gameinfo" Style="{StaticResource ListViewGridItemStyle}">
+                        <Grid x:Name="gameinfo_grid" Style="{StaticResource ListViewGridItemStyle}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="*" />
@@ -186,10 +187,10 @@
                                 Padding="4"
                                 Spacing="4">
                                 <HyperlinkButton
-                                    Name="linkbtn_gamename"
+                                    x:Name="gamename_linkbutton"
                                     Padding="0"
                                     HorizontalContentAlignment="Left"
-                                    Click="linkbtn_gamename_Click"
+                                    Click="gamename_linkbutton_Click"
                                     Content="{Binding Name}"
                                     FontSize="16"
                                     FontWeight="Bold" />
@@ -203,7 +204,7 @@
                                         Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                         Text="{Binding LastPlayDate}" />
                                     <SelectorBarItem
-                                        x:Name="item_playedtime"
+                                        x:Name="playedtime_selectorbaritem"
                                         Padding="0"
                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
@@ -254,11 +255,12 @@
                                                     <ItemsRepeater.ItemTemplate>
                                                         <DataTemplate x:DataType="vm:GroupInfo">
                                                             <ToggleButton
-                                                                Checked="ToggleButton_Group_IsCheckedChanged"
+                                                                x:Name="group_togglebutton"
+                                                                Checked="group_togglebutton_IsCheckedChanged"
                                                                 Content="{Binding Name, Mode=OneWay}"
                                                                 FontSize="12"
                                                                 IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                                                Unchecked="ToggleButton_Group_IsCheckedChanged" />
+                                                                Unchecked="group_togglebutton_IsCheckedChanged" />
                                                         </DataTemplate>
                                                     </ItemsRepeater.ItemTemplate>
                                                 </ItemsRepeater>
@@ -288,7 +290,7 @@
                                                 <StackPanel>
                                                     <SelectorBarItem Padding="0" Text="{Binding Name}">
                                                         <SelectorBarItem.Icon>
-                                                            <FontIcon Name="fonticon_target" Glyph="&#xE736;" />
+                                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
                                                         </SelectorBarItem.Icon>
                                                     </SelectorBarItem>
                                                     <SelectorBarItem
@@ -300,15 +302,15 @@
                                                         Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                                         Text="{Binding LastPlayDate}" />
                                                     <SelectorBarItem
-                                                        x:Name="item_playedtime"
+                                                        x:Name="playedtime_selectorbaritem"
                                                         Padding="0"
                                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
                                                     <HyperlinkButton
-                                                        x:Name="btn_capture_hotkey"
+                                                        x:Name="capture_hotkey_button"
                                                         Margin="0"
                                                         Padding="0"
-                                                        Click="btn_capture_hotkey_Click"
+                                                        Click="capture_hotkey_button_Click"
                                                         IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToVisibilityConverter}}"
                                                         Visibility="{Binding EnableScreenCapture}">
                                                         <SelectorBarItem
@@ -324,7 +326,7 @@
                                                                     <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
                                                                 </VisualState.StateTriggers>
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="PauseState">
@@ -332,8 +334,8 @@
                                                                     <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
                                                                 </VisualState.StateTriggers>
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                                                    <Setter Target="item_playedtime.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                                    <Setter Target="playedtime_selectorbaritem.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                             <VisualState x:Name="ArchiveState">
@@ -341,8 +343,8 @@
                                                                     <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
                                                                 </VisualState.StateTriggers>
                                                                 <VisualState.Setters>
-                                                                    <Setter Target="fonticon_target.Glyph" Value="&#xE82D;" />
-                                                                    <Setter Target="fonticon_target.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                    <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                                    <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                                                 </VisualState.Setters>
                                                             </VisualState>
                                                         </VisualStateGroup>
@@ -353,9 +355,9 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>
                                 <SplitButton
-                                    x:Name="splitbtn_play"
+                                    x:Name="play_splitbutton"
                                     x:Uid="Games_GameInfo_Play"
-                                    Click="splitbtn_play_Click">
+                                    Click="play_splitbutton_Click">
                                     <SplitButton.Flyout>
                                         <Flyout Placement="Bottom">
                                             <mcontrols:WrapPanel
@@ -363,7 +365,7 @@
                                                 HorizontalSpacing="4"
                                                 VerticalSpacing="8">
                                                 <ToggleButton
-                                                    x:Name="togglebtn_screencapture"
+                                                    x:Name="screencapture_togglebutton"
                                                     Content="{mui:FontIcon FontSize=16,
                                                                            Glyph='&#xF406;'}"
                                                     IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
@@ -379,7 +381,7 @@
                                             <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
-                                            <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                             <Setter x:Uid="Games_GameInfo_Playing" Target="splitbtn_play.Content" />
                                         </VisualState.Setters>
                                     </VisualState>
@@ -388,7 +390,7 @@
                                             <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
-                                            <Setter Target="item_playedtime.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
                                             <Setter x:Uid="Games_GameInfo_Pause" Target="splitbtn_play.Content" />
                                         </VisualState.Setters>
                                     </VisualState>

@@ -39,13 +39,13 @@ public sealed partial class RepositoryInfoControl : UserControl
         this.InitializeComponent();
     }
 
-    private async void button_pick_folder_Click(object sender, RoutedEventArgs e)
+    private async void pick_folder_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
-            headeredtextbox_pick_folder.Text = folder.Path;
-            headeredtextbox_name.Text = folder.Name;
+            pick_folder_headeredtextbox.Text = folder.Path;
+            name_headeredtextbox.Text = folder.Name;
         }
     }
 }

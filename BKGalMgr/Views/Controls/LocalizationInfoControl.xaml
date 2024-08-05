@@ -24,11 +24,11 @@
             Text="{Binding Name, Mode=TwoWay}" />
         <Grid>
             <local:HeaderedTextBox
-                x:Name="headeredtextbox_pick_startup_name"
+                x:Name="pick_startup_name_headeredtextbox"
                 x:Uid="LocalizationInfo_StartupName"
                 Text="{Binding StartupName, Mode=TwoWay}" />
             <Button
-                x:Name="button_pick_startup_name"
+                x:Name="pick_startup_name_button"
                 Width="32"
                 Height="32"
                 Padding="0"
@@ -36,7 +36,7 @@
                 VerticalAlignment="Center"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                Click="button_pick_startup_name_Click">
+                Click="pick_startup_name_button_Click">
                 <FontIcon FontSize="16" Glyph="&#xE712;" />
             </Button>
         </Grid>
@@ -49,9 +49,9 @@
             <mcontrols:SettingsExpander x:Uid="LocalizationInfo_Contributors" ItemsSource="{Binding Contributors, Mode=TwoWay}">
                 <mcontrols:SettingsExpander.Content>
                     <Button
-                        x:Name="button_add_contributor"
+                        x:Name="add_contributor_button"
                         x:Uid="LocalizationInfo_Contributors_Add"
-                        Click="button_add_contributor_Click" />
+                        Click="add_contributor_button_Click" />
                 </mcontrols:SettingsExpander.Content>
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">

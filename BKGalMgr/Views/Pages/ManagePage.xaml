@@ -33,9 +33,9 @@
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Name="menuflyoutitem_edit_repository"
+                            x:Name="edit_repository_menuflyoutitem"
                             x:Uid="Commom_MenuItem_Edit"
-                            Click="menuflyoutitem_edit_repository_Click" />
+                            Click="edit_repository_menuflyoutitem_Click" />
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
                     </MenuFlyout>
                 </ComboBox.ContextFlyout>
@@ -44,8 +44,8 @@
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
                             <Button
-                                x:Name="button_add_repository"
-                                Click="button_add_repository_Click"
+                                x:Name="add_repository_button"
+                                Click="add_repository_button_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE948;}" />
                         </StackPanel>
@@ -76,12 +76,12 @@
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
                                 <Button
-                                    x:Name="button_add_game"
-                                    Click="button_add_game_Click"
+                                    x:Name="add_game_button"
+                                    Click="add_game_button_Click"
                                     Content="{mui:FontIcon FontSize=16,
                                                            Glyph=&#xE948;}" />
                                 <Button
-                                    x:Name="button_save_game"
+                                    x:Name="save_game_button"
                                     Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
                                     Content="{mui:FontIcon FontSize=16,
                                                            Glyph=&#xE74E;}"
@@ -92,8 +92,8 @@
                                     </Button.Resources>
                                 </Button>
                                 <Button
-                                    x:Name="button_delete_game"
-                                    Click="button_delete_game_Click"
+                                    x:Name="delete_game_button"
+                                    Click="delete_game_button_Click"
                                     Content="{mui:FontIcon FontSize=16,
                                                            Glyph=&#xE74D;}">
                                     <Button.Resources>
@@ -103,12 +103,12 @@
                                 </Button>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup>
-                                        <VisualState x:Name="PropertyChangedState">
+                                        <VisualState x:Name="GamePropertyChangedState">
                                             <VisualState.StateTriggers>
                                                 <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
                                             </VisualState.StateTriggers>
                                             <VisualState.Setters>
-                                                <Setter Target="button_save_game.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                <Setter Target="save_game_button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -158,9 +158,9 @@
                             Spacing="8">
                             <TextBlock x:Uid="Manage_Sources" VerticalAlignment="Center" />
                             <Button
-                                x:Name="button_add_source_folder"
+                                x:Name="add_source_folder_button"
                                 x:Uid="Manage_Sources_Add"
-                                Click="button_add_source_folder_Click"
+                                Click="add_source_folder_button_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
@@ -172,15 +172,15 @@
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            Name="menuflyoutitem_edit_source"
+                                            x:Name="edit_source_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Edit"
-                                            Click="menuflyoutitem_edit_source_Click" />
+                                            Click="edit_source_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem
-                                            Name="menuflyoutitem_delete_source"
+                                            x:Name="delete_source_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Delete"
-                                            Click="menuflyoutitem_delete_source_Click">
+                                            Click="delete_source_menuflyoutitem_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -207,9 +207,9 @@
                             Spacing="8">
                             <TextBlock x:Uid="Manage_Localization" VerticalAlignment="Center" />
                             <Button
-                                x:Name="button_add_localization_folder"
+                                x:Name="add_localization_folder_button"
                                 x:Uid="Manage_Localization_Add"
-                                Click="button_add_localization_folder_Click"
+                                Click="add_localization_folder_button_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
@@ -221,15 +221,15 @@
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            Name="menuflyoutitem_edit_localization"
+                                            x:Name="edit_localization_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Edit"
-                                            Click="menuflyoutitem_edit_localization_Click" />
+                                            Click="edit_localization_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem
-                                            Name="menuflyoutitem_delete_localization"
+                                            x:Name="delete_localization_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Delete"
-                                            Click="menuflyoutitem_delete_localization_Click">
+                                            Click="delete_localization_menuflyoutitem_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -256,15 +256,15 @@
                             Spacing="8">
                             <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
                             <Button
-                                x:Name="button_add_target"
-                                Click="button_add_target_Click"
+                                x:Name="add_target_button"
+                                Click="add_target_button_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE948;}"
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
                             <Button
-                                x:Name="button_add_target_folder"
+                                x:Name="add_target_folder_button"
                                 x:Uid="Manage_Target_Add"
-                                Click="button_add_target_folder_Click"
+                                Click="add_target_folder_button_Click"
                                 Content="{mui:FontIcon FontSize=16,
                                                        Glyph=&#xE8F4;}"
                                 IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}" />
@@ -277,34 +277,34 @@
                                     <StackPanel.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_edit_target"
+                                                x:Name="edit_target_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_Edit"
-                                                Click="menuflyoutitem_edit_target_Click" />
+                                                Click="edit_target_menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_export_target"
+                                                x:Name="export_target_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_Export_As_Source"
-                                                Click="menuflyoutitem_export_target_Click" />
+                                                Click="export_target_menuflyoutitem_Click" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_archive_target"
+                                                x:Name="archive_target_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_Archive"
-                                                Click="menuflyoutitem_archive_target_Click" />
+                                                Click="archive_target_menuflyoutitem_Click" />
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_dearchive_target"
+                                                x:Name="dearchive_target_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_DeArchive"
-                                                Click="menuflyoutitem_dearchive_target_Click"
+                                                Click="dearchive_target_menuflyoutitem_Click"
                                                 IsEnabled="{Binding IsArchive}" />
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_delete_target_folder_only"
+                                                x:Name="delete_target_folder_only_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_Delete_Folder_Only"
-                                                Click="menuflyoutitem_delete_target_folder_only_Click"
+                                                Click="delete_target_folder_only_menuflyoutitem_Click"
                                                 IsEnabled="{Binding IsArchive}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem
-                                                Name="menuflyoutitem_delete_target"
+                                                x:Name="delete_target_menuflyoutitem"
                                                 x:Uid="Commom_MenuItem_Delete"
-                                                Click="menuflyoutitem_delete_target_Click">
+                                                Click="delete_target_menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
                                                     <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                     <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -315,7 +315,7 @@
                                     </StackPanel.ContextFlyout>
                                     <SelectorBarItem Padding="0" Text="{Binding Name}">
                                         <SelectorBarItem.Icon>
-                                            <FontIcon Name="fonticon_target" Glyph="&#xE736;" />
+                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
                                         </SelectorBarItem.Icon>
                                     </SelectorBarItem>
                                     <SelectorBarItem
@@ -330,8 +330,8 @@
                                                     <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
-                                                    <Setter Target="fonticon_target.Glyph" Value="&#xE82D;" />
-                                                    <Setter Target="fonticon_target.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                    <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                    <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>

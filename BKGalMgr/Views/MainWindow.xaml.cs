@@ -33,21 +33,21 @@ public sealed partial class MainWindow : Window
 
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar
         ExtendsContentIntoTitleBar = true;
-        SetTitleBar(grid_app_titlebar);
+        SetTitleBar(app_titlebar_grid);
         AppWindow.Changed += AppWindow_Changed;
         AppWindow.Closing += AppWindow_Closing;
 
-        frame_main_root.Navigate(typeof(MainPage));
+        main_root_frame.Navigate(typeof(MainPage));
     }
 
     public void ShowLoading()
     {
-        contentpresenter_loading.Visibility = Visibility.Visible;
+        loading_contentpresenter.Visibility = Visibility.Visible;
     }
 
     public void HideLoading()
     {
-        contentpresenter_loading.Visibility = Visibility.Collapsed;
+        loading_contentpresenter.Visibility = Visibility.Collapsed;
     }
 
     [RelayCommand]
@@ -76,21 +76,21 @@ public sealed partial class MainWindow : Window
                 case AppWindowPresenterKind.CompactOverlay:
                     // Compact overlay - hide custom title bar
                     // and use the default system title bar instead.
-                    grid_app_titlebar.Visibility = Visibility.Collapsed;
+                    app_titlebar_grid.Visibility = Visibility.Collapsed;
                     sender.TitleBar.ResetToDefault();
                     break;
 
                 case AppWindowPresenterKind.FullScreen:
                     // Full screen - hide the custom title bar
                     // and the default system title bar.
-                    grid_app_titlebar.Visibility = Visibility.Collapsed;
+                    app_titlebar_grid.Visibility = Visibility.Collapsed;
                     sender.TitleBar.ExtendsContentIntoTitleBar = true;
                     break;
 
                 case AppWindowPresenterKind.Overlapped:
                     // Normal - hide the system title bar
                     // and use the custom title bar instead.
-                    grid_app_titlebar.Visibility = Visibility.Visible;
+                    app_titlebar_grid.Visibility = Visibility.Visible;
                     sender.TitleBar.ExtendsContentIntoTitleBar = true;
                     break;
 
@@ -111,7 +111,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void frame_main_root_Navigated(object sender, NavigationEventArgs e) { }
+    private void main_root_frame_Navigated(object sender, NavigationEventArgs e) { }
 
-    private void frame_main_root_Navigating(object sender, NavigatingCancelEventArgs e) { }
+    private void main_root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 }

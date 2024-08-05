@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="grid_app_titlebar" Height="32">
+        <Grid x:Name="app_titlebar_grid" Height="32">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
@@ -34,12 +34,12 @@
             </StackPanel>
         </Grid>
         <Frame
-            x:Name="frame_main_root"
+            x:Name="main_root_frame"
             Grid.Row="1"
-            Navigated="frame_main_root_Navigated"
-            Navigating="frame_main_root_Navigating" />
+            Navigated="main_root_frame_Navigated"
+            Navigating="main_root_frame_Navigating" />
         <ContentPresenter
-            Name="contentpresenter_loading"
+            x:Name="loading_contentpresenter"
             Grid.Row="1"
             Background="Transparent"
             Visibility="Collapsed">

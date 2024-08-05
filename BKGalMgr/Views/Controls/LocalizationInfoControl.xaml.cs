@@ -32,16 +32,16 @@ public sealed partial class LocalizationInfoControl : UserControl
         return vm != null && vm.IsValid();
     }
 
-    private async void button_pick_startup_name_Click(object sender, RoutedEventArgs e)
+    private async void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe" });
         if (file != null)
         {
-            headeredtextbox_pick_startup_name.Text = file.Name;
+            pick_startup_name_headeredtextbox.Text = file.Name;
         }
     }
 
-    private void button_add_contributor_Click(object sender, RoutedEventArgs e)
+    private void add_contributor_button_Click(object sender, RoutedEventArgs e)
     {
         var vm = this.DataContext as LocalizationInfo;
         if (vm != null)

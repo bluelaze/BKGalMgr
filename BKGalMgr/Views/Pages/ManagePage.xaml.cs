@@ -41,7 +41,7 @@ public sealed partial class ManagePage : Page
         this.InitializeComponent();
     }
 
-    private async void button_add_repository_Click(object sender, RoutedEventArgs e)
+    private async void add_repository_button_Click(object sender, RoutedEventArgs e)
     {
         RepositoryInfo newRepository = new();
         ContentDialog dialog = new ContentDialog()
@@ -67,14 +67,14 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private void button_add_game_Click(object sender, RoutedEventArgs e)
+    private void add_game_button_Click(object sender, RoutedEventArgs e)
     {
         GameInfo newGame = ViewModel.SelectedRepository.NewGame();
         ViewModel.SelectedRepository.AddGame(newGame);
         ViewModel.SelectedRepository.SelectedGame = newGame;
     }
 
-    private async void button_add_target_Click(object sender, RoutedEventArgs e)
+    private async void add_target_button_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
 
@@ -87,7 +87,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_edit_repository_Click(object sender, RoutedEventArgs e)
+    private async void edit_repository_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         RepositoryInfo editRepository = ViewModel.SelectedRepository;
         ContentDialog dialog = new ContentDialog()
@@ -142,7 +142,7 @@ public sealed partial class ManagePage : Page
         return await dialog.ShowAsync();
     }
 
-    private async void menuflyoutitem_edit_source_Click(object sender, RoutedEventArgs e)
+    private async void edit_source_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
         var editSourceInfo = SourceInfo.Open(Path.GetDirectoryName(sourceInfo.JsonPath));
@@ -176,7 +176,7 @@ public sealed partial class ManagePage : Page
         return await dialog.ShowAsync();
     }
 
-    private async void menuflyoutitem_edit_localization_Click(object sender, RoutedEventArgs e)
+    private async void edit_localization_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
         var editLocalizationInfo = LocalizationInfo.Open(Path.GetDirectoryName(localizationInfo.JsonPath));
@@ -210,7 +210,7 @@ public sealed partial class ManagePage : Page
         return await dialog.ShowAsync();
     }
 
-    private async void menuflyoutitem_edit_target_Click(object sender, RoutedEventArgs e)
+    private async void edit_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
@@ -255,7 +255,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void button_add_source_folder_Click(object sender, RoutedEventArgs e)
+    private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
@@ -277,7 +277,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void button_add_localization_folder_Click(object sender, RoutedEventArgs e)
+    private async void add_localization_folder_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
@@ -297,7 +297,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void button_add_target_folder_Click(object sender, RoutedEventArgs e)
+    private async void add_target_folder_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
@@ -349,7 +349,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_export_target_Click(object sender, RoutedEventArgs e)
+    private async void export_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
 
@@ -365,7 +365,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void button_delete_game_Click(object sender, RoutedEventArgs e)
+    private async void delete_game_button_Click(object sender, RoutedEventArgs e)
     {
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
@@ -375,7 +375,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_delete_source_Click(object sender, RoutedEventArgs e)
+    private async void delete_source_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
@@ -386,7 +386,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_delete_localization_Click(object sender, RoutedEventArgs e)
+    private async void delete_localization_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
@@ -397,7 +397,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_delete_target_Click(object sender, RoutedEventArgs e)
+    private async void delete_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
@@ -408,7 +408,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_archive_target_Click(object sender, RoutedEventArgs e)
+    private async void archive_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Archive").Format(App.ZipLevel())))
@@ -420,7 +420,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_dearchive_target_Click(object sender, RoutedEventArgs e)
+    private async void dearchive_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_DeArchive")))
@@ -432,7 +432,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void menuflyoutitem_delete_target_folder_only_Click(object sender, RoutedEventArgs e)
+    private async void delete_target_folder_only_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Delete_Folder_Only")))

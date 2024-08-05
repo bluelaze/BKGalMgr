@@ -38,7 +38,7 @@ public sealed partial class GameInfoControl : UserControl
         }
     }
 
-    private void tokentextbox_characters_TokenItemAdding(
+    private void characters_tokentextbox_TokenItemAdding(
         CommunityToolkit.WinUI.Controls.TokenizingTextBox sender,
         CommunityToolkit.WinUI.Controls.TokenItemAddingEventArgs args
     )

@@ -46,7 +46,7 @@ public sealed partial class GamesPage : Page
         this.InitializeComponent();
     }
 
-    private void linkbtn_gamename_Click(object sender, RoutedEventArgs e)
+    private void gamename_linkbutton_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;
         if (gameInfo != null)
@@ -56,7 +56,7 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private async void splitbtn_play_Click(SplitButton sender, SplitButtonClickEventArgs args)
+    private async void play_splitbutton_Click(SplitButton sender, SplitButtonClickEventArgs args)
     {
         var playBtn = sender;
         var gameInfo = playBtn.DataContext as GameInfo;
@@ -166,7 +166,7 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private void btn_capture_hotkey_Click(object sender, RoutedEventArgs e)
+    private void capture_hotkey_button_Click(object sender, RoutedEventArgs e)
     {
         var targetInfo = (sender as FrameworkElement).DataContext as TargetInfo;
         App.MainWindow.Hide();
@@ -181,7 +181,7 @@ public sealed partial class GamesPage : Page
             );
     }
 
-    private void ToggleButton_Group_IsCheckedChanged(object sender, RoutedEventArgs e)
+    private void group_togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
     {
         if (ViewModel.SelectedRepository.IsEnableGroup)
         {
@@ -217,7 +217,7 @@ public sealed partial class GamesPage : Page
         return await dialog.ShowAsync();
     }
 
-    private async void btn_add_group_Click(object sender, RoutedEventArgs e)
+    private async void add_group_button_Click(object sender, RoutedEventArgs e)
     {
         App.ShowLoading();
         GroupInfo groupInfo = new();
@@ -229,7 +229,7 @@ public sealed partial class GamesPage : Page
         App.HideLoading();
     }
 
-    private async void menuflyoutitem_edit_group_Click(object sender, RoutedEventArgs e)
+    private async void edit_group_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
         GroupInfo newGroupInfo = JsonMisc.Deserialize<GroupInfo>(JsonMisc.Serialize(groupInfo));
@@ -240,7 +240,7 @@ public sealed partial class GamesPage : Page
         }
     }
 
-    private async void menuflyoutitem_delete_group_Click(object sender, RoutedEventArgs e)
+    private async void delete_group_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
         if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))

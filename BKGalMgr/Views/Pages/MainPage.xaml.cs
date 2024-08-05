@@ -34,31 +34,31 @@ public sealed partial class MainPage : Page
     public static void NavigateTo(Type pageType)
     {
         if (pageType == typeof(ManagePage))
-            _mainpage.navigationview_root.SelectedItem = _mainpage.navitem_manage;
+            _mainpage.root_navigationview.SelectedItem = _mainpage.manage_navitem;
     }
 
-    private void navigationview_root_SelectionChanged(
+    private void root_navigationview_SelectionChanged(
         NavigationView sender,
         NavigationViewSelectionChangedEventArgs args
     )
     {
-        textblock_love_and_peace.Visibility = Visibility.Collapsed;
+        love_and_peace_textblock.Visibility = Visibility.Collapsed;
         var selectedItem = args.SelectedItemContainer;
-        if (selectedItem == navitem_manage)
+        if (selectedItem == manage_navitem)
         {
-            frame_root.Navigate(typeof(ManagePage));
+            root_frame.Navigate(typeof(ManagePage));
         }
-        else if (selectedItem == navitem_games)
+        else if (selectedItem == games_navitem)
         {
-            frame_root.Navigate(typeof(GamesPage));
+            root_frame.Navigate(typeof(GamesPage));
         }
-        else if (selectedItem == navitem_settings)
+        else if (selectedItem == settings_navitem)
         {
-            frame_root.Navigate(typeof(SettingsPage));
+            root_frame.Navigate(typeof(SettingsPage));
         }
     }
 
-    private void frame_root_Navigated(object sender, NavigationEventArgs e) { }
+    private void root_frame_Navigated(object sender, NavigationEventArgs e) { }
 
-    private void frame_root_Navigating(object sender, NavigatingCancelEventArgs e) { }
+    private void root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 }

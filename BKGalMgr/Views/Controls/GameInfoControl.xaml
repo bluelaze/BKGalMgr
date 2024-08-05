@@ -96,13 +96,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="GameInfo_Character" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox
-                    x:Name="tokentextbox_characters"
+                    x:Name="characters_tokentextbox"
                     x:Uid="Commom_TokenizingTextBox"
                     Grid.Column="1"
                     ItemsSource="{Binding Characters, Mode=TwoWay}"
                     Loaded="TokenizingTextBox_Loaded"
                     TokenDelimiter=","
-                    TokenItemAdding="tokentextbox_characters_TokenItemAdding">
+                    TokenItemAdding="characters_tokentextbox_TokenItemAdding">
                     <mcontrols:TokenizingTextBox.TokenItemTemplate>
                         <DataTemplate x:DataType="vm:CharacterInfo">
                             <TextBlock Text="{Binding Name}" />

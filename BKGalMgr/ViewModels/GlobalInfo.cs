@@ -19,8 +19,8 @@ public enum SortType
 public static class GlobalInfo
 {
     /**
-     /(repository_folder)
-        (repositoryinfo.json)
+    /(repository_folder)
+        repositoryinfo.json
         (yyyyMMddTHHmmssZ)
             gameinfo.json
             /sources

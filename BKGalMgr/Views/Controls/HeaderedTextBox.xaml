@@ -15,12 +15,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <TextBlock
-            x:Name="textblock_header"
             Width="{x:Bind HeaderWidth, Mode=OneWay}"
             Margin="0,6"
             Text="{x:Bind Header, Mode=OneWay}" />
         <TextBox
-            x:Name="textbox_text"
             Grid.Column="1"
             Width="{x:Bind TextWidth, Mode=OneWay}"
             AcceptsReturn="{x:Bind AcceptsReturn, Mode=OneWay}"
