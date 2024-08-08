@@ -139,43 +139,4 @@ public partial class App : Application
     public static void HideLoading() => MainWindow.HideLoading();
 
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
-
-    public static async void ShowDialogError(string errorMsg)
-    {
-        ContentDialog dialog = new ContentDialog();
-
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = MainWindow.Content.XamlRoot;
-        dialog.Title = new FontIcon()
-        {
-            Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCriticalBrush"],
-            Glyph = "\uE783"
-        };
-        dialog.RequestedTheme = MainWindow.RequestedTheme();
-        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
-        dialog.Content = errorMsg;
-        dialog.DefaultButton = ContentDialogButton.Primary;
-
-        await dialog.ShowAsync();
-    }
-
-    public static async Task<bool> ShowDialogConfirm(string confirmMsg)
-    {
-        ContentDialog dialog = new ContentDialog();
-
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = MainWindow.Content.XamlRoot;
-        dialog.Title = new FontIcon()
-        {
-            Foreground = (SolidColorBrush)Current.Resources["SystemFillColorCautionBrush"],
-            Glyph = "\uE7BA"
-        };
-        dialog.RequestedTheme = MainWindow.RequestedTheme();
-        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
-        dialog.CloseButtonText = LanguageHelper.GetString("Dlg_Cancel");
-        dialog.Content = confirmMsg;
-        dialog.DefaultButton = ContentDialogButton.Primary;
-
-        return ContentDialogResult.Primary == await dialog.ShowAsync();
-    }
 }

@@ -10,12 +10,18 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:BKGalMgr.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
     xmlns:mtriggers="using:CommunityToolkit.WinUI"
     xmlns:mui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:BKGalMgr.ViewModels"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
+        <mconverters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToVisibilityConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
+
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -64,7 +70,7 @@
             <ComboBox
                 ItemsSource="{Binding ViewModel.SelectedRepository.Games, Mode=OneWay}"
                 SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
-                Visibility="{Binding ViewModel.SelectedRepositoryIsValid, Mode=OneWay}">
+                Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" />
@@ -138,7 +144,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <Grid Grid.Row="1" Visibility="{Binding ViewModel.SelectedRepository.SelectedGameIsValid, Mode=OneWay, FallbackValue=Collapsed}">
+        <Grid Grid.Row="1" Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

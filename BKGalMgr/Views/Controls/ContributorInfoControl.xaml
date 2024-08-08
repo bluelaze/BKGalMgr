@@ -39,7 +39,7 @@
             Height="48"
             VerticalAlignment="Center"
             VerticalContentAlignment="Center"
-            Click="delete_Click"
+            Click="delete_appbarbutton_Click"
             Icon="{mui:FontIcon Glyph=&#xE74D;}" />
     </Grid>
 </UserControl>

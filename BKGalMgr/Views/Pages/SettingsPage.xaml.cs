@@ -24,15 +24,11 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class SettingsPage : Page
 {
-    private SettingsPageViewModel _viewModel;
-    public SettingsPageViewModel ViewModel
-    {
-        get { return _viewModel; }
-    }
+    public SettingsPageViewModel ViewModel { get; }
 
     public SettingsPage()
     {
-        _viewModel = App.GetRequiredService<SettingsPageViewModel>();
+        ViewModel = App.GetRequiredService<SettingsPageViewModel>();
         DataContext = this;
         this.InitializeComponent();
     }

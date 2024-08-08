@@ -17,26 +17,6 @@
                 <Setter Property="HeaderWidth" Value="98" />
             </Style>
         </StackPanel.Resources>
-        <Grid Visibility="{x:Bind FolderPathVisible, Mode=OneWay}">
-            <local:HeaderedTextBox
-                x:Name="pick_folder_headeredtextbox"
-                x:Uid="RepositoryInfo_Folder"
-                CanEmpty="False"
-                IsReadOnly="True"
-                Text="{Binding FolderPath, Mode=TwoWay}" />
-            <Button
-                x:Name="pick_folder_button"
-                Width="32"
-                Height="32"
-                Padding="0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Click="pick_folder_button_Click">
-                <FontIcon FontSize="16" Glyph="&#xE712;" />
-            </Button>
-        </Grid>
         <local:HeaderedTextBox
             x:Name="name_headeredtextbox"
             x:Uid="RepositoryInfo_Name"

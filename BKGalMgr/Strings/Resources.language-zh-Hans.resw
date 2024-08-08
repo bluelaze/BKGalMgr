@@ -370,7 +370,7 @@
     <value>分组:</value>
   </data>
   <data name="Games_GameInfo_Play.Content" xml:space="preserve">
-    <value>启动</value>
+    <value>运行</value>
   </data>
   <data name="Games_GameInfo_Playing.Value" xml:space="preserve">
     <value>暂停</value>

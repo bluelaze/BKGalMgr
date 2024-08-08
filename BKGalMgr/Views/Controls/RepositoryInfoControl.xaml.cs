@@ -22,30 +22,8 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class RepositoryInfoControl : UserControl
 {
-    public bool FolderPathVisible
-    {
-        get { return (bool)GetValue(FolderPathVisibleProperty); }
-        set { SetValue(FolderPathVisibleProperty, value); }
-    }
-    public static readonly DependencyProperty FolderPathVisibleProperty = DependencyProperty.Register(
-        "FolderPathVisible",
-        typeof(bool),
-        typeof(RepositoryInfoControl),
-        new PropertyMetadata(true)
-    );
-
     public RepositoryInfoControl()
     {
         this.InitializeComponent();
-    }
-
-    private async void pick_folder_button_Click(object sender, RoutedEventArgs e)
-    {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
-        {
-            pick_folder_headeredtextbox.Text = folder.Path;
-            name_headeredtextbox.Text = folder.Name;
-        }
     }
 }

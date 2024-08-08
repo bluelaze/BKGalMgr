@@ -33,15 +33,11 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class GamesPage : Page
 {
-    private GamesManagePageViewModel _viewModel;
-    public GamesManagePageViewModel ViewModel
-    {
-        get { return _viewModel; }
-    }
+    public GamesManagePageViewModel ViewModel { get; }
 
     public GamesPage()
     {
-        _viewModel = App.GetRequiredService<GamesManagePageViewModel>();
+        ViewModel = App.GetRequiredService<GamesManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
     }
@@ -79,7 +75,7 @@ public sealed partial class GamesPage : Page
             if (!File.Exists(targetInfo.TargetExePath))
             {
                 if (
-                    targetInfo.IsArchive && await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
+                    targetInfo.IsArchive && await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
                 )
                 {
                     App.ShowLoading();
@@ -88,7 +84,7 @@ public sealed partial class GamesPage : Page
                 }
                 if (!File.Exists(targetInfo.TargetExePath))
                 {
-                    App.ShowDialogError(
+                    DialogHelper.ShowError(
                         LanguageHelper.GetString("Msg_TargetExe_Invalid").Format(targetInfo.TargetExePath)
                     );
                     return;
@@ -111,7 +107,7 @@ public sealed partial class GamesPage : Page
 
             if (!startSuccess)
             {
-                App.ShowDialogError(
+                DialogHelper.ShowError(
                     LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath)
                 );
             }
@@ -151,6 +147,7 @@ public sealed partial class GamesPage : Page
                         savePlayedTime();
                     });
 
+                // check child process, maybe startup exe is a launcher
                 await gameProcess.WaitForExitAsync();
                 foreach (var childProcess in gameProcess.GetChildProcesses())
                     await childProcess.WaitForExitAsync();
@@ -243,7 +240,7 @@ public sealed partial class GamesPage : Page
     private async void delete_group_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
-        if (await App.ShowDialogConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
+        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
         {
             App.ShowLoading();
             ViewModel.SelectedRepository.GroupChanged(groupInfo, null, GroupChangedType.Remove);

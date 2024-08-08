@@ -27,9 +27,7 @@ public sealed partial class ContributorInfoControl : UserControl
         this.InitializeComponent();
     }
 
-    private void AppBarButton_Click(object sender, RoutedEventArgs e) { }
-
-    private void delete_Click(object sender, RoutedEventArgs e)
+    private void delete_appbarbutton_Click(object sender, RoutedEventArgs e)
     {
         if (Delete != null)
             Delete.Invoke(this, e);

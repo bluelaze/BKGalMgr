@@ -231,6 +231,33 @@ public partial class GameInfo : ObservableObject
         return gameInfo;
     }
 
+    public bool IsValid
+    {
+        get { return !Name.IsNullOrEmpty(); }
+    }
+
+    public void SetRepository(RepositoryInfo repository)
+    {
+        Repository = repository;
+        if (JsonPath.IsNullOrEmpty())
+            JsonPath = Path.Combine(
+                repository.FolderPath,
+                CreateDate.ToString(GlobalInfo.FolderFormatStr),
+                GlobalInfo.GameJsonName
+            );
+    }
+
+    public List<string> GetAllTags()
+    {
+        List<string> tags = [Name, Company];
+        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(Singer).Union(tags).ToList();
+        tags = tags.Union(Sources.Select(item => item.Name))
+            .Union(Localizations.Select(item => item.Name))
+            .Union(Targets.Select(item => item.Name))
+            .ToList();
+        return tags;
+    }
+
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
@@ -259,33 +286,6 @@ public partial class GameInfo : ObservableObject
             OnPropertyChanged(nameof(Group));
 
         SaveJsonFile();
-    }
-
-    public bool IsValid
-    {
-        get { return !Name.IsNullOrEmpty(); }
-    }
-
-    public void SetRepository(RepositoryInfo repository)
-    {
-        Repository = repository;
-        if (JsonPath.IsNullOrEmpty())
-            JsonPath = Path.Combine(
-                repository.FolderPath,
-                CreateDate.ToString(GlobalInfo.FolderFormatStr),
-                GlobalInfo.GameJsonName
-            );
-    }
-
-    public List<string> GetAllTags()
-    {
-        List<string> tags = [Name, Company];
-        tags = tags.Union(Artist).Union(Cv).Union(Scenario).Union(Musician).Union(Singer).Union(tags).ToList();
-        tags = tags.Union(Sources.Select(item => item.Name))
-            .Union(Localizations.Select(item => item.Name))
-            .Union(Targets.Select(item => item.Name))
-            .ToList();
-        return tags;
     }
 
     public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
@@ -337,6 +337,21 @@ public partial class GameInfo : ObservableObject
                 Sources[i] = sourceInfo;
             }
         }
+    }
+
+    public SourceInfo FindSource(SourceInfo sourceInfo)
+    {
+        if (sourceInfo == null)
+            return null;
+
+        for (int i = 0; i < Sources.Count; i++)
+        {
+            if (Sources[i].CreateDate == sourceInfo.CreateDate)
+            {
+                return Sources[i];
+            }
+        }
+        return null;
     }
 
     public async Task<bool> CopySource(string dirPath)
@@ -402,21 +417,6 @@ public partial class GameInfo : ObservableObject
                 Localizations[i] = localizationInfo;
             }
         }
-    }
-
-    public SourceInfo FindSource(SourceInfo sourceInfo)
-    {
-        if (sourceInfo == null)
-            return null;
-
-        for (int i = 0; i < Sources.Count; i++)
-        {
-            if (Sources[i].CreateDate == sourceInfo.CreateDate)
-            {
-                return Sources[i];
-            }
-        }
-        return null;
     }
 
     public LocalizationInfo FindLocalization(LocalizationInfo localizationInfo)

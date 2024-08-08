@@ -15,18 +15,11 @@ public partial class GamesManagePageViewModel : ObservableObject
     private ObservableCollection<RepositoryInfo> _repository = new();
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(SelectedRepositoryIsValid))]
-    [property: JsonIgnore]
     private RepositoryInfo _selectedRepository;
 
     partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {
         _settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
-    }
-
-    public bool SelectedRepositoryIsValid
-    {
-        get { return SelectedRepository != null; }
     }
 
     private readonly SettingsDto _settings;

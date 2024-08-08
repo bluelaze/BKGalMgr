@@ -80,19 +80,12 @@ public partial class RepositoryInfo : ObservableObject
                 return;
             if (SetProperty(ref _selectedGame, value))
             {
-                OnPropertyChanged(nameof(SelectedGameIsValid));
-
                 SeletedGameCreateDate = SelectedGame?.CreateDate ?? new();
                 SaveJsonFile();
             }
         }
     }
 
-    [property: JsonIgnore]
-    public bool SelectedGameIsValid
-    {
-        get { return SelectedGame != null; }
-    }
     public DateTime? SeletedGameCreateDate { get; set; }
 
     [property: JsonIgnore]
@@ -149,6 +142,20 @@ public partial class RepositoryInfo : ObservableObject
         return repositoryInfo;
     }
 
+    public bool IsValid()
+    {
+        return !Name.IsNullOrEmpty() && !FolderPath.IsNullOrEmpty();
+    }
+
+    public List<string> GetSuggestedTags()
+    {
+        List<string> tags = new List<string>();
+        foreach (var item in Games)
+            tags = tags.Union(item.GetAllTags()).ToList();
+
+        return tags.Where(t => t != null && t.Contains(SearchText)).ToList();
+    }
+
     class StringContainsComparer : IEqualityComparer<string>
     {
         public bool Equals(string x, string y)
@@ -198,18 +205,30 @@ public partial class RepositoryInfo : ObservableObject
         SaveJsonFile();
     }
 
-    public List<string> GetSuggestedTags()
+    public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
     {
-        List<string> tags = new List<string>();
-        foreach (var item in Games)
-            tags = tags.Union(item.GetAllTags()).ToList();
-
-        return tags.Where(t => t != null && t.Contains(SearchText)).ToList();
-    }
-
-    public bool IsValid()
-    {
-        return !Name.IsNullOrEmpty() && !FolderPath.IsNullOrEmpty();
+        switch (type)
+        {
+            case GroupChangedType.Add:
+                if (!Groups.Where(g => g.Name == newGroup.Name).Any())
+                {
+                    Groups.Insert(Groups.Count() - 1, newGroup);
+                    SaveJsonFile();
+                }
+                break;
+            case GroupChangedType.Remove:
+                Groups.Remove(oldGroup);
+                break;
+            case GroupChangedType.Edit:
+                var index = Groups.IndexOf(oldGroup);
+                if (index == -1)
+                    break;
+                Groups[index].Name = newGroup.Name;
+                break;
+        }
+        foreach (var game in Games)
+            game.GroupChanged(oldGroup, newGroup, type);
+        SaveJsonFile();
     }
 
     public GameInfo NewGame()
@@ -238,32 +257,6 @@ public partial class RepositoryInfo : ObservableObject
         }
         if (SelectedGame == game)
             SelectedGame = null;
-    }
-
-    public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
-    {
-        switch (type)
-        {
-            case GroupChangedType.Add:
-                if (!Groups.Where(g => g.Name == newGroup.Name).Any())
-                {
-                    Groups.Insert(Groups.Count() - 1, newGroup);
-                    SaveJsonFile();
-                }
-                break;
-            case GroupChangedType.Remove:
-                Groups.Remove(oldGroup);
-                break;
-            case GroupChangedType.Edit:
-                var index = Groups.IndexOf(oldGroup);
-                if (index == -1)
-                    break;
-                Groups[index].Name = newGroup.Name;
-                break;
-        }
-        foreach (var game in Games)
-            game.GroupChanged(oldGroup, newGroup, type);
-        SaveJsonFile();
     }
 
     public void SaveJsonFile()
