@@ -22,7 +22,6 @@
     <Page.Resources>
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
         <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
-        <converters:IEnumerableToMetadataItemsConverter x:Key="IEnumerableToMetadataItemsConverter" />
         <converters:GroupItemSwitchConverter x:Key="GroupItemSwitchConverter" />
         <converters:ObjectToVisibilityConverter x:Key="PlayStatusToVisibilityConverter" To="Playing" />
     </Page.Resources>
@@ -220,19 +219,19 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Games_GameInfo_Artist" />
-                                    <mcontrols:MetadataControl Items="{Binding Artist, Converter={StaticResource IEnumerableToMetadataItemsConverter}}" Separator=" • " />
+                                    <controls:MetadataControl Items="{Binding Artist}" Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Games_GameInfo_Scenario" />
-                                    <mcontrols:MetadataControl Items="{Binding Scenario, Converter={StaticResource IEnumerableToMetadataItemsConverter}}" Separator=" • " />
+                                    <controls:MetadataControl Items="{Binding Scenario}" Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Games_GameInfo_TAG" />
-                                    <mcontrols:MetadataControl Items="{Binding Tag, Converter={StaticResource IEnumerableToMetadataItemsConverter}}" Separator=" • " />
+                                    <controls:MetadataControl Items="{Binding Tag}" Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Games_GameInfo_Group" />
-                                    <mcontrols:MetadataControl Items="{Binding Group, Converter={StaticResource IEnumerableToMetadataItemsConverter}}" Separator=" • " />
+                                    <controls:MetadataControl Items="{Binding Group}" Separator=" • " />
                                     <Button
                                         Padding="4"
                                         Background="{x:Null}"

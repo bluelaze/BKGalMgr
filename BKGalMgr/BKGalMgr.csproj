@@ -44,7 +44,6 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.240109" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.MetadataControl" Version="8.0.240109" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
         <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
@@ -74,6 +73,9 @@
     </ItemGroup>
     <ItemGroup>
         <Page Update="Views\Controls\ContributorInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\GroupInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\GameInfoControl.xaml">
@@ -118,10 +120,4 @@
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
     </PropertyGroup>
-    <ItemGroup>
-      <CustomAdditionalCompileInputs Remove="Views\Controls\GroupInfoControl.xaml" />
-    </ItemGroup>
-    <ItemGroup>
-      <Resource Remove="Views\Controls\GroupInfoControl.xaml" />
-    </ItemGroup>
 </Project>

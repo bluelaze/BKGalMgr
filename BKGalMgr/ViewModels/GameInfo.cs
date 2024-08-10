@@ -61,52 +61,26 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     private ObservableCollection<string> _artist = new();
 
-    partial void OnArtistChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
-
     [ObservableProperty]
     private ObservableCollection<string> _cv = new();
-
-    partial void OnCvChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _scenario = new();
 
-    partial void OnScenarioChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
-
     [ObservableProperty]
     private ObservableCollection<string> _musician = new();
-
-    partial void OnMusicianChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _singer = new();
 
-    partial void OnSingerChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
-
     [ObservableProperty]
     private ObservableCollection<CharacterInfo> _characters = new();
-
-    partial void OnCharactersChanged(
-        ObservableCollection<CharacterInfo> oldValue,
-        ObservableCollection<CharacterInfo> newValue
-    ) => OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private ObservableCollection<string> _tag = new();
 
-    partial void OnTagChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
-
     [ObservableProperty]
     private ObservableCollection<string> _group = new();
-
-    partial void OnGroupChanged(ObservableCollection<string> oldValue, ObservableCollection<string> newValue) =>
-        OnCollectionChanged(oldValue, newValue);
 
     [ObservableProperty]
     private string _website;
@@ -167,14 +141,7 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
 
-    public GameInfo()
-    {
-        // notify for MetadataControl
-        Artist.CollectionChanged += CollectionChanged;
-        Scenario.CollectionChanged += CollectionChanged;
-        Tag.CollectionChanged += CollectionChanged;
-        Group.CollectionChanged += CollectionChanged;
-    }
+    public GameInfo() { }
 
     public static GameInfo Open(string dirPath, RepositoryInfo repo)
     {
@@ -265,29 +232,6 @@ public partial class GameInfo : ObservableObject
             IsPropertyChanged = true;
     }
 
-    private void OnCollectionChanged<T>(ObservableCollection<T> oldValue, ObservableCollection<T> newValue)
-    {
-        if (oldValue != null)
-            oldValue.CollectionChanged -= CollectionChanged;
-        if (newValue != null)
-            newValue.CollectionChanged += CollectionChanged;
-    }
-
-    private void CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        // notify for MetadataControl
-        if (sender == Artist)
-            OnPropertyChanged(nameof(Artist));
-        else if (sender == Scenario)
-            OnPropertyChanged(nameof(Scenario));
-        else if (sender == Tag)
-            OnPropertyChanged(nameof(Tag));
-        else if (sender == Group)
-            OnPropertyChanged(nameof(Group));
-
-        SaveJsonFile();
-    }
-
     public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
     {
         switch (type)
@@ -297,6 +241,7 @@ public partial class GameInfo : ObservableObject
                 break;
             case GroupChangedType.Remove:
                 Group.Remove(oldGroup.Name);
+                OnPropertyChanged(nameof(Group));
                 break;
             case GroupChangedType.Edit:
                 var index = Group.IndexOf(oldGroup?.Name);
