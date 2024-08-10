@@ -44,6 +44,11 @@
                     x:Uid="Games_Repository"
                     ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
                     SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
+                    <ComboBox.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
+                        </MenuFlyout>
+                    </ComboBox.ContextFlyout>
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
                             <StackPanel>

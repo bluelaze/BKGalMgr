@@ -144,6 +144,9 @@
   <data name="Msg_Delete_Confirm" xml:space="preserve">
     <value>无法还原，确定删除？</value>
   </data>
+  <data name="Msg_Remove_Confirm" xml:space="preserve">
+    <value>不会删除本地仓库，确定移除？</value>
+  </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="Commom_MenuItem_Delete.Text" xml:space="preserve">
     <value>删除</value>
+  </data>
+  <data name="Commom_MenuItem_Remove.Text" xml:space="preserve">
+    <value>移除</value>
   </data>
   <data name="Commom_MenuItem_Export_As_Source.Text" xml:space="preserve">
     <value>导出成源</value>

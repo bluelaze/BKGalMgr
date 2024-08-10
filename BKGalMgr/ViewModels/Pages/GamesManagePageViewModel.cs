@@ -53,6 +53,18 @@ public partial class GamesManagePageViewModel : ObservableObject
         return true;
     }
 
+    public bool RemoveRepository(RepositoryInfo repository)
+    {
+        if (repository.FolderPath.IsNullOrEmpty())
+            return false;
+
+        Repository.Remove(repository);
+
+        _settings.RepositoryPath.Remove(repository.FolderPath);
+        _settings.SaveSettings();
+        return true;
+    }
+
     public void UpdateSource(SourceInfo source)
     {
         source.SaveJsonFile();

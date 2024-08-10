@@ -144,6 +144,9 @@
   <data name="Msg_Delete_Confirm" xml:space="preserve">
     <value>Unable to restore, confirm to delete?</value>
   </data>
+  <data name="Msg_Remove_Confirm" xml:space="preserve">
+    <value>Not delete local repository, confirm to remove?</value>
+  </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="Commom_MenuItem_Delete.Text" xml:space="preserve">
     <value>Delete</value>
+  </data>
+  <data name="Commom_MenuItem_Remove.Text" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="Commom_MenuItem_Export_As_Source.Text" xml:space="preserve">
     <value>Export as Source</value>

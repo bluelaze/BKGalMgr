@@ -78,6 +78,14 @@ public sealed partial class ManagePage : Page
         }
     }
 
+    private async void remove_repository_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Remove_Confirm")))
+        {
+           ViewModel.RemoveRepository(ViewModel.SelectedRepository);
+        }
+    }
+
     private void add_game_button_Click(object sender, RoutedEventArgs e)
     {
         GameInfo newGame = ViewModel.SelectedRepository.NewGame();
