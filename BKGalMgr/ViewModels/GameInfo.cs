@@ -533,32 +533,38 @@ public partial class GameInfo : ObservableObject
 
     public async Task SaveCover()
     {
-        if (!Cover.IsNullOrEmpty())
+        if (Cover.IsNullOrEmpty())
+            return;
+
+        // check format, build path
+        var coverPath = TransformCoverPath(Cover);
+        if (coverPath.IsNullOrEmpty())
+            return;
+
+        // copy local file
+        if (File.Exists(Cover) && Path.GetDirectoryName(Cover) != FolderPath)
         {
-            var coverPath = TransformCoverPath(Cover);
-            if (coverPath.IsNullOrEmpty())
-                return;
+            File.Copy(Cover, coverPath, true);
+            Cover = coverPath;
+            return;
+        }
 
-            if (File.Exists(Cover) && Path.GetDirectoryName(Cover) != FolderPath)
-            {
-                File.Copy(Cover, coverPath, true);
-                Cover = coverPath;
-                return;
-            }
-
-            if (!Cover.StartsWith("http"))
-                return;
-            try
-            {
-                var fileData = await (new HttpClient()).GetByteArrayAsync(Cover);
-                await File.WriteAllBytesAsync(coverPath, fileData);
-                Cover = coverPath;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                return;
-            }
+        // network image
+        if (!Cover.StartsWith("http"))
+        {
+            LoadCover();
+            return;
+        }
+        try
+        {
+            var fileData = await (new HttpClient()).GetByteArrayAsync(Cover);
+            await File.WriteAllBytesAsync(coverPath, fileData);
+            Cover = coverPath;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            return;
         }
     }
 

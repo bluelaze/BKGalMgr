@@ -386,7 +386,7 @@
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                            <Setter x:Uid="Games_GameInfo_Playing" Target="splitbtn_play.Content" />
+                                            <Setter x:Uid="Games_GameInfo_Playing" Target="play_splitbutton.Content" />
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="PauseState">
@@ -395,7 +395,7 @@
                                         </VisualState.StateTriggers>
                                         <VisualState.Setters>
                                             <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                            <Setter x:Uid="Games_GameInfo_Pause" Target="splitbtn_play.Content" />
+                                            <Setter x:Uid="Games_GameInfo_Pause" Target="play_splitbutton.Content" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>
