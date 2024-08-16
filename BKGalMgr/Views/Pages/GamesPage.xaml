@@ -179,7 +179,7 @@
                                     <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
                                 </Image.Source>
                                 <ToolTipService.ToolTip>
-                                    <ToolTip MaxWidth="720" Placement="Right">
+                                    <ToolTip MaxWidth="1920" Placement="Right">
                                         <ToolTip.Content>
                                             <Image Source="{Binding Cover}" Stretch="None" />
                                         </ToolTip.Content>
