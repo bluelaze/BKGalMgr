@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <RootNamespace>BKGalMgr</RootNamespace>
         <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -43,12 +43,12 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-        <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.0.240109" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.0.240109" />
-        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
-        <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.2" />
+        <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240821" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240821" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.1.240821" />
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240821" />
+        <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240821" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.3" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
