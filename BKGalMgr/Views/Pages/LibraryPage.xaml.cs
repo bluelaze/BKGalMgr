@@ -31,13 +31,13 @@ namespace BKGalMgr.Views.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class GamesPage : Page
+public sealed partial class LibraryPage : Page
 {
-    public GamesManagePageViewModel ViewModel { get; }
+    public LibraryAndManagePageViewModel ViewModel { get; }
 
-    public GamesPage()
+    public LibraryPage()
     {
-        ViewModel = App.GetRequiredService<GamesManagePageViewModel>();
+        ViewModel = App.GetRequiredService<LibraryAndManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
     }

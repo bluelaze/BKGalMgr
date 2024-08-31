@@ -19,8 +19,8 @@
             SelectionChanged="root_navigationview_SelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    x:Name="games_navitem"
-                    x:Uid="Main_Nav_Games"
+                    x:Name="library_navitem"
+                    x:Uid="Main_Nav_Library"
                     Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
                 <NavigationViewItem
                     x:Name="manage_navitem"

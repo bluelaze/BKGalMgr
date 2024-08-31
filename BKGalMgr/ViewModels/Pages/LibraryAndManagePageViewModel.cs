@@ -9,7 +9,7 @@ using BKGalMgr.Models;
 
 namespace BKGalMgr.ViewModels.Pages;
 
-public partial class GamesManagePageViewModel : ObservableObject
+public partial class LibraryAndManagePageViewModel : ObservableObject
 {
     [ObservableProperty]
     private ObservableCollection<RepositoryInfo> _repository = new();
@@ -24,7 +24,7 @@ public partial class GamesManagePageViewModel : ObservableObject
 
     private readonly SettingsDto _settings;
 
-    public GamesManagePageViewModel()
+    public LibraryAndManagePageViewModel()
     {
         _settings = App.GetRequiredService<SettingsDto>();
         foreach (var path in _settings.RepositoryPath)

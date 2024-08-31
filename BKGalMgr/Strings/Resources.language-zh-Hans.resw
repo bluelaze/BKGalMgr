@@ -342,7 +342,7 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="Main_Nav_Games.Content" xml:space="preserve">
+  <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>库</value>
   </data>
   <data name="Main_Nav_Manage.Content" xml:space="preserve">
@@ -351,37 +351,37 @@
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>设置</value>
   </data>
-  <data name="Games_Repository.Header" xml:space="preserve">
+  <data name="Library_Repository.Header" xml:space="preserve">
     <value>仓库</value>
   </data>
-  <data name="Games_Group.Content" xml:space="preserve">
+  <data name="Library_Group.Content" xml:space="preserve">
     <value>分组</value>
   </data>
-  <data name="Games_GameInfo_Company.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Company.Text" xml:space="preserve">
     <value>制作社:</value>
   </data>
-  <data name="Games_GameInfo_PublishDate.Text" xml:space="preserve">
+  <data name="Library_GameInfo_PublishDate.Text" xml:space="preserve">
     <value>发售日:</value>
   </data>
-  <data name="Games_GameInfo_Artist.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Artist.Text" xml:space="preserve">
     <value>原画:</value>
   </data>
-  <data name="Games_GameInfo_Scenario.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Scenario.Text" xml:space="preserve">
     <value>剧本:</value>
   </data>
-  <data name="Games_GameInfo_TAG.Text" xml:space="preserve">
+  <data name="Library_GameInfo_TAG.Text" xml:space="preserve">
     <value>标签:</value>
   </data>
-  <data name="Games_GameInfo_Group.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Group.Text" xml:space="preserve">
     <value>分组:</value>
   </data>
-  <data name="Games_GameInfo_Play.Content" xml:space="preserve">
+  <data name="Library_GameInfo_Play.Content" xml:space="preserve">
     <value>运行</value>
   </data>
-  <data name="Games_GameInfo_Playing.Value" xml:space="preserve">
+  <data name="Library_GameInfo_Playing.Value" xml:space="preserve">
     <value>暂停</value>
   </data>
-  <data name="Games_GameInfo_Pause.Value" xml:space="preserve">
+  <data name="Library_GameInfo_Pause.Value" xml:space="preserve">
     <value>继续</value>
   </data>
   <data name="Manage_Repository.Text" xml:space="preserve">

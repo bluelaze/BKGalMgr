@@ -28,11 +28,11 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class ManagePage : Page
 {
-    public GamesManagePageViewModel ViewModel { get; }
+    public LibraryAndManagePageViewModel ViewModel { get; }
 
     public ManagePage()
     {
-        ViewModel = App.GetRequiredService<GamesManagePageViewModel>();
+        ViewModel = App.GetRequiredService<LibraryAndManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
     }

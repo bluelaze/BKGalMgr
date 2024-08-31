@@ -49,7 +49,7 @@ public partial class App : Application
                 // Main window container with navigation
                 services.AddSingleton<MainWindow>();
                 // ViewModels
-                services.AddSingleton<GamesManagePageViewModel>();
+                services.AddSingleton<LibraryAndManagePageViewModel>();
                 services.AddSingleton<SettingsPageViewModel>();
                 // Models
                 services.AddSingleton<SettingsDto>();

@@ -342,8 +342,8 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Main_Nav_Games.Content" xml:space="preserve">
-    <value>Games</value>
+  <data name="Main_Nav_Library.Content" xml:space="preserve">
+    <value>Library</value>
   </data>
   <data name="Main_Nav_Manage.Content" xml:space="preserve">
     <value>Manage</value>
@@ -351,37 +351,37 @@
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="Games_Repository.Header" xml:space="preserve">
+  <data name="Library_Repository.Header" xml:space="preserve">
     <value>Repository</value>
   </data>
-  <data name="Games_Group.Content" xml:space="preserve">
+  <data name="Library_Group.Content" xml:space="preserve">
     <value>Group</value>
   </data>
-  <data name="Games_GameInfo_Company.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Company.Text" xml:space="preserve">
     <value>Company:</value>
   </data>
-  <data name="Games_GameInfo_PublishDate.Text" xml:space="preserve">
+  <data name="Library_GameInfo_PublishDate.Text" xml:space="preserve">
     <value>PublishDate:</value>
   </data>
-  <data name="Games_GameInfo_Artist.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Artist.Text" xml:space="preserve">
     <value>Artist:</value>
   </data>
-  <data name="Games_GameInfo_Scenario.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Scenario.Text" xml:space="preserve">
     <value>Scenario:</value>
   </data>
-  <data name="Games_GameInfo_TAG.Text" xml:space="preserve">
+  <data name="Library_GameInfo_TAG.Text" xml:space="preserve">
     <value>TAG:</value>
   </data>
-  <data name="Games_GameInfo_Group.Text" xml:space="preserve">
+  <data name="Library_GameInfo_Group.Text" xml:space="preserve">
     <value>Group:</value>
   </data>
-  <data name="Games_GameInfo_Play.Content" xml:space="preserve">
+  <data name="Library_GameInfo_Play.Content" xml:space="preserve">
     <value>Play</value>
   </data>
-  <data name="Games_GameInfo_Playing.Value" xml:space="preserve">
+  <data name="Library_GameInfo_Playing.Value" xml:space="preserve">
     <value>Pause</value>
   </data>
-  <data name="Games_GameInfo_Pause.Value" xml:space="preserve">
+  <data name="Library_GameInfo_Pause.Value" xml:space="preserve">
     <value>Continue</value>
   </data>
   <data name="Manage_Repository.Text" xml:space="preserve">

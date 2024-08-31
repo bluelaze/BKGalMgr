@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
@@ -25,7 +25,7 @@
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
         <None Remove="Views\MainPage.xaml" />
-        <None Remove="Views\Pages\GamesPage.xaml" />
+        <None Remove="Views\Pages\LibraryPage.xaml" />
         <None Remove="Views\Pages\ManagePage.xaml" />
         <None Remove="Views\Pages\SettingsPage.xaml" />
     </ItemGroup>
@@ -98,7 +98,7 @@
         </Page>
     </ItemGroup>
     <ItemGroup>
-        <Page Update="Views\Pages\GamesPage.xaml">
+        <Page Update="Views\Pages\LibraryPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\MainPage.xaml">
