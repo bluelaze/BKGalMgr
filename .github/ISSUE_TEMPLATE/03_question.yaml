@@ -1,0 +1,21 @@
+name: Q&A 问答
+description: Ask questions about BKGalMgr 提出关于BKGalMgr的问题
+labels: question
+body:
+- type: markdown
+  attributes:
+    value: >
+      Before asking questions, make sure it hasn't been mentioned before.
+
+      提问之前请先搜索是否已有相关的回答。
+
+      https://github.com/blulaze/BKGalMgr/labels/question
+
+      Don't ask questions about bugs. To open the right template from the previous selection.
+
+      程序报错不要使用此模板，应该返回上级重新选择`Bug 错误`选项。
+- type: textarea
+  attributes:
+    label: Question 问题
+  validations:
+    required: true

@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "components": [
+  ],
+  "extensions": [
+    "https://marketplace.visualstudio.com/items?itemName=TeamXavalon.XAMLStyler2022",
+    "https://marketplace.visualstudio.com/items?itemName=csharpier.CSharpier"
+  ]
+}

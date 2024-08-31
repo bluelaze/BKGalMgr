@@ -1,0 +1,18 @@
+name: Feature Request 功能请求
+description: Create the request for a new feature 推荐一个增加新功能
+labels: enhancement
+body:
+- type: markdown
+  attributes:
+    value: >
+      Make sure it hasn't been mentioned before. If you want to recommend a new feature, please describe the usage scenarios of this function in detail, if there are any implementation details, please also provide them for discussion.
+
+      确保此类请求之前尚未被其他人提出过。如果你想推荐一个新功能，请详细描述该功能的使用场景，有实现细节也可一并说出来进行讨论。
+- type: textarea
+  attributes:
+    label: Expected behavior 预期的功能
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Alternative behavior (optional) 近似的功能（可选）

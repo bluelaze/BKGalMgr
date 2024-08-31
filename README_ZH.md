@@ -6,10 +6,10 @@
 
 <div align="center">
 
-[![License](https://img.shields.io/github/license/bluelaze/BKGalMgr)](./LICENSE)
-[![All Contributors](https://img.shields.io/github/all-contributors/bluelaze/BKGalMgr)](#acknowledgement-)
-[![Latest Release](https://img.shields.io/github/release-pre/bluelaze/BKGalMgr.svg?style=flat-square&label=Latest%20Release)](https://github.com/bluelaze/BKGalMgr/releases)
-[![GitHub all releases](https://img.shields.io/github/downloads/bluelaze/BKGalMgr/total)](https://github.com/bluelaze/BKGalMgr/releases)
+[![License](https://img.shields.io/github/license/bluelaze/BKGalMgr?color=25c2a0&label=License)](./LICENSE)
+[![All Contributors](https://img.shields.io/github/all-contributors/bluelaze/BKGalMgr?color=25c2a0&label=All%20Contributors)](https://github.com/bluelaze/BKGalMgr/contributors)
+[![Latest Release](https://img.shields.io/github/release-pre/bluelaze/BKGalMgr?color=25c2a0&label=Latest%20Release)](https://github.com/bluelaze/BKGalMgr/releases)
+[![Downloads](https://img.shields.io/github/downloads/bluelaze/BKGalMgr/total?color=25c2a0&label=Downloads)](https://github.com/bluelaze/BKGalMgr/releases)
 
 </div>
 
@@ -19,7 +19,7 @@
 
 </div>
 
-BKGalMgr，统一的管理本地游戏，支持配置多个本地目录作为仓库，记录游戏信息，生成游戏版本，可视化的记录你的游玩时间，可对游戏进行搜索，分组，排序，方便你当一只仓鼠。
+BKGalMgr，统一的管理本地游戏，支持配置多个本地文件夹作为仓库，记录游戏信息，生成游戏版本，可视化的记录你的游玩时间，可对游戏进行搜索，分组，排序，方便你当一只仓鼠。
 
 ## 指南
 
@@ -62,7 +62,7 @@ BKGalMgr本身只存储仓库的根目录路径，不会记录仓库里的任何
 
 也就是BKGalMgr实际上对一个仓库的管理，在关闭时，就完全断开，再次打开时，才会连上，是无状态的。
 
-在这个基于目录来管理的设计下，你完全可以在BKGalMgr关闭后，自己做些仓库的管理，文件夹粒度的进行增删改——注意不应该随意动里面的文件，除非你足够熟悉这些文件的含义。
+在这个基于目录来管理的设计下，你完全可以在BKGalMgr关闭后，自己做些仓库的管理，文件夹粒度的进行增删改——**注意不应该随意动里面的文件，除非你足够熟悉这些文件的含义**。
 
 ### 管理
 
@@ -80,17 +80,20 @@ BKGalMgr本身只存储仓库的根目录路径，不会记录仓库里的任何
 
 #### 本
 
-必须，可选择已有的源和本地化进行构建——先解压源再把本地化解压覆盖进去，也可选择一个包含对游戏所有文件的文件夹，配置启动程序，添加时会把这个文件夹**移动**到仓库的游戏目录里。
+必须，有两种构建方式：
+
+ - 可选择已有的源和本地化进行构建，会先解压源再把本地化解压覆盖进去。
+ - 可选择一个包含游戏所有文件的文件夹，配置启动程序，添加时会把这个文件夹**移动**到仓库的游戏目录里。
 
 第二种方式可方便的构建本，而不需要创建源和本地化，但注意是直接**移动**文件夹来构建，这意味着如果文件夹和仓库在同个磁盘下，那么所有文件会直接移动到仓库下，**原本的文件夹会被清空**，这是出于减少非必要复制的考虑。
 
-如果你不想复制原本的游戏，又想使用BKGalMgr的功能，那么有个冷知识可以帮到你——快捷方式其实是一个文件，你可以复制游戏的快捷方式来创建本。
+如果你不想复制原本的游戏，又想使用BKGalMgr的一些功能，那么有个冷知识可以帮到你——快捷方式其实是一个文件，你可以复制游戏的快捷方式来创建本。
 
 ### 库
 
 当创建好仓库和游戏后，就可以在库的界面里选择仓库了，在这个页面，你可以看到仓库里的所有游戏，并且可以进行搜索，分组，排序。
 
-当需要启动游戏，你需要选择一个本，然后点击`启动`就会拉起配置好的启动程序，并开始计时，如果中途离开，也可暂停计时，当游戏关闭时，会自动停止计时。
+当需要启动游戏，你需要选择一个本，然后点击`运行`就会拉起配置好的启动程序，并开始计时，如果中途离开，也可暂停计时，当游戏关闭时，会自动停止计时。
 
 这就是基础的使用，其余还有些小功能，可自行探索下。
 
@@ -98,14 +101,14 @@ BKGalMgr本身只存储仓库的根目录路径，不会记录仓库里的任何
 
 欢迎提交你的更改，尤其界面美化，项目优化这块的，非常欢迎。
 
-如果你要对现有功能做修改，或者增加新功能，请先发个[Issues](https://github.com/bluelaze/BKGalMgr/issues)，一些讨论或者答疑，请到[Discussions]([discussions](https://github.com/bluelaze/BKGalMgr/discussions))。
+如果你要对现有功能做修改，或者增加新功能，请先发个[Issues](https://github.com/bluelaze/BKGalMgr/issues)，一些讨论或者答疑，请到[Discussions](https://github.com/bluelaze/BKGalMgr/discussions)。
 
 ### 框架
 
 - Visual Studio 2022
 - WinUI3
 
-### 规范
+### 编码规范
 
 c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的[C# 风格指南](https://docs.godotengine.org/zh_CN/stable/tutorials/scripting/c_sharp/c_sharp_style_guide.html)，但实际使用上会有些区别：
 
@@ -113,14 +116,14 @@ c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的
 - 使用带字节顺序标记(`BOM`) 的`UTF-8`编码。
 - c#使用[CSharpier](https://csharpier.com/)格式化。
 - xaml使用[XamlStyler](https://github.com/Xavalon/XamlStyler)格式化。
-- xaml控件命名原则是控件类型结尾的下划线命名法，例如：`add_button`，如果要添加事件，先设置控件名称在自动生成事件名。
-- 默认使用`Binding`，而不是`x:Bind`，`x:Bind`有些隐藏的问题待修复，但有必要也可使用。
+- xaml控件命名原则是控件类型结尾的下划线命名法，例如：`add_button`，如果要添加事件，先设置控件名称在利用vs自动生成事件名。
+- 默认使用`Binding`，而不是`x:Bind`，`x:Bind`有些隐藏的使用问题，但有必要也可使用。
 - 非必要，不用和不抛异常。`try catch`非必要不应使用，尽量多的使用判断语做预处理，而不是依赖`exception`，如果要使用`try catch`，尽可能的减少`try`的范围或进行封装来使用。
 - 一个类原则上按功能类型有序存放代码块，应考虑代码功能聚合，不应无序插入。
 
-其他的c#规范，都可以参考godot的。
+其他的c#一些规范，可以参考godot的。
 
-项目结构上是采用的MVVM模式开发的，没那么严格，`Event`该使用就使用，但涉及UI的操作只应该在`View`，其余业务只应该在`ViewModel`，各个模块应该基于**低耦合，高内聚**的设计原则。
+项目结构上是采用的MVVM模式开发的，没那么严格，`Event`该使用就使用，但涉及UI的操作只应该在`View`，其余业务只应该在`ViewModel`（Model：？），各个模块应该基于**低耦合，高内聚**的设计原则。
 
 **注意：** 注释和提交记录请使用英文，代码提交时需要格式化，提交记录请使用`type(scope): message`的格式提交。
 
@@ -131,9 +134,10 @@ c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的
 感谢在本项目中使用到的所有项目和社区：
 
 - [Microsoft WinUI](https://github.com/microsoft/WindowsAppSDK)
+- [CommunityToolkit](https://github.com/CommunityToolkit/Windows)
+- [DotNet-Discussions](https://github.com/BYJRK/DotNet-Discussions)
 - [Magpie](https://github.com/Blinue/Magpie)
 - [ShareX](https://github.com/ShareX/ShareX)
-- [DotNet-Discussions](https://github.com/BYJRK/DotNet-Discussions)
 - ...
 
 ### 贡献者
