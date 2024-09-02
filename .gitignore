@@ -13,3 +13,5 @@
 /*/bin
 /*/obj
 /*/*.user
+/*/*/*.user
+*.pubxml.user

@@ -4,15 +4,18 @@
         <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <RootNamespace>BKGalMgr</RootNamespace>
+        <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;ARM64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
-        <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
         <UseWinUI>true</UseWinUI>
         <WindowsPackageType>None</WindowsPackageType>
-        <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
-        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
+        <EnableMsixTooling>true</EnableMsixTooling>
+        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <NoWarn>NU1701;NU1702;</NoWarn>
     </PropertyGroup>
     <ItemGroup>
@@ -38,7 +41,9 @@
         <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
         <Content Include="Assets\StoreLogo.png" />
         <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-        <Content Include="BKGalMgr.ico" />
+        <Content Include="BKGalMgr.ico">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -60,17 +65,10 @@
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
-    <!--
-	Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-	Tools extension to be activated for this project even if the Windows App SDK Nuget
-	package has not yet been restored.
-	-->
-    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <ProjectCapability Include="Msix" />
-    </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\BKGalMgr.ThirdParty\BKGalMgr.ThirdParty.csproj" />
+        <ProjectReference Include="..\BKGalMgr.ThirdParty\BKGalMgr.ThirdParty.csproj" />
     </ItemGroup>
+
     <ItemGroup>
         <Page Update="Views\Controls\ContributorInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -113,10 +111,19 @@
     </ItemGroup>
 
     <!--
-	Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-	Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-	the Windows App SDK Nuget package has not yet been restored.
-	-->
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+    </ItemGroup>
+
+    <!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
     <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
     </PropertyGroup>
