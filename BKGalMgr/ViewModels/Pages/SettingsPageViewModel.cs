@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.Models;
+using BKGalMgr.Views;
 using Mapster;
 
 namespace BKGalMgr.ViewModels.Pages;
@@ -36,11 +37,11 @@ public partial class SettingsPageViewModel : ObservableObject
     private ThemeHelper _themeHelper;
     private bool _isInit = false;
 
-    public SettingsPageViewModel()
+    public SettingsPageViewModel(MainWindow mainWindow, SettingsDto settings)
     {
-        _themeHelper = new(App.MainWindow);
+        _themeHelper = new(mainWindow);
 
-        _settings = App.GetRequiredService<SettingsDto>();
+        _settings = settings;
         _settings.Adapt(this);
 
         _languages = LanguageHelper.GetSupportLangugesName();
@@ -69,12 +70,21 @@ public partial class SettingsPageViewModel : ObservableObject
         else if (e.PropertyName == nameof(LanguageIndex))
         {
             Language = Languages.ToList().ElementAt(LanguageIndex).Key;
-            // TODO: change language
+            _settings.Language = Language;
+            ApplyLanguage(_settings);
         }
     }
 
     public void ApplyTheme()
     {
         _themeHelper.ApllyTheme(_settings.AppTheme, _settings.AppBackdropMaterial);
+    }
+
+    public static void ApplyLanguage(SettingsDto settings)
+    {
+        if (settings.Language == SupportLanguages.system)
+            return;
+        var lang = settings.Language.ToString().Replace('_', '-');
+        Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = lang;
     }
 }

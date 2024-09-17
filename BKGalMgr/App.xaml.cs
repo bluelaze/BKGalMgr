@@ -115,6 +115,7 @@ public partial class App : Application
             return;
 
         _host.StartAsync();
+        SettingsPageViewModel.ApplyLanguage(GetRequiredService<SettingsDto>());
         GetRequiredService<SettingsPageViewModel>().ApplyTheme();
 
         MainWindow.Closed += MainWindow_Closed;

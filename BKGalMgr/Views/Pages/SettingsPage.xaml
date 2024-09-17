@@ -47,13 +47,12 @@
                 <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
 
-            <!--  unpackaged app not support change language, https://github.com/microsoft/WindowsAppSDK/issues/1687  -->
-            <!--<mcontrols:SettingsCard x:Uid="Settings_Generic_Language" HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
+            <mcontrols:SettingsCard x:Uid="Settings_Generic_Language" HeaderIcon="{mui:FontIcon Glyph=&#xE775;}">
                 <ComboBox
                     DisplayMemberPath="Value"
                     ItemsSource="{x:Bind ViewModel.Languages}"
                     SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" />
-            </mcontrols:SettingsCard>-->
+            </mcontrols:SettingsCard>
 
             <!--  About  -->
             <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

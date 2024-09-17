@@ -432,6 +432,9 @@
   <data name="Settings_Generic_Language.Header" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="Settings_Generic_Language.Description" xml:space="preserve">
+    <value>Restart to take effect</value>
+  </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>About</value>
   </data>

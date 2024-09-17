@@ -13,7 +13,7 @@
                                      IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <x:Double x:Key="HeaderWidth">64</x:Double>
+        <x:Double x:Key="HeaderWidth">81</x:Double>
         <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
         <Style
             x:Key="HeaderTextBlockStyle"
