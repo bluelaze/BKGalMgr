@@ -111,6 +111,41 @@ public sealed partial class MetadataControl : Control
         set => SetValue(TextBlockStyleProperty, value);
     }
 
+    //
+    // Summary:
+    //     Provides event data for the ItemClick event.
+    public class MetadataItemClickEventArgs : RoutedEventArgs
+    { //
+        // Summary:
+        //     Gets a reference to the clicked item.
+        //
+        // Returns:
+        //     The clicked item.
+        public MetadataItem ClickedItem { get; }
+
+        public MetadataItemClickEventArgs(MetadataItem item)
+        {
+            ClickedItem = item;
+        }
+    }
+
+    //
+    // Summary:
+    //     Represents the method that will handle an ItemClick event.
+    //
+    // Parameters:
+    //   sender:
+    //     The object where the handler is attached.
+    //
+    //   e:
+    //     Event data for the event.
+    public delegate void MetadataItemClickEventHandler(object sender, MetadataItemClickEventArgs e);
+
+    //
+    // Summary:
+    //     Occurs when an item in the list view receives an interaction
+    public event MetadataItemClickEventHandler ItemClick;
+
     /// <inheritdoc/>
     protected override void OnApplyTemplate()
     {
@@ -173,7 +208,7 @@ public sealed partial class MetadataControl : Control
 
             unitToAppend = new Run { Text = unit.Label, };
 
-            if (unit.Command != null)
+            if (unit.Command != null || ItemClick != null)
             {
                 var hyperLink = new Hyperlink
                 {
@@ -184,10 +219,11 @@ public sealed partial class MetadataControl : Control
 
                 void OnHyperlinkClicked(Hyperlink sender, HyperlinkClickEventArgs args)
                 {
-                    if (unit.Command.CanExecute(unit.CommandParameter))
+                    if (unit.Command != null && unit.Command.CanExecute(unit.CommandParameter))
                     {
                         unit.Command.Execute(unit.CommandParameter);
                     }
+                    ItemClick?.Invoke(this, new(unit) { });
                 }
 
                 hyperLink.Click += OnHyperlinkClicked;

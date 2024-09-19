@@ -230,19 +230,31 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Library_GameInfo_Artist" />
-                                    <controls:MetadataControl Items="{Binding Artist}" Separator=" • " />
+                                    <controls:MetadataControl
+                                        ItemClick="MetadataControl_ItemClick"
+                                        Items="{Binding Artist}"
+                                        Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                                    <controls:MetadataControl Items="{Binding Scenario}" Separator=" • " />
+                                    <controls:MetadataControl
+                                        ItemClick="MetadataControl_ItemClick"
+                                        Items="{Binding Scenario}"
+                                        Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Library_GameInfo_TAG" />
-                                    <controls:MetadataControl Items="{Binding Tag}" Separator=" • " />
+                                    <controls:MetadataControl
+                                        ItemClick="MetadataControl_ItemClick"
+                                        Items="{Binding Tag}"
+                                        Separator=" • " />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock x:Uid="Library_GameInfo_Group" />
-                                    <controls:MetadataControl Items="{Binding Group}" Separator=" • " />
+                                    <controls:MetadataControl
+                                        ItemClick="MetadataControl_ItemClick"
+                                        Items="{Binding Group}"
+                                        Separator=" • " />
                                     <Button
                                         Padding="4"
                                         Background="{x:Null}"

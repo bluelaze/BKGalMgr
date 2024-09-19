@@ -247,4 +247,11 @@ public sealed partial class LibraryPage : Page
             App.HideLoading();
         }
     }
+
+    private void MetadataControl_ItemClick(object sender, MetadataControl.MetadataItemClickEventArgs e)
+    {
+        ViewModel.SelectedRepository.SearchText = string.Empty;
+        ViewModel.SelectedRepository.SearchToken.Clear();
+        ViewModel.SelectedRepository.SearchToken.Add(e.ClickedItem.Label);
+    }
 }
