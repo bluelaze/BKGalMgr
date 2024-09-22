@@ -29,7 +29,7 @@
             EmptyValue="Collapsed"
             NotEmptyValue="Visible" />
     </Page.Resources>
-    <Grid>
+    <Grid Margin="24,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -40,10 +40,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel
-                Margin="16,8"
-                Orientation="Horizontal"
-                Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="8">
                 <ComboBox
                     x:Uid="Library_Repository"
                     ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
@@ -79,11 +76,14 @@
 
             <StackPanel
                 Grid.Column="2"
-                Margin="16,36"
+                Margin="16,36,0,0"
                 Orientation="Horizontal"
                 Spacing="8"
                 Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                <ToggleSplitButton x:Uid="Library_Group" IsChecked="{Binding ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
+                <ToggleSplitButton
+                    x:Uid="Library_Group"
+                    VerticalAlignment="Top"
+                    IsChecked="{Binding ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
                     <ToggleSplitButton.Flyout>
                         <Flyout Placement="Bottom">
                             <ItemsRepeater
@@ -161,7 +161,7 @@
 
         <ListView
             Grid.Row="1"
-            Margin="0,8,8,8"
+            Margin="-16,16,-16,0"
             ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">

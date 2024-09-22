@@ -35,6 +35,12 @@
                 <Setter Property="Margin" Value="0,6" />
                 <Setter Property="Spacing" Value="4" />
             </Style>
+            <Style
+                x:Key="IconButtonStyle"
+                BasedOn="{StaticResource DefaultButtonStyle}"
+                TargetType="Button">
+                <Setter Property="Width" Value="40" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

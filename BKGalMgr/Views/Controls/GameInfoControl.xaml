@@ -37,10 +37,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image
-            Width="250"
-            Margin="16,0"
-            VerticalAlignment="Top">
+        <Image Width="250" VerticalAlignment="Top">
             <Image.Source>
                 <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
             </Image.Source>
@@ -52,7 +49,7 @@
                 </ToolTip>
             </ToolTipService.ToolTip>
         </Image>
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" Margin="16,0">
             <local:HeaderedTextBox
                 x:Uid="GameInfo_Name"
                 CanEmpty="False"
@@ -137,7 +134,7 @@
                 </Expander>
             </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="2" Margin="8,0">
+        <StackPanel Grid.Column="2">
             <local:HeaderedTextBox x:Uid="GameInfo_Cover" Text="{Binding Cover, Mode=TwoWay}" />
 
             <Grid>
