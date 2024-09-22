@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
-    x:Class="BKGalMgr.Views.Pages.ManagePage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:BKGalMgr.Views.Controls"
-    xmlns:converters="using:BKGalMgr.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:BKGalMgr.Views.Pages"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:mtriggers="using:CommunityToolkit.WinUI"
-    xmlns:mui="using:CommunityToolkit.WinUI"
-    xmlns:vm="using:BKGalMgr.ViewModels"
-    mc:Ignorable="d">
+<Page x:Class="BKGalMgr.Views.Pages.ManagePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:BKGalMgr.Views.Controls"
+      xmlns:converters="using:BKGalMgr.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
+      xmlns:mtriggers="using:CommunityToolkit.WinUI"
+      xmlns:mui="using:CommunityToolkit.WinUI"
+      xmlns:vm="using:BKGalMgr.ViewModels"
+      mc:Ignorable="d">
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
-        <mconverters:EmptyObjectToObjectConverter
-            x:Key="EmptyObjectToVisibilityConverter"
-            EmptyValue="Collapsed"
-            NotEmptyValue="Visible" />
+        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
+                                                  EmptyValue="Collapsed"
+                                                  NotEmptyValue="Visible" />
 
     </Page.Resources>
     <Grid Margin="24,16">
@@ -29,22 +27,19 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Spacing="8">
-            <ComboBox
-                x:Uid="Manage_Repository_ComboBox"
-                ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
-                SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
+            <ComboBox x:Uid="Manage_Repository_ComboBox"
+                      ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
+                      SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem
-                            x:Name="edit_repository_menuflyoutitem"
-                            x:Uid="Commom_MenuItem_Edit"
-                            Click="edit_repository_menuflyoutitem_Click" />
+                        <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                        x:Uid="Commom_MenuItem_Edit"
+                                        Click="edit_repository_menuflyoutitem_Click" />
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem
-                            x:Name="remove_repository_menuflyoutitem"
-                            x:Uid="Commom_MenuItem_Remove"
-                            Click="remove_repository_menuflyoutitem_Click">
+                        <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                        x:Uid="Commom_MenuItem_Remove"
+                                        Click="remove_repository_menuflyoutitem_Click">
                             <MenuFlyoutItem.Resources>
                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -57,12 +52,11 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
-                            <Button
-                                x:Name="add_repository_button"
-                                Click="add_repository_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE948;}"
-                                Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_repository_button"
+                                    Click="add_repository_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE948;}"
+                                    Style="{StaticResource IconButtonStyle}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.HeaderTemplate>
@@ -76,10 +70,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <ComboBox
-                ItemsSource="{Binding ViewModel.SelectedRepository.Games, Mode=OneWay}"
-                SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
-                Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            <ComboBox ItemsSource="{Binding ViewModel.SelectedRepository.Games, Mode=OneWay}"
+                      SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
+                      Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" />
@@ -89,36 +82,6 @@
                     <DataTemplate>
                         <UserControl>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
-                                <Button
-                                    x:Name="add_game_button"
-                                    Click="add_game_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE948;}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                                <Button
-                                    x:Name="save_game_button"
-                                    Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE74E;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                    <Button.Resources>
-                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
-                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
-                                    </Button.Resources>
-                                </Button>
-                                <Button
-                                    x:Name="delete_game_button"
-                                    Click="delete_game_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE74D;}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                    <Button.Resources>
-                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                    </Button.Resources>
-                                </Button>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup>
                                         <VisualState x:Name="GamePropertyChangedState">
@@ -131,6 +94,33 @@
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
+                                <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
+                                <Button x:Name="add_game_button"
+                                        Click="add_game_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE948;}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                                <Button x:Name="save_game_button"
+                                        Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE74E;}"
+                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}"
+                                        Style="{StaticResource IconButtonStyle}">
+                                    <Button.Resources>
+                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
+                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
+                                    </Button.Resources>
+                                </Button>
+                                <Button x:Name="delete_game_button"
+                                        Click="delete_game_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE74D;}"
+                                        Style="{StaticResource IconButtonStyle}">
+                                    <Button.Resources>
+                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                    </Button.Resources>
+                                </Button>
                             </StackPanel>
                         </UserControl>
                     </DataTemplate>
@@ -139,19 +129,17 @@
                     <DataTemplate x:DataType="vm:GameInfo">
                         <StackPanel>
                             <TextBlock Text="{Binding Name}" />
-                            <SelectorBarItem
-                                Padding="0"
-                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                Text="{Binding CreateDate}" />
+                            <SelectorBarItem Padding="0"
+                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                             Text="{Binding CreateDate}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <ComboBox
-                ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.PlayedPeriods, Mode=OneWay}"
-                SelectedIndex="0"
-                Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+            <ComboBox ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.PlayedPeriods, Mode=OneWay}"
+                      SelectedIndex="0"
+                      Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Converter={StaticResource PlayedPeriodStringConverter}}" />
@@ -159,10 +147,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <Grid
-            Grid.Row="1"
-            Margin="0,16,0,0"
-            Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+        <Grid Grid.Row="1"
+              Margin="0,16,0,0"
+              Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -176,19 +163,17 @@
                 </Grid.ColumnDefinitions>
                 <ListView Padding="0" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel
-                            Margin="16,0"
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        <StackPanel Margin="16,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
                             <TextBlock x:Uid="Manage_Sources" VerticalAlignment="Center" />
-                            <Button
-                                x:Name="add_source_folder_button"
-                                x:Uid="Manage_Sources_Add"
-                                Click="add_source_folder_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_source_folder_button"
+                                    x:Uid="Manage_Sources_Add"
+                                    Click="add_source_folder_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE8F4;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -196,16 +181,14 @@
                             <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            x:Name="edit_source_menuflyoutitem"
-                                            x:Uid="Commom_MenuItem_Edit"
-                                            Click="edit_source_menuflyoutitem_Click" />
+                                        <MenuFlyoutItem x:Name="edit_source_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Edit"
+                                                        Click="edit_source_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem
-                                            x:Name="delete_source_menuflyoutitem"
-                                            x:Uid="Commom_MenuItem_Delete"
-                                            Click="delete_source_menuflyoutitem_Click">
+                                        <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Delete"
+                                                        Click="delete_source_menuflyoutitem_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -215,10 +198,9 @@
                                     </MenuFlyout>
                                 </StackPanel.ContextFlyout>
                                 <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                    Text="{Binding CreateDate}" />
+                                <SelectorBarItem Padding="0"
+                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                 Text="{Binding CreateDate}" />
                                 <TextBlock Text="{Binding Description}" />
                             </StackPanel>
                         </DataTemplate>
@@ -226,19 +208,17 @@
                 </ListView>
                 <ListView Grid.Column="1" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Localizations, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel
-                            Margin="16,0"
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        <StackPanel Margin="16,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
                             <TextBlock x:Uid="Manage_Localization" VerticalAlignment="Center" />
-                            <Button
-                                x:Name="add_localization_folder_button"
-                                x:Uid="Manage_Localization_Add"
-                                Click="add_localization_folder_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_localization_folder_button"
+                                    x:Uid="Manage_Localization_Add"
+                                    Click="add_localization_folder_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE8F4;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -246,16 +226,14 @@
                             <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                 <StackPanel.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem
-                                            x:Name="edit_localization_menuflyoutitem"
-                                            x:Uid="Commom_MenuItem_Edit"
-                                            Click="edit_localization_menuflyoutitem_Click" />
+                                        <MenuFlyoutItem x:Name="edit_localization_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Edit"
+                                                        Click="edit_localization_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                         <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem
-                                            x:Name="delete_localization_menuflyoutitem"
-                                            x:Uid="Commom_MenuItem_Delete"
-                                            Click="delete_localization_menuflyoutitem_Click">
+                                        <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Delete"
+                                                        Click="delete_localization_menuflyoutitem_Click">
                                             <MenuFlyoutItem.Resources>
                                                 <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                 <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -265,10 +243,9 @@
                                     </MenuFlyout>
                                 </StackPanel.ContextFlyout>
                                 <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem
-                                    Padding="0"
-                                    Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                    Text="{Binding CreateDate}" />
+                                <SelectorBarItem Padding="0"
+                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                 Text="{Binding CreateDate}" />
                                 <TextBlock Text="{Binding Description}" />
                             </StackPanel>
                         </DataTemplate>
@@ -276,26 +253,23 @@
                 </ListView>
                 <ListView Grid.Column="2" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Targets, Mode=OneWay}">
                     <ListView.Header>
-                        <StackPanel
-                            Margin="16,0"
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        <StackPanel Margin="16,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
                             <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
-                            <Button
-                                x:Name="add_target_button"
-                                Click="add_target_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE948;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                Style="{StaticResource IconButtonStyle}" />
-                            <Button
-                                x:Name="add_target_folder_button"
-                                x:Uid="Manage_Target_Add"
-                                Click="add_target_folder_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE8F4;}"
-                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_target_button"
+                                    Click="add_target_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE948;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_target_folder_button"
+                                    x:Uid="Manage_Target_Add"
+                                    Click="add_target_folder_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE8F4;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
@@ -304,35 +278,29 @@
                                 <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                     <StackPanel.ContextFlyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem
-                                                x:Name="edit_target_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_Edit"
-                                                Click="edit_target_menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Name="edit_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_target_menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                            <MenuFlyoutItem
-                                                x:Name="export_target_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_Export_As_Source"
-                                                Click="export_target_menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Export_As_Source"
+                                                            Click="export_target_menuflyoutitem_Click" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem
-                                                x:Name="archive_target_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_Archive"
-                                                Click="archive_target_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem
-                                                x:Name="dearchive_target_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_DeArchive"
-                                                Click="dearchive_target_menuflyoutitem_Click"
-                                                IsEnabled="{Binding IsArchive}" />
-                                            <MenuFlyoutItem
-                                                x:Name="delete_target_folder_only_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_Delete_Folder_Only"
-                                                Click="delete_target_folder_only_menuflyoutitem_Click"
-                                                IsEnabled="{Binding IsArchive}" />
+                                            <MenuFlyoutItem x:Name="archive_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Archive"
+                                                            Click="archive_target_menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Name="dearchive_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_DeArchive"
+                                                            Click="dearchive_target_menuflyoutitem_Click"
+                                                            IsEnabled="{Binding IsArchive}" />
+                                            <MenuFlyoutItem x:Name="delete_target_folder_only_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Delete_Folder_Only"
+                                                            Click="delete_target_folder_only_menuflyoutitem_Click"
+                                                            IsEnabled="{Binding IsArchive}" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem
-                                                x:Name="delete_target_menuflyoutitem"
-                                                x:Uid="Commom_MenuItem_Delete"
-                                                Click="delete_target_menuflyoutitem_Click">
+                                            <MenuFlyoutItem x:Name="delete_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Delete"
+                                                            Click="delete_target_menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
                                                     <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                     <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -341,16 +309,6 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
-                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
-                                        <SelectorBarItem.Icon>
-                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                        </SelectorBarItem.Icon>
-                                    </SelectorBarItem>
-                                    <SelectorBarItem
-                                        Padding="0"
-                                        Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                        Text="{Binding CreateDate}" />
-                                    <TextBlock Text="{Binding Description}" />
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup>
                                             <VisualState x:Name="ArchiveState">
@@ -364,6 +322,15 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
+                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                        <SelectorBarItem.Icon>
+                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
+                                        </SelectorBarItem.Icon>
+                                    </SelectorBarItem>
+                                    <SelectorBarItem Padding="0"
+                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                     Text="{Binding CreateDate}" />
+                                    <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
                             </UserControl>
                         </DataTemplate>

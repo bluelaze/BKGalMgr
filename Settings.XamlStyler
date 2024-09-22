@@ -1,6 +1,6 @@
 {
     "AttributesTolerance": 2,
-    "KeepFirstAttributeOnSameLine": false,
+    "KeepFirstAttributeOnSameLine": true,
     "MaxAttributeCharactersPerLine": 0,
     "MaxAttributesPerLine": 1,
     "NewlineExemptionElements": "RadialGradientBrush, GradientStop, LinearGradientBrush, ScaleTransform, SkewTransform, RotateTransform, TranslateTransform, Trigger, Condition, Setter",
@@ -29,7 +29,7 @@
     "RemoveEndingTagOfEmptyElement": true,
     "SpaceBeforeClosingSlash": true,
     "RootElementLineBreakRule": 0,
-    "ReorderVSM": 2,
+    "ReorderVSM": 1,
     "ReorderGridChildren": false,
     "ReorderCanvasChildren": false,
     "ReorderSetters": 0,

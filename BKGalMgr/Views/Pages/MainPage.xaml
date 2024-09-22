@@ -1,54 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Page
-    x:Class="BKGalMgr.Views.Pages.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:BKGalMgr.Views"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mui="using:CommunityToolkit.WinUI"
-    mc:Ignorable="d">
+<Page x:Class="BKGalMgr.Views.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:BKGalMgr.Views"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mui="using:CommunityToolkit.WinUI"
+      mc:Ignorable="d">
 
     <Grid>
-        <NavigationView
-            x:Name="root_navigationview"
-            IsBackButtonVisible="Collapsed"
-            IsSettingsVisible="False"
-            IsTabStop="False"
-            IsTitleBarAutoPaddingEnabled="True"
-            SelectionChanged="root_navigationview_SelectionChanged">
+        <NavigationView x:Name="root_navigationview"
+                        IsBackButtonVisible="Collapsed"
+                        IsSettingsVisible="False"
+                        IsTabStop="False"
+                        IsTitleBarAutoPaddingEnabled="True"
+                        SelectionChanged="root_navigationview_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem
-                    x:Name="library_navitem"
-                    x:Uid="Main_Nav_Library"
-                    Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
-                <NavigationViewItem
-                    x:Name="manage_navitem"
-                    x:Uid="Main_Nav_Manage"
-                    Icon="{mui:FontIcon Glyph=&#xE70F;}" />
+                <NavigationViewItem x:Name="library_navitem"
+                                    x:Uid="Main_Nav_Library"
+                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
+                <NavigationViewItem x:Name="manage_navitem"
+                                    x:Uid="Main_Nav_Manage"
+                                    Icon="{mui:FontIcon Glyph=&#xE70F;}" />
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
                 <NavigationViewItemSeparator />
-                <NavigationViewItem
-                    x:Name="settings_navitem"
-                    x:Uid="Main_Nav_Settings"
-                    Icon="{mui:FontIcon Glyph=&#xE713;}" />
+                <NavigationViewItem x:Name="settings_navitem"
+                                    x:Uid="Main_Nav_Settings"
+                                    Icon="{mui:FontIcon Glyph=&#xE713;}" />
             </NavigationView.FooterMenuItems>
 
-            <Frame
-                x:Name="root_frame"
-                Navigated="root_frame_Navigated"
-                Navigating="root_frame_Navigating" />
+            <Frame x:Name="root_frame"
+                   Navigated="root_frame_Navigated"
+                   Navigating="root_frame_Navigating" />
 
         </NavigationView>
-        <TextBlock
-            x:Name="love_and_peace_textblock"
-            Margin="0,-48,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="128"
-            Opacity="0.1"
-            Text="LOVE AND PEACE" />
+        <TextBlock x:Name="love_and_peace_textblock"
+                   Margin="0,-48,0,0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="128"
+                   Opacity="0.1"
+                   Text="LOVE AND PEACE" />
     </Grid>
 </Page>

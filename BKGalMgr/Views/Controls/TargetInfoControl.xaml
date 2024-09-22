@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<UserControl
-    x:Class="BKGalMgr.Views.Controls.TargetInfoControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:BKGalMgr.Views.Controls"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
-    xmlns:mui="using:CommunityToolkit.WinUI"
-    xmlns:vm="using:BKGalMgr.ViewModels"
-    d:DataContext="{d:DesignInstance vm:TargetInfo,
-                                     IsDesignTimeCreatable=False}"
-    mc:Ignorable="d">
+<UserControl x:Class="BKGalMgr.Views.Controls.TargetInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+             xmlns:mui="using:CommunityToolkit.WinUI"
+             xmlns:vm="using:BKGalMgr.ViewModels"
+             d:DataContext="{d:DesignInstance vm:TargetInfo,
+                                              IsDesignTimeCreatable=False}"
+             mc:Ignorable="d">
 
     <StackPanel>
         <StackPanel.Resources>
@@ -19,20 +18,17 @@
                 <Setter Property="HeaderWidth" Value="98" />
             </Style>
         </StackPanel.Resources>
-        <local:HeaderedTextBox
-            x:Uid="TargetInfo_Name"
-            CanEmpty="False"
-            Text="{Binding Name, Mode=TwoWay}" />
-        <local:HeaderedTextBox
-            x:Name="pick_startup_name_headeredtextbox"
-            x:Uid="TargetInfo_StartupName"
-            CanEmpty="False"
-            Text="{Binding StartupName, Mode=TwoWay}" />
-        <local:HeaderedTextBox
-            x:Uid="TargetInfo_Description"
-            AcceptsReturn="True"
-            Text="{Binding Description, Mode=TwoWay}"
-            TextWrapping="Wrap" />
+        <local:HeaderedTextBox x:Uid="TargetInfo_Name"
+                               CanEmpty="False"
+                               Text="{Binding Name, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Name="pick_startup_name_headeredtextbox"
+                               x:Uid="TargetInfo_StartupName"
+                               CanEmpty="False"
+                               Text="{Binding StartupName, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Uid="TargetInfo_Description"
+                               AcceptsReturn="True"
+                               Text="{Binding Description, Mode=TwoWay}"
+                               TextWrapping="Wrap" />
 
         <ScrollViewer MaxHeight="360">
             <mcontrols:SettingsExpander x:Uid="TargetInfo_Source_Contributors" ItemsSource="{Binding Source.Contributors, Mode=TwoWay}">
@@ -59,40 +55,36 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ListView
-                x:Name="sources_listview"
-                x:Uid="TargetInfo_Sources"
-                ItemsSource="{Binding Game.Sources, Mode=OneWay}"
-                SelectedItem="{Binding Source, Mode=TwoWay}"
-                SelectionChanged="sources_listview_SelectionChanged">
+            <ListView x:Name="sources_listview"
+                      x:Uid="TargetInfo_Sources"
+                      ItemsSource="{Binding Game.Sources, Mode=OneWay}"
+                      SelectedItem="{Binding Source, Mode=TwoWay}"
+                      SelectionChanged="sources_listview_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
-                            <SelectorBarItem
-                                Padding="0"
-                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                Text="{Binding CreateDate}" />
+                            <SelectorBarItem Padding="0"
+                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                             Text="{Binding CreateDate}" />
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <ListView
-                x:Name="localization_listview"
-                x:Uid="TargetInfo_Localization"
-                Grid.Column="1"
-                ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
-                SelectedItem="{Binding Localization, Mode=TwoWay}"
-                SelectionChanged="localization_listview_SelectionChanged">
+            <ListView x:Name="localization_listview"
+                      x:Uid="TargetInfo_Localization"
+                      Grid.Column="1"
+                      ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
+                      SelectedItem="{Binding Localization, Mode=TwoWay}"
+                      SelectionChanged="localization_listview_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:LocalizationInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
-                            <SelectorBarItem
-                                Padding="0"
-                                Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                Text="{Binding CreateDate}" />
+                            <SelectorBarItem Padding="0"
+                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                             Text="{Binding CreateDate}" />
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
