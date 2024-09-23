@@ -11,9 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using CommunityToolkit.WinUI.Controls;
-using Windows.Devices.Lights;
-using Windows.Graphics.Imaging;
+using Windows.Storage;
 
 namespace BKGalMgr.ViewModels;
 
@@ -575,13 +573,21 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public void SaveScreenCapture(TargetInfo targetInfo, Bitmap bitmap)
+    public async Task SaveScreenCapture(TargetInfo targetInfo, Bitmap bitmap)
     {
         Directory.CreateDirectory(ScreenCaptureFolderPath);
         bitmap.Save(
             Path.Combine(
                 ScreenCaptureFolderPath,
                 $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
+            )
+        );
+        // also save to Pictures
+        var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+        bitmap.Save(
+            Path.Combine(
+                picturesLibrary.SaveFolder.Path,
+                $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
             )
         );
     }

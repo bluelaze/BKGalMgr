@@ -321,13 +321,13 @@ public partial class TargetInfo : ObservableObject
         }
     }
 
-    public void DoScreenCapture()
+    public async void DoScreenCapture()
     {
         var capture = ScreenCapture.CaptureRegion();
         if (capture.captureBmp != null)
         {
             Clipboard.SetImage(capture.captureBmp.ToBitmapImage());
-            Game.SaveScreenCapture(this, capture.captureBmp);
+            await Game.SaveScreenCapture(this, capture.captureBmp);
             capture.captureBmp.Dispose();
         }
     }
