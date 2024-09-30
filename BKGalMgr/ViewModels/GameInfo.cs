@@ -139,7 +139,10 @@ public partial class GameInfo : ObservableObject
     [property: JsonIgnore]
     public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
 
-    public GameInfo() { }
+    public GameInfo()
+    {
+        Group.CollectionChanged += Group_CollectionChanged;
+    }
 
     public static GameInfo Open(string dirPath, RepositoryInfo repo)
     {
@@ -193,6 +196,7 @@ public partial class GameInfo : ObservableObject
         gameInfo.LoadCover();
         gameInfo.Repository = repo;
         gameInfo.IsPropertyChanged = false;
+        gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
         return gameInfo;
     }
 
@@ -235,6 +239,14 @@ public partial class GameInfo : ObservableObject
         base.OnPropertyChanged(e);
         if (e.PropertyName != nameof(IsPropertyChanged) && PlayStatus == PlayStatus.Stop)
             IsPropertyChanged = true;
+    }
+
+    private void Group_CollectionChanged(
+        object sender,
+        System.Collections.Specialized.NotifyCollectionChangedEventArgs e
+    )
+    {
+        SaveJsonFile();
     }
 
     public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
