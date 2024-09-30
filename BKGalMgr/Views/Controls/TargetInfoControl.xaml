@@ -31,20 +31,28 @@
                                TextWrapping="Wrap" />
 
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander x:Uid="TargetInfo_Source_Contributors" ItemsSource="{Binding Source.Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="TargetInfo_Source_Contributors" ItemsSource="{Binding Source.Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <local:ContributorInfoControl Margin="0,4" />
+                        <mcontrols:SettingsCard ContentAlignment="Left">
+                            <mcontrols:SettingsCard.Content>
+                                <local:ContributorInfoControl Width="700" Margin="-56,4,-50,4" />
+                            </mcontrols:SettingsCard.Content>
+                        </mcontrols:SettingsCard>
                     </DataTemplate>
                 </mcontrols:SettingsExpander.ItemTemplate>
             </mcontrols:SettingsExpander>
         </ScrollViewer>
 
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander x:Uid="TargetInfo_Localization_Contributors" ItemsSource="{Binding Localization.Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="TargetInfo_Localization_Contributors" ItemsSource="{Binding Localization.Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <local:ContributorInfoControl Margin="0,4" />
+                        <mcontrols:SettingsCard ContentAlignment="Left">
+                            <mcontrols:SettingsCard.Content>
+                                <local:ContributorInfoControl Width="700" Margin="-56,4,-50,4" />
+                            </mcontrols:SettingsCard.Content>
+                        </mcontrols:SettingsCard>
                     </DataTemplate>
                 </mcontrols:SettingsExpander.ItemTemplate>
             </mcontrols:SettingsExpander>

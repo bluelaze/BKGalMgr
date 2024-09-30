@@ -41,7 +41,7 @@
                                Text="{Binding Description, Mode=TwoWay}"
                                TextWrapping="Wrap" />
         <ScrollViewer MaxHeight="360">
-            <mcontrols:SettingsExpander x:Uid="LocalizationInfo_Contributors" ItemsSource="{Binding Contributors, Mode=TwoWay}">
+            <mcontrols:SettingsExpander x:Uid="LocalizationInfo_Contributors" ItemsSource="{Binding Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.Content>
                     <Button x:Name="add_contributor_button"
                             x:Uid="LocalizationInfo_Contributors_Add"
@@ -49,7 +49,13 @@
                 </mcontrols:SettingsExpander.Content>
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <local:ContributorInfoControl Margin="0,4" Delete="ContributorInfoControl_Delete" />
+                        <mcontrols:SettingsCard ContentAlignment="Left">
+                            <mcontrols:SettingsCard.Content>
+                                <local:ContributorInfoControl Width="700"
+                                                              Margin="-56,4,-50,4"
+                                                              Delete="ContributorInfoControl_Delete" />
+                            </mcontrols:SettingsCard.Content>
+                        </mcontrols:SettingsCard>
                     </DataTemplate>
                 </mcontrols:SettingsExpander.ItemTemplate>
             </mcontrols:SettingsExpander>

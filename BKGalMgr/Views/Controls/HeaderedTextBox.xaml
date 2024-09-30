@@ -21,7 +21,7 @@
                         <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind FakeText, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="textbox_text.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+                        <Setter Target="text_textbox.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -29,7 +29,8 @@
         <TextBlock Width="{x:Bind HeaderWidth, Mode=OneWay}"
                    Margin="0,6"
                    Text="{x:Bind Header, Mode=OneWay}" />
-        <TextBox Grid.Column="1"
+        <TextBox x:Name="text_textbox"
+                 Grid.Column="1"
                  Width="{x:Bind TextWidth, Mode=OneWay}"
                  AcceptsReturn="{x:Bind AcceptsReturn, Mode=OneWay}"
                  BorderBrush="Transparent"
