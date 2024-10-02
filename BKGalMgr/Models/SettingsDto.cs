@@ -20,6 +20,7 @@ public class SettingsDto
     public BackdropMaterial AppBackdropMaterial { get; set; }
     public CompressionLevel ZipLevel { get; set; }
     public SupportLanguages Language { get; set; }
+    public BangumiInfo Bangumi { get; set; }
 
     // dto
     private readonly Settings _settings;

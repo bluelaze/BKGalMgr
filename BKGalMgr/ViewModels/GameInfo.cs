@@ -90,6 +90,9 @@ public partial class GameInfo : ObservableObject
     private string _blog;
 
     [ObservableProperty]
+    private string _bangumiSubjectId;
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private bool _isPropertyChanged;
 

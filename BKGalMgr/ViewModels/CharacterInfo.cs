@@ -16,4 +16,7 @@ public partial class CharacterInfo : ObservableObject
 
     [ObservableProperty]
     private string _description;
+
+    [ObservableProperty]
+    private string _bangumiCharacterId;
 }

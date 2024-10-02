@@ -342,6 +342,19 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Bangumi_Pull_Game_Title" xml:space="preserve">
+    <value>Pull Game Info from Bangumi</value>
+  </data>
+  <data name="Bangumi_Pull_Game_Access_Token.PlaceholderText" xml:space="preserve">
+    <value>Config Access Token in Settings Page</value>
+  </data>
+  <data name="Bangumi_Pull_Game_Subject_Url.Header" xml:space="preserve">
+    <value>Subject Url</value>
+  </data>
+  <data name="Bangumi_Pull_Game_Eorr" xml:space="preserve">
+    <value>Pull Bangumi game info error:
+{0}</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>Library</value>
   </data>
@@ -434,6 +447,9 @@
   </data>
   <data name="Settings_Generic_Language.Description" xml:space="preserve">
     <value>Restart to take effect</value>
+  </data>
+  <data name="Settings_Bangumi_AccessToken_Description.Text" xml:space="preserve">
+    <value>Visit the Bangumi website to generate Access Token:</value>
   </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>About</value>

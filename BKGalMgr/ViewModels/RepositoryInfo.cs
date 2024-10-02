@@ -256,7 +256,10 @@ public partial class RepositoryInfo : ObservableObject
             Games.Remove(game);
         }
         if (SelectedGame == game)
-            SelectedGame = null;
+        {
+            _selectedGame = null;
+            OnPropertyChanged(nameof(SelectedGame));
+        }
     }
 
     public void SaveJsonFile()

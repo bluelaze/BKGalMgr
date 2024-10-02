@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
+using BKGalMgr.ViewModels;
 
 namespace BKGalMgr.Models;
 
@@ -16,4 +17,6 @@ public class Settings
     public BackdropMaterial AppBackdropMaterial { get; set; } = BackdropMaterial.Mica;
     public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
     public SupportLanguages Language { get; set; } = SupportLanguages.system;
+
+    public BangumiInfo Bangumi { get; set; } = new();
 }

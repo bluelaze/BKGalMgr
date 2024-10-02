@@ -10,6 +10,15 @@
                 <!--  Other merged dictionaries here  -->
                 <ResourceDictionary Source="Resources/Palette.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_dark.svg</ImageSource>
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Dark">
+                    <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_light.svg</ImageSource>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <!--  Other app resources here  -->
             <Style x:Key="GridItemStyle" TargetType="Grid">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />

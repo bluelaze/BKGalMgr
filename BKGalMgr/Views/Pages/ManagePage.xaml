@@ -100,6 +100,14 @@
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE948;}"
                                         Style="{StaticResource IconButtonStyle}" />
+                                <Button x:Name="add_bangumi_game_button"
+                                        Click="add_bangumi_game_button_Click"
+                                        Style="{StaticResource IconButtonStyle}">
+                                    <ImageIcon Width="16"
+                                               Height="16"
+                                               Foreground="{ThemeResource ButtonForegroundThemeBrush}"
+                                               Source="{ThemeResource BangumiIcon}" />
+                                </Button>
                                 <Button x:Name="save_game_button"
                                         Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
                                         Content="{mui:FontIcon FontSize=16,

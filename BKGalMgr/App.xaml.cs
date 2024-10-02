@@ -53,6 +53,8 @@ public partial class App : Application
                 services.AddSingleton<SettingsPageViewModel>();
                 // Models
                 services.AddSingleton<SettingsDto>();
+                // Servces
+                services.AddSingleton<BangumiService>();
             }
         )
         .Build();
@@ -126,7 +128,7 @@ public partial class App : Application
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
-        GetRequiredService<SettingsDto>().SaveSettings();
+        GetRequiredService<SettingsPageViewModel>().ApplySettings();
     }
 
     public static T GetRequiredService<T>()

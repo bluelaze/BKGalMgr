@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BKGalMgr.Models;
+using BKGalMgr.Services;
 
 namespace BKGalMgr.ViewModels.Pages;
 
@@ -22,11 +23,13 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         _settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
 
+    public string BangumiAccessToken => _settings.Bangumi.AccessToken;
+
     private readonly SettingsDto _settings;
 
-    public LibraryAndManagePageViewModel()
+    public LibraryAndManagePageViewModel(SettingsDto settings)
     {
-        _settings = App.GetRequiredService<SettingsDto>();
+        _settings = settings;
         foreach (var path in _settings.RepositoryPath)
         {
             AddRepository(new RepositoryInfo() { FolderPath = path });
@@ -63,6 +66,30 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         _settings.RepositoryPath.Remove(repository.FolderPath);
         _settings.SaveSettings();
         return true;
+    }
+
+    public void AddGame()
+    {
+        GameInfo newGame = SelectedRepository.NewGame();
+        SelectedRepository.AddGame(newGame);
+        SelectedRepository.SelectedGame = newGame;
+    }
+
+    public async Task<string> AddGameFromBangumi(string accessToken, string subjectUrl)
+    {
+        _settings.Bangumi.AccessToken = accessToken;
+
+        GameInfo newGame = SelectedRepository.NewGame();
+        newGame.BangumiSubjectId = subjectUrl.Split('/').LastOrDefault();
+
+        var errorMessage = await App.GetRequiredService<BangumiService>()
+            .PullGameInfoAsync(newGame, newGame.BangumiSubjectId);
+        if (errorMessage.IsNullOrEmpty())
+        {
+            SelectedRepository.AddGame(newGame);
+            SelectedRepository.SelectedGame = newGame;
+        }
+        return errorMessage;
     }
 
     public void UpdateSource(SourceInfo source)

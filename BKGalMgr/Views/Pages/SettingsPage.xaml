@@ -50,6 +50,18 @@
                           SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" />
             </mcontrols:SettingsCard>
 
+            <!--  Bangumi  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Bangumi" />
+            <mcontrols:SettingsCard Header="Access Token">
+                <mcontrols:SettingsCard.Description>
+                    <TextBlock>
+                        <Run x:Uid="Settings_Bangumi_AccessToken_Description" />
+                        <Hyperlink NavigateUri="https://next.bgm.tv/demo/access-token">https://next.bgm.tv/demo/access-token</Hyperlink>
+                    </TextBlock>
+                </mcontrols:SettingsCard.Description>
+                <TextBox Text="{x:Bind ViewModel.Bangumi.AccessToken, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+
             <!--  About  -->
             <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
             <mcontrols:SettingsExpander Description="Copyright (c) bluelaze. All rights reserved."

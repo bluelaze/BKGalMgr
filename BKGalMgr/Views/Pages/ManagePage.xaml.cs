@@ -82,15 +82,47 @@ public sealed partial class ManagePage : Page
     {
         if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Remove_Confirm")))
         {
-           ViewModel.RemoveRepository(ViewModel.SelectedRepository);
+            ViewModel.RemoveRepository(ViewModel.SelectedRepository);
         }
     }
 
     private void add_game_button_Click(object sender, RoutedEventArgs e)
     {
-        GameInfo newGame = ViewModel.SelectedRepository.NewGame();
-        ViewModel.SelectedRepository.AddGame(newGame);
-        ViewModel.SelectedRepository.SelectedGame = newGame;
+        ViewModel.AddGame();
+    }
+
+    private async void add_bangumi_game_button_Click(object sender, RoutedEventArgs e)
+    {
+        BangumiPullSubjectControl bangumiPullSubjectControl = new BangumiPullSubjectControl()
+        {
+            Width = 720,
+            AccessToken = ViewModel.BangumiAccessToken
+        };
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Bangumi_Pull_Game_Title");
+        dialog.Content = bangumiPullSubjectControl;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel =
+                bangumiPullSubjectControl.AccessToken.IsNullOrEmpty()
+                || bangumiPullSubjectControl.SubjectUrl.IsNullOrEmpty();
+        };
+
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            App.ShowLoading();
+
+            var errorMessage = await ViewModel.AddGameFromBangumi(
+                bangumiPullSubjectControl.AccessToken,
+                bangumiPullSubjectControl.SubjectUrl
+            );
+
+            if (!errorMessage.IsNullOrEmpty())
+                await DialogHelper.ShowError(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(errorMessage));
+
+            App.HideLoading();
+        }
     }
 
     private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)

@@ -33,6 +33,8 @@ public partial class SettingsPageViewModel : ObservableObject
     [ObservableProperty]
     private Dictionary<SupportLanguages, string> _languages;
 
+    public BangumiInfo Bangumi => _settings.Bangumi;
+
     private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
     private bool _isInit = false;
@@ -62,7 +64,7 @@ public partial class SettingsPageViewModel : ObservableObject
         if (!_isInit)
             return;
 
-        this.Adapt(_settings);
+        ApplySettings();
         if (e.PropertyName == nameof(AppTheme) || e.PropertyName == nameof(AppBackdropMaterial))
         {
             ApplyTheme();
@@ -73,6 +75,12 @@ public partial class SettingsPageViewModel : ObservableObject
             _settings.Language = Language;
             ApplyLanguage(_settings);
         }
+    }
+
+    public void ApplySettings()
+    {
+        this.Adapt(_settings);
+        _settings.SaveSettings();
     }
 
     public void ApplyTheme()

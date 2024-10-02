@@ -27,7 +27,7 @@ public class DialogHelper
         return dialog;
     }
 
-    public static async void ShowError(string errorMsg)
+    public static async Task ShowError(string errorMsg)
     {
         ContentDialog dialog = new ContentDialog();
 
