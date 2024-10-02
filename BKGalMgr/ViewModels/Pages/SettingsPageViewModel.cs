@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
@@ -15,6 +16,8 @@ namespace BKGalMgr.ViewModels.Pages;
 
 public partial class SettingsPageViewModel : ObservableObject
 {
+    public string BKGalMgrVersion => Assembly.GetEntryAssembly().GetName().Version.ToString();
+
     [ObservableProperty]
     private Theme _appTheme;
 

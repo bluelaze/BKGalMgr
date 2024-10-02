@@ -69,7 +69,7 @@
                                         HeaderIcon="{mui:BitmapIcon Source='/BKGalMgr.ico'}">
                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextSelectionEnabled="True"
-                           Text="v1.0.0" />
+                           Text="{x:Bind ViewModel.BKGalMgrVersion}" />
                 <mcontrols:SettingsExpander.Items>
                     <mcontrols:SettingsCard x:Uid="Settings_About_Project">
                         <HyperlinkButton Content="https://github.com/bluelaze/BKGalMgr" NavigateUri="https://github.com/bluelaze/BKGalMgr" />
