@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <!-- https://zenn.dev/shinta0806/articles/winui3-winforms -->
-        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <UseWindowsForms>true</UseWindowsForms>
-        <UseWPF>true</UseWPF>
-        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-        <NoWarn>NU1701;NU1702;</NoWarn>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\ThirdParty\ShareX\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj" />
-    </ItemGroup>
+	<PropertyGroup>
+		<!-- https://zenn.dev/shinta0806/articles/winui3-winforms -->
+		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
+		<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+		<NoWarn>NU1701;NU1702;</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ThirdParty\ShareX\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj" />
+	</ItemGroup>
 </Project>

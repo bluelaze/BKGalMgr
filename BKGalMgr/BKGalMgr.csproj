@@ -1,139 +1,140 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>WinExe</OutputType>
-        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-        <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
-        <BKGalMgrVersion>1.0.1</BKGalMgrVersion>
-        <FileVersion>$(BKGalMgrVersion)</FileVersion>
-        <AssemblyVersion>$(BKGalMgrVersion)</AssemblyVersion>
-        <RootNamespace>BKGalMgr</RootNamespace>
-        <ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <Platforms>x86;x64;ARM64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-        <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
-        <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
-        <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
-        <UseWinUI>true</UseWinUI>
-        <WindowsPackageType>None</WindowsPackageType>
-        <WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
-        <EnableMsixTooling>true</EnableMsixTooling>
-        <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-        <NoWarn>NU1701;NU1702;</NoWarn>
-    </PropertyGroup>
-    <ItemGroup>
-        <None Remove="Views\Controls\BangumiPullSubjectControl.xaml" />
-        <None Remove="Views\Controls\GameInfoControl.xaml" />
-        <None Remove="Views\Controls\ContributorInfoControl.xaml" />
-        <None Remove="Views\Controls\GroupInfoControl.xaml" />
-        <None Remove="Views\Controls\HeaderedTextBox.xaml" />
-        <None Remove="Views\Controls\LocalizationInfoControl.xaml" />
-        <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
-        <None Remove="Views\Controls\SourceInfoControl.xaml" />
-        <None Remove="Views\Controls\TargetInfoControl.xaml" />
-        <None Remove="Views\MainPage.xaml" />
-        <None Remove="Views\Pages\LibraryPage.xaml" />
-        <None Remove="Views\Pages\ManagePage.xaml" />
-        <None Remove="Views\Pages\SettingsPage.xaml" />
-    </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
+		<BKGalMgrVersion>1.0.1</BKGalMgrVersion>
+		<FileVersion>$(BKGalMgrVersion)</FileVersion>
+		<AssemblyVersion>$(BKGalMgrVersion)</AssemblyVersion>
+		<RootNamespace>BKGalMgr</RootNamespace>
+		<ApplicationIcon>BKGalMgr.ico</ApplicationIcon>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
+		<UseWinUI>true</UseWinUI>
+		<WindowsPackageType>None</WindowsPackageType>
+		<WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+		<NoWarn>NU1701;NU1702;</NoWarn>
+	</PropertyGroup>
 
-    <ItemGroup>
-        <Content Include="Assets\SplashScreen.scale-200.png" />
-        <Content Include="Assets\LockScreenLogo.scale-200.png" />
-        <Content Include="Assets\Square150x150Logo.scale-200.png" />
-        <Content Include="Assets\Square44x44Logo.scale-200.png" />
-        <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-        <Content Include="Assets\StoreLogo.png" />
-        <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-        <Content Include="BKGalMgr.ico">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+	<ItemGroup>
+		<None Remove="Views\Controls\BangumiPullSubjectControl.xaml" />
+		<None Remove="Views\Controls\GameInfoControl.xaml" />
+		<None Remove="Views\Controls\ContributorInfoControl.xaml" />
+		<None Remove="Views\Controls\GroupInfoControl.xaml" />
+		<None Remove="Views\Controls\HeaderedTextBox.xaml" />
+		<None Remove="Views\Controls\LocalizationInfoControl.xaml" />
+		<None Remove="Views\Controls\RepositoryInfoControl.xaml" />
+		<None Remove="Views\Controls\SourceInfoControl.xaml" />
+		<None Remove="Views\Controls\TargetInfoControl.xaml" />
+		<None Remove="Views\MainPage.xaml" />
+		<None Remove="Views\Pages\LibraryPage.xaml" />
+		<None Remove="Views\Pages\ManagePage.xaml" />
+		<None Remove="Views\Pages\SettingsPage.xaml" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
-        <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240916" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240916" />
-        <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.1.240916" />
-        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240916" />
-        <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.3" />
-        <PackageReference Include="Mapster" Version="7.4.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
-        <PackageReference Include="RestSharp" Version="112.0.0" />
-        <PackageReference Include="System.Interactive.Async" Version="6.0.1" />
-        <PackageReference Include="System.Management" Version="8.0.0" />
-        <PackageReference Include="System.Reactive.Async" Version="6.0.0-alpha.18" />
-        <Manifest Include="$(ApplicationManifest)" />
-    </ItemGroup>
+	<ItemGroup>
+		<Content Include="Assets\SplashScreen.scale-200.png" />
+		<Content Include="Assets\LockScreenLogo.scale-200.png" />
+		<Content Include="Assets\Square150x150Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.scale-200.png" />
+		<Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+		<Content Include="Assets\StoreLogo.png" />
+		<Content Include="Assets\Wide310x150Logo.scale-200.png" />
+		<Content Include="BKGalMgr.ico">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\BKGalMgr.ThirdParty\BKGalMgr.ThirdParty.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240916" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.1.240916" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.1.240916" />
+		<PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240916" />
+		<PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
+		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.3" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240923002" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+		<PackageReference Include="RestSharp" Version="112.0.0" />
+		<PackageReference Include="System.Interactive.Async" Version="6.0.1" />
+		<PackageReference Include="System.Management" Version="8.0.0" />
+		<PackageReference Include="System.Reactive.Async" Version="6.0.0-alpha.18" />
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
 
-    <ItemGroup>
-        <Page Update="Views\Controls\BangumiPullSubjectControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\ContributorInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\GroupInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\GameInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\HeaderedTextBox.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\LocalizationInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\RepositoryInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\SourceInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Controls\TargetInfoControl.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-    </ItemGroup>
-    <ItemGroup>
-        <Page Update="Views\Pages\LibraryPage.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Pages\MainPage.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Pages\ManagePage.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-        <Page Update="Views\Pages\SettingsPage.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BKGalMgr.ThirdParty\BKGalMgr.ThirdParty.csproj" />
+	</ItemGroup>
 
-    <!--
+	<ItemGroup>
+		<Page Update="Views\Controls\BangumiPullSubjectControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\ContributorInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\GroupInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\GameInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\HeaderedTextBox.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\LocalizationInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\RepositoryInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\SourceInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Controls\TargetInfoControl.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Views\Pages\LibraryPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Pages\MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Pages\ManagePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Update="Views\Pages\SettingsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+
+	<!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
     package has not yet been restored.
   -->
-    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <ProjectCapability Include="Msix" />
-    </ItemGroup>
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
 
-    <!--
+	<!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if
     the Windows App SDK Nuget package has not yet been restored.
   -->
-    <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
 </Project>
