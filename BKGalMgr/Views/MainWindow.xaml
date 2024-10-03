@@ -47,12 +47,12 @@
         <tb:TaskbarIcon x:Name="taskbaricon"
                         ContextMenuMode="SecondWindow"
                         IconSource="ms-appx:///BKGalMgr.ico"
-                        LeftClickCommand="{x:Bind ShowCommand}"
+                        LeftClickCommand="{x:Bind ShowWindowCommand}"
                         NoLeftClickDelay="True"
                         ToolTipText="BKGalMgr">
             <tb:TaskbarIcon.ContextFlyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Show" Command="{x:Bind ShowCommand}" />
+                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Show" Command="{x:Bind ShowWindowCommand}" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem x:Uid="Commom_MenuItem_Exit" Command="{x:Bind ExitCommand}" />
                 </MenuFlyout>

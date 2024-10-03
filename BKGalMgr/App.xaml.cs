@@ -87,7 +87,7 @@ public partial class App : Application
             {
                 while (eventWaitHandle.WaitOne())
                 {
-                    MainWindow.DispatcherQueue.TryEnqueue(() => MainWindow.Show());
+                    MainWindow.DispatcherQueue.TryEnqueue(() => MainWindow.ShowWindow());
                 }
             });
 
@@ -121,7 +121,7 @@ public partial class App : Application
         GetRequiredService<SettingsPageViewModel>().ApplyTheme();
 
         MainWindow.Closed += MainWindow_Closed;
-        MainWindow.Show();
+        MainWindow.ShowWindow();
     }
 
     public static MainWindow MainWindow => GetRequiredService<MainWindow>();

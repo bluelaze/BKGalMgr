@@ -172,7 +172,7 @@ public sealed partial class LibraryPage : Page
                 t =>
                 {
                     targetInfo.DoScreenCapture();
-                    App.MainWindow.Show();
+                    App.MainWindow.ShowWindow();
                 },
                 TaskScheduler.FromCurrentSynchronizationContext()
             );

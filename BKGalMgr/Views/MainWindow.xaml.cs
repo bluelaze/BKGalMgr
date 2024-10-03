@@ -51,10 +51,12 @@ public sealed partial class MainWindow : Window
     }
 
     [RelayCommand]
-    public void Show()
+    public void ShowWindow()
     {
-        H.NotifyIcon.WindowExtensions.Show(this);
+        (AppWindow.Presenter as OverlappedPresenter).IsAlwaysOnTop = true;
+        this.Show();
         Activate();
+        (AppWindow.Presenter as OverlappedPresenter).IsAlwaysOnTop = false;
     }
 
     private bool _exit = false;
