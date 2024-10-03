@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="BKGalMgr.Views.Controls.PlayedPeriodChartControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BKGalMgr.ViewModels"
+             mc:Ignorable="d">
+
+    <lvc:CartesianChart Series="{x:Bind Series, Mode=OneWay}" />
+</UserControl>

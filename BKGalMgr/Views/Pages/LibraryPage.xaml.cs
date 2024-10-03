@@ -75,7 +75,8 @@ public sealed partial class LibraryPage : Page
             if (!File.Exists(targetInfo.TargetExePath))
             {
                 if (
-                    targetInfo.IsArchive && await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
+                    targetInfo.IsArchive
+                    && await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
                 )
                 {
                     App.ShowLoading();
@@ -84,7 +85,7 @@ public sealed partial class LibraryPage : Page
                 }
                 if (!File.Exists(targetInfo.TargetExePath))
                 {
-                    DialogHelper.ShowError(
+                    _ = DialogHelper.ShowError(
                         LanguageHelper.GetString("Msg_TargetExe_Invalid").Format(targetInfo.TargetExePath)
                     );
                     return;
@@ -107,7 +108,7 @@ public sealed partial class LibraryPage : Page
 
             if (!startSuccess)
             {
-                DialogHelper.ShowError(
+                _ = DialogHelper.ShowError(
                     LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath)
                 );
             }
@@ -194,18 +195,10 @@ public sealed partial class LibraryPage : Page
     private async Task<ContentDialogResult> EditGroupInfo(GroupInfo groupInfo)
     {
         GroupInfoControl groupInfoControl = new() { Width = 720, DataContext = groupInfo };
-        ContentDialog dialog =
-            new()
-            {
-                XamlRoot = this.XamlRoot,
-                Title = LanguageHelper.GetString("Dlg_Group_Edit"),
-                PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm"),
-                CloseButtonText = LanguageHelper.GetString("Dlg_Cancel"),
-                DefaultButton = ContentDialogButton.Primary,
-                Content = groupInfoControl,
-                RequestedTheme = App.MainWindow.RequestedTheme(),
-            };
-        dialog.Resources["ContentDialogMaxWidth"] = 1080;
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Dlg_Group_Edit");
+        dialog.Content = groupInfoControl;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
         {
             args.Cancel = groupInfo.Name.IsNullOrEmpty();
@@ -253,5 +246,31 @@ public sealed partial class LibraryPage : Page
         ViewModel.SelectedRepository.SearchText = string.Empty;
         ViewModel.SelectedRepository.SearchToken.Clear();
         ViewModel.SelectedRepository.SearchToken.Add(e.ClickedItem.Label);
+    }
+
+    private void playedtime_selectorbaritem_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        // https://github.com/beto-rodriguez/LiveCharts2/issues/1580
+        // Sadly, LiveCharts2 not support winui3 1.6.0
+
+        //var gameInfo = (sender as SelectorBarItem).DataContext as GameInfo;
+        //PlayedPeriodChartControl chartControl =
+        //    new()
+        //    {
+        //        Width = 720,
+        //        Series = new[]
+        //        {
+        //            new LineSeries<PlayedPeriodInfo>()
+        //            {
+        //                Values = gameInfo.PlayedPeriods
+        //            }
+        //        }
+        //    };
+
+        //ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        //dialog.Title = "Play Period Chart";
+        //dialog.Content = chartControl;
+
+        //await dialog.ShowAsync();
     }
 }

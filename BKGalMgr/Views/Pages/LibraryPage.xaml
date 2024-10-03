@@ -219,6 +219,7 @@
                                     <SelectorBarItem x:Name="playedtime_selectorbaritem"
                                                      Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                     Tapped="playedtime_selectorbaritem_Tapped"
                                                      Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Spacing="8">

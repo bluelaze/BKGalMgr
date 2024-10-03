@@ -13,11 +13,11 @@ public class PlayedPeriodStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        PlayedPeriod pp = value as PlayedPeriod;
+        PlayedPeriodInfo pp = value as PlayedPeriodInfo;
         if (pp == null)
             return null;
 
-        return (pp.endTime - pp.benginTime).ToString(@"hh\:mm\:ss") + $" {pp.benginTime} ~ {pp.endTime}";
+        return (pp.EndTime - pp.BenginTime).ToString(@"hh\:mm\:ss") + $" {pp.BenginTime} ~ {pp.EndTime}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)

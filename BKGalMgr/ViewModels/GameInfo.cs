@@ -15,8 +15,6 @@ using Windows.Storage;
 
 namespace BKGalMgr.ViewModels;
 
-public record PlayedPeriod(DateTime benginTime, DateTime endTime);
-
 public enum PlayStatus
 {
     Stop,
@@ -45,7 +43,7 @@ public partial class GameInfo : ObservableObject
     private TimeSpan _playedTime = TimeSpan.Zero;
 
     [ObservableProperty]
-    private List<PlayedPeriod> _playedPeriods = new();
+    private ObservableCollection<PlayedPeriodInfo> _playedPeriods = new();
 
     [ObservableProperty]
     private string _cover;
