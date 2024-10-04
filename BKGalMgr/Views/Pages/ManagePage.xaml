@@ -19,6 +19,9 @@
         <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
                                                   EmptyValue="Collapsed"
                                                   NotEmptyValue="Visible" />
+        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter"
+                                                  EmptyValue="False"
+                                                  NotEmptyValue="True" />
 
     </Page.Resources>
     <Grid Margin="24,16">
@@ -100,9 +103,18 @@
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE948;}"
                                         Style="{StaticResource IconButtonStyle}" />
-                                <Button x:Name="add_bangumi_game_button"
-                                        Click="add_bangumi_game_button_Click"
-                                        Style="{StaticResource IconButtonStyle}">
+                                <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                            <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
+                                                            x:Uid="Bangumi_Pull_Game_Add"
+                                                            Click="add_bangumi_game_menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Name="update_bangumi_game_menuflyoutitem"
+                                                            x:Uid="Bangumi_Pull_Game_Update"
+                                                            Click="update_bangumi_game_menuflyoutitem_Click"
+                                                            IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
                                     <ImageIcon Width="16"
                                                Height="16"
                                                Foreground="{ThemeResource ButtonForegroundThemeBrush}"
@@ -112,7 +124,7 @@
                                         Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE74E;}"
-                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid}"
+                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
                                         Style="{StaticResource IconButtonStyle}">
                                     <Button.Resources>
                                         <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
@@ -123,6 +135,7 @@
                                         Click="delete_game_button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE74D;}"
+                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
                                         Style="{StaticResource IconButtonStyle}">
                                     <Button.Resources>
                                         <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />

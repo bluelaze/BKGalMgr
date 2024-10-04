@@ -355,6 +355,12 @@
     <value>拉取Bangumi的游戏信息出现错误:
 {0}</value>
   </data>
+  <data name="Bangumi_Pull_Game_Add.Text" xml:space="preserve">
+    <value>添加新游戏</value>
+  </data>
+  <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
+    <value>更新当前游戏</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>库</value>
   </data>

@@ -275,6 +275,28 @@ public partial class GameInfo : ObservableObject
         SaveJsonFile();
     }
 
+    public void UpdateGame(GameInfo newGame)
+    {
+        if (!newGame.Name.IsNullOrEmpty())
+            Name = newGame.Name;
+        if (!newGame.Cover.IsNullOrEmpty())
+            Cover = newGame.Cover;
+        if (!newGame.Company.IsNullOrEmpty())
+            Company = newGame.Company;
+        if (!newGame.Website.IsNullOrEmpty())
+            Website = newGame.Website;
+        PublishDate = newGame.PublishDate;
+        Story = newGame.Story;
+
+        Musician.MergeRange(newGame.Musician);
+        Artist.MergeRange(newGame.Artist);
+        Singer.MergeRange(newGame.Singer);
+        Scenario.MergeRange(newGame.Scenario);
+        Cv.MergeRange(newGame.Cv);
+        Tag.MergeRange(newGame.Tag);
+        Characters.AddRange(newGame.Characters.ExceptBy(Characters.Select(c => c.Name), c => c.Name));
+    }
+
     public SourceInfo NewSource()
     {
         var sourceInfo = new SourceInfo();

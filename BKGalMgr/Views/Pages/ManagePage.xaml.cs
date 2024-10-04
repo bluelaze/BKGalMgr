@@ -88,15 +88,16 @@ public sealed partial class ManagePage : Page
 
     private void add_game_button_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.AddGame();
+        ViewModel.AddNewGame();
     }
 
-    private async void add_bangumi_game_button_Click(object sender, RoutedEventArgs e)
+    private async Task<GameInfo> PullBangumiGameInfo(string bangumiSubjectId)
     {
         BangumiPullSubjectControl bangumiPullSubjectControl = new BangumiPullSubjectControl()
         {
             Width = 720,
-            AccessToken = ViewModel.BangumiAccessToken
+            AccessToken = ViewModel.BangumiAccessToken,
+            SubjectUrl = bangumiSubjectId
         };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
@@ -113,16 +114,30 @@ public sealed partial class ManagePage : Page
         {
             App.ShowLoading();
 
-            var errorMessage = await ViewModel.AddGameFromBangumi(
+            var response = await ViewModel.PullGameFromBangumi(
                 bangumiPullSubjectControl.AccessToken,
                 bangumiPullSubjectControl.SubjectUrl
             );
 
-            if (!errorMessage.IsNullOrEmpty())
-                await DialogHelper.ShowError(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(errorMessage));
+            if (!response.ErrorMessage.IsNullOrEmpty())
+                await DialogHelper.ShowError(
+                    LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage)
+                );
 
             App.HideLoading();
+            return response.Game;
         }
+        return null;
+    }
+
+    private async void add_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.AddNewGame(await PullBangumiGameInfo(""));
+    }
+
+    private async void update_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.UpdateGame(await PullBangumiGameInfo(ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId));
     }
 
     private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)

@@ -355,6 +355,12 @@
     <value>Pull Bangumi game info error:
 {0}</value>
   </data>
+  <data name="Bangumi_Pull_Game_Add.Text" xml:space="preserve">
+    <value>Add New Game</value>
+  </data>
+  <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
+    <value>Update Current Game</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>Library</value>
   </data>

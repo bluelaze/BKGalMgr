@@ -68,14 +68,30 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         return true;
     }
 
-    public void AddGame()
+    public void AddNewGame()
     {
         GameInfo newGame = SelectedRepository.NewGame();
+        AddNewGame(newGame);
+    }
+
+    public void AddNewGame(GameInfo newGame)
+    {
+        if (newGame == null)
+            return;
         SelectedRepository.AddGame(newGame);
         SelectedRepository.SelectedGame = newGame;
     }
 
-    public async Task<string> AddGameFromBangumi(string accessToken, string subjectUrl)
+    public void UpdateGame(GameInfo newGame)
+    {
+        if (newGame == null)
+            return;
+        SelectedRepository.SelectedGame.UpdateGame(newGame);
+    }
+
+    public record PullGameResponse(GameInfo Game, string ErrorMessage);
+
+    public async Task<PullGameResponse> PullGameFromBangumi(string accessToken, string subjectUrl)
     {
         _settings.Bangumi.AccessToken = accessToken;
 
@@ -84,12 +100,11 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
 
         var errorMessage = await App.GetRequiredService<BangumiService>()
             .PullGameInfoAsync(newGame, newGame.BangumiSubjectId);
-        if (errorMessage.IsNullOrEmpty())
-        {
-            SelectedRepository.AddGame(newGame);
-            SelectedRepository.SelectedGame = newGame;
-        }
-        return errorMessage;
+
+        if (!errorMessage.IsNullOrEmpty())
+            return new(null, errorMessage);
+
+        return new(newGame, errorMessage);
     }
 
     public void UpdateSource(SourceInfo source)
