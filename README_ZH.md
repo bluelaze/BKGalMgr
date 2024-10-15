@@ -21,6 +21,8 @@
 
 BKGalMgr，统一的管理本地游戏，支持配置多个本地文件夹作为仓库，记录游戏信息，生成游戏版本，可视化的记录你的游玩时间，可对游戏进行搜索，分组，排序，方便你当一只仓鼠。
 
+![Ciallo](doc/images/Ciallo_ZH.png)
+
 ## 指南
 
 ### 下载
@@ -142,7 +144,7 @@ c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的
 
 ### 贡献者
 
-Ciallo～(∠・ω< )⌒★
+Ciallo～(∠・ω< )⌒☆
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->

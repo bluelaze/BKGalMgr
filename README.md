@@ -22,6 +22,8 @@
 
 BKGalMgr, unified management of local games, support for configuring multiple local folders as a repository, record game information, generate game versions, visualize and record your play time, searchable, groupable and sortable games, convenient for you to be a hamster.
 
+![Ciallo](doc/images/Ciallo.png)
+
 ## Guide
 
 ### Download
@@ -143,7 +145,7 @@ Thanks to all the projects and communities used in this project:
 
 ### Contributors
 
-Ciallo～(∠・ω< )⌒★
+Ciallo～(∠・ω< )⌒☆
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
