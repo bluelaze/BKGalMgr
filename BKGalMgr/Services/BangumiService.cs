@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Models;
 using BKGalMgr.Models.Bangumi;
@@ -13,6 +14,15 @@ namespace BKGalMgr.Services;
 
 public class BangumiService
 {
+    private class HeaderInterceptor(SettingsDto settings) : RestSharp.Interceptors.Interceptor
+    {
+        public override ValueTask BeforeRequest(RestRequest request, CancellationToken cancellationToken)
+        {
+            request.AddHeader("Authorization", $"Bearer {settings.Bangumi.AccessToken}");
+            return ValueTask.CompletedTask;
+        }
+    }
+
     private RestClient _client;
 
     private readonly SettingsDto _settings;
@@ -21,36 +31,29 @@ public class BangumiService
     {
         _settings = settings;
         // https://bangumi.github.io/api
-        _client = new(
-            options =>
-            {
-                options.BaseUrl = new("https://api.bgm.tv");
-            },
-            (headers) =>
-            {
-                headers.Add("User-Agent", "bluelaze/BKGalMgr (https://github.com/bluelaze/BKGalMgr)");
-            }
-        );
+        _client = new(options =>
+        {
+            options.BaseUrl = new("https://api.bgm.tv");
+            options.UserAgent = "bluelaze/BKGalMgr (https://github.com/bluelaze/BKGalMgr)";
+            options.Interceptors = [new HeaderInterceptor(_settings)];
+        });
     }
 
     public async Task<RestResponse<Subject>> GetSubjectAsync(string subjectId)
     {
         var request = new RestRequest($"/v0/subjects/{subjectId}");
-        request.AddHeader("Authorization", $"Bearer {_settings.Bangumi.AccessToken}");
         return await _client.ExecuteAsync<Subject>(request);
     }
 
     public async Task<RestResponse<List<Character>>> GetCharactersAsync(string subjectId)
     {
         var request = new RestRequest($"/v0/subjects/{subjectId}/characters");
-        request.AddHeader("Authorization", $"Bearer {_settings.Bangumi.AccessToken}");
         return await _client.ExecuteAsync<List<Character>>(request);
     }
 
     public async Task<RestResponse<List<Person>>> GetPersonsAsync(string subjectId)
     {
         var request = new RestRequest($"/v0/subjects/{subjectId}/persons");
-        request.AddHeader("Authorization", $"Bearer {_settings.Bangumi.AccessToken}");
         return await _client.ExecuteAsync<List<Person>>(request);
     }
 
