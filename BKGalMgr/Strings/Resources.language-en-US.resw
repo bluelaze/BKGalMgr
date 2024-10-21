@@ -394,6 +394,9 @@
   <data name="Library_GameInfo_Group.Text" xml:space="preserve">
     <value>Group:</value>
   </data>
+  <data name="Library_GameInfo_Pick_Target.PlaceholderText" xml:space="preserve">
+    <value>Pick a target to launch</value>
+  </data>
   <data name="Library_GameInfo_Play.Content" xml:space="preserve">
     <value>Play</value>
   </data>

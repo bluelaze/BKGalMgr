@@ -394,6 +394,9 @@
   <data name="Library_GameInfo_Group.Text" xml:space="preserve">
     <value>分组:</value>
   </data>
+  <data name="Library_GameInfo_Pick_Target.PlaceholderText" xml:space="preserve">
+    <value>选择一个本</value>
+  </data>
   <data name="Library_GameInfo_Play.Content" xml:space="preserve">
     <value>运行</value>
   </data>
