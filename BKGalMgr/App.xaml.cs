@@ -73,9 +73,13 @@ public partial class App : Application
     private bool ExistLaunchedApp()
     {
         //https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
-        bool isOwned;
-        _mutex = new Mutex(true, Directory.GetCurrentDirectory().MD5(), out isOwned);
-        EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "MainWindowWake");
+        string singleName = Directory.GetCurrentDirectory().MD5();
+        _mutex = new Mutex(true, singleName, out bool isOwned);
+        EventWaitHandle eventWaitHandle = new EventWaitHandle(
+            false,
+            EventResetMode.AutoReset,
+            singleName.Substring(24)
+        );
 
         // So, R# would not give a warning that this variable is not used.
         GC.KeepAlive(_mutex);
