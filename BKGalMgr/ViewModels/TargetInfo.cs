@@ -223,12 +223,12 @@ public partial class TargetInfo : ObservableObject
             var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
             if (Directory.Exists(targetPath))
             {
-                Directory.Move(targetPath, TargetPath);
+                FileSystemMisc.DirectoryMoveOrCopy(targetPath, TargetPath);
                 return;
             }
 
             // copy current folder as a new target
-            Directory.Move(shareFolderPath, TargetPath);
+            FileSystemMisc.DirectoryMoveOrCopy(shareFolderPath, TargetPath);
         });
     }
 
