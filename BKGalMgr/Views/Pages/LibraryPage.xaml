@@ -142,239 +142,363 @@
             </StackPanel>
         </Grid>
 
-        <ListView Grid.Row="1"
-                  Margin="-16,16,-16,0"
-                  ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:GameInfo">
-                    <UserControl>
-                        <UserControl.Resources>
-                            <converters:GroupToGroupsConverter x:Key="GroupToGroupsConverter" Groups="{Binding Repository.Groups}" />
-                        </UserControl.Resources>
-                        <UserControl.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                            </MenuFlyout>
-                        </UserControl.ContextFlyout>
-                        <Grid x:Name="gameinfo_grid" Style="{StaticResource ListViewGridItemStyle}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="PlayingState">
-                                        <VisualState.StateTriggers>
-                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                            <Setter x:Uid="Library_GameInfo_Playing" Target="play_splitbutton.Content" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="PauseState">
-                                        <VisualState.StateTriggers>
-                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                            <Setter x:Uid="Library_GameInfo_Pause" Target="play_splitbutton.Content" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Image Margin="0,8,8,8">
-                                <Image.Source>
-                                    <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
-                                </Image.Source>
-                                <ToolTipService.ToolTip>
-                                    <ToolTip MaxWidth="1920" Placement="Right">
-                                        <ToolTip.Content>
-                                            <Image Source="{Binding Cover}" Stretch="None" />
-                                        </ToolTip.Content>
-                                    </ToolTip>
-                                </ToolTipService.ToolTip>
-                            </Image>
-                            <StackPanel Grid.Column="1"
-                                        Padding="4"
-                                        Spacing="4">
-                                <HyperlinkButton x:Name="gamename_linkbutton"
-                                                 Padding="0"
-                                                 HorizontalContentAlignment="Left"
-                                                 Click="gamename_linkbutton_Click"
-                                                 Content="{Binding Name}"
-                                                 FontSize="16"
-                                                 FontWeight="Bold" />
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{Binding CreateDate}" />
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                     Text="{Binding LastPlayDate}" />
-                                    <SelectorBarItem x:Name="playedtime_selectorbaritem"
-                                                     Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                     Tapped="playedtime_selectorbaritem_Tapped"
-                                                     Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+        <mcontrols:SwitchPresenter Grid.Row="1"
+                                   Margin="0,-14,0,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   TargetType="x:Boolean"
+                                   Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
+            <mcontrols:Case Value="True">
+                <Button x:Name="switch_to_gridview_button"
+                        Padding="4"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Click="switch_gameview_button_Click"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xF0E2;}"
+                        Style="{StaticResource IconButtonStyle}" />
+            </mcontrols:Case>
+            <mcontrols:Case Value="False">
+                <Button x:Name="switch_to_listview_button"
+                        Padding="4"
+                        Background="{x:Null}"
+                        BorderBrush="{x:Null}"
+                        Click="switch_gameview_button_Click"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xEA37;}"
+                        Style="{StaticResource IconButtonStyle}" />
+            </mcontrols:Case>
+        </mcontrols:SwitchPresenter>
+        <SemanticZoom x:Name="games_view_semanticzoom"
+                      Grid.Row="1"
+                      Margin="-16,16,-16,0"
+                      IsZoomedInViewActive="True"
+                      ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
+            <SemanticZoom.ZoomedInView>
+                <ListView x:Name="games_listview" ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GameInfo">
+                            <UserControl>
+                                <UserControl.Resources>
+                                    <converters:GroupToGroupsConverter x:Key="GroupToGroupsConverter" Groups="{Binding Repository.Groups}" />
+                                </UserControl.Resources>
+                                <UserControl.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                    </MenuFlyout>
+                                </UserControl.ContextFlyout>
+                                <Grid x:Name="gameinfo_grid" Style="{StaticResource ListViewGridItemStyle}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup>
+                                            <VisualState x:Name="PlayingState">
+                                                <VisualState.StateTriggers>
+                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                    <Setter x:Uid="Library_GameInfo_Playing" Target="play_splitbutton.Content" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="PauseState">
+                                                <VisualState.StateTriggers>
+                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                </VisualState.StateTriggers>
+                                                <VisualState.Setters>
+                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                    <Setter x:Uid="Library_GameInfo_Pause" Target="play_splitbutton.Content" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Image Margin="0,8,8,8">
+                                        <Image.Source>
+                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
+                                        </Image.Source>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="1920" Placement="Right">
+                                                <ToolTip.Content>
+                                                    <Image Source="{Binding Cover}" Stretch="None" />
+                                                </ToolTip.Content>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                    <StackPanel Grid.Column="1"
+                                                Padding="4"
+                                                Spacing="4">
+                                        <HyperlinkButton x:Name="gamename_linkbutton"
+                                                         Padding="0"
+                                                         HorizontalContentAlignment="Left"
+                                                         Click="gamename_linkbutton_Click"
+                                                         Content="{Binding Name}"
+                                                         FontSize="16"
+                                                         FontWeight="Bold" />
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <SelectorBarItem Padding="0"
+                                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                             Text="{Binding CreateDate}" />
+                                            <SelectorBarItem Padding="0"
+                                                             Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                             Text="{Binding LastPlayDate}" />
+                                            <SelectorBarItem x:Name="playedtime_selectorbaritem"
+                                                             Padding="0"
+                                                             Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                             Tapped="playedtime_selectorbaritem_Tapped"
+                                                             Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Company" />
+                                            <HyperlinkButton Margin="0,-1,0,0"
+                                                             Padding="0"
+                                                             Content="{Binding Company}"
+                                                             NavigateUri="{Binding Website}" />
+                                            <TextBlock x:Uid="Library_GameInfo_PublishDate" />
+                                            <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Artist" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Artist}"
+                                                                      Separator=" • " />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Scenario" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Scenario}"
+                                                                      Separator=" • " />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_TAG" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Tag}"
+                                                                      Separator=" • " />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Group" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Group}"
+                                                                      Separator=" • " />
+                                            <Button Padding="4"
+                                                    Background="{x:Null}"
+                                                    BorderBrush="{x:Null}"
+                                                    Content="{mui:FontIcon FontSize=12,
+                                                                           Glyph=&#xE70F;}">
+                                                <Button.Flyout>
+                                                    <Flyout Placement="BottomEdgeAlignedLeft">
+                                                        <ItemsRepeater Width="{ThemeResource CommandBarOverflowMaxHeight}" ItemsSource="{Binding Group, Converter={StaticResource GroupToGroupsConverter}}">
+                                                            <ItemsRepeater.Layout>
+                                                                <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
+                                                            </ItemsRepeater.Layout>
+                                                            <ItemsRepeater.ItemTemplate>
+                                                                <DataTemplate x:DataType="vm:GroupInfo">
+                                                                    <ToggleButton x:Name="group_togglebutton"
+                                                                                  Checked="group_togglebutton_IsCheckedChanged"
+                                                                                  Content="{Binding Name, Mode=OneWay}"
+                                                                                  FontSize="12"
+                                                                                  IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                                                  Unchecked="group_togglebutton_IsCheckedChanged" />
+                                                                </DataTemplate>
+                                                            </ItemsRepeater.ItemTemplate>
+                                                        </ItemsRepeater>
+                                                    </Flyout>
+                                                </Button.Flyout>
+                                            </Button>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2"
+                                                Padding="4"
+                                                Orientation="Horizontal"
+                                                Spacing="8">
+                                        <ComboBox x:Uid="Library_GameInfo_Pick_Target"
+                                                  VerticalAlignment="Center"
+                                                  ItemsSource="{Binding Targets, Mode=OneWay}"
+                                                  SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:TargetInfo">
+                                                    <UserControl>
+                                                        <UserControl.ContextFlyout>
+                                                            <MenuFlyout>
+                                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                                            </MenuFlyout>
+                                                        </UserControl.ContextFlyout>
+                                                        <StackPanel>
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroup>
+                                                                    <VisualState x:Name="PlayingState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                    <VisualState x:Name="PauseState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                                            <Setter Target="playedtime_selectorbaritem.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                    <VisualState x:Name="ArchiveState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                                            <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                </VisualStateGroup>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                            <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                                                <SelectorBarItem.Icon>
+                                                                    <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
+                                                                </SelectorBarItem.Icon>
+                                                            </SelectorBarItem>
+                                                            <SelectorBarItem Padding="0"
+                                                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                                             Text="{Binding CreateDate}" />
+                                                            <SelectorBarItem Padding="0"
+                                                                             Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                                             Text="{Binding LastPlayDate}" />
+                                                            <SelectorBarItem x:Name="playedtime_selectorbaritem"
+                                                                             Padding="0"
+                                                                             Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                             Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                                            <HyperlinkButton x:Name="capture_hotkey_button"
+                                                                             Margin="0"
+                                                                             Padding="0"
+                                                                             Click="capture_hotkey_button_Click"
+                                                                             IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToVisibilityConverter}}"
+                                                                             Visibility="{Binding EnableScreenCapture}">
+                                                                <SelectorBarItem Padding="0"
+                                                                                 Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                                                 Text="{Binding ScreenCaptureHotkey}" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                    </UserControl>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <SplitButton x:Name="play_splitbutton"
+                                                     x:Uid="Library_GameInfo_Play"
+                                                     Click="play_splitbutton_Click">
+                                            <SplitButton.Flyout>
+                                                <Flyout Placement="Bottom">
+                                                    <mcontrols:WrapPanel MaxWidth="{ThemeResource ToolTipMaxWidth}"
+                                                                         HorizontalSpacing="4"
+                                                                         VerticalSpacing="8">
+                                                        <ToggleButton x:Name="screencapture_togglebutton"
+                                                                      Content="{mui:FontIcon FontSize=16,
+                                                                                             Glyph='&#xF406;'}"
+                                                                      IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
+                                                    </mcontrols:WrapPanel>
+                                                </Flyout>
+                                            </SplitButton.Flyout>
+                                        </SplitButton>
+                                    </StackPanel>
+                                </Grid>
+                            </UserControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <GridView Margin="12,0,0,0"
+                          ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
+                          SelectionMode="Single">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GameInfo">
+                            <GridViewItem Width="260"
+                                          Height="480"
+                                          Margin="4"
+                                          Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                <GridViewItem.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                    </MenuFlyout>
+                                </GridViewItem.ContextFlyout>
+                                <StackPanel>
+                                    <Image Height="350"
+                                           Margin="8"
+                                           VerticalAlignment="Top">
+                                        <Image.Source>
+                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
+                                        </Image.Source>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="1920" Placement="Right">
+                                                <ToolTip.Content>
+                                                    <Image Source="{Binding Cover}" Stretch="None" />
+                                                </ToolTip.Content>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                    <StackPanel Padding="8" Spacing="2">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="12" />
+                                            </Style>
+                                            <Style TargetType="SelectorBarItem">
+                                                <Setter Property="FontSize" Value="14" />
+                                            </Style>
+                                            <Style TargetType="HyperlinkButton">
+                                                <Setter Property="FontSize" Value="12" />
+                                            </Style>
+                                            <Style TargetType="controls:MetadataControl">
+                                                <Setter Property="FontSize" Value="12" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <HyperlinkButton Padding="0"
+                                                         HorizontalContentAlignment="Left"
+                                                         Click="gamename_linkbutton_Click"
+                                                         Content="{Binding Name}"
+                                                         FontSize="14"
+                                                         FontWeight="Bold" />
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <SelectorBarItem Padding="0"
+                                                             Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                             Text="{Binding LastPlayDate}" />
+                                            <SelectorBarItem Padding="0"
+                                                             VerticalContentAlignment="Center"
+                                                             Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                             Tapped="playedtime_selectorbaritem_Tapped"
+                                                             Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_PublishDate" />
+                                            <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
+                                            <TextBlock x:Uid="Library_GameInfo_Company" />
+                                            <HyperlinkButton Margin="0,-1,0,0"
+                                                             Padding="0"
+                                                             Content="{Binding Company}"
+                                                             NavigateUri="{Binding Website}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Artist" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Artist}"
+                                                                      Separator=" • " />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Group" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      Items="{Binding Group}"
+                                                                      Separator=" • " />
+                                        </StackPanel>
+                                    </StackPanel>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock x:Uid="Library_GameInfo_Company" />
-                                    <HyperlinkButton Padding="0"
-                                                     Content="{Binding Company}"
-                                                     NavigateUri="{Binding Website}" />
-                                    <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                                    <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy/MM/dd'}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock x:Uid="Library_GameInfo_Artist" />
-                                    <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                              Items="{Binding Artist}"
-                                                              Separator=" • " />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                                    <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                              Items="{Binding Scenario}"
-                                                              Separator=" • " />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock x:Uid="Library_GameInfo_TAG" />
-                                    <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                              Items="{Binding Tag}"
-                                                              Separator=" • " />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock x:Uid="Library_GameInfo_Group" />
-                                    <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                              Items="{Binding Group}"
-                                                              Separator=" • " />
-                                    <Button Padding="4"
-                                            Background="{x:Null}"
-                                            BorderBrush="{x:Null}"
-                                            Content="{mui:FontIcon FontSize=12,
-                                                                   Glyph=&#xE70F;}">
-                                        <Button.Flyout>
-                                            <Flyout Placement="BottomEdgeAlignedLeft">
-                                                <ItemsRepeater Width="{ThemeResource CommandBarOverflowMaxHeight}" ItemsSource="{Binding Group, Converter={StaticResource GroupToGroupsConverter}}">
-                                                    <ItemsRepeater.Layout>
-                                                        <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
-                                                    </ItemsRepeater.Layout>
-                                                    <ItemsRepeater.ItemTemplate>
-                                                        <DataTemplate x:DataType="vm:GroupInfo">
-                                                            <ToggleButton x:Name="group_togglebutton"
-                                                                          Checked="group_togglebutton_IsCheckedChanged"
-                                                                          Content="{Binding Name, Mode=OneWay}"
-                                                                          FontSize="12"
-                                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                                                          Unchecked="group_togglebutton_IsCheckedChanged" />
-                                                        </DataTemplate>
-                                                    </ItemsRepeater.ItemTemplate>
-                                                </ItemsRepeater>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2"
-                                        Padding="4"
-                                        Orientation="Horizontal"
-                                        Spacing="8">
-                                <ComboBox x:Uid="Library_GameInfo_Pick_Target"
-                                          VerticalAlignment="Center"
-                                          ItemsSource="{Binding Targets, Mode=OneWay}"
-                                          SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate x:DataType="vm:TargetInfo">
-                                            <UserControl>
-                                                <UserControl.ContextFlyout>
-                                                    <MenuFlyout>
-                                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                                    </MenuFlyout>
-                                                </UserControl.ContextFlyout>
-                                                <StackPanel>
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup>
-                                                            <VisualState x:Name="PlayingState">
-                                                                <VisualState.StateTriggers>
-                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters>
-                                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                </VisualState.Setters>
-                                                            </VisualState>
-                                                            <VisualState x:Name="PauseState">
-                                                                <VisualState.StateTriggers>
-                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters>
-                                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                                                    <Setter Target="playedtime_selectorbaritem.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
-                                                                </VisualState.Setters>
-                                                            </VisualState>
-                                                            <VisualState x:Name="ArchiveState">
-                                                                <VisualState.StateTriggers>
-                                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
-                                                                </VisualState.StateTriggers>
-                                                                <VisualState.Setters>
-                                                                    <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
-                                                                    <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                </VisualState.Setters>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
-                                                        <SelectorBarItem.Icon>
-                                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                                        </SelectorBarItem.Icon>
-                                                    </SelectorBarItem>
-                                                    <SelectorBarItem Padding="0"
-                                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                     Text="{Binding CreateDate}" />
-                                                    <SelectorBarItem Padding="0"
-                                                                     Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                     Text="{Binding LastPlayDate}" />
-                                                    <SelectorBarItem x:Name="playedtime_selectorbaritem"
-                                                                     Padding="0"
-                                                                     Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                     Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
-                                                    <HyperlinkButton x:Name="capture_hotkey_button"
-                                                                     Margin="0"
-                                                                     Padding="0"
-                                                                     Click="capture_hotkey_button_Click"
-                                                                     IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToVisibilityConverter}}"
-                                                                     Visibility="{Binding EnableScreenCapture}">
-                                                        <SelectorBarItem Padding="0"
-                                                                         Icon="{mui:FontIcon Glyph='&#xF406;'}"
-                                                                         Text="{Binding ScreenCaptureHotkey}" />
-                                                    </HyperlinkButton>
-                                                </StackPanel>
-                                            </UserControl>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                                <SplitButton x:Name="play_splitbutton"
-                                             x:Uid="Library_GameInfo_Play"
-                                             Click="play_splitbutton_Click">
-                                    <SplitButton.Flyout>
-                                        <Flyout Placement="Bottom">
-                                            <mcontrols:WrapPanel MaxWidth="{ThemeResource ToolTipMaxWidth}"
-                                                                 HorizontalSpacing="4"
-                                                                 VerticalSpacing="8">
-                                                <ToggleButton x:Name="screencapture_togglebutton"
-                                                              Content="{mui:FontIcon FontSize=16,
-                                                                                     Glyph='&#xF406;'}"
-                                                              IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
-                                            </mcontrols:WrapPanel>
-                                        </Flyout>
-                                    </SplitButton.Flyout>
-                                </SplitButton>
-                            </StackPanel>
-                        </Grid>
-                    </UserControl>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </GridViewItem>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
     </Grid>
 </Page>

@@ -273,4 +273,22 @@ public sealed partial class LibraryPage : Page
 
         //await dialog.ShowAsync();
     }
+
+    private void games_view_semanticzoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+    {
+        if (e.IsSourceZoomedInView == false)
+        {
+            e.DestinationItem.Item = e.SourceItem.Item;
+            games_listview.SelectedItem = e.SourceItem.Item;
+        }
+        else
+        {
+            e.DestinationItem.Item = games_listview.SelectedItem;
+        }
+    }
+
+    private void switch_gameview_button_Click(object sender, RoutedEventArgs e)
+    {
+        games_view_semanticzoom.IsZoomedInViewActive = !games_view_semanticzoom.IsZoomedInViewActive;
+    }
 }
