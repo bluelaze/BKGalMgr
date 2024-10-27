@@ -151,7 +151,7 @@
             <mcontrols:Case Value="True">
                 <Button x:Name="switch_to_gridview_button"
                         Padding="4"
-                        Background="{x:Null}"
+                        Background="Transparent"
                         BorderBrush="{x:Null}"
                         Click="switch_gameview_button_Click"
                         Content="{mui:FontIcon FontSize=16,
@@ -161,7 +161,7 @@
             <mcontrols:Case Value="False">
                 <Button x:Name="switch_to_listview_button"
                         Padding="4"
-                        Background="{x:Null}"
+                        Background="Transparent"
                         BorderBrush="{x:Null}"
                         Click="switch_gameview_button_Click"
                         Content="{mui:FontIcon FontSize=16,
@@ -283,7 +283,7 @@
                                                                       Items="{Binding Group}"
                                                                       Separator=" • " />
                                             <Button Padding="4"
-                                                    Background="{x:Null}"
+                                                    Background="Transparent"
                                                     BorderBrush="{x:Null}"
                                                     Content="{mui:FontIcon FontSize=12,
                                                                            Glyph=&#xE70F;}">
