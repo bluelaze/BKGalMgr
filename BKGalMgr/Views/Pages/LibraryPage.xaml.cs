@@ -13,6 +13,9 @@ using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
 using H.NotifyIcon;
+using LiveChartsCore;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -158,7 +161,7 @@ public sealed partial class LibraryPage : Page
                 gameInfo.PlayStatus = PlayStatus.Stop;
                 targetInfo.PlayStatus = PlayStatus.Stop;
 
-                gameInfo.PlayedPeriods.Insert(0, new(gameInfo.LastPlayDate, DateTime.Now));
+                gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now));
                 gameInfo.SaveJsonFile();
             }
         }
@@ -246,32 +249,6 @@ public sealed partial class LibraryPage : Page
         ViewModel.SelectedRepository.SearchText = string.Empty;
         ViewModel.SelectedRepository.SearchToken.Clear();
         ViewModel.SelectedRepository.SearchToken.Add(e.ClickedItem.Label);
-    }
-
-    private void playedtime_selectorbaritem_Tapped(object sender, TappedRoutedEventArgs e)
-    {
-        // https://github.com/beto-rodriguez/LiveCharts2/issues/1580
-        // Sadly, LiveCharts2 not support winui3 1.6.0
-
-        //var gameInfo = (sender as SelectorBarItem).DataContext as GameInfo;
-        //PlayedPeriodChartControl chartControl =
-        //    new()
-        //    {
-        //        Width = 720,
-        //        Series = new[]
-        //        {
-        //            new LineSeries<PlayedPeriodInfo>()
-        //            {
-        //                Values = gameInfo.PlayedPeriods
-        //            }
-        //        }
-        //    };
-
-        //ContentDialog dialog = DialogHelper.GetConfirmDialog();
-        //dialog.Title = "Play Period Chart";
-        //dialog.Content = chartControl;
-
-        //await dialog.ShowAsync();
     }
 
     private void games_view_semanticzoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)

@@ -297,6 +297,13 @@ public partial class GameInfo : ObservableObject
         Characters.AddRange(newGame.Characters.ExceptBy(Characters.Select(c => c.Name), c => c.Name));
     }
 
+    public void AddPlayedPeriod(PlayedPeriodInfo playedPeriodInfo)
+    {
+        PlayedPeriods.Insert(0, playedPeriodInfo);
+        // notify for chart to update
+        OnPropertyChanged(nameof(PlayedPeriods));
+    }
+
     public SourceInfo NewSource()
     {
         var sourceInfo = new SourceInfo();
