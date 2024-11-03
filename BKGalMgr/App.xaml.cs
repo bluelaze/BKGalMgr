@@ -51,6 +51,7 @@ public partial class App : Application
                 // ViewModels
                 services.AddSingleton<LibraryAndManagePageViewModel>();
                 services.AddSingleton<SettingsPageViewModel>();
+                services.AddTransient<ReviewPageViewModel>();
                 // Models
                 services.AddSingleton<SettingsDto>();
                 // Servces

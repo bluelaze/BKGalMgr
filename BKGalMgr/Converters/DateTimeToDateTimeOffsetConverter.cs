@@ -12,19 +12,17 @@ public class DateTimeToDateTimeOffsetConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value == null)
-            return null;
+        if (value is DateTime dt)
+            return new DateTimeOffset(dt);
 
-        DateTime date = (DateTime)value;
-        return new DateTimeOffset(date);
+        return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        if (value == null)
-            return null;
+        if (value is DateTimeOffset dto)
+            return dto.DateTime;
 
-        DateTimeOffset dto = (DateTimeOffset)value;
-        return dto.DateTime;
+        return null;
     }
 }

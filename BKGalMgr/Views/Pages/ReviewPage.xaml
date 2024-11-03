@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page x:Class="BKGalMgr.Views.Pages.ReviewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:converters="using:BKGalMgr.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+      xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
+      xmlns:mui="using:CommunityToolkit.WinUI"
+      xmlns:vm="using:BKGalMgr.ViewModels"
+      d:DataContext="{d:DesignInstance local:ReviewPage}"
+      NavigationCacheMode="Required"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
+        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
+        <converters:GameReviewGroupInfoToColumnSeriesConverter x:Key="GameReviewGroupInfoToColumnSeriesConverter" />
+        <converters:GameReviewGroupInfoToXAxesConverter x:Key="GameReviewGroupInfoToXAxesConverter" />
+        <converters:GameReviewGroupInfoToYAxesConverter x:Key="GameReviewGroupInfoToYAxesConverter" />
+        <converters:GameReviewGroupInfoToScrollLabelsConverter x:Key="GameReviewGroupInfoToScrollLabelsConverter" />
+        <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
+        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
+
+        <CollectionViewSource x:Name="GroupsCollectionViewSource"
+                              IsSourceGrouped="True"
+                              ItemsPath="Games"
+                              Source="{x:Bind ViewModel.Groups, Mode=OneWay}" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Padding="16,32" Spacing="16">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Spacing="16">
+
+                <SplitView Width="220"
+                           Height="220"
+                           OpenPaneLength="220"
+                           PaneBackground="Transparent"
+                           PanePlacement="Right">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="PointerEntered">
+                            <interactions:ChangePropertyAction PropertyName="IsPaneOpen" Value="True" />
+                        </interactions:EventTriggerBehavior>
+                        <interactions:EventTriggerBehavior EventName="PointerExited">
+                            <interactions:ChangePropertyAction PropertyName="IsPaneOpen" Value="False" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <SplitView.Pane>
+                        <ListView Padding="0,8"
+                                  Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                                  CornerRadius="8"
+                                  ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository}"
+                                  SelectionMode="None">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:RepositoryInfo">
+                                    <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                        <mcontrols:DockPanel>
+                                            <TextBlock mcontrols:DockPanel.Dock="Left"
+                                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                       Text="{Binding StorageUsage, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
+                                            <TextBlock x:Uid="Review_Games"
+                                                       Padding="4,0,0,1"
+                                                       VerticalAlignment="Bottom"
+                                                       mcontrols:DockPanel.Dock="Right"
+                                                       FontSize="11" />
+                                            <TextBlock mcontrols:DockPanel.Dock="Right"
+                                                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                       Text="{Binding Games.Count, Mode=OneWay}"
+                                                       TextAlignment="Right" />
+
+                                        </mcontrols:DockPanel>
+                                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </SplitView.Pane>
+                    <StackPanel Padding="16,16,16,0"
+                                Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+                                CornerRadius="8">
+                        <TextBlock HorizontalTextAlignment="Right"
+                                   Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                   Text="{x:Bind ViewModel.StorageUsage, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
+                        <TextBlock x:Uid="Review_Storage_Usage"
+                                   HorizontalTextAlignment="Right"
+                                   Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                        <TextBlock Margin="0,56,0,0"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                                   Text="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository.Count, Mode=OneWay}" />
+                        <TextBlock x:Uid="Review_Repositories" FontSize="16" />
+                    </StackPanel>
+                </SplitView>
+
+                <StackPanel Width="220"
+                            Height="220"
+                            Padding="16,16,16,0"
+                            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
+                            CornerRadius="8">
+                    <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind ViewModel.PlayedTime.TotalHours, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.0} H'}" />
+                    <TextBlock x:Uid="Review_Played_Time" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                    <Grid Margin="0,56,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.GamesNumber, Mode=OneWay}" />
+                            <TextBlock x:Uid="Review_Games" FontSize="16" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.SessionsPlayed, Mode=OneWay}" />
+                            <TextBlock x:Uid="Review_Sessions_Played"
+                                       FontSize="16"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+            </StackPanel>
+
+            <Grid Height="300"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                  BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}">
+                <lvc:CartesianChart x:Name="time_CartesianChart"
+                                    DataPointerDown="time_CartesianChart_DataPointerDown"
+                                    Series="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToColumnSeriesConverter}}"
+                                    XAxes="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToXAxesConverter}}"
+                                    YAxes="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToYAxesConverter}}"
+                                    ZoomMode="X" />
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ScrollView x:Name="time_axis_ScrollView" VerticalScrollBarVisibility="Hidden">
+                <GridView x:Name="time_axis_GridView"
+                          MaxWidth="720"
+                          HorizontalAlignment="Center"
+                          ItemsSource="{x:Bind GroupsCollectionViewSource.View, Mode=OneWay}"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          SelectionMode="None">
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="vm:GameReviewGroupInfo">
+                                    <HyperlinkButton x:Name="group_header_HyperlinkButton"
+                                                     Padding="0"
+                                                     Click="group_header_HyperlinkButton_Click"
+                                                     Content="{x:Bind Label, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}"
+                                                     FontSize="20"
+                                                     FontWeight="Bold"
+                                                     Foreground="{ThemeResource ButtonForegroundThemeBrush}" />
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GameReviewGroupItem">
+                            <GridViewItem Width="150"
+                                          Height="220"
+                                          Margin="4"
+                                          Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                <GridViewItem.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                    </MenuFlyout>
+                                </GridViewItem.ContextFlyout>
+                                <StackPanel>
+                                    <Image Height="170"
+                                           Margin="8"
+                                           VerticalAlignment="Top">
+                                        <Image.Source>
+                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Game.Cover}" />
+                                        </Image.Source>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip MaxWidth="1920" Placement="Right">
+                                                <ToolTip.Content>
+                                                    <Image Source="{Binding Game.Cover}" Stretch="None" />
+                                                </ToolTip.Content>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                    <StackPanel Padding="8,0" Spacing="1">
+                                        <HyperlinkButton x:Name="group_game_name_HyperlinkButton"
+                                                         Padding="0"
+                                                         HorizontalContentAlignment="Left"
+                                                         Click="group_game_name_HyperlinkButton_Click"
+                                                         Content="{Binding Game.Name}"
+                                                         FontSize="12"
+                                                         FontWeight="Bold" />
+                                        <TextBlock FontSize="11"
+                                                   Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}"
+                                                   TextAlignment="Right" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </GridViewItem>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </ScrollView>
+            <AnnotatedScrollBar x:Name="time_axis_AnnotatedScrollBar"
+                                Grid.Column="1"
+                                VerticalAlignment="Stretch"
+                                DetailLabelRequested="time_axis_AnnotatedScrollBar_DetailLabelRequested"
+                                Labels="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToScrollLabelsConverter}}" />
+        </Grid>
+        <Button x:Name="review_refresh_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Click="review_refresh_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE72C;}"
+                Style="{StaticResource IconButtonStyle}" />
+    </Grid>
+</Page>

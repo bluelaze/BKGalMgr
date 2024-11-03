@@ -12,11 +12,12 @@ public class TimeSpanFormatStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        TimeSpan? ts = (TimeSpan?)value;
-        if (ts == null)
-            return null;
+        if (value is TimeSpan ts)
+        {
+            return ts.ToString(parameter as string, CultureInfo.CurrentUICulture);
+        }
 
-        return ts?.ToString(parameter as string);
+        return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)

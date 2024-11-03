@@ -91,6 +91,10 @@ public partial class RepositoryInfo : ObservableObject
     [property: JsonIgnore]
     private string JsonPath => Path.Combine(FolderPath, GlobalInfo.RepositoryJsonName);
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private long _storageUsage = 0;
+
     public RepositoryInfo()
     {
         GamesView = new(Games, true);
@@ -154,6 +158,11 @@ public partial class RepositoryInfo : ObservableObject
             tags = tags.Union(item.GetAllTags()).ToList();
 
         return tags.Where(t => t != null && t.Contains(SearchText)).ToList();
+    }
+
+    public async Task RefreshStorageUsageAsync()
+    {
+        StorageUsage = await Task.Run(() => FileSystemMisc.GetDirectorySize(FolderPath));
     }
 
     class StringContainsComparer : IEqualityComparer<string>

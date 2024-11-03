@@ -45,6 +45,17 @@ public sealed partial class LibraryPage : Page
         this.InitializeComponent();
     }
 
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        if (e.Parameter is GameInfo game && ViewModel.SelectedRepository?.Games.IndexOf(game) != -1)
+        {
+            games_listview.SelectedItem = game;
+            games_listview.ScrollIntoView(game);
+            games_listview.MakeVisible(new SemanticZoomLocation() { Item = game });
+        }
+    }
+
     private void gamename_linkbutton_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;
@@ -266,6 +277,6 @@ public sealed partial class LibraryPage : Page
 
     private void switch_gameview_button_Click(object sender, RoutedEventArgs e)
     {
-        games_view_semanticzoom.IsZoomedInViewActive = !games_view_semanticzoom.IsZoomedInViewActive;
+        games_view_semanticzoom.ToggleActiveView();
     }
 }

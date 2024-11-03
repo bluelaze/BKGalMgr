@@ -290,7 +290,7 @@ public sealed partial class ManagePage : Page
                     targetInfo.SeletedSource();
 
                 if (!targetInfo.IsValid())
-                    DialogHelper.ShowError(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
+                    _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
                 else
                     await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }

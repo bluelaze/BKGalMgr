@@ -31,10 +31,13 @@ public sealed partial class MainPage : Page
         _mainpage = this;
     }
 
-    public static void NavigateTo(Type pageType)
+    public static void NavigateTo(Type pageType, object parameter = null)
     {
+        _mainpage.root_frame.Navigate(pageType, parameter);
         if (pageType == typeof(ManagePage))
             _mainpage.root_navigationview.SelectedItem = _mainpage.manage_navitem;
+        else if (pageType == typeof(LibraryPage))
+            _mainpage.root_navigationview.SelectedItem = _mainpage.library_navitem;
     }
 
     private void root_navigationview_SelectionChanged(
@@ -44,17 +47,25 @@ public sealed partial class MainPage : Page
     {
         love_and_peace_textblock.Visibility = Visibility.Collapsed;
         var selectedItem = args.SelectedItemContainer;
-        if (selectedItem == manage_navitem)
+        if (selectedItem == library_navitem)
         {
-            root_frame.Navigate(typeof(ManagePage));
+            if (root_frame.CurrentSourcePageType != typeof(LibraryPage))
+                root_frame.Navigate(typeof(LibraryPage));
         }
-        else if (selectedItem == library_navitem)
+        else if (selectedItem == manage_navitem)
         {
-            root_frame.Navigate(typeof(LibraryPage));
+            if (root_frame.CurrentSourcePageType != typeof(ManagePage))
+                root_frame.Navigate(typeof(ManagePage));
+        }
+        else if (selectedItem == review_navitem)
+        {
+            if (root_frame.CurrentSourcePageType != typeof(ReviewPage))
+                root_frame.Navigate(typeof(ReviewPage));
         }
         else if (selectedItem == settings_navitem)
         {
-            root_frame.Navigate(typeof(SettingsPage));
+            if (root_frame.CurrentSourcePageType != typeof(SettingsPage))
+                root_frame.Navigate(typeof(SettingsPage));
         }
     }
 

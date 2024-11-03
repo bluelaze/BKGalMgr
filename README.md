@@ -44,7 +44,7 @@ Minimum Windows version: `Win10 1809(10.0.17763.0)`.
         /sources                        // The game sources folder, with a fixed name.
             (yyyyMMddTHHmmssZ)          // Folder for one of the game's sources, named at creation time when the source is created
                 sourceinfo.json         // Game source configuration file, name fixed
-                source.zip               // The source of the game is created by zipping all the files, and the name is fixed.
+                source.zip              // The source of the game is created by zipping all the files, and the name is fixed.
 
         /localizations                  // Game localization folder, name fixed
             (yyyyMMddTHHmmssZ)          // One of the game localization folders, when creating the localization, use the creation time to name it
@@ -119,8 +119,8 @@ For the code specification of c#, you can refer to the [C# Style Guide](https://
 - Use `UTF-8` encoding with byte order markers (`BOM`).
 - c# uses [CSharpier](https://csharpier.com/) formatting.
 - xaml uses [XamlStyler](https://github.com/Xavalon/XamlStyler) formatting.
-- xaml control naming principle is control type ending underscore naming method, for example: `add_button`, if you want to add events, first set the control name in the use of vs auto-generate event name.
-- Default use `Binding` instead of `x:Bind`, `x:Bind` has some hidden usage tips, but can be used if necessary.
+- xaml control naming principle is control type ending underscore naming method, for example: `add_Button`, if you want to add events, first set the control name in the use of vs auto-generate event name.
+- Default use `Binding` instead of `x:Bind` in `DataTemplate`, `x:Bind` has some hidden usage tips, but can be used if necessary.
 - Unnecessary, don't use and don't throw exceptions. `try catch` should not be used unless it is necessary, try to use as many judgment statements as possible for preprocessing instead of relying on `exception`, and if you want to use `try catch`, reduce the scope of `try` as much as possible or encapsulate the use of `try`.
 - In principle, a class should store code blocks in an orderly manner according to the type of functionality, and should consider the functional aggregation of code, rather than inserting it in an unorganized manner.
 

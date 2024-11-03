@@ -367,6 +367,9 @@
   <data name="Main_Nav_Manage.Content" xml:space="preserve">
     <value>Manage</value>
   </data>
+  <data name="Main_Nav_Review.Content" xml:space="preserve">
+    <value>Review</value>
+  </data>
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -432,6 +435,21 @@
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Import exist target</value>
+  </data>
+  <data name="Review_Storage_Usage.Text" xml:space="preserve">
+    <value>Storage Usage</value>
+  </data>
+  <data name="Review_Repositories.Text" xml:space="preserve">
+    <value>Repositories</value>
+  </data>
+  <data name="Review_Played_Time.Text" xml:space="preserve">
+    <value>Played Time</value>
+  </data>
+  <data name="Review_Games.Text" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="Review_Sessions_Played.Text" xml:space="preserve">
+    <value>Sessions Played</value>
   </data>
   <data name="Settings_Generic.Text" xml:space="preserve">
     <value>Generic</value>

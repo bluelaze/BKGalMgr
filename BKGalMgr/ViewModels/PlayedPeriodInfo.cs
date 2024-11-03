@@ -13,13 +13,16 @@ namespace BKGalMgr.ViewModels;
 public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
 {
     // 。。。yet, begin is correct, but data is save
-    [property: JsonPropertyName("benginTime")]
     [ObservableProperty]
+    [property: JsonPropertyName("benginTime")]
     private DateTime _benginTime;
 
-    [property: JsonPropertyName("endTime")]
     [ObservableProperty]
+    [property: JsonPropertyName("endTime")]
     private DateTime _endTime;
+
+    [JsonIgnore]
+    public TimeSpan Period => EndTime - BenginTime;
 
     [JsonIgnore]
     public ChartEntityMetaData MetaData { get; set; }
@@ -34,18 +37,12 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
         BenginTime = beginTime;
         EndTime = endTime;
 
-        if (BenginTime == null || EndTime == null)
-            Coordinate = Coordinate.Empty;
-        else
-            Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
+        Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        if (BenginTime == null || EndTime == null)
-            Coordinate = Coordinate.Empty;
-        else
-            Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
+        Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
 
         base.OnPropertyChanged(e);
     }

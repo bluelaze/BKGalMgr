@@ -22,6 +22,9 @@
                 <NavigationViewItem x:Name="manage_navitem"
                                     x:Uid="Main_Nav_Manage"
                                     Icon="{mui:FontIcon Glyph=&#xE70F;}" />
+                <NavigationViewItem x:Name="review_navitem"
+                                    x:Uid="Main_Nav_Review"
+                                    Icon="{mui:FontIcon Glyph=&#xE9D2;}" />
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>

@@ -367,6 +367,9 @@
   <data name="Main_Nav_Manage.Content" xml:space="preserve">
     <value>管理</value>
   </data>
+  <data name="Main_Nav_Review.Content" xml:space="preserve">
+    <value>回顾</value>
+  </data>
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>设置</value>
   </data>
@@ -432,6 +435,21 @@
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>导入已有的本</value>
+  </data>
+  <data name="Review_Storage_Usage.Text" xml:space="preserve">
+    <value>存储占用</value>
+  </data>
+  <data name="Review_Repositories.Text" xml:space="preserve">
+    <value>仓库</value>
+  </data>
+  <data name="Review_Played_Time.Text" xml:space="preserve">
+    <value>游戏时间</value>
+  </data>
+  <data name="Review_Games.Text" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="Review_Sessions_Played.Text" xml:space="preserve">
+    <value>游戏会话数</value>
   </data>
   <data name="Settings_Generic.Text" xml:space="preserve">
     <value>通用</value>

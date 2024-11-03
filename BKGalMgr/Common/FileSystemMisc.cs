@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
@@ -85,5 +86,42 @@ internal class FileSystemMisc
             Directory.Move(sourceDirName, destDirName);
         else
             CopyDirectory(sourceDirName, destDirName);
+    }
+
+    // https://stackoverflow.com/questions/2979432/directory-file-size-calculation-how-to-make-it-faster
+    public static long GetDirectorySize(string sourceDir, bool recurse = true)
+    {
+        return GetDirectorySize(new DirectoryInfo(sourceDir), recurse);
+    }
+
+    private static long GetDirectorySize(DirectoryInfo di, bool recurse = true)
+    {
+        long size = 0;
+        foreach (var fiEntry in di.GetFiles())
+        {
+            Interlocked.Add(ref size, fiEntry.Length);
+        }
+
+        if (recurse)
+        {
+            DirectoryInfo[] diEntries = di.GetDirectories("*.*", SearchOption.TopDirectoryOnly);
+            Parallel.For<long>(
+                0,
+                diEntries.Length,
+                () => 0,
+                (i, loop, subtotal) =>
+                {
+                    if (
+                        (diEntries[i].Attributes & System.IO.FileAttributes.ReparsePoint)
+                        == System.IO.FileAttributes.ReparsePoint
+                    )
+                        return 0;
+                    subtotal += GetDirectorySize(diEntries[i], true);
+                    return subtotal;
+                },
+                (x) => Interlocked.Add(ref size, x)
+            );
+        }
+        return size;
     }
 }
