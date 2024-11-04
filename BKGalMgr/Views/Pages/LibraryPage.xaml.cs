@@ -134,12 +134,16 @@ public sealed partial class LibraryPage : Page
                 gameInfo.LastPlayDate = targetInfo.LastPlayDate;
                 gameInfo.SaveJsonFile();
 
+                TimeSpan pauseTime = TimeSpan.Zero;
                 var savePlayedTime = () =>
                 {
+                    var timeCost = TimeSpan.FromSeconds(1);
+
+                    if (gameInfo.PlayStatus == PlayStatus.Pause)
+                        pauseTime += timeCost;
+
                     if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
                         return;
-
-                    var timeCost = TimeSpan.FromSeconds(1);
 
                     targetInfo.PlayedTime += timeCost;
                     targetInfo.SaveJsonFile();
@@ -172,7 +176,7 @@ public sealed partial class LibraryPage : Page
                 gameInfo.PlayStatus = PlayStatus.Stop;
                 targetInfo.PlayStatus = PlayStatus.Stop;
 
-                gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now));
+                gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
                 gameInfo.SaveJsonFile();
             }
         }

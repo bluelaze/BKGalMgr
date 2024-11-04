@@ -21,8 +21,11 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
     [property: JsonPropertyName("endTime")]
     private DateTime _endTime;
 
+    [ObservableProperty]
+    private TimeSpan _pauseTime = TimeSpan.Zero;
+
     [JsonIgnore]
-    public TimeSpan Period => EndTime - BenginTime;
+    public TimeSpan Period => EndTime - BenginTime - PauseTime;
 
     [JsonIgnore]
     public ChartEntityMetaData MetaData { get; set; }
@@ -32,17 +35,18 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
 
     public PlayedPeriodInfo() { }
 
-    public PlayedPeriodInfo(DateTime beginTime, DateTime endTime)
+    public PlayedPeriodInfo(DateTime beginTime, DateTime endTime, TimeSpan pauseTime)
     {
         BenginTime = beginTime;
         EndTime = endTime;
+        PauseTime = pauseTime;
 
-        Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
+        Coordinate = new Coordinate(BenginTime.Ticks, Period.Ticks);
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
-        Coordinate = new Coordinate(BenginTime.Ticks, (EndTime - BenginTime).Ticks);
+        Coordinate = new Coordinate(BenginTime.Ticks, Period.Ticks);
 
         base.OnPropertyChanged(e);
     }
