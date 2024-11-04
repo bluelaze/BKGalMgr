@@ -366,7 +366,7 @@
                                                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                                                 </MenuFlyout>
                                                             </UserControl.ContextFlyout>
-                                                            <StackPanel>
+                                                            <StackPanel Background="Transparent">
                                                                 <VisualStateManager.VisualStateGroups>
                                                                     <VisualStateGroup>
                                                                         <VisualState x:Name="PlayingState">
