@@ -62,6 +62,11 @@ public sealed partial class MainPage : Page
             if (root_frame.CurrentSourcePageType != typeof(ReviewPage))
                 root_frame.Navigate(typeof(ReviewPage));
         }
+        else if (selectedItem == migration_navitem)
+        {
+            if (root_frame.CurrentSourcePageType != typeof(MigrationPage))
+                root_frame.Navigate(typeof(MigrationPage));
+        }
         else if (selectedItem == settings_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(SettingsPage))

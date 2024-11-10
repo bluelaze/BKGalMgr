@@ -36,6 +36,7 @@
         <None Remove="Views\MainPage.xaml" />
         <None Remove="Views\Pages\LibraryPage.xaml" />
         <None Remove="Views\Pages\ManagePage.xaml" />
+        <None Remove="Views\Pages\MigrationPage.xaml" />
         <None Remove="Views\Pages\ReviewPage.xaml" />
         <None Remove="Views\Pages\SettingsPage.xaml" />
     </ItemGroup>
@@ -124,6 +125,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\ManagePage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Pages\MigrationPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\ReviewPage.xaml">

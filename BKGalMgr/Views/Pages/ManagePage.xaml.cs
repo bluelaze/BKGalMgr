@@ -180,7 +180,7 @@ public sealed partial class ManagePage : Page
     private async void edit_source_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
-        var editSourceInfo = SourceInfo.Open(Path.GetDirectoryName(sourceInfo.JsonPath));
+        var editSourceInfo = SourceInfo.Open(sourceInfo.FolderPath);
         var result = await EditSourceInfo(editSourceInfo);
         if (result == ContentDialogResult.Primary)
         {
@@ -226,7 +226,7 @@ public sealed partial class ManagePage : Page
     private async void edit_localization_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
-        var editLocalizationInfo = LocalizationInfo.Open(Path.GetDirectoryName(localizationInfo.JsonPath));
+        var editLocalizationInfo = LocalizationInfo.Open(localizationInfo.FolderPath);
         var result = await EditLocalizationInfo(editLocalizationInfo);
         if (result == ContentDialogResult.Primary)
         {
@@ -317,7 +317,7 @@ public sealed partial class ManagePage : Page
     private async void edit_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
-        var editTargetInfo = TargetInfo.Open(Path.GetDirectoryName(targetInfo.JsonPath));
+        var editTargetInfo = TargetInfo.Open(targetInfo.FolderPath);
         editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
         editTargetInfo.Localization =
             ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization)

@@ -147,6 +147,9 @@
   <data name="Msg_Remove_Confirm" xml:space="preserve">
     <value>不会删除本地仓库，确定移除？</value>
   </data>
+  <data name="Msg_Migrate_Confirm" xml:space="preserve">
+    <value>确定从 {1} 迁移 {0} 个游戏到 {2} ?</value>
+  </data>  
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>
   </data>
@@ -369,6 +372,9 @@
   </data>
   <data name="Main_Nav_Review.Content" xml:space="preserve">
     <value>回顾</value>
+  </data>
+  <data name="Main_Nav_Migration.Content" xml:space="preserve">
+    <value>迁移</value>
   </data>
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>设置</value>

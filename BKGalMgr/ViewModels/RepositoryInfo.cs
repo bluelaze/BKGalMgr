@@ -125,21 +125,10 @@ public partial class RepositoryInfo : ObservableObject
         var dirs = Directory.GetDirectories(folderPath);
         foreach (var dir in dirs)
         {
-            var game = GameInfo.Open(dir, repositoryInfo);
-            if (game != null)
-            {
-                repositoryInfo.Games.Add(game);
-                if (game.CreateDate == repositoryInfo.SeletedGameCreateDate)
-                    repositoryInfo.SelectedGame = game;
-                // merge game group, maybe copy from other repo
-                foreach (var groupName in game.Group.Except(repositoryInfo.Groups.Select(g => g.Name)))
-                {
-                    repositoryInfo.Groups.Add(new() { Name = groupName });
-                }
-            }
+            repositoryInfo.AddGame(dir);
         }
         // placeholder for add group
-        if (!repositoryInfo.Groups.Where(g => g.Name == GlobalInfo.GroupItemCase_Add).Any())
+        if (!repositoryInfo.Groups.Any(g => g.Name == GlobalInfo.GroupItemCase_Add))
             repositoryInfo.Groups.Add(new() { Name = GlobalInfo.GroupItemCase_Add });
 
         repositoryInfo.GamesViewSort();
@@ -253,15 +242,33 @@ public partial class RepositoryInfo : ObservableObject
         Games.Add(game);
     }
 
+    public void AddGame(string folderPath)
+    {
+        var game = GameInfo.Open(folderPath, this);
+        if (game != null)
+        {
+            Games.Add(game);
+            if (game.CreateDate == SeletedGameCreateDate)
+                SelectedGame = game;
+            // merge game group, maybe copy from other repo
+            foreach (var groupName in game.Group.Except(Groups.Select(g => g.Name)))
+            {
+                Groups.Add(new() { Name = groupName });
+            }
+        }
+    }
+
     public async Task DeleteGame(GameInfo game)
     {
         if (Games.Contains(game))
         {
             if (Directory.Exists(game.FolderPath))
+            {
                 await Task.Run(() =>
                 {
                     Directory.Delete(game.FolderPath, true);
                 });
+            }
             Games.Remove(game);
         }
         if (SelectedGame == game)
@@ -276,7 +283,7 @@ public partial class RepositoryInfo : ObservableObject
         if (!IsValid())
             return;
         string jsonStr = JsonMisc.Serialize(this);
-        Directory.CreateDirectory(Path.GetDirectoryName(JsonPath));
+        Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
     }
 
@@ -284,6 +291,6 @@ public partial class RepositoryInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenJsonFolder()
     {
-        Process.Start("explorer", Path.GetDirectoryName(JsonPath));
+        Process.Start("explorer", FolderPath);
     }
 }

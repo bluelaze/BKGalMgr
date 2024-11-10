@@ -358,7 +358,7 @@ public partial class GameInfo : ObservableObject
             // copy to game
             var newSource = NewSource();
 
-            await copySource.CopySourceToFolder(Path.GetDirectoryName(newSource.JsonPath));
+            await copySource.CopySourceToFolder(newSource.FolderPath);
 
             copySource.CreateDate = newSource.CreateDate;
             copySource.SetGamePath(FolderPath);
@@ -438,7 +438,7 @@ public partial class GameInfo : ObservableObject
             // copy to game
             var newLocalization = NewLocalization();
 
-            await copyLocalization.CopyLocalizationToFolder(Path.GetDirectoryName(newLocalization.JsonPath));
+            await copyLocalization.CopyLocalizationToFolder(newLocalization.FolderPath);
 
             copyLocalization.CreateDate = newLocalization.CreateDate;
             copyLocalization.SetGamePath(FolderPath);
