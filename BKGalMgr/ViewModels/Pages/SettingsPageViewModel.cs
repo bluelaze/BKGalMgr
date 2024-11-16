@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.Models;
+using BKGalMgr.Services;
 using BKGalMgr.Views;
 using Mapster;
 
@@ -36,18 +37,31 @@ public partial class SettingsPageViewModel : ObservableObject
     [ObservableProperty]
     private Dictionary<SupportLanguages, string> _languages;
 
+    [ObservableProperty]
+    private string _checkForUpdatesContent;
+
     public BangumiInfo Bangumi => _settings.Bangumi;
 
     private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
+
+    private UpdateService _updateService;
+
     private bool _isInit = false;
 
-    public SettingsPageViewModel(MainWindow mainWindow, SettingsDto settings)
+    public SettingsPageViewModel(MainWindow mainWindow, SettingsDto settings, UpdateService updateService)
     {
         _themeHelper = new(mainWindow);
 
         _settings = settings;
         _settings.Adapt(this);
+
+        _updateService = updateService;
+        _updateService.UpdateStatusChanged = (UpdateStatus updateStatus, string message) =>
+        {
+            CheckForUpdatesContent = message;
+        };
+        CheckForUpdatesContent = _updateService.GetStatusMessage("");
 
         _languages = LanguageHelper.GetSupportLangugesName();
         foreach (var language in _languages)
@@ -97,5 +111,10 @@ public partial class SettingsPageViewModel : ObservableObject
             return;
         var lang = settings.Language.ToString().Replace('_', '-');
         Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = lang;
+    }
+
+    public async Task CheckForUpdates()
+    {
+        await _updateService.CheckForUpdates();
     }
 }

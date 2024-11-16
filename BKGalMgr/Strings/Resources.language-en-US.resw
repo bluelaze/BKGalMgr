@@ -490,4 +490,43 @@
   <data name="Settings_About_Project.Header" xml:space="preserve">
     <value>Project</value>
   </data>
+  <data name="Settings_About_Update.Header" xml:space="preserve">
+    <value>Get Latest Version</value>
+  </data>
+  <data name="Settings_About_Update_Check" xml:space="preserve">
+    <value>Check for Updates</value>
+  </data>
+  <data name="Settings_About_Update_Checking" xml:space="preserve">
+    <value>Checking...</value>
+  </data>
+  <data name="Settings_About_Update_CheckFail" xml:space="preserve">
+    <value>Check Fail</value>
+  </data>
+  <data name="Settings_About_Update_IsLatestVersion" xml:space="preserve">
+    <value>Is Latest Version</value>
+  </data>
+  <data name="Settings_About_Update_DownloadNewVersion" xml:space="preserve">
+    <value>Download New Version {0}</value>
+  </data>
+  <data name="Settings_About_Update_Downloading" xml:space="preserve">
+    <value>Downloading...{0}</value>
+  </data>
+  <data name="Settings_About_Update_DownloadFail" xml:space="preserve">
+    <value>Download Fail</value>
+  </data>
+  <data name="Settings_About_Update_RestartToUpdate" xml:space="preserve">
+    <value>Restart to Update</value>
+  </data>
+  <data name="Settings_About_Update_UpdateFail" xml:space="preserve">
+    <value>Update Fail</value>
+  </data>
+  <data name="Settings_About_Problem.Header" xml:space="preserve">
+    <value>Report a Problem</value>
+  </data>
+  <data name="Settings_About_Suggest.Header" xml:space="preserve">
+    <value>Suggest a Feature</value>
+  </data>
+  <data name="Settings_About_Discussions.Header" xml:space="preserve">
+    <value>Discussions</value>
+  </data>
 </root>

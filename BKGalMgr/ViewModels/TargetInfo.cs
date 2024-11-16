@@ -304,7 +304,7 @@ public partial class TargetInfo : ObservableObject
     {
         if (active)
         {
-            // copy lastest capture to clipboard, and save to game capture folder,
+            // copy latest capture to clipboard, and save to game capture folder,
             // if launch mutil target, hotkey maybe not same each start.
             ScreenCaptureHotkey = HotkeyHelper.AddOrReplace(
                 (e) =>

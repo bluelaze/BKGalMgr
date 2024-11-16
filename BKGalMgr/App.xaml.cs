@@ -12,6 +12,7 @@ using BKGalMgr.Services;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views;
 using Microsoft.UI;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -36,6 +37,8 @@ namespace BKGalMgr;
 /// </summary>
 public partial class App : Application
 {
+    private Mutex _singleInstanceMutex;
+
     private static readonly IHost _host = Host.CreateDefaultBuilder()
         .ConfigureAppConfiguration(c =>
         {
@@ -57,6 +60,7 @@ public partial class App : Application
                 services.AddSingleton<SettingsDto>();
                 // Servces
                 services.AddSingleton<BangumiService>();
+                services.AddSingleton<UpdateService>();
             }
         )
         .Build();
@@ -68,49 +72,6 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
-    }
-
-    Mutex _mutex;
-
-    private bool ExistLaunchedApp()
-    {
-        //https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
-        string singleName = Directory.GetCurrentDirectory().MD5();
-        _mutex = new Mutex(true, singleName, out bool isOwned);
-        EventWaitHandle eventWaitHandle = new EventWaitHandle(
-            false,
-            EventResetMode.AutoReset,
-            singleName.Substring(24)
-        );
-
-        // So, R# would not give a warning that this variable is not used.
-        GC.KeepAlive(_mutex);
-
-        if (isOwned)
-        {
-            // Spawn a thread which will be waiting for our event
-            var thread = new Thread(() =>
-            {
-                while (eventWaitHandle.WaitOne())
-                {
-                    MainWindow.DispatcherQueue.TryEnqueue(() => MainWindow.ShowWindow());
-                }
-            });
-
-            // It is important mark it as background otherwise it will prevent app from exiting.
-            thread.IsBackground = true;
-
-            thread.Start();
-            return false;
-        }
-
-        // Notify other instance so it could bring itself to foreground.
-        eventWaitHandle.Set();
-
-        // Terminate this instance.
-        Exit();
-
-        return true;
     }
 
     /// <summary>
@@ -130,11 +91,16 @@ public partial class App : Application
         MainWindow.ShowWindow();
     }
 
-    public static MainWindow MainWindow => GetRequiredService<MainWindow>();
-
     private void MainWindow_Closed(object sender, WindowEventArgs args)
     {
         GetRequiredService<SettingsPageViewModel>().ApplySettings();
+    }
+
+    public static MainWindow MainWindow => GetRequiredService<MainWindow>();
+
+    public static void PostUITask(DispatcherQueueHandler task)
+    {
+        MainWindow.DispatcherQueue.TryEnqueue(task);
     }
 
     public static T GetRequiredService<T>()
@@ -148,4 +114,36 @@ public partial class App : Application
     public static void HideLoading() => MainWindow.HideLoading();
 
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
+
+    private bool ExistLaunchedApp()
+    {
+        //https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
+        string singleName = Directory.GetCurrentDirectory().MD5();
+        _singleInstanceMutex = new Mutex(true, singleName, out bool isOwned);
+        EventWaitHandle eventWaitHandle = new EventWaitHandle(
+            false,
+            EventResetMode.AutoReset,
+            singleName.Substring(24)
+        );
+        GC.KeepAlive(_singleInstanceMutex);
+
+        if (isOwned)
+        {
+            var thread = new Thread(() =>
+            {
+                while (eventWaitHandle.WaitOne())
+                {
+                    PostUITask(() => MainWindow.ShowWindow());
+                }
+            });
+
+            thread.IsBackground = true;
+            thread.Start();
+            return false;
+        }
+
+        eventWaitHandle.Set();
+        Exit();
+        return true;
+    }
 }

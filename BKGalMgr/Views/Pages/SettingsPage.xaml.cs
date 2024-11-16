@@ -32,4 +32,9 @@ public sealed partial class SettingsPage : Page
         DataContext = this;
         this.InitializeComponent();
     }
+
+    private async void check_for_updates_Button_Click(object sender, RoutedEventArgs e)
+    {
+        await ViewModel.CheckForUpdates();
+    }
 }

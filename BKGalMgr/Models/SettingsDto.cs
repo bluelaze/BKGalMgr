@@ -24,7 +24,9 @@ public class SettingsDto
 
     // dto
     private readonly Settings _settings;
-    private string _settingsFilePath => Path.Combine(Directory.GetCurrentDirectory(), "BKGalMgrSettings.json");
+
+    public string SettingsFilePath { get; init; } =
+        Path.Combine(Directory.GetCurrentDirectory(), "BKGalMgrSettings.json");
 
     public SettingsDto()
     {
@@ -39,7 +41,7 @@ public class SettingsDto
 
         try
         {
-            return JsonMisc.Deserialize<Settings>(File.ReadAllText(_settingsFilePath));
+            return JsonMisc.Deserialize<Settings>(File.ReadAllText(SettingsFilePath));
         }
         catch (Exception e)
         {
@@ -51,6 +53,6 @@ public class SettingsDto
     public void SaveSettings()
     {
         this.Adapt(_settings);
-        File.WriteAllText(_settingsFilePath, JsonMisc.Serialize(_settings));
+        File.WriteAllText(SettingsFilePath, JsonMisc.Serialize(_settings));
     }
 }

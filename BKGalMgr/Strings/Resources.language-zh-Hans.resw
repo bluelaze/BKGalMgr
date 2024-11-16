@@ -490,4 +490,43 @@
   <data name="Settings_About_Project.Header" xml:space="preserve">
     <value>项目</value>
   </data>
+  <data name="Settings_About_Update.Header" xml:space="preserve">
+    <value>获取最新版本</value>
+  </data>
+  <data name="Settings_About_Update_Check" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="Settings_About_Update_Checking" xml:space="preserve">
+    <value>检查中...</value>
+  </data>
+  <data name="Settings_About_Update_CheckFail" xml:space="preserve">
+    <value>检查失败</value>
+  </data>
+  <data name="Settings_About_Update_IsLatestVersion" xml:space="preserve">
+    <value>已是最新版本</value>
+  </data>
+  <data name="Settings_About_Update_DownloadNewVersion" xml:space="preserve">
+    <value>下载新版本{0}</value>
+  </data>
+  <data name="Settings_About_Update_Downloading" xml:space="preserve">
+    <value>下载中...{0}</value>
+  </data>
+  <data name="Settings_About_Update_DownloadFail" xml:space="preserve">
+    <value>下载失败</value>
+  </data>
+  <data name="Settings_About_Update_RestartToUpdate" xml:space="preserve">
+    <value>重启已更新</value>
+  </data>
+  <data name="Settings_About_Update_UpdateFail" xml:space="preserve">
+    <value>更新失败</value>
+  </data>
+  <data name="Settings_About_Problem.Header" xml:space="preserve">
+    <value>反馈问题</value>
+  </data>
+  <data name="Settings_About_Suggest.Header" xml:space="preserve">
+    <value>提供建议</value>
+  </data>
+  <data name="Settings_About_Discussions.Header" xml:space="preserve">
+    <value>讨论</value>
+  </data>
 </root>
