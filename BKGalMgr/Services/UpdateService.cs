@@ -118,7 +118,7 @@ public class UpdateService
                         float progress = e.TotalBytesToReceive > 0 ? e.BytesReceived / (float)e.TotalBytesToReceive : 0;
                         App.PostUITask(() =>
                         {
-                            RiasesStatusChangedEvent(UpdateStatus.Downloading, "{0:0.0}%".Format(progress));
+                            RiasesStatusChangedEvent(UpdateStatus.Downloading, "{0:0.0}%".Format(progress * 100));
                         });
                     };
                     webClient.DownloadFileCompleted += (
