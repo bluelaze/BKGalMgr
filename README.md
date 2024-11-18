@@ -90,7 +90,7 @@ Required, there are two ways to build:
 
 The second way makes it easy to build this without creating the source and localization, but note that it's a direct **move** folder build, which means that if the folder is on the same disk as the repository, all the files will be moved directly to the repository, and the **original folder will be cleared**, for the sake of reducing non-essential copying.
 
-If you don't want to copy the original game and want to use some of BKGalMgr's features, there's a piece of cold knowledge that can help you -- Shortcut is a file actually, and you can copy the game's shortcut to create this and setting startup exe name end with `.lnk`.
+If you don't want to copy the original game and want to use some of BKGalMgr's features, there's a piece of cold knowledge that can help you -- Shortcut is a file actually, and you can copy the game's shortcut to create.
 
 ### Library
 

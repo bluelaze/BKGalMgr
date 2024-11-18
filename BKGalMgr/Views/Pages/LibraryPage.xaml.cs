@@ -107,13 +107,25 @@ public sealed partial class LibraryPage : Page
             }
             Process gameProcess = new();
             gameProcess.StartInfo.FileName = targetInfo.TargetExePath;
-            gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
-            gameProcess.StartInfo.UseShellExecute = true;
+            gameProcess.StartInfo.UseShellExecute = false;
+            if (!targetInfo.TargetExePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+            {
+                gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
+            }
 
             bool startSuccess = false;
             try
             {
-                startSuccess = gameProcess.Start();
+                try
+                {
+                    startSuccess = gameProcess.Start();
+                }
+                catch
+                {
+                    // retry, maybe program requires administrator
+                    gameProcess.StartInfo.UseShellExecute = true;
+                    startSuccess = gameProcess.Start();
+                }
             }
             catch
             {

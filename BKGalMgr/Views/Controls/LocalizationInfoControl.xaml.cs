@@ -34,7 +34,7 @@ public sealed partial class LocalizationInfoControl : UserControl
 
     private async void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe" });
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
         if (file != null)
         {
             pick_startup_name_headeredtextbox.Text = file.Name;

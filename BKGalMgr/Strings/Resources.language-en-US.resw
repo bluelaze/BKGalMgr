@@ -283,7 +283,7 @@
     <value>StartupName</value>
   </data>
   <data name="SourceInfo_StartupName.PlaceholderText" xml:space="preserve">
-    <value>Startup exe name</value>
+    <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="SourceInfo_Description.Header" xml:space="preserve">
     <value>Description</value>
@@ -304,7 +304,7 @@
     <value>StartupName</value>
   </data>
   <data name="LocalizationInfo_StartupName.PlaceholderText" xml:space="preserve">
-    <value>Startup exe name</value>
+    <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="LocalizationInfo_Description.Header" xml:space="preserve">
     <value>Description</value>
@@ -325,7 +325,7 @@
     <value>StartupName</value>
   </data>
   <data name="TargetInfo_StartupName.PlaceholderText" xml:space="preserve">
-    <value>Startup exe name</value>
+    <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="TargetInfo_Description.Header" xml:space="preserve">
     <value>Description</value>
