@@ -182,7 +182,7 @@
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
                                     </MenuFlyout>
                                 </GridViewItem.ContextFlyout>
-                                <StackPanel>
+                                <StackPanel Width="150">
                                     <Image Height="170"
                                            Margin="8"
                                            VerticalAlignment="Top">
