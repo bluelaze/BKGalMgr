@@ -62,7 +62,7 @@
                                          Text="{Binding LastPlayDate}" />
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Company" />

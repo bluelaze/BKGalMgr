@@ -14,7 +14,7 @@ public class TimeSpanFormatStringConverter : IValueConverter
     {
         if (value is TimeSpan ts)
         {
-            return ts.ToString(parameter as string, CultureInfo.CurrentUICulture);
+            return ts.Format(parameter as string);
         }
 
         return null;

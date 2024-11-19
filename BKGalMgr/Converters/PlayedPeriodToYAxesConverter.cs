@@ -25,7 +25,7 @@ public class PlayedPeriodToYAxesConverter : IValueConverter
             {
                 TextSize = 14,
                 SeparatorsPaint = new SolidColorPaint(SKColors.Gray.WithAlpha(100)),
-                Labeler = value => value.AsTimeSpan().ToString(@"hh\:mm\:ss")
+                Labeler = value => value.AsTimeSpan().Format("hhmmss")
             }
         };
     }

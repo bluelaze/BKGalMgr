@@ -206,7 +206,7 @@
                                                          FontSize="12"
                                                          FontWeight="Bold" />
                                         <TextBlock FontSize="11"
-                                                   Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}"
+                                                   Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
                                                    TextAlignment="Right" />
                                     </StackPanel>
                                 </StackPanel>
