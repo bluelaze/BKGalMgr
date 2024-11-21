@@ -484,6 +484,27 @@
   <data name="Settings_Bangumi_AccessToken_Description.Text" xml:space="preserve">
     <value>访问Bangumi网站生成Access Token:</value>
   </data>
+  <data name="Settings_LocalEmulator_LEProc.Header" xml:space="preserve">
+    <value>LEProc.exe Path</value>
+  </data>
+  <data name="Settings_LocalEmulator_LEProc_Description.Text" xml:space="preserve">
+    <value>Win10使用v2.4, Win11使用v2.5, 下载:</value>
+  </data>
+  <data name="Settings_LocalEmulator_Edit_Global_Profile.Header" xml:space="preserve">
+    <value>管理通用配置列表</value>
+  </data>
+  <data name="Settings_LocalEmulator_Reload_Global_Profile.Header" xml:space="preserve">
+    <value>再次加载通用配置列表</value>
+  </data>
+  <data name="Settings_LocalEmulator_Reload_Global_Profile.Description" xml:space="preserve">
+    <value>新增通用配置后，刷新配置列表</value>
+  </data>
+  <data name="LocalEmulator_Menu_RunDefault" xml:space="preserve">
+    <value>以此程序配置运行</value>
+  </data>
+  <data name="LocalEmulator_Menu_ManageApp" xml:space="preserve">
+    <value>修改此程序的配置</value>
+  </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>关于</value>
   </data>

@@ -71,6 +71,11 @@ public sealed partial class LibraryPage : Page
         var playBtn = sender;
         var gameInfo = playBtn.DataContext as GameInfo;
         var targetInfo = gameInfo.SelectedTarget;
+        await PlayGame(gameInfo, targetInfo, "");
+    }
+
+    private async Task PlayGame(GameInfo gameInfo, TargetInfo targetInfo, string leGuid)
+    {
         if (targetInfo != null)
         {
             if (gameInfo.PlayStatus == PlayStatus.Playing)
@@ -105,31 +110,63 @@ public sealed partial class LibraryPage : Page
                     return;
                 }
             }
-            Process gameProcess = new();
-            gameProcess.StartInfo.FileName = targetInfo.TargetExePath;
-            gameProcess.StartInfo.UseShellExecute = false;
-            if (!targetInfo.TargetExePath.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
-            {
-                gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
-            }
 
+            Process gameProcess;
             bool startSuccess = false;
-            try
+
+            if (leGuid.IsNullOrEmpty())
             {
+                // normal start
+                gameProcess = new();
+                gameProcess.StartInfo.FileName = targetInfo.TargetExePath;
+                gameProcess.StartInfo.UseShellExecute = true;
+                gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
                 try
                 {
-                    startSuccess = gameProcess.Start();
+                    try
+                    {
+                        startSuccess = gameProcess.Start();
+                    }
+                    catch
+                    {
+                        startSuccess = false;
+                    }
+                    if (!startSuccess)
+                    {
+                        // retry
+                        gameProcess.StartInfo.UseShellExecute = false;
+                        startSuccess = gameProcess.Start();
+                    }
                 }
                 catch
                 {
-                    // retry, maybe program requires administrator
-                    gameProcess.StartInfo.UseShellExecute = true;
-                    startSuccess = gameProcess.Start();
+                    startSuccess = false;
                 }
             }
-            catch
+            else if (leGuid == LEProfileInfo.RunGuid)
             {
-                startSuccess = false;
+                gameProcess = LocaleEmulatorHelper.RunDefault(
+                    ViewModel.Settings.LocalEmulator.LEProcPath,
+                    targetInfo.TargetExePath
+                );
+                startSuccess = gameProcess != null;
+            }
+            else if (leGuid == LEProfileInfo.ManageGuid)
+            {
+                gameProcess = LocaleEmulatorHelper.ManageApp(
+                    ViewModel.Settings.LocalEmulator.LEProcPath,
+                    targetInfo.TargetExePath
+                );
+                startSuccess = gameProcess != null;
+            }
+            else
+            {
+                gameProcess = LocaleEmulatorHelper.RunAs(
+                    ViewModel.Settings.LocalEmulator.LEProcPath,
+                    targetInfo.TargetExePath,
+                    leGuid
+                );
+                startSuccess = gameProcess != null;
             }
 
             if (!startSuccess)
@@ -179,9 +216,13 @@ public sealed partial class LibraryPage : Page
                     });
 
                 // check child process, maybe startup exe is a launcher
-                await gameProcess.WaitForExitAsync();
+                if (!gameProcess.HasExited)
+                    await gameProcess.WaitForExitAsync();
                 foreach (var childProcess in gameProcess.GetChildProcesses())
-                    await childProcess.WaitForExitAsync();
+                {
+                    if (!childProcess.HasExited)
+                        await childProcess.WaitForExitAsync();
+                }
 
                 timer.Dispose();
 
@@ -294,5 +335,40 @@ public sealed partial class LibraryPage : Page
     private void switch_gameview_button_Click(object sender, RoutedEventArgs e)
     {
         games_view_semanticzoom.ToggleActiveView();
+    }
+
+    private void local_emulator_MenuFlyout_Opening(object sender, object e)
+    {
+        var menu = sender as MenuFlyout;
+        menu.Items.Clear();
+        foreach (var profile in ViewModel.Settings.LocalEmulator.Profiles)
+        {
+            if (!profile.IsSeparator)
+            {
+                var item = new MenuFlyoutItem() { Text = profile.Name, Tag = profile.Guid };
+
+                if (profile.Guid == LEProfileInfo.RunGuid)
+                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorYellow"] };
+                else if (profile.Guid == LEProfileInfo.ManageGuid)
+                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorGray"] };
+                else
+                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorPurple"] };
+
+                item.Click += local_emulator_MenuFlyoutItem_Click;
+                menu.Items.Add(item);
+            }
+            else
+            {
+                menu.Items.Add(new MenuFlyoutSeparator());
+            }
+        }
+    }
+
+    private async void local_emulator_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var menuItem = sender as MenuFlyoutItem;
+        var targetInfo = menuItem.DataContext as TargetInfo;
+        var gameInfo = targetInfo.Game;
+        await PlayGame(gameInfo, targetInfo, menuItem.Tag as string);
     }
 }

@@ -422,6 +422,18 @@
                                                                                      Icon="{mui:FontIcon Glyph='&#xF406;'}"
                                                                                      Text="{Binding ScreenCaptureHotkey}" />
                                                                 </HyperlinkButton>
+                                                                <SelectorBarItem Padding="0"
+                                                                                 Text="Local Emulator"
+                                                                                 Visibility="{Binding EnableLocalEmulator}">
+                                                                    <SelectorBarItem.Icon>
+                                                                        <ImageIcon Margin="2,0" Source="{StaticResource LocalEmulatorYellow}" />
+                                                                    </SelectorBarItem.Icon>
+                                                                    <SelectorBarItem.ContextFlyout>
+                                                                        <MenuFlyout x:Name="local_emulator_MenuFlyout"
+                                                                                    Opening="local_emulator_MenuFlyout_Opening"
+                                                                                    Placement="RightEdgeAlignedTop" />
+                                                                    </SelectorBarItem.ContextFlyout>
+                                                                </SelectorBarItem>
                                                             </StackPanel>
                                                         </UserControl>
                                                     </DataTemplate>
@@ -433,12 +445,14 @@
                                                 <SplitButton.Flyout>
                                                     <Flyout Placement="Bottom">
                                                         <mcontrols:WrapPanel MaxWidth="{ThemeResource ToolTipMaxWidth}"
-                                                                             HorizontalSpacing="4"
+                                                                             HorizontalSpacing="6"
                                                                              VerticalSpacing="8">
-                                                            <ToggleButton x:Name="screencapture_togglebutton"
-                                                                          Content="{mui:FontIcon FontSize=16,
-                                                                                                 Glyph='&#xF406;'}"
-                                                                          IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
+                                                            <ToggleButton Content="{mui:FontIcon FontSize=16, Glyph='&#xF406;'}" IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
+                                                            <ToggleButton IsChecked="{Binding SelectedTarget.EnableLocalEmulator, Mode=TwoWay}">
+                                                                <ImageIcon Width="16"
+                                                                           Height="16"
+                                                                           Source="{StaticResource LocalEmulatorYellow}" />
+                                                            </ToggleButton>
                                                         </mcontrols:WrapPanel>
                                                     </Flyout>
                                                 </SplitButton.Flyout>

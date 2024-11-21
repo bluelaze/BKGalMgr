@@ -187,6 +187,7 @@ public partial class GameInfo : ObservableObject
                 var target = TargetInfo.Open(dir);
                 if (target != null)
                 {
+                    target.Game = gameInfo;
                     gameInfo.Targets.Add(target);
                     if (target.CreateDate == gameInfo.SeletedTargetCreateDate)
                         gameInfo._selectedTarget = target;

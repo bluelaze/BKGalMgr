@@ -46,6 +46,11 @@
                    TargetType="Button">
                 <Setter Property="Width" Value="40" />
             </Style>
+
+            <ImageSource x:Key="LocalEmulatorBlue">ms-appx:///Assets/LocalEmulator/blue.bmp</ImageSource>
+            <ImageSource x:Key="LocalEmulatorGray">ms-appx:///Assets/LocalEmulator/gray.bmp</ImageSource>
+            <ImageSource x:Key="LocalEmulatorPurple">ms-appx:///Assets/LocalEmulator/purple.bmp</ImageSource>
+            <ImageSource x:Key="LocalEmulatorYellow">ms-appx:///Assets/LocalEmulator/yellow.bmp</ImageSource>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

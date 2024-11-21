@@ -21,6 +21,7 @@ public class SettingsDto
     public CompressionLevel ZipLevel { get; set; }
     public SupportLanguages Language { get; set; }
     public BangumiInfo Bangumi { get; set; }
+    public LocalEmulatorInfo LocalEmulator { get; set; }
 
     // dto
     private readonly Settings _settings;

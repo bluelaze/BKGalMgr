@@ -62,7 +62,52 @@
                         <Hyperlink NavigateUri="https://next.bgm.tv/demo/access-token">https://next.bgm.tv/demo/access-token</Hyperlink>
                     </TextBlock>
                 </mcontrols:SettingsCard.Description>
+                <mcontrols:SettingsCard.HeaderIcon>
+                    <ImageIcon Width="16"
+                               Height="16"
+                               Source="{ThemeResource BangumiIcon}" />
+                </mcontrols:SettingsCard.HeaderIcon>
                 <TextBox Text="{x:Bind ViewModel.Bangumi.AccessToken, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+
+            <!--  Local Emulator  -->
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="Local Emulator" />
+            <mcontrols:SettingsCard x:Uid="Settings_LocalEmulator_LEProc">
+                <mcontrols:SettingsCard.Description>
+                    <TextBlock>
+                        <Run x:Uid="Settings_LocalEmulator_LEProc_Description" />
+                        <Hyperlink NavigateUri="https://github.com/xupefei/Locale-Emulator/releases">Locale-Emulator</Hyperlink>
+                    </TextBlock>
+                </mcontrols:SettingsCard.Description>
+                <mcontrols:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="{StaticResource LocalEmulatorPurple}" />
+                </mcontrols:SettingsCard.HeaderIcon>
+                <TextBox Text="{x:Bind ViewModel.LocalEmulator.LEProcPath, Mode=TwoWay}" />
+            </mcontrols:SettingsCard>
+
+            <mcontrols:SettingsCard x:Uid="Settings_LocalEmulator_Edit_Global_Profile"
+                                    ActionIcon="{x:Null}"
+                                    IsClickEnabled="True">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <interactions:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorEditGlobalCommand}" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <mcontrols:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="{StaticResource LocalEmulatorBlue}" />
+                </mcontrols:SettingsCard.HeaderIcon>
+            </mcontrols:SettingsCard>
+            <mcontrols:SettingsCard x:Uid="Settings_LocalEmulator_Reload_Global_Profile"
+                                    ActionIcon="{x:Null}"
+                                    IsClickEnabled="True">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <interactions:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorLoadProfilesCommand}" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <mcontrols:SettingsCard.HeaderIcon>
+                    <ImageIcon Source="{StaticResource LocalEmulatorBlue}" />
+                </mcontrols:SettingsCard.HeaderIcon>
             </mcontrols:SettingsCard>
 
             <!--  About  -->

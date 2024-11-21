@@ -19,4 +19,6 @@ public class Settings
     public SupportLanguages Language { get; set; } = SupportLanguages.system;
 
     public BangumiInfo Bangumi { get; set; } = new();
+
+    public LocalEmulatorInfo LocalEmulator { get; set; } = new();
 }

@@ -41,6 +41,7 @@ public partial class SettingsPageViewModel : ObservableObject
     private string _checkForUpdatesContent;
 
     public BangumiInfo Bangumi => _settings.Bangumi;
+    public LocalEmulatorInfo LocalEmulator => _settings.LocalEmulator;
 
     private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
@@ -70,6 +71,12 @@ public partial class SettingsPageViewModel : ObservableObject
             if (language.Key == _language)
                 break;
         }
+
+        if (LocalEmulator.LEProcPath.IsNullOrEmpty())
+        {
+            LocalEmulator.LEProcPath = LocaleEmulatorHelper.GetLEProcInstalledPath();
+        }
+        LocalEmulatorLoadProfiles();
 
         _isInit = true;
     }
@@ -116,5 +123,21 @@ public partial class SettingsPageViewModel : ObservableObject
     public async Task CheckForUpdates()
     {
         await _updateService.CheckForUpdates();
+    }
+
+    [RelayCommand]
+    public void LocalEmulatorEditGlobal()
+    {
+        if (LocalEmulator.LEProcPath.IsNullOrEmpty())
+            return;
+        LocaleEmulatorHelper.ManageAll(LocalEmulator.LEProcPath);
+    }
+
+    [RelayCommand]
+    public void LocalEmulatorLoadProfiles()
+    {
+        if (LocalEmulator.LEProcPath.IsNullOrEmpty())
+            return;
+        LocalEmulator.Profiles = LocaleEmulatorHelper.GetProfiles(LocalEmulator.LEProcPath);
     }
 }

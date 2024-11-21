@@ -51,6 +51,9 @@ public partial class TargetInfo : ObservableObject
     }
 
     [ObservableProperty]
+    private bool _enableLocalEmulator;
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private string _screenCaptureHotkey = string.Empty;
 

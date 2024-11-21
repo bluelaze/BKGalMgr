@@ -20,17 +20,17 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
 
     partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {
-        _settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
+        Settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
 
-    public string BangumiAccessToken => _settings.Bangumi.AccessToken;
+    public string BangumiAccessToken => Settings.Bangumi.AccessToken;
 
-    private readonly SettingsDto _settings;
+    public readonly SettingsDto Settings;
 
     public LibraryAndManagePageViewModel(SettingsDto settings)
     {
-        _settings = settings;
-        foreach (var path in _settings.RepositoryPath)
+        Settings = settings;
+        foreach (var path in Settings.RepositoryPath)
         {
             AddRepository(new RepositoryInfo() { FolderPath = path });
         }
@@ -46,12 +46,12 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
             return false;
 
         Repository.Add(repository);
-        if (repository.FolderPath == _settings.SelectedRepositoryPath)
+        if (repository.FolderPath == Settings.SelectedRepositoryPath)
             SelectedRepository = repository;
-        if (!_settings.RepositoryPath.Contains(repository.FolderPath))
+        if (!Settings.RepositoryPath.Contains(repository.FolderPath))
         {
-            _settings.RepositoryPath.Add(repository.FolderPath);
-            _settings.SaveSettings();
+            Settings.RepositoryPath.Add(repository.FolderPath);
+            Settings.SaveSettings();
         }
         return true;
     }
@@ -63,8 +63,8 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
 
         Repository.Remove(repository);
 
-        _settings.RepositoryPath.Remove(repository.FolderPath);
-        _settings.SaveSettings();
+        Settings.RepositoryPath.Remove(repository.FolderPath);
+        Settings.SaveSettings();
         return true;
     }
 
@@ -93,7 +93,7 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
 
     public async Task<PullGameResponse> PullGameFromBangumi(string accessToken, string subjectUrl)
     {
-        _settings.Bangumi.AccessToken = accessToken;
+        Settings.Bangumi.AccessToken = accessToken;
 
         GameInfo newGame = SelectedRepository.NewGame();
         newGame.BangumiSubjectId = subjectUrl.Split('/').LastOrDefault();

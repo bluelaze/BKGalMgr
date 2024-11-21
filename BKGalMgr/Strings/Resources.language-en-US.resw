@@ -484,6 +484,27 @@
   <data name="Settings_Bangumi_AccessToken_Description.Text" xml:space="preserve">
     <value>Visit the Bangumi website to generate Access Token:</value>
   </data>
+  <data name="Settings_LocalEmulator_LEProc.Header" xml:space="preserve">
+    <value>LEProc.exe Path</value>
+  </data>
+  <data name="Settings_LocalEmulator_LEProc_Description.Text" xml:space="preserve">
+    <value>Win10 use v2.4, Win11 use v2.5, Download:</value>
+  </data>
+  <data name="Settings_LocalEmulator_Edit_Global_Profile.Header" xml:space="preserve">
+    <value>Edit Global Profile List</value>
+  </data>
+  <data name="Settings_LocalEmulator_Reload_Global_Profile.Header" xml:space="preserve">
+    <value>Reload Global Profile List</value>
+  </data>
+  <data name="Settings_LocalEmulator_Reload_Global_Profile.Description" xml:space="preserve">
+    <value>Refresh profiles when modified global prifile list</value>
+  </data>
+  <data name="LocalEmulator_Menu_RunDefault" xml:space="preserve">
+    <value>Run with Application Profile</value>
+  </data>
+  <data name="LocalEmulator_Menu_ManageApp" xml:space="preserve">
+    <value>Modify Application Profile</value>
+  </data>
   <data name="Settings_About.Text" xml:space="preserve">
     <value>About</value>
   </data>
