@@ -117,18 +117,15 @@ public partial class App : Application
 
     private bool ExistLaunchedApp()
     {
-        //https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
+        // https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
+        // csharpier-ignore-start
         string singleName = Directory.GetCurrentDirectory().MD5();
-        _singleInstanceMutex = new Mutex(true, singleName, out bool isOwned);
-        EventWaitHandle eventWaitHandle = new EventWaitHandle(
-            false,
-            EventResetMode.AutoReset,
-            singleName.Substring(24)
-        );
-        GC.KeepAlive(_singleInstanceMutex);
+        EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, singleName.Substring(24));
 
+        _singleInstanceMutex = new Mutex(true, singleName, out bool isOwned);
         if (isOwned)
         {
+            GC.KeepAlive(_singleInstanceMutex);
             var thread = new Thread(() =>
             {
                 while (eventWaitHandle.WaitOne())
@@ -145,5 +142,6 @@ public partial class App : Application
         eventWaitHandle.Set();
         Exit();
         return true;
+        // csharpier-ignore-end
     }
 }

@@ -164,21 +164,20 @@ public class UpdateService
                             updateProgram,
                             true
                         );
-
+                        // csharpier-ignore-start
                         Process updateProcess = new();
                         updateProcess.StartInfo.FileName = updateProgram;
                         updateProcess.StartInfo.WorkingDirectory = UpdateFolder;
                         updateProcess.StartInfo.UseShellExecute = true;
                         updateProcess.StartInfo.ArgumentList.Add($"--zip-file-name={LastVersionZipPath}");
-                        updateProcess.StartInfo.ArgumentList.Add(
-                            $"--decompress-folder={Directory.GetCurrentDirectory()}"
-                        );
+                        updateProcess.StartInfo.ArgumentList.Add($"--decompress-folder={Directory.GetCurrentDirectory()}");
                         updateProcess.StartInfo.ArgumentList.Add($"--restart-exe-name=BKGalMgr.exe");
                         foreach (var file in backupFiles)
                             updateProcess.StartInfo.ArgumentList.Add($"--copy-files={file}");
 
                         updateProcess.Start();
                         App.MainWindow.Exit();
+                        // csharpier-ignore-end
                     }
                     catch
                     {
