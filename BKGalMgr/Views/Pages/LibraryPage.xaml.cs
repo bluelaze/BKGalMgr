@@ -216,13 +216,7 @@ public sealed partial class LibraryPage : Page
                     });
 
                 // check child process, maybe startup exe is a launcher
-                if (!gameProcess.HasExited)
-                    await gameProcess.WaitForExitAsync();
-                foreach (var childProcess in gameProcess.GetChildProcesses())
-                {
-                    if (!childProcess.HasExited)
-                        await childProcess.WaitForExitAsync();
-                }
+                await gameProcess.WaitForAllExitAsync();
 
                 timer.Dispose();
 
