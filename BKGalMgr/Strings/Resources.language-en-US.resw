@@ -129,6 +129,9 @@
   <data name="Msg_Target_Add_Invalid" xml:space="preserve">
     <value>Invalid Source or Localization</value>
   </data>
+  <data name="Msg_Target_Create_Shortcut_Fail" xml:space="preserve">
+    <value>Create Shortcut Fail</value>
+  </data>
   <data name="Msg_Target_Archive" xml:space="preserve">
     <value>Archive will {0} level to zip files, maybe take long time.</value>
   </data>
@@ -440,7 +443,10 @@
     <value>Target</value>
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Import exist target</value>
+    <value>Import exist source, localization or target</value>
+  </data>
+  <data name="Manage_Target_Add_Shortcut.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Add with shortcut</value>
   </data>
   <data name="Review_Storage_Usage.Text" xml:space="preserve">
     <value>Storage Usage</value>

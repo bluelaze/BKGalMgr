@@ -129,6 +129,9 @@
   <data name="Msg_Target_Add_Invalid" xml:space="preserve">
     <value>无效的源或者本地化</value>
   </data>
+  <data name="Msg_Target_Create_Shortcut_Fail" xml:space="preserve">
+    <value>创建快捷方式失败</value>
+  </data>
   <data name="Msg_Target_Archive" xml:space="preserve">
     <value>归档将使用 {0} 级别压缩文件，可能会占用很长时间。</value>
   </data>
@@ -440,7 +443,10 @@
     <value>本</value>
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导入已有的本</value>
+    <value>导入已有的源、本地化或者本</value>
+  </data>
+  <data name="Manage_Target_Add_Shortcut.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>通过快捷方式添加</value>
   </data>
   <data name="Review_Storage_Usage.Text" xml:space="preserve">
     <value>存储占用</value>

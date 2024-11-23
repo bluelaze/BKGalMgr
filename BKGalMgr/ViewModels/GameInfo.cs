@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BKGalMgr.ThirdParty;
 using Windows.Storage;
 
 namespace BKGalMgr.ViewModels;
@@ -139,6 +140,9 @@ public partial class GameInfo : ObservableObject
 
     [property: JsonIgnore]
     public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
+
+    [property: JsonIgnore]
+    public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
 
     public GameInfo()
     {
@@ -528,6 +532,29 @@ public partial class GameInfo : ObservableObject
             _selectedTarget = null;
             OnPropertyChanged(nameof(SelectedTarget));
         }
+    }
+
+    public bool CreateShortcut(string path)
+    {
+        try
+        {
+            if (Directory.Exists(ScreenCaptureFolderPath))
+                Directory.Delete(ShortcutFolderPath, true);
+            Directory.CreateDirectory(ShortcutFolderPath);
+            if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
+            {
+                File.Copy(path, Path.Combine(ShortcutFolderPath, Path.GetFileName(path)), true);
+            }
+            else
+            {
+                return ShortcutHelpers.CreateShortcut(Path.Combine(ShortcutFolderPath, Path.GetFileName(path)), path);
+            }
+        }
+        catch
+        {
+            return false;
+        }
+        return true;
     }
 
     [RelayCommand]

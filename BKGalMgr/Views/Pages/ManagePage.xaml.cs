@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
+using BKGalMgr.ThirdParty;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
@@ -297,6 +298,37 @@ public sealed partial class ManagePage : Page
 
             App.HideLoading();
         }
+    }
+
+    private async void add_target_shortcut_Button_Click(object sender, RoutedEventArgs e)
+    {
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
+        if (file == null)
+            return;
+
+        if (!ViewModel.SelectedRepository.SelectedGame.CreateShortcut(file.Path))
+        {
+            await DialogHelper.ShowError(LanguageHelper.GetString("Msg_Target_Create_Shortcut_Fail"));
+            return;
+        }
+
+        App.ShowLoading();
+
+        // shortcut folder as source
+        var targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
+        targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
+        targetInfo.Source.StartupName = Path.GetFileName(ShortcutHelpers.GetShortcutPath(file.Path));
+        var result = await EditSourceInfo(targetInfo.Source);
+        if (result == ContentDialogResult.Primary)
+        {
+            targetInfo.SeletedSource();
+            await ViewModel.SelectedRepository.SelectedGame.CopyTarget(
+                ViewModel.SelectedRepository.SelectedGame.ShortcutFolderPath,
+                targetInfo
+            );
+        }
+
+        App.HideLoading();
     }
 
     private async Task<ContentDialogResult> EditTargetInfo(TargetInfo targetInfo)

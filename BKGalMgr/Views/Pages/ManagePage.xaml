@@ -290,6 +290,13 @@
                                                            Glyph=&#xE8F4;}"
                                     IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                     Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_target_shortcut_Button"
+                                    x:Uid="Manage_Target_Add_Shortcut"
+                                    Click="add_target_shortcut_Button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xF61B;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
                         </StackPanel>
                     </ListView.Header>
                     <ListView.ItemTemplate>
