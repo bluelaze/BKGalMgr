@@ -12,7 +12,7 @@ public static class TimeSpanExtensions
     public static string Format(this TimeSpan ts, string format)
     {
         if (format == "hhmmss")
-            return string.Format(@"{0:00}{1}", ts.TotalHours, ts.ToString(@"\:mm\:ss"));
+            return string.Format(@"{0:00}{1}", (int)ts.TotalHours, ts.ToString(@"\:mm\:ss"));
         else
             return ts.ToString(format);
     }

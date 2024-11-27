@@ -411,7 +411,7 @@
                                                                 <SelectorBarItem x:Name="playedtime_selectorbaritem"
                                                                                  Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                                 Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hh\\:mm\\:ss'}" />
+                                                                                 Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                                                                 <HyperlinkButton x:Name="capture_hotkey_button"
                                                                                  Margin="0"
                                                                                  Padding="0"
