@@ -375,6 +375,7 @@
                                                                             </VisualState.StateTriggers>
                                                                             <VisualState.Setters>
                                                                                 <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                                <Setter Target="capture_hotkey_button.IsEnabled" Value="True" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                         <VisualState x:Name="PauseState">
@@ -384,6 +385,7 @@
                                                                             <VisualState.Setters>
                                                                                 <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
                                                                                 <Setter Target="playedtime_selectorbaritem.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                                                                                <Setter Target="capture_hotkey_button.IsEnabled" Value="True" />
                                                                             </VisualState.Setters>
                                                                         </VisualState>
                                                                         <VisualState x:Name="ArchiveState">
@@ -416,7 +418,7 @@
                                                                                  Margin="0"
                                                                                  Padding="0"
                                                                                  Click="capture_hotkey_button_Click"
-                                                                                 IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToBooleanConverter}}"
+                                                                                 IsEnabled="False"
                                                                                  Visibility="{Binding EnableScreenCapture}">
                                                                     <SelectorBarItem Padding="0"
                                                                                      Icon="{mui:FontIcon Glyph='&#xF406;'}"
