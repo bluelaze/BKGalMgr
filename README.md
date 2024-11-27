@@ -36,26 +36,32 @@ Minimum Windows version: `Win10 1809(10.0.17763.0)`.
 
 ```
 /(repository_folder)                    // Repository folder
-    repositoryinfo.json                 // Repository configuration file
+    repositoryinfo.json                 // Repository configuration file, fixed name
 
-    (yyyyMMddTHHmmssZ)                  // Game folder, when creating a game, use the creation time to name it
-        gameinfo.json                   // The game configuration file.
+    (yyyyMMddTHHmmssZ)                  // Game folder, use the creation time to name it
+        gameinfo.json                   // The game configuration file
 
-        /sources                        // The game sources folder, with a fixed name.
-            (yyyyMMddTHHmmssZ)          // Folder for one of the game's sources, named at creation time when the source is created
-                sourceinfo.json         // Game source configuration file, name fixed
-                source.zip              // The source of the game is created by zipping all the files, and the name is fixed.
+        /sources                        // The game sources folder, fixed name
+            (yyyyMMddTHHmmssZ)          // Folder for one of the game's sources, use the creation time to name it
+                sourceinfo.json         // Source configuration file, fixed name
+                source.zip              // The source of the game is created by zipping all the files, fixed name
 
-        /localizations                  // Game localization folder, name fixed
-            (yyyyMMddTHHmmssZ)          // One of the game localization folders, when creating the localization, use the creation time to name it
-                localizationinfo.json   // Game localization configuration file, name fixed
-                localization.zip        // The name of the game's localization folder, which is created by compressing all the files when the localization is created.
+        /localizations                  // Game localizations folder, fixed name
+            (yyyyMMddTHHmmssZ)          // Folder for one of the game's localizations, use the creation time to name it
+                localizationinfo.json   // Localization configuration file, fixed name
+                localization.zip        // The localization of the game is created by zipping all the files, fixed name
 
-        /targets                        // Game targets folder, name fixed
-            (yyyyMMddTHHmmssZ)          // One of the game's target folders, use the creation time when creating the target.
-                targetinfo.json         // Game's target configuration file, name fixed
-                /target                 // The game's target folder, created by extracting or copying all the files when creating the game.
-                  (StartupName)         // In the game's target, a startup program must exist.
+        /targets                        // Game targets folder, fixed name
+            (yyyyMMddTHHmmssZ)          // Folder for one of the game's targets, use the creation time to name it
+                targetinfo.json         // Target configuration file, fixed name
+                /target                 // Target folder, unzip or copy all files to generate, fixed name
+                    (StartupName)       // In the game's target, a startup program must exist
+
+        /savedatas
+            savedatasettingsinfo.json   // Game savedatas folder, fixed name
+            (yyyyMMddTHHmmssZ)          // Folder for one of the game's savedatas, use the creation time to name it
+                savedatainfo.json       // SaveData configuration file, fixed name
+                savedata.zip            // The savedata of the game is created by zipping all the files, fixed name
 
     (yyyyMMddTHHmmssZ)
     ......

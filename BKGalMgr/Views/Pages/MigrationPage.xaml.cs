@@ -35,6 +35,18 @@ public sealed partial class MigrationPage : Page
         this.InitializeComponent();
     }
 
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        if (!ViewModel.LibraryAndManagePageViewModel.IsLoadedRepository)
+        {
+            App.ShowLoading();
+            await ViewModel.LibraryAndManagePageViewModel.LoadRepository();
+            App.HideLoading();
+        }
+    }
+
     private void game_name_HyperlinkButton_Click(object sender, RoutedEventArgs e)
     {
         var gameItem = (sender as HyperlinkButton).DataContext as GameInfo;

@@ -38,6 +38,18 @@ public sealed partial class ManagePage : Page
         this.InitializeComponent();
     }
 
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        if (!ViewModel.IsLoadedRepository)
+        {
+            App.ShowLoading();
+            await ViewModel.LoadRepository();
+            App.HideLoading();
+        }
+    }
+
     private async void add_repository_button_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
@@ -49,7 +61,7 @@ public sealed partial class ManagePage : Page
             var result = await EditRepositoryInfo(newRepository);
             if (result == ContentDialogResult.Primary)
             {
-                ViewModel.AddRepository(newRepository);
+                await ViewModel.AddRepository(newRepository);
             }
 
             App.HideLoading();
@@ -484,6 +496,114 @@ public sealed partial class ManagePage : Page
             App.ShowLoading();
             targetInfo.CheckArchiveStatus();
             await targetInfo.DeleteFolderOnly();
+            App.HideLoading();
+        }
+    }
+
+    private async Task OpenSaveDataSettingsDialog()
+    {
+        var savedataSettingsInfo = ViewModel.SelectedRepository.SelectedGame.SaveDataSettings;
+
+        SaveDataSettingsInfoControl savedataSettingsInfoControl =
+            new() { Width = 720, DataContext = savedataSettingsInfo };
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Dlg_SaveData_Settings");
+        dialog.Content = savedataSettingsInfoControl;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !savedataSettingsInfoControl.IsValidSaveDataSettings();
+        };
+
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            savedataSettingsInfo.SaveJsonFile();
+        }
+    }
+
+    private async void savedata_settings_Button_Click(object sender, RoutedEventArgs e)
+    {
+        await OpenSaveDataSettingsDialog();
+    }
+
+    private async Task<ContentDialogResult> EditSaveDataInfo(SaveDataInfo savedataInfo)
+    {
+        SaveDataInfoControl savedataInfoControl = new() { Width = 720, DataContext = savedataInfo };
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Dlg_SaveData_Edit");
+        dialog.Content = savedataInfoControl;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !savedataInfoControl.IsValidSaveData();
+        };
+
+        return await dialog.ShowAsync();
+    }
+
+    private async void savedata_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var savedataSettingsInfo = ViewModel.SelectedRepository.SelectedGame.SaveDataSettings;
+        if (!savedataSettingsInfo.IsValid())
+            await OpenSaveDataSettingsDialog();
+
+        if (
+            savedataSettingsInfo.SaveDataFolderPath.IsNullOrEmpty()
+            || !Directory.Exists(savedataSettingsInfo.SaveDataFolderPath)
+        )
+        {
+            await DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Invalid_Path"));
+            return;
+        }
+
+        App.ShowLoading();
+
+        var saveDataInfo = ViewModel.SelectedRepository.SelectedGame.NewSaveData();
+        if (await EditSaveDataInfo(saveDataInfo) == ContentDialogResult.Primary)
+        {
+            if (!await ViewModel.SelectedRepository.SelectedGame.AddSaveData(saveDataInfo))
+                await DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Backup_Fail"));
+        }
+
+        App.HideLoading();
+    }
+
+    private async void edit_savedata_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var savedataInfo = (sender as MenuFlyoutItem).DataContext as SaveDataInfo;
+        var editSaveDataInfo = SaveDataInfo.Open(savedataInfo.FolderPath);
+        var result = await EditSaveDataInfo(editSaveDataInfo);
+        if (result == ContentDialogResult.Primary)
+        {
+            ViewModel.UpdateSaveData(editSaveDataInfo);
+        }
+    }
+
+    private async void restore_savedata_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var savedataInfo = (sender as MenuFlyoutItem).DataContext as SaveDataInfo;
+        if (ViewModel.SelectedRepository.SelectedGame.PlayStatus == PlayStatus.Playing)
+        {
+            _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_Game_Need_Stop"));
+            return;
+        }
+
+        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_SaveData_Restore_Comfirm")))
+        {
+            if (await ViewModel.SelectedRepository.SelectedGame.RestoreSaveData(savedataInfo) == false)
+            {
+                _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Restore_Fail"));
+            }
+        }
+    }
+
+    private async void delete_savedata_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var savedataInfo = (sender as MenuFlyoutItem).DataContext as SaveDataInfo;
+        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
+        {
+            App.ShowLoading();
+            await ViewModel.DeleteSaveData(savedataInfo);
             App.HideLoading();
         }
     }

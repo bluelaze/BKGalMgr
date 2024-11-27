@@ -36,6 +36,11 @@ public static class GlobalInfo
                     targetinfo.json
                     /target
                         (StartupName)
+            /savedatas
+                savedatasettingsinfo.json
+                (yyyyMMddTHHmmssZ)
+                    savedatainfo.json
+                    savedata.zip
         (yyyyMMddTHHmmssZ)
         ......
      **/
@@ -68,4 +73,9 @@ public static class GlobalInfo
     public const string TargetJsonName = "targetinfo.json";
     public const string TargetName = "target";
     public const string TargetZipName = "target.zip";
+
+    public const string SaveDatasFolderName = "savedatas";
+    public const string SaveDataSettingsJsonName = "savedatasettingsinfo.json";
+    public const string SaveDataJsonName = "savedatainfo.json";
+    public const string SaveDataZipName = "savedata.zip";
 }

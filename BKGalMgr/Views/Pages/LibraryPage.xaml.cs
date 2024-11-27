@@ -45,9 +45,17 @@ public sealed partial class LibraryPage : Page
         this.InitializeComponent();
     }
 
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
+
+        if (!ViewModel.IsLoadedRepository)
+        {
+            App.ShowLoading();
+            await ViewModel.LoadRepository();
+            App.HideLoading();
+        }
+
         if (e.Parameter is GameInfo game && ViewModel.SelectedRepository?.Games.IndexOf(game) != -1)
         {
             games_listview.SelectedItem = game;
@@ -225,6 +233,17 @@ public sealed partial class LibraryPage : Page
 
                 gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
                 gameInfo.SaveJsonFile();
+
+                // Auto backup
+                if (gameInfo.SaveDataSettings.AutoBackup)
+                {
+                    var savedata = gameInfo.NewSaveData();
+                    savedata.Name = LanguageHelper.GetString("SaveDataInfo_Auto_Backup");
+                    if (await gameInfo.AddSaveData(savedata) == false)
+                    {
+                        _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Auto_Backup_Fail"));
+                    }
+                }
             }
         }
     }

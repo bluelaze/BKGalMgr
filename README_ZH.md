@@ -37,24 +37,30 @@ Windows系统最低版本：`Win10 1809(10.0.17763.0)`。
 /(repository_folder)                    // 仓库文件夹
     repositoryinfo.json                 // 仓库配置文件
 
-    (yyyyMMddTHHmmssZ)                  // 游戏文件夹，创建游戏时，使用创建时间命名
+    (yyyyMMddTHHmmssZ)                  // 游戏文件夹，使用创建时间命名
         gameinfo.json                   // 游戏配置文件
 
         /sources                        // 游戏 源 文件夹，名称固定
-            (yyyyMMddTHHmmssZ)          // 游戏其中一个 源 的文件夹，创建 源 时，使用创建时间命名
+            (yyyyMMddTHHmmssZ)          // 游戏其中一个 源 的文件夹，使用创建时间命名
                 sourceinfo.json         // 游戏 源 配置文件，名称固定
                 source.zip              // 游戏 源 创建时，把所有文件压缩后自动生成，名称固定
 
         /localizations                  // 游戏 本地化 文件夹，名称固定
-            (yyyyMMddTHHmmssZ)          // 游戏其中一个 本地化 的文件夹，创建 本地化 时，使用创建时间命名
+            (yyyyMMddTHHmmssZ)          // 游戏其中一个 本地化 的文件夹，使用创建时间命名
                 localizationinfo.json   // 游戏 本地化 配置文件，名称固定
                 localization.zip        // 游戏 本地化 创建时，把所有文件压缩后自动生成，名称固定
 
         /targets                        // 游戏 本 文件夹，名称固定
-            (yyyyMMddTHHmmssZ)          // 游戏其中一个 本 的文件夹，创建 本 时，使用创建时间命名
+            (yyyyMMddTHHmmssZ)          // 游戏其中一个 本 的文件夹，使用创建时间命名
                 targetinfo.json         // 游戏 本 配置文件，名称固定
                 /target                 // 游戏 本 创建时，把所有文件解压或者拷贝后自动生成，名称固定
                   (StartupName)         // 游戏 本 里，必须存在一个启动程序
+
+        /savedatas
+            savedatasettingsinfo.json   // 游戏 存档 配置文件，名称固定
+            (yyyyMMddTHHmmssZ)          // 游戏其中一个 存档 的备份文件夹，使用创建时间命名
+                savedatainfo.json       // 游戏 存档备份 配置文件，名称固定
+                savedata.zip            // 游戏 存档备份 创建时，把所有文件压缩后自动生成，名称固定
 
     (yyyyMMddTHHmmssZ)
     ......

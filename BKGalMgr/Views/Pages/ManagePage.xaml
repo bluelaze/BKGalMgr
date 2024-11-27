@@ -180,6 +180,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <ListView Padding="0" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
                     <ListView.Header>
@@ -360,6 +361,60 @@
                                     <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
                             </UserControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ListView Grid.Column="3" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.SaveDatas, Mode=OneWay}">
+                    <ListView.Header>
+                        <StackPanel Margin="16,0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <TextBlock x:Uid="Manage_SaveData" VerticalAlignment="Center" />
+                            <Button x:Name="savedata_Button"
+                                    x:Uid="Manage_SaveData_Backup"
+                                    Click="savedata_Button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xEA35;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="savedata_settings_Button"
+                                    Click="savedata_settings_Button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE713;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
+                                    Style="{StaticResource IconButtonStyle}" />
+                        </StackPanel>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:SaveDataInfo">
+                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                <StackPanel.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Name="edit_savedata_MenuFlyoutItem"
+                                                        x:Uid="Commom_MenuItem_Edit"
+                                                        Click="edit_savedata_MenuFlyoutItem_Click" />
+                                        <MenuFlyoutItem x:Name="restore_savedata_MenuFlyoutItem"
+                                                        x:Uid="Commom_MenuItem_Restore"
+                                                        Click="restore_savedata_MenuFlyoutItem_Click" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                        <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem x:Name="delete_savedata_MenuFlyoutItem"
+                                                        x:Uid="Commom_MenuItem_Delete"
+                                                        Click="delete_savedata_MenuFlyoutItem_Click">
+                                            <MenuFlyoutItem.Resources>
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                            </MenuFlyoutItem.Resources>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </StackPanel.ContextFlyout>
+                                <TextBlock Text="{Binding Name}" />
+                                <SelectorBarItem Padding="0"
+                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                 Text="{Binding CreateDate}" />
+                                <TextBlock Text="{Binding Description}" />
+                            </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

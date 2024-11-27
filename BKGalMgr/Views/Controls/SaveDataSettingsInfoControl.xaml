@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="BKGalMgr.Views.Controls.SaveDataSettingsInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:BKGalMgr.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+             xmlns:mui="using:CommunityToolkit.WinUI"
+             xmlns:vm="using:BKGalMgr.ViewModels"
+             d:DataContext="{d:DesignInstance vm:SaveDataSettingsInfo,
+                                              IsDesignTimeCreatable=False}"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:ObjectToVisibilityConverter x:Key="FocusStateToVisibilityConverter" To="Unfocused" />
+    </UserControl.Resources>
+
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="local:HeaderedTextBox">
+                <Setter Property="HeaderWidth" Value="98" />
+            </Style>
+        </StackPanel.Resources>
+        <CommandBar HorizontalAlignment="Left"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right">
+            <AppBarButton x:Uid="SaveDataSettingsInfo_Open_SaveData"
+                          Command="{Binding OpenSaveDataFolderCommand}"
+                          Icon="{mui:FontIcon Glyph=&#xE838;}" />
+            <AppBarButton x:Uid="SaveDataSettingsInfo_Open_Backup"
+                          Command="{Binding OpenJsonFolderCommand}"
+                          Icon="{mui:FontIcon Glyph=&#xE8F7;}" />
+        </CommandBar>
+        <mcontrols:SettingsCard x:Uid="SaveDataSettingsInfo_SaveData_Path">
+            <Grid MinWidth="256">
+                <TextBox x:Name="pick_savedata_folder_TextBox" Text="{Binding SaveDataFolderPath, Mode=TwoWay}" />
+                <Button x:Name="pick_savedata_folder_Button"
+                        Width="32"
+                        Height="32"
+                        Padding="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="pick_savedata_folder_Button_Click"
+                        Visibility="{x:Bind pick_savedata_folder_TextBox.FocusState, Mode=OneWay, Converter={StaticResource FocusStateToVisibilityConverter}}">
+                    <FontIcon FontSize="16" Glyph="&#xE712;" />
+                </Button>
+            </Grid>
+        </mcontrols:SettingsCard>
+        <mcontrols:SettingsCard x:Uid="SaveDataSettingsInfo_Auto_Backup">
+            <ToggleSwitch IsOn="{Binding AutoBackup, Mode=TwoWay}" />
+        </mcontrols:SettingsCard>
+        <local:HeaderedTextBox x:Uid="SaveDataSettingsInfo_Description"
+                               Margin="16,1,0,0"
+                               AcceptsReturn="True"
+                               Text="{Binding Description, Mode=TwoWay}"
+                               TextWrapping="Wrap" />
+    </StackPanel>
+</UserControl>

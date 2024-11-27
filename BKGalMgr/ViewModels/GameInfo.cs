@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
 using BKGalMgr.ThirdParty;
 using Windows.Storage;
 
@@ -135,6 +136,14 @@ public partial class GameInfo : ObservableObject
     }
     public DateTime SeletedTargetCreateDate { get; set; }
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private SaveDataSettingsInfo _saveDataSettings = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<SaveDataInfo> _saveDatas = new();
+
     [property: JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
@@ -198,6 +207,21 @@ public partial class GameInfo : ObservableObject
                 }
             }
         }
+
+        path = Path.Combine(dirPath, GlobalInfo.SaveDatasFolderName);
+        if (Directory.Exists(path))
+        {
+            gameInfo.SaveDataSettings = SaveDataSettingsInfo.Open(path) ?? new();
+
+            var dirs = Directory.GetDirectories(path);
+            foreach (var dir in dirs)
+            {
+                var savedata = SaveDataInfo.Open(dir);
+                if (savedata != null)
+                    gameInfo.SaveDatas.Insert(0, savedata);
+            }
+        }
+        gameInfo.SaveDataSettings.SetGamePath(dirPath);
 
         gameInfo.LoadCover();
         gameInfo.Repository = repo;
@@ -531,6 +555,58 @@ public partial class GameInfo : ObservableObject
         {
             _selectedTarget = null;
             OnPropertyChanged(nameof(SelectedTarget));
+        }
+    }
+
+    public SaveDataInfo NewSaveData()
+    {
+        var savedataInfo = new SaveDataInfo();
+        savedataInfo.SetGamePath(FolderPath);
+
+        return savedataInfo;
+    }
+
+    public async Task<bool> AddSaveData(SaveDataInfo savedataInfo)
+    {
+        if (!SaveDataSettings.IsValid() || !Directory.Exists(SaveDataSettings.SaveDataFolderPath))
+            return false;
+
+        var ret = await savedataInfo.BackupSaveDataFolder(SaveDataSettings.SaveDataFolderPath);
+        if (ret)
+            SaveDatas.Insert(0, savedataInfo);
+
+        return ret;
+    }
+
+    public void UpdateSaveData(SaveDataInfo savedataInfo)
+    {
+        for (int i = 0; i < SaveDatas.Count; i++)
+        {
+            if (SaveDatas[i].CreateDate == savedataInfo.CreateDate)
+            {
+                SaveDatas[i] = savedataInfo;
+            }
+        }
+    }
+
+    public async Task<bool> RestoreSaveData(SaveDataInfo savedataInfo)
+    {
+        if (!SaveDataSettings.IsValid() || !Directory.Exists(SaveDataSettings.SaveDataFolderPath))
+            return false;
+
+        return await savedataInfo.RestoreToSaveDataFolder(SaveDataSettings.SaveDataFolderPath);
+    }
+
+    public async Task DeleteSaveData(SaveDataInfo savedata)
+    {
+        if (SaveDatas.Contains(savedata))
+        {
+            if (Directory.Exists(savedata.FolderPath))
+                await Task.Run(() =>
+                {
+                    Directory.Delete(savedata.FolderPath, true);
+                });
+            SaveDatas.Remove(savedata);
         }
     }
 

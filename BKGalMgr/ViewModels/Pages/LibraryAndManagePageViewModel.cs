@@ -23,6 +23,8 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         Settings.SelectedRepositoryPath = SelectedRepository?.FolderPath ?? "";
     }
 
+    public bool IsLoadedRepository { get; private set; } = false;
+
     public string BangumiAccessToken => Settings.Bangumi.AccessToken;
 
     public readonly SettingsDto Settings;
@@ -30,18 +32,26 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
     public LibraryAndManagePageViewModel(SettingsDto settings)
     {
         Settings = settings;
+    }
+
+    public async Task LoadRepository()
+    {
+        if (IsLoadedRepository)
+            return;
+        IsLoadedRepository = true;
+
         foreach (var path in Settings.RepositoryPath)
         {
-            AddRepository(new RepositoryInfo() { FolderPath = path });
+            await AddRepository(new RepositoryInfo() { FolderPath = path });
         }
     }
 
-    public bool AddRepository(RepositoryInfo repository)
+    public async Task<bool> AddRepository(RepositoryInfo repository)
     {
         if (repository.FolderPath.IsNullOrEmpty())
             return false;
 
-        repository = RepositoryInfo.Open(repository.FolderPath, repository);
+        repository = await Task.Run(() => RepositoryInfo.Open(repository.FolderPath, repository));
         if (repository == null)
             return false;
 
@@ -125,6 +135,12 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         SelectedRepository.SelectedGame.UpdateTarget(target);
     }
 
+    public void UpdateSaveData(SaveDataInfo savedata)
+    {
+        savedata.SaveJsonFile();
+        SelectedRepository.SelectedGame.UpdateSaveData(savedata);
+    }
+
     public async Task<bool> CopySource(string dirPath)
     {
         return await SelectedRepository.SelectedGame.CopySource(dirPath);
@@ -153,5 +169,10 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
     public async Task DeleteTarget(TargetInfo target)
     {
         await SelectedRepository.SelectedGame.DeleteTarget(target);
+    }
+
+    public async Task DeleteSaveData(SaveDataInfo saveData)
+    {
+        await SelectedRepository.SelectedGame.DeleteSaveData(saveData);
     }
 }

@@ -23,7 +23,7 @@
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
         <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <converters:GroupItemSwitchConverter x:Key="GroupItemSwitchConverter" />
-        <converters:ObjectToVisibilityConverter x:Key="PlayStatusToVisibilityConverter" To="Playing" />
+        <converters:ObjectToBooleanConverter x:Key="PlayStatusToBooleanConverter" To="Playing" />
         <converters:PlayedPeriodToColumnSeriesConverter x:Key="PlayedPeriodToColumnSeriesConverter" />
         <converters:PlayedPeriodToXAxesConverter x:Key="PlayedPeriodToXAxesConverter" />
         <converters:PlayedPeriodToYAxesConverter x:Key="PlayedPeriodToYAxesConverter" />
@@ -416,7 +416,7 @@
                                                                                  Margin="0"
                                                                                  Padding="0"
                                                                                  Click="capture_hotkey_button_Click"
-                                                                                 IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToVisibilityConverter}}"
+                                                                                 IsEnabled="{Binding PlayStatus, Converter={StaticResource PlayStatusToBooleanConverter}}"
                                                                                  Visibility="{Binding EnableScreenCapture}">
                                                                     <SelectorBarItem Padding="0"
                                                                                      Icon="{mui:FontIcon Glyph='&#xF406;'}"

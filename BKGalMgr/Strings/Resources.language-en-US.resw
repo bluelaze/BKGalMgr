@@ -152,7 +152,25 @@
   </data>
   <data name="Msg_Migrate_Confirm" xml:space="preserve">
     <value>Migrate {0} games from {1} to {2}?</value>
-  </data>  
+  </data>
+  <data name="Msg_SaveData_Invalid_Path" xml:space="preserve">
+    <value>Invalid savedata path</value>
+  </data>
+  <data name="Msg_SaveData_Backup_Fail" xml:space="preserve">
+    <value>Backup savedata fail</value>
+  </data>
+  <data name="Msg_SaveData_Restore_Comfirm" xml:space="preserve">
+    <value>The current savedata will be completely overwritten. Please make sure that it has been backed up and the savedata path is correct.</value>
+  </data>
+  <data name="Msg_SaveData_Restore_Fail" xml:space="preserve">
+    <value>Retore fail</value>
+  </data>
+  <data name="Msg_SaveData_Auto_Backup_Fail" xml:space="preserve">
+    <value>Auto backup fail, please check savedata settings</value>
+  </data>
+  <data name="Msg_Game_Need_Stop" xml:space="preserve">
+    <value>Game running currently, please stop!</value>
+  </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -176,6 +194,12 @@
   </data>
   <data name="Dlg_Target_Edit" xml:space="preserve">
     <value>Edit target</value>
+  </data>
+  <data name="Dlg_SaveData_Edit" xml:space="preserve">
+    <value>Edit SaveData</value>
+  </data>
+  <data name="Dlg_SaveData_Settings" xml:space="preserve">
+    <value>SaveData Settings</value>
   </data>
   <data name="Dlg_Group_Edit" xml:space="preserve">
     <value>Edit group</value>
@@ -213,6 +237,9 @@
   <data name="Commom_MenuItem_Exit.Text" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="Commom_MenuItem_Restore.Text" xml:space="preserve">
+    <value>Restore</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>
@@ -223,7 +250,7 @@
     <value>Name</value>
   </data>
   <data name="RepositoryInfo_Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Notes</value>
   </data>
   <data name="GameInfo_Company.Header" xml:space="preserve">
     <value>Company</value>
@@ -277,7 +304,7 @@
     <value>Name</value>
   </data>
   <data name="ContributorInfo_Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Notes</value>
   </data>
   <data name="SourceInfo_Name.Header" xml:space="preserve">
     <value>Name</value>
@@ -289,7 +316,7 @@
     <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="SourceInfo_Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Notes</value>
   </data>
   <data name="SourceInfo_Contributors.Header" xml:space="preserve">
     <value>Contributors</value>
@@ -310,7 +337,7 @@
     <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="LocalizationInfo_Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Notes</value>
   </data>
   <data name="LocalizationInfo_Contributors.Header" xml:space="preserve">
     <value>Contributors</value>
@@ -331,7 +358,7 @@
     <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
   <data name="TargetInfo_Description.Header" xml:space="preserve">
-    <value>Description</value>
+    <value>Notes</value>
   </data>
   <data name="TargetInfo_Source_Contributors.Header" xml:space="preserve">
     <value>Source Contributors</value>
@@ -344,6 +371,33 @@
   </data>
   <data name="TargetInfo_Localization.Header" xml:space="preserve">
     <value>Localization</value>
+  </data>
+  <data name="SaveDataInfo_Name.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SaveDataInfo_Description.Header" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="SaveDataInfo_Auto_Backup" xml:space="preserve">
+    <value>Auto Backup</value>
+  </data>
+  <data name="SaveDataSettingsInfo_Open_SaveData.Label" xml:space="preserve">
+    <value>Open SaveData Folder</value>
+  </data>
+  <data name="SaveDataSettingsInfo_Open_Backup.Label" xml:space="preserve">
+    <value>Open Backup Folder</value>
+  </data>
+  <data name="SaveDataSettingsInfo_SaveData_Path.Header" xml:space="preserve">
+    <value>SaveData Path</value>
+  </data>
+  <data name="SaveDataSettingsInfo_Auto_Backup.Header" xml:space="preserve">
+    <value>Auto Backup</value>
+  </data>
+  <data name="SaveDataSettingsInfo_Auto_Backup.Description" xml:space="preserve">
+    <value>Auto backup savedata when game stop play</value>
+  </data>
+  <data name="SaveDataSettingsInfo_Description.Header" xml:space="preserve">
+    <value>Notes</value>
   </data>
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
@@ -447,6 +501,12 @@
   </data>
   <data name="Manage_Target_Add_Shortcut.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Add with shortcut</value>
+  </data>
+  <data name="Manage_SaveData.Text" xml:space="preserve">
+    <value>SaveData</value>
+  </data>
+  <data name="Manage_SaveData_Backup.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Backup SaveData</value>
   </data>
   <data name="Review_Storage_Usage.Text" xml:space="preserve">
     <value>Storage Usage</value>
