@@ -133,7 +133,7 @@ c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的
 
 项目结构上是采用的MVVM模式开发的，没那么严格，`Event`该使用就使用，但涉及UI的操作只应该在`View`，其余业务只应该在`ViewModel`（Model：？），各个模块应该基于**低耦合，高内聚**的设计原则。
 
-**注意：** 注释和提交记录请使用英文，代码提交时需要格式化，提交记录请使用`type(scope): message`的格式提交。
+**注意：** 代码提交时需要格式化，提交记录请使用`type(scope): message`的格式提交。
 
 ## 鸣谢
 

@@ -134,7 +134,7 @@ For some other c# specifications, you can refer to godot.
 
 The project structure is developed using the MVVM model , not so strict , `Event` can be used, but UI operations should only be in the `View`, others should only be in the `ViewModel`(Model: ?), the modules should be based on the **Low Coupling, High Cohesion** design principles .
 
-**Note:** Please use English for comments and commit logs, code needs to be formatted when submitting, and commit logs should be submitted in `type(scope): message` format.
+**Note:** Code needs to be formatted when submitting, and commit logs should be submitted in `type(scope): message` format.
 
 ### Acknowledgments
 
