@@ -12,7 +12,7 @@ public class DateTimeToDateTimeOffsetConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        if (value is DateTime dt)
+        if (value is DateTime dt && dt.Ticks > 0)
             return new DateTimeOffset(dt);
 
         return null;
