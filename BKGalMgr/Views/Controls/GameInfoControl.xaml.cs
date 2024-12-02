@@ -43,6 +43,7 @@ public sealed partial class GameInfoControl : UserControl
         CommunityToolkit.WinUI.Controls.TokenItemAddingEventArgs args
     )
     {
-        args.Item = new CharacterInfo() { Name = args.TokenText };
+        var gameInfo = sender.DataContext as GameInfo;
+        args.Item = new CharacterInfo() { Name = args.TokenText, GameFolderPath = gameInfo.FolderPath };
     }
 }

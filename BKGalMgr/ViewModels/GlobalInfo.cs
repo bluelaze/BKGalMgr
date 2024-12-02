@@ -54,10 +54,15 @@ public static class GlobalInfo
     public const string GameJsonName = "gameinfo.json";
 
     public const string GameCoverName = "cover";
-    public static readonly string[] GameCoverSupportFormats = [".jpg", ".jpeg", ".png", ".gif"];
+    public const string GameCoversFolderName = "covers";
+    public static readonly string[] GameCoverSupportFormats = [".gif", ".webp", ".png", ".jpg", ".jpeg"];
 
     public const string GameScreenCaptureFolderName = "screencaptures";
     public const string GameScreenCaptureFileFormatStr = "yyyy-MM-dd_HH-mm-ss";
+
+    public const string GameCharacterFolderName = "characters";
+
+    public const string GameGalleryFolderName = "gallery";
 
     public const string GameShortcutFolderName = "shortcut";
 

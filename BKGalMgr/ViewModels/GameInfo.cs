@@ -11,8 +11,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using BKGalMgr.Helpers;
+using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ThirdParty;
+using Windows.Devices.Lights;
 using Windows.Storage;
 
 namespace BKGalMgr.ViewModels;
@@ -91,6 +94,18 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     private string _bangumiSubjectId;
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<string> _covers = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<string> _gallery = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<string> _screenCaptures = new();
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -223,7 +238,7 @@ public partial class GameInfo : ObservableObject
         }
         gameInfo.SaveDataSettings.SetGamePath(dirPath);
 
-        gameInfo.LoadCover();
+        gameInfo.Refresh();
         gameInfo.Repository = repo;
         gameInfo.IsPropertyChanged = false;
         gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
@@ -306,16 +321,18 @@ public partial class GameInfo : ObservableObject
 
     public void UpdateGame(GameInfo newGame)
     {
-        if (!newGame.Name.IsNullOrEmpty())
+        if (Name.IsNullOrEmpty())
             Name = newGame.Name;
-        if (!newGame.Cover.IsNullOrEmpty())
+        if (Cover.IsNullOrEmpty())
             Cover = newGame.Cover;
-        if (!newGame.Company.IsNullOrEmpty())
+        if (Company.IsNullOrEmpty())
             Company = newGame.Company;
-        if (!newGame.Website.IsNullOrEmpty())
+        if (Website.IsNullOrEmpty())
             Website = newGame.Website;
-        PublishDate = newGame.PublishDate;
-        Story = newGame.Story;
+        if (Story.IsNullOrEmpty())
+            Story = newGame.Story;
+        if (PublishDate.Ticks == 0)
+            PublishDate = newGame.PublishDate;
 
         Musician.MergeRange(newGame.Musician);
         Artist.MergeRange(newGame.Artist);
@@ -323,7 +340,23 @@ public partial class GameInfo : ObservableObject
         Scenario.MergeRange(newGame.Scenario);
         Cv.MergeRange(newGame.Cv);
         Tag.MergeRange(newGame.Tag);
+
         Characters.AddRange(newGame.Characters.ExceptBy(Characters.Select(c => c.Name), c => c.Name));
+        // from bangumi
+        foreach (var oldCharacter in Characters)
+        {
+            foreach (var newCharacter in newGame.Characters)
+            {
+                if (oldCharacter.Name == newCharacter.Name)
+                {
+                    oldCharacter.BangumiCharacterId = newCharacter.BangumiCharacterId;
+                    if (oldCharacter.Illustration.IsNullOrEmpty())
+                        oldCharacter.Illustration = newCharacter.Illustration;
+                    if (oldCharacter.CV.IsNullOrEmpty())
+                        oldCharacter.CV = newCharacter.CV;
+                }
+            }
+        }
     }
 
     public void AddPlayedPeriod(PlayedPeriodInfo playedPeriodInfo)
@@ -633,6 +666,35 @@ public partial class GameInfo : ObservableObject
         return true;
     }
 
+    public void MoveUpCharacter(CharacterInfo characterInfo)
+    {
+        int index = Characters.IndexOf(characterInfo);
+        if (index > 0)
+        {
+            Characters.Move(index, index - 1);
+            OnPropertyChanged(nameof(Characters));
+        }
+    }
+
+    public void MoveDwonCharacter(CharacterInfo characterInfo)
+    {
+        int index = Characters.IndexOf(characterInfo);
+        if (index >= 0 && index + 1 < Characters.Count)
+        {
+            Characters.Move(index, index + 1);
+            OnPropertyChanged(nameof(Characters));
+        }
+    }
+
+    public void DeleteCharacter(CharacterInfo characterInfo)
+    {
+        if (Characters.Contains(characterInfo))
+        {
+            Characters.Remove(characterInfo);
+            OnPropertyChanged(nameof(Characters));
+        }
+    }
+
     [RelayCommand]
     [property: JsonIgnore]
     public async Task SaveGameInfo()
@@ -661,6 +723,42 @@ public partial class GameInfo : ObservableObject
         Process.Start("explorer", FolderPath);
     }
 
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenCoversFolder()
+    {
+        var coversPath = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
+        Directory.CreateDirectory(coversPath);
+        Process.Start("explorer", coversPath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenGalleryFolder()
+    {
+        var galleryPath = Path.Combine(FolderPath, GlobalInfo.GameGalleryFolderName);
+        Directory.CreateDirectory(galleryPath);
+        Process.Start("explorer", galleryPath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenScreenCaptureFolder()
+    {
+        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
+        Directory.CreateDirectory(capturePath);
+        Process.Start("explorer", capturePath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenCharacterFolder()
+    {
+        var characterPath = Path.Combine(FolderPath, GlobalInfo.GameCharacterFolderName);
+        Directory.CreateDirectory(characterPath);
+        Process.Start("explorer", characterPath);
+    }
+
     public void LoadCover()
     {
         foreach (var format in GlobalInfo.GameCoverSupportFormats)
@@ -672,11 +770,72 @@ public partial class GameInfo : ObservableObject
                 break;
             }
         }
+
+        var covers = new List<string>();
+        var coversPath = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
+        if (Directory.Exists(coversPath))
+            covers = Directory.GetFiles(coversPath).ToList();
+
+        if (!Cover.IsNullOrEmpty())
+            covers.Insert(0, Cover);
+
+        Covers.MergeRange(covers);
+        foreach (var cover in Covers)
+        {
+            if (!File.Exists(cover))
+                Covers.Remove(cover);
+        }
+    }
+
+    public void LoadGallery()
+    {
+        var galleryPath = Path.Combine(FolderPath, GlobalInfo.GameGalleryFolderName);
+        if (Directory.Exists(galleryPath))
+        {
+            Gallery.MergeRange(Directory.GetFiles(galleryPath));
+            foreach (var gallery in Gallery)
+            {
+                if (!File.Exists(gallery))
+                    Covers.Remove(gallery);
+            }
+        }
+    }
+
+    public void LoadScreenCapture()
+    {
+        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
+        if (Directory.Exists(capturePath))
+        {
+            ScreenCaptures.MergeRange(Directory.GetFiles(capturePath));
+            foreach (var c in ScreenCaptures)
+            {
+                if (!File.Exists(c))
+                    Covers.Remove(c);
+            }
+        }
+    }
+
+    public void LoadCharacter()
+    {
+        foreach (var c in Characters)
+        {
+            c.GameFolderPath = FolderPath;
+            c.LoadIllustration();
+        }
+    }
+
+    public void Refresh()
+    {
+        LoadCover();
+        LoadGallery();
+        LoadScreenCapture();
+        LoadCharacter();
     }
 
     public string TransformCoverPath(string path)
     {
-        var format = Path.GetExtension(path).ToLower();
+        string absolutePath = path.StartsWith("http") ? (new Uri(path)).AbsolutePath : path;
+        var format = Path.GetExtension(absolutePath).ToLower();
         if (GlobalInfo.GameCoverSupportFormats.Contains(format))
             return Path.Combine(FolderPath, GlobalInfo.GameCoverName + format);
         return string.Empty;
@@ -685,7 +844,10 @@ public partial class GameInfo : ObservableObject
     public async Task SaveCover()
     {
         if (Cover.IsNullOrEmpty())
+        {
+            LoadCover();
             return;
+        }
 
         // check format, build path
         var coverPath = TransformCoverPath(Cover);

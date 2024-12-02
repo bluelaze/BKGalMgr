@@ -9,6 +9,7 @@ using BKGalMgr.ThirdParty;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
+using Mapster;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -145,12 +146,26 @@ public sealed partial class ManagePage : Page
 
     private async void add_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.AddNewGame(await PullBangumiGameInfo(""));
+        var gameInfo = await PullBangumiGameInfo("");
+        if (gameInfo != null)
+        {
+            ViewModel.AddNewGame(gameInfo);
+            var errMsg = await ViewModel.PullGameCharacterFromBangumi(gameInfo);
+            if (!errMsg.IsNullOrEmpty())
+                _ = DialogHelper.ShowError(errMsg);
+        }
     }
 
     private async void update_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.UpdateGame(await PullBangumiGameInfo(ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId));
+        var gameInfo = await PullBangumiGameInfo(ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId);
+        if (gameInfo != null)
+        {
+            ViewModel.UpdateGame(gameInfo);
+            var errMsg = await ViewModel.PullGameCharacterFromBangumi(ViewModel.SelectedRepository.SelectedGame);
+            if (!errMsg.IsNullOrEmpty())
+                _ = DialogHelper.ShowError(errMsg);
+        }
     }
 
     private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)
@@ -606,5 +621,75 @@ public sealed partial class ManagePage : Page
             await ViewModel.DeleteSaveData(savedataInfo);
             App.HideLoading();
         }
+    }
+
+    private async void add_illustration_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var charater = (sender as Button).DataContext as CharacterInfo;
+        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
+        if (file != null)
+        {
+            charater.Illustration = file.Path;
+            await charater.SaveIllustration();
+        }
+    }
+
+    private async Task<ContentDialogResult> EditCharacterInfo(CharacterInfo characterInfo)
+    {
+        CharacterInfoControl characterInfoControl = new() { Width = 720, DataContext = characterInfo };
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Dlg_Character_Edit");
+        dialog.Content = characterInfoControl;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = !characterInfoControl.IsValidCharacter();
+        };
+
+        return await dialog.ShowAsync();
+    }
+
+    private async void edit_character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var characterInfo = (sender as MenuFlyoutItem).DataContext as CharacterInfo;
+        var editCharacterInfo = new CharacterInfo();
+        characterInfo.Adapt(editCharacterInfo);
+        var result = await EditCharacterInfo(editCharacterInfo);
+        if (result == ContentDialogResult.Primary)
+        {
+            editCharacterInfo.Adapt(characterInfo);
+            await characterInfo.SaveIllustration();
+        }
+    }
+
+    private void move_up_character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var characterInfo = (sender as MenuFlyoutItem).DataContext as CharacterInfo;
+        ViewModel.SelectedRepository.SelectedGame.MoveUpCharacter(characterInfo);
+    }
+
+    private void move_down_character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var characterInfo = (sender as MenuFlyoutItem).DataContext as CharacterInfo;
+        ViewModel.SelectedRepository.SelectedGame.MoveDwonCharacter(characterInfo);
+    }
+
+    private async void delete_character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var characterInfo = (sender as MenuFlyoutItem).DataContext as CharacterInfo;
+        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Delete_Confirm")))
+        {
+            ViewModel.SelectedRepository.SelectedGame.DeleteCharacter(characterInfo);
+        }
+    }
+
+    private void refresh_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.RefreshGame();
+    }
+
+    private void goto_top_Button_Click(object sender, RoutedEventArgs e)
+    {
+        gameinfo_ScrollViewer.ChangeView(0, 0, null);
     }
 }

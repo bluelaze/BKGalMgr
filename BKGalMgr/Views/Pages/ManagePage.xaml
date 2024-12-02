@@ -9,10 +9,12 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
       xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
       xmlns:mtriggers="using:CommunityToolkit.WinUI"
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
+      d:DataContext="{d:DesignInstance local:ManagePage}"
       mc:Ignorable="d">
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
@@ -22,14 +24,40 @@
         <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter"
                                                   EmptyValue="False"
                                                   NotEmptyValue="True" />
+        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
+        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
+                                                  EmptyValue="Collapsed"
+                                                  NotEmptyValue="Visible" />
+        <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
 
+
+        <x:Double x:Key="HeaderedControlMaxWidth">1080</x:Double>
+        <Style x:Key="HeaderedControlHeaderTextBlockStyle"
+               BasedOn="{StaticResource TitleTextBlockStyle}"
+               TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="0,8,0,12" />
+            </Style.Setters>
+        </Style>
+        <Style x:Key="HeaderedControlHeaderButtonStyle"
+               BasedOn="{StaticResource DefaultButtonStyle}"
+               TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Margin" Value="0,4,0,8" />
+                <Setter Property="Padding" Value="0,4,0,4" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="{x:Null}" />
+            </Style.Setters>
+        </Style>
     </Page.Resources>
-    <Grid Margin="24,16">
+    <Grid Margin="8,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Spacing="8">
+        <StackPanel Margin="16,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
             <ComboBox x:Uid="Manage_Repository_ComboBox"
                       ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
                       SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
@@ -167,168 +195,52 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <Grid Grid.Row="1"
-              Margin="0,16,0,0"
-              Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <controls:GameInfoControl DataContext="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
-            <Grid Grid.Row="1" Margin="0,24,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <ListView Padding="0" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
-                    <ListView.Header>
-                        <StackPanel Margin="16,0"
-                                    Orientation="Horizontal"
-                                    Spacing="8">
-                            <TextBlock x:Uid="Manage_Sources" VerticalAlignment="Center" />
-                            <Button x:Name="add_source_folder_button"
-                                    x:Uid="Manage_Sources_Add"
-                                    Click="add_source_folder_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE8F4;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                        </StackPanel>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:SourceInfo">
-                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
-                                <StackPanel.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="edit_source_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_source_menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Delete"
-                                                        Click="delete_source_menuflyoutitem_Click">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </StackPanel.ContextFlyout>
-                                <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem Padding="0"
-                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                 Text="{Binding CreateDate}" />
-                                <TextBlock Text="{Binding Description}" />
+        <ScrollViewer x:Name="gameinfo_ScrollViewer"
+                      Grid.Row="1"
+                      Margin="0,16,0,0"
+                      Padding="16,0"
+                      d:DataContext="{d:DesignInstance vm:GameInfo}"
+                      DataContext="{Binding ViewModel.SelectedRepository.SelectedGame}"
+                      Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+            <StackPanel Spacing="24">
+                <!--  GameInfo  -->
+                <controls:GameInfoControl DataContext="{Binding}" />
+                <!--  source, localization, target, savedata  -->
+                <Grid MaxHeight="480">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ListView Padding="0" ItemsSource="{Binding Sources, Mode=OneWay}">
+                        <ListView.Header>
+                            <StackPanel Margin="16,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock x:Uid="Manage_Sources" VerticalAlignment="Center" />
+                                <Button x:Name="add_source_folder_button"
+                                        x:Uid="Manage_Sources_Add"
+                                        Click="add_source_folder_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE8F4;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="1" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Localizations, Mode=OneWay}">
-                    <ListView.Header>
-                        <StackPanel Margin="16,0"
-                                    Orientation="Horizontal"
-                                    Spacing="8">
-                            <TextBlock x:Uid="Manage_Localization" VerticalAlignment="Center" />
-                            <Button x:Name="add_localization_folder_button"
-                                    x:Uid="Manage_Localization_Add"
-                                    Click="add_localization_folder_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE8F4;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                        </StackPanel>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:LocalizationInfo">
-                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
-                                <StackPanel.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="edit_localization_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_localization_menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Delete"
-                                                        Click="delete_localization_menuflyoutitem_Click">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </StackPanel.ContextFlyout>
-                                <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem Padding="0"
-                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                 Text="{Binding CreateDate}" />
-                                <TextBlock Text="{Binding Description}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="2" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.Targets, Mode=OneWay}">
-                    <ListView.Header>
-                        <StackPanel Margin="16,0"
-                                    Orientation="Horizontal"
-                                    Spacing="8">
-                            <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
-                            <Button x:Name="add_target_button"
-                                    Click="add_target_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE948;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="add_target_folder_button"
-                                    x:Uid="Manage_Target_Add"
-                                    Click="add_target_folder_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE8F4;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="add_target_shortcut_Button"
-                                    x:Uid="Manage_Target_Add_Shortcut"
-                                    Click="add_target_shortcut_Button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xF61B;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                        </StackPanel>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:TargetInfo">
-                            <UserControl>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SourceInfo">
                                 <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                                     <StackPanel.ContextFlyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem x:Name="edit_target_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="edit_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
-                                                            Click="edit_target_menuflyoutitem_Click" />
+                                                            Click="edit_source_menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                            <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
-                                                            x:Uid="Commom_MenuItem_Export_As_Source"
-                                                            Click="export_target_menuflyoutitem_Click" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem x:Name="archive_target_menuflyoutitem"
-                                                            x:Uid="Commom_MenuItem_Archive"
-                                                            Click="archive_target_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Name="dearchive_target_menuflyoutitem"
-                                                            x:Uid="Commom_MenuItem_DeArchive"
-                                                            Click="dearchive_target_menuflyoutitem_Click"
-                                                            IsEnabled="{Binding IsArchive}" />
-                                            <MenuFlyoutItem x:Name="delete_target_folder_only_menuflyoutitem"
-                                                            x:Uid="Commom_MenuItem_Delete_Folder_Only"
-                                                            Click="delete_target_folder_only_menuflyoutitem_Click"
-                                                            IsEnabled="{Binding IsArchive}" />
-                                            <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem x:Name="delete_target_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Delete"
-                                                            Click="delete_target_menuflyoutitem_Click">
+                                                            Click="delete_source_menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
                                                     <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                                     <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
@@ -337,88 +249,482 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup>
-                                            <VisualState x:Name="ArchiveState">
-                                                <VisualState.StateTriggers>
-                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
-                                                </VisualState.StateTriggers>
-                                                <VisualState.Setters>
-                                                    <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
-                                                    <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
-                                        <SelectorBarItem.Icon>
-                                            <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                        </SelectorBarItem.Icon>
-                                    </SelectorBarItem>
+                                    <TextBlock Text="{Binding Name}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
                                                      Text="{Binding CreateDate}" />
                                     <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
-                            </UserControl>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ListView Grid.Column="3" ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.SaveDatas, Mode=OneWay}">
-                    <ListView.Header>
-                        <StackPanel Margin="16,0"
-                                    Orientation="Horizontal"
-                                    Spacing="8">
-                            <TextBlock x:Uid="Manage_SaveData" VerticalAlignment="Center" />
-                            <Button x:Name="savedata_Button"
-                                    x:Uid="Manage_SaveData_Backup"
-                                    Click="savedata_Button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xEA35;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="savedata_settings_Button"
-                                    Click="savedata_settings_Button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE713;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                        </StackPanel>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:SaveDataInfo">
-                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
-                                <StackPanel.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="edit_savedata_MenuFlyoutItem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_savedata_MenuFlyoutItem_Click" />
-                                        <MenuFlyoutItem x:Name="restore_savedata_MenuFlyoutItem"
-                                                        x:Uid="Commom_MenuItem_Restore"
-                                                        Click="restore_savedata_MenuFlyoutItem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem x:Name="delete_savedata_MenuFlyoutItem"
-                                                        x:Uid="Commom_MenuItem_Delete"
-                                                        Click="delete_savedata_MenuFlyoutItem_Click">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </StackPanel.ContextFlyout>
-                                <TextBlock Text="{Binding Name}" />
-                                <SelectorBarItem Padding="0"
-                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                 Text="{Binding CreateDate}" />
-                                <TextBlock Text="{Binding Description}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="1" ItemsSource="{Binding Localizations, Mode=OneWay}">
+                        <ListView.Header>
+                            <StackPanel Margin="16,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock x:Uid="Manage_Localization" VerticalAlignment="Center" />
+                                <Button x:Name="add_localization_folder_button"
+                                        x:Uid="Manage_Localization_Add"
+                                        Click="add_localization_folder_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE8F4;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:LocalizationInfo">
+                                <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                    <StackPanel.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Name="edit_localization_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_localization_menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Delete"
+                                                            Click="delete_localization_menuflyoutitem_Click">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </StackPanel.ContextFlyout>
+                                    <TextBlock Text="{Binding Name}" />
+                                    <SelectorBarItem Padding="0"
+                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                     Text="{Binding CreateDate}" />
+                                    <TextBlock Text="{Binding Description}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="2" ItemsSource="{Binding Targets, Mode=OneWay}">
+                        <ListView.Header>
+                            <StackPanel Margin="16,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
+                                <Button x:Name="add_target_button"
+                                        Click="add_target_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE948;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                                <Button x:Name="add_target_folder_button"
+                                        x:Uid="Manage_Target_Add"
+                                        Click="add_target_folder_button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE8F4;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                                <Button x:Name="add_target_shortcut_Button"
+                                        x:Uid="Manage_Target_Add_Shortcut"
+                                        Click="add_target_shortcut_Button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xF61B;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                            </StackPanel>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:TargetInfo">
+                                <UserControl>
+                                    <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                        <StackPanel.ContextFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem x:Name="edit_target_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_Edit"
+                                                                Click="edit_target_menuflyoutitem_Click" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                                <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_Export_As_Source"
+                                                                Click="export_target_menuflyoutitem_Click" />
+                                                <MenuFlyoutSeparator />
+                                                <MenuFlyoutItem x:Name="archive_target_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_Archive"
+                                                                Click="archive_target_menuflyoutitem_Click" />
+                                                <MenuFlyoutItem x:Name="dearchive_target_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_DeArchive"
+                                                                Click="dearchive_target_menuflyoutitem_Click"
+                                                                IsEnabled="{Binding IsArchive}" />
+                                                <MenuFlyoutItem x:Name="delete_target_folder_only_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_Delete_Folder_Only"
+                                                                Click="delete_target_folder_only_menuflyoutitem_Click"
+                                                                IsEnabled="{Binding IsArchive}" />
+                                                <MenuFlyoutSeparator />
+                                                <MenuFlyoutItem x:Name="delete_target_menuflyoutitem"
+                                                                x:Uid="Commom_MenuItem_Delete"
+                                                                Click="delete_target_menuflyoutitem_Click">
+                                                    <MenuFlyoutItem.Resources>
+                                                        <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                        <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                        <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    </MenuFlyoutItem.Resources>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </StackPanel.ContextFlyout>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState x:Name="ArchiveState">
+                                                    <VisualState.StateTriggers>
+                                                        <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                    </VisualState.StateTriggers>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                        <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                            <SelectorBarItem.Icon>
+                                                <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
+                                            </SelectorBarItem.Icon>
+                                        </SelectorBarItem>
+                                        <SelectorBarItem Padding="0"
+                                                         Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                         Text="{Binding CreateDate}" />
+                                        <TextBlock Text="{Binding Description}" />
+                                    </StackPanel>
+                                </UserControl>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ListView Grid.Column="3" ItemsSource="{Binding SaveDatas, Mode=OneWay}">
+                        <ListView.Header>
+                            <StackPanel Margin="16,0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
+                                <TextBlock x:Uid="Manage_SaveData" VerticalAlignment="Center" />
+                                <Button x:Name="savedata_Button"
+                                        x:Uid="Manage_SaveData_Backup"
+                                        Click="savedata_Button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xEA35;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                                <Button x:Name="savedata_settings_Button"
+                                        Click="savedata_settings_Button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE713;}"
+                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        Style="{StaticResource IconButtonStyle}" />
+                            </StackPanel>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SaveDataInfo">
+                                <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                    <StackPanel.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Name="edit_savedata_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_savedata_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Name="restore_savedata_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Restore"
+                                                            Click="restore_savedata_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem x:Name="delete_savedata_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Delete"
+                                                            Click="delete_savedata_MenuFlyoutItem_Click">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </StackPanel.ContextFlyout>
+                                    <TextBlock Text="{Binding Name}" />
+                                    <SelectorBarItem Padding="0"
+                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
+                                                     Text="{Binding CreateDate}" />
+                                    <TextBlock Text="{Binding Description}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+                <!--  covers  -->
+                <FlipView x:Name="covers_FlipView"
+                          MaxHeight="480"
+                          Background="Transparent"
+                          ItemsSource="{Binding Covers}">
+                    <FlipView.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenCoversFolderCommand}" />
+                        </MenuFlyout>
+                    </FlipView.ContextFlyout>
+                    <FlipView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" Stretch="Uniform" />
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </FlipView>
+                <ListView Height="64"
+                          HorizontalAlignment="Center"
+                          ItemsSource="{Binding Covers}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          SelectedIndex="{x:Bind covers_FlipView.SelectedIndex, Mode=TwoWay}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" Stretch="Uniform" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Grid>
-        </Grid>
+                <!--  Gallery  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{Binding OpenGalleryFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <ItemsView Margin="12,0,0,0"
+                               CornerRadius="0"
+                               ItemsSource="{Binding Gallery}">
+                        <ItemsView.Layout>
+                            <LinedFlowLayout ItemsStretch="Fill"
+                                             LineHeight="158"
+                                             LineSpacing="10"
+                                             MinItemSpacing="8" />
+                        </ItemsView.Layout>
+                        <ItemsView.ItemTemplate>
+                            <DataTemplate>
+                                <ItemContainer CornerRadius="0">
+                                    <Image MinWidth="64"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="{Binding}"
+                                           Stretch="UniformToFill" />
+                                </ItemContainer>
+                            </DataTemplate>
+                        </ItemsView.ItemTemplate>
+                    </ItemsView>
+                </mcontrols:HeaderedContentControl>
+                <!--  screen captures  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{Binding OpenScreenCaptureFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <ItemsView Margin="12,0,0,0"
+                               CornerRadius="0"
+                               ItemsSource="{Binding ScreenCaptures}">
+                        <ItemsView.Layout>
+                            <LinedFlowLayout ItemsStretch="Fill"
+                                             LineHeight="158"
+                                             LineSpacing="10"
+                                             MinItemSpacing="8" />
+                        </ItemsView.Layout>
+                        <ItemsView.ItemTemplate>
+                            <DataTemplate>
+                                <ItemContainer CornerRadius="0">
+                                    <Image MinWidth="64"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="{Binding}"
+                                           Stretch="UniformToFill" />
+                                </ItemContainer>
+                            </DataTemplate>
+                        </ItemsView.ItemTemplate>
+                    </ItemsView>
+                </mcontrols:HeaderedContentControl>
+                <!--  story  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="STORY" />
+                    </mcontrols:HeaderedContentControl.Header>
+                    <TextBox MaxHeight="720"
+                             HorizontalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             Text="{Binding Story, Mode=TwoWay}"
+                             TextWrapping="Wrap" />
+                </mcontrols:HeaderedContentControl>
+                <!--  blog  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="BLOG" />
+                    </mcontrols:HeaderedContentControl.Header>
+                    <TextBox MaxHeight="720"
+                             HorizontalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             Text="{Binding Blog, Mode=TwoWay}"
+                             TextWrapping="Wrap" />
+                </mcontrols:HeaderedContentControl>
+                <!--  character  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{Binding OpenCharacterFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CHARACTER" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <ItemsControl Margin="12,0,0,0"
+                                  Padding="0"
+                                  ItemsSource="{Binding Characters}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CharacterInfo">
+                                <UserControl>
+                                    <UserControl.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Name="edit_character_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_character_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Name="move_up_character_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Move_Up"
+                                                            Click="move_up_character_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Name="move_down_character_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Move_Down"
+                                                            Click="move_down_character_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem x:Name="delete_character_MenuFlyoutItem"
+                                                            x:Uid="Commom_MenuItem_Delete"
+                                                            Click="delete_character_MenuFlyoutItem_Click">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </UserControl.ContextFlyout>
+                                    <Grid Margin="0,6" Style="{StaticResource GridItemStyle}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image Margin="8" VerticalAlignment="Top">
+                                            <Image.Source>
+                                                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Illustration}" />
+                                            </Image.Source>
+                                        </Image>
+                                        <Button x:Name="add_illustration_Button"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                BorderBrush="{x:Null}"
+                                                Click="add_illustration_Button_Click"
+                                                CornerRadius="0" />
+                                        <StackPanel Grid.Column="1"
+                                                    Padding="4"
+                                                    Spacing="6">
+                                            <StackPanel Orientation="Horizontal" Spacing="0">
+                                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}" />
+                                                <TextBlock VerticalAlignment="Bottom"
+                                                           Text="{Binding CV, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
+                                                           Visibility="{Binding CV, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                            </StackPanel>
+
+                                            <StackPanel Padding="10,0"
+                                                        Orientation="Horizontal"
+                                                        Spacing="8">
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{Binding Birthday, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:MM/dd}'}"
+                                                           Visibility="{Binding Birthday.Ticks, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{Binding Age, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}y'}"
+                                                           Visibility="{Binding Age, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            </StackPanel>
+                                            <StackPanel Padding="10,0"
+                                                        Orientation="Horizontal"
+                                                        Spacing="8">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                               Text="{Binding Bust, Converter={StaticResource StringFormatConverter}, ConverterParameter='H{0}'}"
+                                                               Visibility="{Binding Bust, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                               Text="{Binding Cup, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
+                                                               Visibility="{Binding Cup, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                               Text="{Binding Waist, Converter={StaticResource StringFormatConverter}, ConverterParameter='/W{0}'}"
+                                                               Visibility="{Binding Waist, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                               Text="{Binding Hips, Converter={StaticResource StringFormatConverter}, ConverterParameter='/H{0}'}"
+                                                               Visibility="{Binding Hips, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                </StackPanel>
+
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{Binding Height, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}cm'}"
+                                                           Visibility="{Binding Height, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{Binding Weight, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}kg'}"
+                                                           Visibility="{Binding Weight, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            </StackPanel>
+
+                                            <TextBox MaxHeight="720"
+                                                     Margin="0,10,0,0"
+                                                     HorizontalAlignment="Stretch"
+                                                     AcceptsReturn="True"
+                                                     Background="Transparent"
+                                                     BorderBrush="Transparent"
+                                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                     Text="{Binding Description, Mode=TwoWay}"
+                                                     TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                </UserControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </mcontrols:HeaderedContentControl>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button x:Name="refresh_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="0,0,10,60"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="refresh_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE72C;}"
+                Style="{StaticResource IconButtonStyle}" />
+
+        <Button x:Name="goto_top_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="goto_top_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE74A;}"
+                Style="{StaticResource IconButtonStyle}" />
     </Grid>
 </Page>

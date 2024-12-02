@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="BKGalMgr.Views.Controls.CharacterInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="using:BKGalMgr.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+             xmlns:mui="using:CommunityToolkit.WinUI"
+             xmlns:vm="using:BKGalMgr.ViewModels"
+             d:DataContext="{d:DesignInstance vm:CharacterInfo,
+                                              IsDesignTimeCreatable=False}"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+    </UserControl.Resources>
+    <StackPanel Spacing="4">
+        <StackPanel.Resources>
+            <Style TargetType="local:HeaderedTextBox">
+                <Setter Property="HeaderWidth" Value="98" />
+            </Style>
+        </StackPanel.Resources>
+        <local:HeaderedTextBox x:Uid="CharacterInfo_Name"
+                               CanEmpty="False"
+                               Text="{Binding Name, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Uid="CharacterInfo_CV" Text="{Binding CV, Mode=TwoWay}" />
+        <Grid>
+            <local:HeaderedTextBox x:Name="pick_illustration_HeaderedTextBox"
+                                   x:Uid="CharacterInfo_Illustration"
+                                   Text="{Binding Illustration, Mode=TwoWay}" />
+            <Button x:Name="pick_illustration_Button"
+                    Width="32"
+                    Height="32"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Click="pick_illustration_Button_Click">
+                <FontIcon FontSize="16" Glyph="&#xE712;" />
+            </Button>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <DatePicker x:Uid="CharacterInfo_Birthday"
+                        Margin="0,1"
+                        VerticalAlignment="Bottom"
+                        Date="{Binding Birthday, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}"
+                        YearVisible="False" />
+            <Button x:Name="remove_birthday_Button"
+                    Margin="-4,0,0,1"
+                    VerticalAlignment="Bottom"
+                    Click="remove_birthday_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE74D;}">
+                <Button.Resources>
+                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                </Button.Resources>
+            </Button>
+            <NumberBox x:Uid="CharacterInfo_Age" Value="{Binding Age, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBox x:Uid="CharacterInfo_Cup" Text="{Binding Cup, Mode=TwoWay}" />
+            <NumberBox x:Uid="CharacterInfo_Bust" Value="{Binding Bust, Mode=TwoWay}" />
+            <NumberBox x:Uid="CharacterInfo_Waist" Value="{Binding Waist, Mode=TwoWay}" />
+            <NumberBox x:Uid="CharacterInfo_Hips" Value="{Binding Hips, Mode=TwoWay}" />
+            <NumberBox x:Uid="CharacterInfo_Height" Value="{Binding Height, Mode=TwoWay}" />
+            <NumberBox x:Uid="CharacterInfo_Weight" Value="{Binding Weight, Mode=TwoWay}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

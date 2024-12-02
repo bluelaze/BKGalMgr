@@ -201,6 +201,9 @@
   <data name="Dlg_SaveData_Settings" xml:space="preserve">
     <value>存档设置</value>
   </data>
+  <data name="Dlg_Character_Edit" xml:space="preserve">
+    <value>编辑角色</value>
+  </data>
   <data name="Dlg_Group_Edit" xml:space="preserve">
     <value>编辑分组</value>
   </data>
@@ -239,6 +242,12 @@
   </data>
   <data name="Commom_MenuItem_Restore.Text" xml:space="preserve">
     <value>还原</value>
+  </data>
+  <data name="Commom_MenuItem_Move_Up.Text" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="Commom_MenuItem_Move_Down.Text" xml:space="preserve">
+    <value>下移</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
@@ -398,6 +407,39 @@
   </data>
   <data name="SaveDataSettingsInfo_Description.Header" xml:space="preserve">
     <value>备注</value>
+  </data>
+  <data name="CharacterInfo_Name.Header" xml:space="preserve">
+    <value>名字</value>
+  </data>
+  <data name="CharacterInfo_CV.Header" xml:space="preserve">
+    <value>声优</value>
+  </data>
+  <data name="CharacterInfo_Illustration.Header" xml:space="preserve">
+    <value>立绘</value>
+  </data>
+  <data name="CharacterInfo_Birthday.Header" xml:space="preserve">
+    <value>生日</value>
+  </data>
+  <data name="CharacterInfo_Age.Header" xml:space="preserve">
+    <value>年龄</value>
+  </data>
+  <data name="CharacterInfo_Cup.Header" xml:space="preserve">
+    <value>Cup</value>
+  </data>
+  <data name="CharacterInfo_Bust.Header" xml:space="preserve">
+    <value>胸围</value>
+  </data>
+  <data name="CharacterInfo_Waist.Header" xml:space="preserve">
+    <value>腰围</value>
+  </data>
+  <data name="CharacterInfo_Hips.Header" xml:space="preserve">
+    <value>臀围</value>
+  </data>
+  <data name="CharacterInfo_Height.Header" xml:space="preserve">
+    <value>身高</value>
+  </data>
+  <data name="CharacterInfo_Weight.Header" xml:space="preserve">
+    <value>体重</value>
   </data>
   <data name="Group_Name.Header" xml:space="preserve">
     <value>名称</value>

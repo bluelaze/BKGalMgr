@@ -99,6 +99,11 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         SelectedRepository.SelectedGame.UpdateGame(newGame);
     }
 
+    public void RefreshGame()
+    {
+        SelectedRepository.SelectedGame.Refresh();
+    }
+
     public record PullGameResponse(GameInfo Game, string ErrorMessage);
 
     public async Task<PullGameResponse> PullGameFromBangumi(string accessToken, string subjectUrl)
@@ -115,6 +120,11 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
             return new(null, errorMessage);
 
         return new(newGame, errorMessage);
+    }
+
+    public async Task<string> PullGameCharacterFromBangumi(GameInfo gameInfo)
+    {
+        return await App.GetRequiredService<BangumiService>().PullGameCharacterInfoAsync(gameInfo);
     }
 
     public void UpdateSource(SourceInfo source)

@@ -201,6 +201,9 @@
   <data name="Dlg_SaveData_Settings" xml:space="preserve">
     <value>SaveData Settings</value>
   </data>
+  <data name="Dlg_Character_Edit" xml:space="preserve">
+    <value>Edit Character</value>
+  </data>
   <data name="Dlg_Group_Edit" xml:space="preserve">
     <value>Edit group</value>
   </data>
@@ -239,6 +242,12 @@
   </data>
   <data name="Commom_MenuItem_Restore.Text" xml:space="preserve">
     <value>Restore</value>
+  </data>
+  <data name="Commom_MenuItem_Move_Up.Text" xml:space="preserve">
+    <value>Move Up</value>
+  </data>
+  <data name="Commom_MenuItem_Move_Down.Text" xml:space="preserve">
+    <value>Move Down</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
@@ -398,6 +407,39 @@
   </data>
   <data name="SaveDataSettingsInfo_Description.Header" xml:space="preserve">
     <value>Notes</value>
+  </data>
+  <data name="CharacterInfo_Name.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="CharacterInfo_CV.Header" xml:space="preserve">
+    <value>CV</value>
+  </data>
+  <data name="CharacterInfo_Illustration.Header" xml:space="preserve">
+    <value>Illustration</value>
+  </data>
+  <data name="CharacterInfo_Birthday.Header" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="CharacterInfo_Age.Header" xml:space="preserve">
+    <value>Age</value>
+  </data>
+  <data name="CharacterInfo_Cup.Header" xml:space="preserve">
+    <value>Cup</value>
+  </data>
+  <data name="CharacterInfo_Bust.Header" xml:space="preserve">
+    <value>Bust</value>
+  </data>
+  <data name="CharacterInfo_Waist.Header" xml:space="preserve">
+    <value>Waist</value>
+  </data>
+  <data name="CharacterInfo_Hips.Header" xml:space="preserve">
+    <value>Hips</value>
+  </data>
+  <data name="CharacterInfo_Height.Header" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="CharacterInfo_Weight.Header" xml:space="preserve">
+    <value>Weight</value>
   </data>
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
