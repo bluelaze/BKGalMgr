@@ -146,41 +146,15 @@
             </StackPanel>
         </Grid>
 
-        <mcontrols:SwitchPresenter Grid.Row="1"
-                                   Margin="0,-14,0,0"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Top"
-                                   TargetType="x:Boolean"
-                                   Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
-            <mcontrols:Case Value="True">
-                <Button x:Name="switch_to_gridview_button"
-                        Padding="4"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        Click="switch_gameview_button_Click"
-                        Content="{mui:FontIcon FontSize=16,
-                                               Glyph=&#xF0E2;}"
-                        Style="{StaticResource IconButtonStyle}" />
-            </mcontrols:Case>
-            <mcontrols:Case Value="False">
-                <Button x:Name="switch_to_listview_button"
-                        Padding="4"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        Click="switch_gameview_button_Click"
-                        Content="{mui:FontIcon FontSize=16,
-                                               Glyph=&#xEA37;}"
-                        Style="{StaticResource IconButtonStyle}" />
-            </mcontrols:Case>
-        </mcontrols:SwitchPresenter>
-
         <SemanticZoom x:Name="games_view_semanticzoom"
                       Grid.Row="1"
                       Margin="-16,16,-16,0"
+                      d:DataContext="{d:DesignInstance vm:RepositoryInfo}"
+                      DataContext="{x:Bind ViewModel.SelectedRepository, Mode=OneWay}"
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
             <SemanticZoom.ZoomedInView>
-                <ListView x:Name="games_listview" ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
+                <ListView x:Name="games_listview" ItemsSource="{Binding GamesView, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <UserControl>
@@ -349,6 +323,20 @@
                                                     </Button.Flyout>
                                                 </Button>
                                             </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <StackPanel.Resources>
+                                                    <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                                </StackPanel.Resources>
+                                                <TextBlock Text="Pin值:" />
+                                                <NumberBox Margin="0,-3,0,0"
+                                                           HorizontalAlignment="Left"
+                                                           Background="Transparent"
+                                                           BorderBrush="{x:Null}"
+                                                           LargeChange="10"
+                                                           SmallChange="10"
+                                                           Value="{Binding PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                            </StackPanel>
+
                                         </StackPanel>
                                         <StackPanel Grid.Column="2"
                                                     Padding="4"
@@ -470,7 +458,7 @@
 
             <SemanticZoom.ZoomedOutView>
                 <GridView Margin="12,0,0,0"
-                          ItemsSource="{Binding ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
+                          ItemsSource="{Binding GamesView, Mode=OneWay}"
                           SelectionMode="Single">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
@@ -557,5 +545,33 @@
                 </GridView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
+
+        <mcontrols:SwitchPresenter Grid.Row="1"
+                                   Margin="0,-14,0,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   TargetType="x:Boolean"
+                                   Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
+            <mcontrols:Case Value="True">
+                <Button x:Name="switch_to_gridview_button"
+                        Padding="4"
+                        Background="Transparent"
+                        BorderBrush="{x:Null}"
+                        Click="switch_gameview_button_Click"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xF0E2;}"
+                        Style="{StaticResource IconButtonStyle}" />
+            </mcontrols:Case>
+            <mcontrols:Case Value="False">
+                <Button x:Name="switch_to_listview_button"
+                        Padding="4"
+                        Background="Transparent"
+                        BorderBrush="{x:Null}"
+                        Click="switch_gameview_button_Click"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xEA37;}"
+                        Style="{StaticResource IconButtonStyle}" />
+            </mcontrols:Case>
+        </mcontrols:SwitchPresenter>
     </Grid>
 </Page>

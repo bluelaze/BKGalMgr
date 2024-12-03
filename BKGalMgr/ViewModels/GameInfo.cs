@@ -60,6 +60,9 @@ public partial class GameInfo : ObservableObject
     private DateTime _publishDate;
 
     [ObservableProperty]
+    private int _pinValue = 1000;
+
+    [ObservableProperty]
     private ObservableCollection<string> _artist = new();
 
     [ObservableProperty]
@@ -240,8 +243,8 @@ public partial class GameInfo : ObservableObject
 
         gameInfo.Refresh();
         gameInfo.Repository = repo;
-        gameInfo.IsPropertyChanged = false;
         gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
+        gameInfo.IsPropertyChanged = false;
         return gameInfo;
     }
 
@@ -284,6 +287,8 @@ public partial class GameInfo : ObservableObject
         base.OnPropertyChanged(e);
         if (e.PropertyName != nameof(IsPropertyChanged) && PlayStatus == PlayStatus.Stop)
             IsPropertyChanged = true;
+        if(e.PropertyName == nameof(PinValue))
+            SaveJsonFile();
     }
 
     private void Group_CollectionChanged(
@@ -714,6 +719,8 @@ public partial class GameInfo : ObservableObject
         string jsonStr = JsonMisc.Serialize(this);
         Directory.CreateDirectory(FolderPath);
         File.WriteAllText(JsonPath, jsonStr);
+
+        IsPropertyChanged = false;
     }
 
     [RelayCommand]

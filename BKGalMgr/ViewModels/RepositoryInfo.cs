@@ -122,7 +122,8 @@ public partial class RepositoryInfo : ObservableObject
 
         repositoryInfo.FolderPath = folderPath;
 
-        var dirs = Directory.GetDirectories(folderPath);
+        var dirs = Directory.GetDirectories(folderPath).ToList();
+        dirs.Sort();
         foreach (var dir in dirs)
         {
             repositoryInfo.AddGame(dir);

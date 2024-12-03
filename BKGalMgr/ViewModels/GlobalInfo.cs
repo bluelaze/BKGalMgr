@@ -14,6 +14,7 @@ public enum SortType
     Name,
     Company,
     PublishDate,
+    PinValue,
 }
 
 public static class GlobalInfo
