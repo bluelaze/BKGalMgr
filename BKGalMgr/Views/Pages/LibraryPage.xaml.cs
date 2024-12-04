@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -383,5 +384,42 @@ public sealed partial class LibraryPage : Page
         var targetInfo = menuItem.DataContext as TargetInfo;
         var gameInfo = targetInfo.Game;
         await PlayGame(gameInfo, targetInfo, menuItem.Tag as string);
+    }
+
+    private void game_group_Flyout_Opened(object sender, object e)
+    {
+        if (VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot).FirstOrDefault() is not { } popup)
+        {
+            return;
+        }
+        var gameGroupItemsView = popup.Child.FindDescendant("game_group_ItemsView") as ItemsView;
+        var gameInfo = gameGroupItemsView.DataContext as GameInfo;
+        var gameGroups = new BindingList<GroupInfo>();
+        foreach (var g in ViewModel.SelectedRepository.Groups)
+        {
+            if (g.Name == GlobalInfo.GroupItemCase_Add)
+                continue;
+            gameGroups.Add(new() { Name = g.Name, IsChecked = gameInfo.Group.Any(t => t == g.Name) });
+        }
+        gameGroups.ListChanged += (object sender, ListChangedEventArgs e) =>
+        {
+            if (sender is BindingList<GroupInfo> gl)
+            {
+                foreach (var item in gl)
+                {
+                    if (item.IsChecked)
+                    {
+                        if (!gameInfo.Group.Contains(item.Name))
+                            gameInfo.Group.Add(item.Name);
+                    }
+                    else
+                    {
+                        if (gameInfo.Group.Contains(item.Name))
+                            gameInfo.Group.Remove(item.Name);
+                    }
+                }
+            }
+        };
+        gameGroupItemsView.ItemsSource = gameGroups;
     }
 }

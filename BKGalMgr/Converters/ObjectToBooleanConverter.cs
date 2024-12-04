@@ -70,18 +70,21 @@ public class ObjectToBooleanConverter : DependencyObject, IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, string language)
     {
+        // Negate if needed
+        bool invert = TryParseBool(parameter);
+
         if (object.Equals(value, To))
         {
-            return TrueValue;
+            return invert ? FalseValue : TrueValue;
         }
 
         // If they are the same type but fail with Equals check, don't bother with conversion.
         if (value?.GetType() != To?.GetType())
         {
             // Try the conversion in both ways:
-            return (ConvertTypeEquals(value, To) || ConvertTypeEquals(To, value)) ? TrueValue : FalseValue;
+            return (ConvertTypeEquals(value, To) || ConvertTypeEquals(To, value)) ^ invert ? TrueValue : FalseValue;
         }
-        return FalseValue;
+        return invert ? TrueValue : FalseValue;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -114,5 +117,16 @@ public class ObjectToBooleanConverter : DependencyObject, IValueConverter
             int or uint or byte or sbyte or long or ulong or short or ushort => Enum.ToObject(enumType, value),
             _ => null
         };
+    }
+
+    private static bool TryParseBool(object parameter)
+    {
+        var parsed = false;
+        if (parameter != null)
+        {
+            bool.TryParse(parameter.ToString(), out parsed);
+        }
+
+        return parsed;
     }
 }
