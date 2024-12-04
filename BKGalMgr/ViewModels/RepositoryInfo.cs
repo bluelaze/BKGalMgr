@@ -201,6 +201,10 @@ public partial class RepositoryInfo : ObservableObject
     {
         GamesView.SortDescriptions.Clear();
         GamesView.SortDescriptions.Add(new(SortType.ToString(), SortOrderType));
+        if (SortType == SortType.Company || SortType == SortType.PinValue)
+        {
+            GamesView.SortDescriptions.Add(new(SortType.PublishDate.ToString(), SortDirection.Descending));
+        }
         SaveJsonFile();
     }
 
