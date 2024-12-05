@@ -126,7 +126,6 @@ For the code specification of c#, you can refer to the [C# Style Guide](https://
 - c# uses [CSharpier](https://csharpier.com/) formatting.
 - xaml uses [XamlStyler](https://github.com/Xavalon/XamlStyler) formatting.
 - xaml control naming principle is control type ending underscore naming method, for example: `add_Button`, if you want to add events, first set the control name in the use of vs auto-generate event name.
-- Default use `Binding` instead of `x:Bind` in `DataTemplate`, `x:Bind` has some hidden usage tips, but can be used if necessary.
 - Unnecessary, don't use and don't throw exceptions. `try catch` should not be used unless it is necessary, try to use as many judgment statements as possible for preprocessing instead of relying on `exception`, and if you want to use `try catch`, reduce the scope of `try` as much as possible or encapsulate the use of `try`.
 - In principle, a class should store code blocks in an orderly manner according to the type of functionality, and should consider the functional aggregation of code, rather than inserting it in an unorganized manner.
 

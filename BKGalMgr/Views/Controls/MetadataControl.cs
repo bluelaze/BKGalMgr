@@ -42,11 +42,11 @@ public sealed partial class MetadataControl : Control
     );
 
     /// <summary>
-    /// The DP to store the <see cref="Items"/> property value.
+    /// The DP to store the <see cref="ItemsSource"/> property value.
     /// </summary>
-    public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
-        nameof(Items),
-        typeof(IEnumerable<object>),
+    public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+        nameof(ItemsSource),
+        typeof(object),
         typeof(MetadataControl),
         new PropertyMetadata(null, OnMetadataItemsChanged)
     );
@@ -96,10 +96,10 @@ public sealed partial class MetadataControl : Control
     /// Gets or sets the <see cref="MetadataItem"/> to display in the control.
     /// If it implements <see cref="INotifyCollectionChanged"/>, the control will automatically update itself.
     /// </summary>
-    public IEnumerable<object> Items
+    public object ItemsSource
     {
-        get => (IEnumerable<object>)GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
+        get => GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
 
     /// <summary>
@@ -186,7 +186,7 @@ public sealed partial class MetadataControl : Control
 
         _textContainer.Inlines.Clear();
 
-        if (Items is null)
+        if (ItemsSource is null || ItemsSource is not IEnumerable<object> items)
         {
             AutomationProperties.SetName(_textContainer, string.Empty);
             NotifyLiveRegionChanged();
@@ -195,7 +195,7 @@ public sealed partial class MetadataControl : Control
 
         Inline unitToAppend;
         var accessibleString = new StringBuilder();
-        foreach (var obj in Items)
+        foreach (var obj in items)
         {
             MetadataItem unit =
                 obj.GetType() == typeof(MetadataItem) ? (MetadataItem)obj : new() { Label = obj.ToString() };

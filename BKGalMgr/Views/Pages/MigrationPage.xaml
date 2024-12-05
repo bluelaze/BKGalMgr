@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
                 <Image Margin="0,8,8,8">
@@ -50,40 +50,40 @@
                     <HyperlinkButton x:Name="game_name_HyperlinkButton"
                                      Padding="0"
                                      Click="game_name_HyperlinkButton_Click"
-                                     Content="{Binding Name}"
+                                     Content="{x:Bind Name, Mode=OneWay}"
                                      FontSize="16"
                                      FontWeight="Bold" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                         Text="{Binding CreateDate}" />
+                                         Text="{x:Bind CreateDate, Mode=OneWay}" />
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                         Text="{Binding LastPlayDate}" />
+                                         Text="{x:Bind LastPlayDate, Mode=OneWay}" />
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                         Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                         Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Company" />
                         <HyperlinkButton Margin="0,-1,0,0"
                                          Padding="0"
-                                         Content="{Binding Company}"
+                                         Content="{x:Bind Company, Mode=OneWay}"
                                          NavigateUri="{Binding Website}" />
                         <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                        <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                        <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Artist" />
-                        <controls:MetadataControl Items="{Binding Artist}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Artist, Mode=OneWay}" Separator=" • " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                        <controls:MetadataControl Items="{Binding Scenario}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Scenario, Mode=OneWay}" Separator=" • " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Group" />
-                        <controls:MetadataControl Items="{Binding Group}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneWay}" Separator=" • " />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -147,14 +147,14 @@
                           SelectedItem="{x:Bind ViewModel.LeftRepository, Mode=TwoWay}">
                     <ComboBox.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.LeftRepository.OpenJsonFolderCommand}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.LeftRepository.OpenJsonFolderCommand, Mode=OneWay}" />
                         </MenuFlyout>
                     </ComboBox.ContextFlyout>
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
                             <StackPanel>
-                                <TextBlock Text="{Binding Name}" />
-                                <TextBlock Text="{Binding FolderPath}" />
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -171,7 +171,7 @@
             <ListView x:Name="left_repository_ListView"
                       Grid.Row="1"
                       ItemTemplate="{StaticResource GameInfoDataTemplate}"
-                      ItemsSource="{Binding ViewModel.LeftRepository.GamesView}"
+                      ItemsSource="{x:Bind ViewModel.LeftRepository.GamesView, Mode=OneWay}"
                       SelectionMode="Extended" />
         </Grid>
 
@@ -213,14 +213,14 @@
                           SelectedItem="{x:Bind ViewModel.RightRepository, Mode=TwoWay}">
                     <ComboBox.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.RightRepository.OpenJsonFolderCommand}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.RightRepository.OpenJsonFolderCommand, Mode=OneWay}" />
                         </MenuFlyout>
                     </ComboBox.ContextFlyout>
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
                             <StackPanel>
-                                <TextBlock Text="{Binding Name}" />
-                                <TextBlock Text="{Binding FolderPath}" />
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
@@ -238,7 +238,7 @@
             <ListView x:Name="right_repository_ListView"
                       Grid.Row="1"
                       ItemTemplate="{StaticResource GameInfoDataTemplate}"
-                      ItemsSource="{Binding ViewModel.RightRepository.GamesView}"
+                      ItemsSource="{x:Bind ViewModel.RightRepository.GamesView, Mode=OneWay}"
                       SelectionMode="Extended" />
         </Grid>
     </Grid>

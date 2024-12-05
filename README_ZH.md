@@ -125,7 +125,6 @@ c#的代码规范，可以参考[godot](https://github.com/godotengine/godot)的
 - c#使用[CSharpier](https://csharpier.com/)格式化。
 - xaml使用[XamlStyler](https://github.com/Xavalon/XamlStyler)格式化。
 - xaml控件命名原则是控件类型结尾的下划线命名法，例如：`add_Button`，如果要添加事件，先设置控件名称在利用vs自动生成事件名。
-- `DataTemplate`里默认使用`Binding`，而不是`x:Bind`，`x:Bind`有些隐藏的使用问题，但有必要也可使用。
 - 非必要，不用和不抛异常。`try catch`非必要不应使用，尽量多的使用判断语做预处理，而不是依赖`exception`，如果要使用`try catch`，尽可能的减少`try`的范围或进行封装来使用。
 - 一个类原则上按功能类型有序存放代码块，应考虑代码功能聚合，不应无序插入。
 

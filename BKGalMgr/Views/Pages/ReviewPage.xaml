@@ -68,7 +68,7 @@
                                         <mcontrols:DockPanel>
                                             <TextBlock mcontrols:DockPanel.Dock="Left"
                                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                                       Text="{Binding StorageUsage, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
+                                                       Text="{x:Bind StorageUsage, Mode=OneWay, Converter={StaticResource FileSizeToFriendlyStringConverter}}" />
                                             <TextBlock x:Uid="Review_Games"
                                                        Padding="4,0,0,1"
                                                        VerticalAlignment="Bottom"
@@ -76,11 +76,11 @@
                                                        FontSize="11" />
                                             <TextBlock mcontrols:DockPanel.Dock="Right"
                                                        Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                                       Text="{Binding Games.Count, Mode=OneWay}"
+                                                       Text="{x:Bind Games.Count, Mode=OneWay}"
                                                        TextAlignment="Right" />
 
                                         </mcontrols:DockPanel>
-                                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{Binding Name}" />
+                                        <TextBlock Style="{ThemeResource CaptionTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -92,7 +92,7 @@
                                 CornerRadius="8">
                         <TextBlock HorizontalTextAlignment="Right"
                                    Style="{ThemeResource TitleLargeTextBlockStyle}"
-                                   Text="{x:Bind ViewModel.StorageUsage, Converter={StaticResource FileSizeToFriendlyStringConverter}, Mode=OneWay}" />
+                                   Text="{x:Bind ViewModel.StorageUsage, Mode=OneWay, Converter={StaticResource FileSizeToFriendlyStringConverter}}" />
                         <TextBlock x:Uid="Review_Storage_Usage"
                                    HorizontalTextAlignment="Right"
                                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
@@ -163,7 +163,7 @@
                                     <HyperlinkButton x:Name="group_header_HyperlinkButton"
                                                      Padding="0"
                                                      Click="group_header_HyperlinkButton_Click"
-                                                     Content="{x:Bind Label, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}"
+                                                     Content="{x:Bind Label, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}"
                                                      FontSize="20"
                                                      FontWeight="Bold"
                                                      Foreground="{ThemeResource ButtonForegroundThemeBrush}" />
@@ -179,7 +179,7 @@
                                           Background="{ThemeResource CardBackgroundFillColorDefault}">
                                 <GridViewItem.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind Game.OpenJsonFolderCommand, Mode=OneWay}" />
                                     </MenuFlyout>
                                 </GridViewItem.ContextFlyout>
                                 <StackPanel Width="150">
@@ -202,11 +202,11 @@
                                                          Padding="0"
                                                          HorizontalContentAlignment="Left"
                                                          Click="group_game_name_HyperlinkButton_Click"
-                                                         Content="{Binding Game.Name}"
+                                                         Content="{x:Bind Game.Name, Mode=OneWay}"
                                                          FontSize="12"
                                                          FontWeight="Bold" />
                                         <TextBlock FontSize="11"
-                                                   Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                                   Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
                                                    TextAlignment="Right" />
                                     </StackPanel>
                                 </StackPanel>

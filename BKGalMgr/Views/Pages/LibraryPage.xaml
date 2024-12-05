@@ -25,7 +25,8 @@
         <converters:PlayedPeriodToColumnSeriesConverter x:Key="PlayedPeriodToColumnSeriesConverter" />
         <converters:PlayedPeriodToXAxesConverter x:Key="PlayedPeriodToXAxesConverter" />
         <converters:PlayedPeriodToYAxesConverter x:Key="PlayedPeriodToYAxesConverter" />
-        <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="{x:Bind vm:GlobalInfo.GroupItemCase_Add}" />
+        <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
+        <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
         <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
                                                   EmptyValue="Collapsed"
                                                   NotEmptyValue="Visible" />
@@ -43,24 +44,25 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <ComboBox x:Uid="Library_Repository"
-                          ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
-                          SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
+                          ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
                     <ComboBox.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.OpenJsonFolderCommand, Mode=OneWay}" />
                         </MenuFlyout>
                     </ComboBox.ContextFlyout>
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
                             <StackPanel>
-                                <TextBlock Text="{Binding Name}" />
-                                <TextBlock Text="{Binding FolderPath}" />
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
 
+            <!--  ItemsSource这里又不能用x:Bind，否者属性又报错  -->
             <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
                                          Grid.Column="1"
                                          MaxWidth="360"
@@ -69,22 +71,22 @@
                                          ItemsSource="{Binding ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
                                          QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
                                                                         FontSize=12}"
-                                         SuggestedItemsSource="{Binding ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
-                                         Text="{Binding ViewModel.SelectedRepository.SearchText, Mode=TwoWay}"
-                                         Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}" />
+                                         SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
+                                         Text="{x:Bind ViewModel.SelectedRepository.SearchText, Mode=TwoWay}"
+                                         Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}" />
 
             <StackPanel Grid.Column="2"
                         Margin="16,36,0,0"
                         Orientation="Horizontal"
                         Spacing="8"
-                        Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                        Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                 <ToggleSplitButton x:Uid="Library_Group"
                                    VerticalAlignment="Top"
-                                   IsChecked="{Binding ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
+                                   IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
                     <ToggleSplitButton.Flyout>
                         <Flyout Placement="Bottom">
                             <ItemsView Width="{ThemeResource CommandBarOverflowMaxHeight}"
-                                       ItemsSource="{Binding ViewModel.SelectedRepository.Groups}"
+                                       ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
                                        SelectionMode="None">
                                 <ItemsView.Layout>
                                     <LinedFlowLayout ItemsStretch="None"
@@ -98,11 +100,11 @@
                                             <Grid>
                                                 <ToggleButton x:Name="group_togglebutton"
                                                               Checked="group_togglebutton_IsCheckedChanged"
-                                                              Content="{Binding Name, Mode=OneWay}"
+                                                              Content="{x:Bind Name, Mode=OneWay}"
                                                               FontSize="12"
-                                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                               Unchecked="group_togglebutton_IsCheckedChanged"
-                                                              Visibility="{Binding Name, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                              Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
                                                     <ToggleButton.ContextFlyout>
                                                         <MenuFlyout>
                                                             <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
@@ -127,7 +129,7 @@
                                                         Click="add_group_button_Click"
                                                         Content="{mui:FontIcon FontSize=16,
                                                                                Glyph=&#xE948;}"
-                                                        Visibility="{Binding Name, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                                        Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
                                             </Grid>
                                         </ItemContainer>
                                     </DataTemplate>
@@ -138,13 +140,14 @@
                 </ToggleSplitButton>
                 <ComboBox MinWidth="130"
                           ItemsSource="{mui:EnumValues Type=vm:SortType}"
-                          SelectedItem="{Binding ViewModel.SelectedRepository.SortType, Mode=TwoWay}" />
+                          SelectedItem="{x:Bind ViewModel.SelectedRepository.SortType, Mode=TwoWay}" />
                 <ComboBox MinWidth="80"
                           ItemsSource="{mui:EnumValues Type=mcollections:SortDirection}"
-                          SelectedItem="{Binding ViewModel.SelectedRepository.SortOrderType, Mode=TwoWay}" />
+                          SelectedItem="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
 
+        <!--  这里用DataContext是因为x:Bind绑定的层级深了，数据切换有些问题  -->
         <SemanticZoom x:Name="games_view_semanticzoom"
                       Grid.Row="1"
                       Margin="-16,16,-16,0"
@@ -159,7 +162,7 @@
                             <UserControl>
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <SplitView x:Name="gameinfo_spliteview"
@@ -168,9 +171,9 @@
                                            PanePlacement="Right">
                                     <SplitView.Pane>
                                         <Grid>
-                                            <lvc:CartesianChart Series="{Binding PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
-                                                                XAxes="{Binding PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToXAxesConverter}}"
-                                                                YAxes="{Binding PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToYAxesConverter}}"
+                                            <lvc:CartesianChart Series="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
+                                                                XAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToXAxesConverter}}"
+                                                                YAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToYAxesConverter}}"
                                                                 ZoomMode="X" />
                                             <Button Padding="4"
                                                     HorizontalAlignment="Right"
@@ -221,12 +224,12 @@
 
                                         <Image Margin="0,8,8,8">
                                             <Image.Source>
-                                                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
+                                                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover, Mode=OneWay}" />
                                             </Image.Source>
                                             <ToolTipService.ToolTip>
                                                 <ToolTip MaxWidth="1920" Placement="Right">
                                                     <ToolTip.Content>
-                                                        <Image Source="{Binding Cover}" Stretch="None" />
+                                                        <Image Source="{Binding Cover, Mode=OneWay}" Stretch="None" />
                                                     </ToolTip.Content>
                                                 </ToolTip>
                                             </ToolTipService.ToolTip>
@@ -238,20 +241,20 @@
                                                              Padding="0"
                                                              HorizontalContentAlignment="Left"
                                                              Click="gamename_linkbutton_Click"
-                                                             Content="{Binding Name}"
+                                                             Content="{x:Bind Name, Mode=OneWay}"
                                                              FontSize="16"
                                                              FontWeight="Bold" />
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <SelectorBarItem Padding="0"
                                                                  Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                 Text="{Binding CreateDate}" />
+                                                                 Text="{x:Bind CreateDate, Mode=OneWay}" />
                                                 <SelectorBarItem Padding="0"
                                                                  Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                 Text="{Binding LastPlayDate}" />
+                                                                 Text="{x:Bind LastPlayDate, Mode=OneWay}" />
                                                 <SelectorBarItem x:Name="playedtime_selectorbaritem"
                                                                  Padding="0"
                                                                  Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                 Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
+                                                                 Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
                                                     <interactivity:Interaction.Behaviors>
                                                         <interactions:EventTriggerBehavior EventName="Tapped">
                                                             <interactions:ChangePropertyAction PropertyName="IsPaneOpen"
@@ -263,35 +266,36 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Company" />
+                                                <!--  Uri只能用Binding，否者运行时会报参数错误  -->
                                                 <HyperlinkButton Margin="0,-1,0,0"
                                                                  Padding="0"
-                                                                 Content="{Binding Company}"
-                                                                 NavigateUri="{Binding Website}" />
+                                                                 Content="{x:Bind Company, Mode=OneWay}"
+                                                                 NavigateUri="{Binding Website, Mode=OneWay}" />
                                                 <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                                                <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                                                <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Artist" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          Items="{Binding Artist}"
+                                                                          ItemsSource="{x:Bind Artist, Mode=OneWay}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Scenario" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          Items="{Binding Scenario}"
+                                                                          ItemsSource="{x:Bind Scenario, Mode=OneWay}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_TAG" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          Items="{Binding Tag}"
+                                                                          ItemsSource="{x:Bind Tag, Mode=OneWay}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Group" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          Items="{Binding Group}"
+                                                                          ItemsSource="{x:Bind Group, Mode=OneWay}"
                                                                           Separator=" • " />
                                                 <Button Padding="4"
                                                         Background="Transparent"
@@ -316,9 +320,9 @@
                                                                         <ItemContainer>
                                                                             <ToggleButton x:Name="group_togglebutton"
                                                                                           Checked="group_togglebutton_IsCheckedChanged"
-                                                                                          Content="{Binding Name, Mode=OneWay}"
+                                                                                          Content="{x:Bind Name, Mode=OneWay}"
                                                                                           FontSize="12"
-                                                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                                                           Unchecked="group_togglebutton_IsCheckedChanged" />
                                                                         </ItemContainer>
                                                                     </DataTemplate>
@@ -339,7 +343,7 @@
                                                            BorderBrush="{x:Null}"
                                                            LargeChange="10"
                                                            SmallChange="10"
-                                                           Value="{Binding PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                                           Value="{x:Bind PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                                             </StackPanel>
 
                                         </StackPanel>
@@ -349,14 +353,14 @@
                                                     Spacing="8">
                                             <ComboBox x:Uid="Library_GameInfo_Pick_Target"
                                                       VerticalAlignment="Center"
-                                                      ItemsSource="{Binding Targets, Mode=OneWay}"
-                                                      SelectedItem="{Binding SelectedTarget, Mode=TwoWay}">
+                                                      ItemsSource="{x:Bind Targets, Mode=OneWay}"
+                                                      SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate x:DataType="vm:TargetInfo">
                                                         <UserControl>
                                                             <UserControl.ContextFlyout>
                                                                 <MenuFlyout>
-                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                                                 </MenuFlyout>
                                                             </UserControl.ContextFlyout>
                                                             <StackPanel Background="Transparent">
@@ -392,34 +396,34 @@
                                                                         </VisualState>
                                                                     </VisualStateGroup>
                                                                 </VisualStateManager.VisualStateGroups>
-                                                                <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                                                <SelectorBarItem Padding="0" Text="{x:Bind Name, Mode=OneWay}">
                                                                     <SelectorBarItem.Icon>
                                                                         <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
                                                                     </SelectorBarItem.Icon>
                                                                 </SelectorBarItem>
                                                                 <SelectorBarItem Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                                 Text="{Binding CreateDate}" />
+                                                                                 Text="{x:Bind CreateDate, Mode=OneWay}" />
                                                                 <SelectorBarItem Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                                 Text="{Binding LastPlayDate}" />
+                                                                                 Text="{x:Bind LastPlayDate, Mode=OneWay}" />
                                                                 <SelectorBarItem x:Name="playedtime_selectorbaritem"
                                                                                  Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                                 Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                                                                 Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                                                                 <HyperlinkButton x:Name="capture_hotkey_button"
                                                                                  Margin="0"
                                                                                  Padding="0"
                                                                                  Click="capture_hotkey_button_Click"
                                                                                  IsEnabled="False"
-                                                                                 Visibility="{Binding EnableScreenCapture}">
+                                                                                 Visibility="{x:Bind EnableScreenCapture, Mode=OneWay}">
                                                                     <SelectorBarItem Padding="0"
                                                                                      Icon="{mui:FontIcon Glyph='&#xF406;'}"
-                                                                                     Text="{Binding ScreenCaptureHotkey}" />
+                                                                                     Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}" />
                                                                 </HyperlinkButton>
                                                                 <SelectorBarItem Padding="0"
                                                                                  Text="Local Emulator"
-                                                                                 Visibility="{Binding EnableLocalEmulator}">
+                                                                                 Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
                                                                     <SelectorBarItem.Icon>
                                                                         <ImageIcon Margin="2,0" Source="{StaticResource LocalEmulatorYellow}" />
                                                                     </SelectorBarItem.Icon>
@@ -442,8 +446,8 @@
                                                         <mcontrols:WrapPanel MaxWidth="{ThemeResource ToolTipMaxWidth}"
                                                                              HorizontalSpacing="8"
                                                                              VerticalSpacing="8">
-                                                            <ToggleButton Content="{mui:FontIcon FontSize=16, Glyph='&#xF406;'}" IsChecked="{Binding SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
-                                                            <ToggleButton IsChecked="{Binding SelectedTarget.EnableLocalEmulator, Mode=TwoWay}">
+                                                            <ToggleButton Content="{mui:FontIcon FontSize=16, Glyph='&#xF406;'}" IsChecked="{x:Bind SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
+                                                            <ToggleButton IsChecked="{x:Bind SelectedTarget.EnableLocalEmulator, Mode=TwoWay}">
                                                                 <ImageIcon Width="16"
                                                                            Height="16"
                                                                            Source="{StaticResource LocalEmulatorYellow}" />
@@ -473,7 +477,7 @@
                                           Background="{ThemeResource CardBackgroundFillColorDefault}">
                                 <GridViewItem.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                     </MenuFlyout>
                                 </GridViewItem.ContextFlyout>
                                 <StackPanel>
@@ -481,12 +485,12 @@
                                            Margin="8"
                                            VerticalAlignment="Top">
                                         <Image.Source>
-                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
+                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover, Mode=OneWay}" />
                                         </Image.Source>
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="1920" Placement="Right">
                                                 <ToolTip.Content>
-                                                    <Image Source="{Binding Cover}" Stretch="None" />
+                                                    <Image Source="{Binding Cover, Mode=OneWay}" Stretch="None" />
                                                 </ToolTip.Content>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
@@ -509,37 +513,37 @@
                                         <HyperlinkButton Padding="0"
                                                          HorizontalContentAlignment="Left"
                                                          Click="gamename_linkbutton_Click"
-                                                         Content="{Binding Name}"
+                                                         Content="{x:Bind Name, Mode=OneWay}"
                                                          FontSize="14"
                                                          FontWeight="Bold" />
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <SelectorBarItem Padding="0"
                                                              Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                             Text="{Binding LastPlayDate}" />
+                                                             Text="{x:Bind LastPlayDate, Mode=OneWay}" />
                                             <SelectorBarItem Padding="0"
                                                              VerticalContentAlignment="Center"
                                                              Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                             Text="{Binding PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                                             Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                                            <TextBlock Text="{Binding PublishDate, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                                            <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                                             <TextBlock x:Uid="Library_GameInfo_Company" />
                                             <HyperlinkButton Margin="0,-1,0,0"
                                                              Padding="0"
-                                                             Content="{Binding Company}"
+                                                             Content="{x:Bind Company, Mode=OneWay}"
                                                              NavigateUri="{Binding Website}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Artist" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      Items="{Binding Artist}"
+                                                                      ItemsSource="{x:Bind Artist, Mode=OneWay}"
                                                                       Separator=" • " />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Group" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      Items="{Binding Group}"
+                                                                      ItemsSource="{x:Bind Group, Mode=OneWay}"
                                                                       Separator=" • " />
                                         </StackPanel>
                                     </StackPanel>

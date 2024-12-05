@@ -30,8 +30,8 @@
                                                   NotEmptyValue="Visible" />
         <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
 
-
         <x:Double x:Key="HeaderedControlMaxWidth">1080</x:Double>
+
         <Style x:Key="HeaderedControlHeaderTextBlockStyle"
                BasedOn="{StaticResource TitleTextBlockStyle}"
                TargetType="TextBlock">
@@ -59,14 +59,14 @@
                     Orientation="Horizontal"
                     Spacing="8">
             <ComboBox x:Uid="Manage_Repository_ComboBox"
-                      ItemsSource="{Binding ViewModel.Repository, Mode=OneWay}"
-                      SelectedItem="{Binding ViewModel.SelectedRepository, Mode=TwoWay}">
+                      ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
+                      SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
                 <ComboBox.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
                                         x:Uid="Commom_MenuItem_Edit"
                                         Click="edit_repository_menuflyoutitem_Click" />
-                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.OpenJsonFolderCommand}" />
+                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.OpenJsonFolderCommand, Mode=OneWay}" />
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
                                         x:Uid="Commom_MenuItem_Remove"
@@ -79,28 +79,27 @@
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </ComboBox.ContextFlyout>
-                <ComboBox.HeaderTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
-                            <Button x:Name="add_repository_button"
-                                    Click="add_repository_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE948;}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.HeaderTemplate>
+                <ComboBox.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
+                        <Button x:Name="add_repository_button"
+                                Click="add_repository_button_Click"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE948;}"
+                                Style="{StaticResource IconButtonStyle}" />
+                    </StackPanel>
+                </ComboBox.Header>
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:RepositoryInfo">
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding FolderPath}" />
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                            <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
+            <!--  要用Binding，否则切换仓库无法正确选择游戏  -->
             <ComboBox ItemsSource="{Binding ViewModel.SelectedRepository.Games, Mode=OneWay}"
                       SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
                       Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
@@ -109,77 +108,75 @@
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand}" />
                     </MenuFlyout>
                 </ComboBox.ContextFlyout>
-                <ComboBox.HeaderTemplate>
-                    <DataTemplate>
-                        <UserControl>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup>
-                                        <VisualState x:Name="GamePropertyChangedState">
-                                            <VisualState.StateTriggers>
-                                                <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
-                                            </VisualState.StateTriggers>
-                                            <VisualState.Setters>
-                                                <Setter Target="save_game_button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                                <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
-                                <Button x:Name="add_game_button"
-                                        Click="add_game_button_Click"
-                                        Content="{mui:FontIcon FontSize=16,
-                                                               Glyph=&#xE948;}"
-                                        Style="{StaticResource IconButtonStyle}" />
-                                <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
-                                    <Button.Flyout>
-                                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                            <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
-                                                            x:Uid="Bangumi_Pull_Game_Add"
-                                                            Click="add_bangumi_game_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Name="update_bangumi_game_menuflyoutitem"
-                                                            x:Uid="Bangumi_Pull_Game_Update"
-                                                            Click="update_bangumi_game_menuflyoutitem_Click"
-                                                            IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
-                                        </MenuFlyout>
-                                    </Button.Flyout>
-                                    <ImageIcon Width="16"
-                                               Height="16"
-                                               Source="{ThemeResource BangumiIcon}" />
-                                </Button>
-                                <Button x:Name="save_game_button"
-                                        Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
-                                        Content="{mui:FontIcon FontSize=16,
-                                                               Glyph=&#xE74E;}"
-                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                        Style="{StaticResource IconButtonStyle}">
-                                    <Button.Resources>
-                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
-                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
-                                    </Button.Resources>
-                                </Button>
-                                <Button x:Name="delete_game_button"
-                                        Click="delete_game_button_Click"
-                                        Content="{mui:FontIcon FontSize=16,
-                                                               Glyph=&#xE74D;}"
-                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                        Style="{StaticResource IconButtonStyle}">
-                                    <Button.Resources>
-                                        <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                        <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                    </Button.Resources>
-                                </Button>
-                            </StackPanel>
-                        </UserControl>
-                    </DataTemplate>
-                </ComboBox.HeaderTemplate>
+                <ComboBox.Header>
+                    <UserControl>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="GamePropertyChangedState">
+                                        <VisualState.StateTriggers>
+                                            <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="save_game_button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
+                            <Button x:Name="add_game_button"
+                                    Click="add_game_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE948;}"
+                                    Style="{StaticResource IconButtonStyle}" />
+                            <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
+                                                        x:Uid="Bangumi_Pull_Game_Add"
+                                                        Click="add_bangumi_game_menuflyoutitem_Click" />
+                                        <MenuFlyoutItem x:Name="update_bangumi_game_menuflyoutitem"
+                                                        x:Uid="Bangumi_Pull_Game_Update"
+                                                        Click="update_bangumi_game_menuflyoutitem_Click"
+                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                                <ImageIcon Width="16"
+                                           Height="16"
+                                           Source="{ThemeResource BangumiIcon}" />
+                            </Button>
+                            <Button x:Name="save_game_button"
+                                    Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE74E;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                    Style="{StaticResource IconButtonStyle}">
+                                <Button.Resources>
+                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
+                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
+                                </Button.Resources>
+                            </Button>
+                            <Button x:Name="delete_game_button"
+                                    Click="delete_game_button_Click"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE74D;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                    Style="{StaticResource IconButtonStyle}">
+                                <Button.Resources>
+                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                </Button.Resources>
+                            </Button>
+                        </StackPanel>
+                    </UserControl>
+                </ComboBox.Header>
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:GameInfo">
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                             <SelectorBarItem Padding="0"
                                              Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                             Text="{Binding CreateDate}" />
+                                             Text="{x:Bind CreateDate, Mode=OneWay}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -195,12 +192,13 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
+        <!--  这里绑定层级深了，使用DataContext  -->
         <ScrollViewer x:Name="gameinfo_ScrollViewer"
                       Grid.Row="1"
                       Margin="0,16,0,0"
                       Padding="16,0"
                       d:DataContext="{d:DesignInstance vm:GameInfo}"
-                      DataContext="{Binding ViewModel.SelectedRepository.SelectedGame}"
+                      DataContext="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}"
                       Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">
                 <!--  GameInfo  -->
