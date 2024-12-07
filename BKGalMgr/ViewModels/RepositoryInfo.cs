@@ -128,10 +128,8 @@ public partial class RepositoryInfo : ObservableObject
         {
             repositoryInfo.AddGame(dir);
         }
-        // placeholder for add group
-        if (!repositoryInfo.Groups.Any(g => g.Name == GlobalInfo.GroupItemCase_Add))
-            repositoryInfo.Groups.Add(new() { Name = GlobalInfo.GroupItemCase_Add });
 
+        repositoryInfo.RestoreAddGroupIndex();
         repositoryInfo.GamesViewSort();
         return repositoryInfo;
     }
@@ -153,6 +151,20 @@ public partial class RepositoryInfo : ObservableObject
     public async Task RefreshStorageUsageAsync()
     {
         StorageUsage = await Task.Run(() => FileSystemMisc.GetDirectorySize(FolderPath));
+    }
+
+    public void RestoreAddGroupIndex()
+    {
+        // placeholder for add group
+        var addGroupIndex = Groups.IndexOf(g => g.Name == GlobalInfo.GroupItemCase_Add);
+        if (addGroupIndex == -1)
+        {
+            Groups.Add(new() { Name = GlobalInfo.GroupItemCase_Add });
+        }
+        else if (addGroupIndex != Groups.Count - 1)
+        {
+            Groups.Move(addGroupIndex, Groups.Count - 1);
+        }
     }
 
     class StringContainsComparer : IEqualityComparer<string>

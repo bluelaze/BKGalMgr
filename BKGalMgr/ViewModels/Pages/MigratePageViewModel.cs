@@ -44,6 +44,7 @@ public partial class MigratePageViewModel : ObservableObject
                 });
                 await fromRepository.DeleteGame(game);
                 toRepository.AddGame(gameNewPath);
+                toRepository.RestoreAddGroupIndex();
             }
         }
     }
