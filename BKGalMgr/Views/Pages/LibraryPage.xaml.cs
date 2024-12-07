@@ -422,4 +422,26 @@ public sealed partial class LibraryPage : Page
         };
         gameGroupItemsView.ItemsSource = gameGroups;
     }
+
+    private void cover_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as Button).DataContext as GameInfo;
+        App.ShowImages(gameInfo.Covers, 0);
+    }
+
+    private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadGallery();
+        if (gameInfo.Gallery.Count > 0)
+            App.ShowImages(gameInfo.Gallery, 0);
+    }
+
+    private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadScreenCapture();
+        if (gameInfo.ScreenCaptures.Count > 0)
+            App.ShowImages(gameInfo.ScreenCaptures, 0);
+    }
 }

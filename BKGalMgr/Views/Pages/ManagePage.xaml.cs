@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Extensions;
 using BKGalMgr.Helpers;
 using BKGalMgr.ThirdParty;
 using BKGalMgr.ViewModels;
@@ -626,11 +627,19 @@ public sealed partial class ManagePage : Page
     private async void add_illustration_Button_Click(object sender, RoutedEventArgs e)
     {
         var charater = (sender as Button).DataContext as CharacterInfo;
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
-        if (file != null)
+        if (charater.Illustration.IsNullOrEmpty())
         {
-            charater.Illustration = file.Path;
-            await charater.SaveIllustration();
+            Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
+            if (file != null)
+            {
+                charater.Illustration = file.Path;
+                await charater.SaveIllustration();
+            }
+        }
+        else
+        {
+            var images = ViewModel.SelectedRepository.SelectedGame.Characters.Select(c => c.Illustration).ToList();
+            App.ShowImages(images, images.IndexOf(charater.Illustration));
         }
     }
 
@@ -691,5 +700,22 @@ public sealed partial class ManagePage : Page
     private void goto_top_Button_Click(object sender, RoutedEventArgs e)
     {
         gameinfo_ScrollViewer.ChangeView(0, 0, null);
+    }
+
+    private void cover_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+    {
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame.Covers, covers_FlipView.SelectedIndex);
+    }
+
+    private void gallery_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.Gallery;
+        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
+    }
+
+    private void screen_capture_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
+        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
     }
 }

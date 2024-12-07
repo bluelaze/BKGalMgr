@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="using:BKGalMgr"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mui="using:CommunityToolkit.WinUI"
         xmlns:tb="using:H.NotifyIcon"
         mc:Ignorable="d">
 
@@ -44,6 +45,70 @@
                          IsIndeterminate="True"
                          ShowPaused="False" />
         </ContentPresenter>
+        <Grid x:Name="image_viewer_Grid"
+              Grid.Row="1"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Background="{ThemeResource AcrylicControlTransientBackgroundBrush}"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <FlipView x:Name="image_viewer_FlipView"
+                      Background="Transparent"
+                      ItemsSource="{x:Bind Images, Mode=OneWay}"
+                      SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}">
+                <FlipView.ItemTemplate>
+                    <DataTemplate>
+                        <ScrollViewer x:Name="image_ScrollViewer"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      HorizontalScrollMode="Auto"
+                                      SizeChanged="image_ScrollViewer_SizeChanged"
+                                      ZoomMode="Enabled">
+                            <Image x:Name="post_Image"
+                                   ImageOpened="post_Image_ImageOpened"
+                                   Source="{Binding}"
+                                   Stretch="None" />
+                        </ScrollViewer>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            <ListView x:Name="image_viewer_ListView"
+                      Grid.Row="1"
+                      Height="64"
+                      HorizontalAlignment="Center"
+                      ItemsSource="{x:Bind Images, Mode=OneWay}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                      ScrollViewer.HorizontalScrollMode="Enabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      SelectedIndex="{x:Bind image_viewer_FlipView.SelectedIndex, Mode=TwoWay}"
+                      SelectionChanged="image_viewer_ListView_SelectionChanged">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding}" Stretch="Uniform" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Height="40"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    Command="{x:Bind HideImagesCommand}"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE711;}"
+                    CornerRadius="0"
+                    Style="{StaticResource IconButtonStyle}" />
+        </Grid>
         <tb:TaskbarIcon x:Name="taskbaricon"
                         ContextMenuMode="SecondWindow"
                         IconSource="ms-appx:///BKGalMgr.ico"

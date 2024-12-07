@@ -163,6 +163,9 @@
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click" Text="GALLERY" />
+                                        <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click" Text="SCREENSHOT" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <SplitView x:Name="gameinfo_spliteview"
@@ -222,18 +225,20 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Margin="0,8,8,8">
+                                        <Image Margin="8">
                                             <Image.Source>
-                                                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover, Mode=OneWay}" />
+                                                <BitmapImage UriSource="{Binding Cover, Mode=OneWay}" />
                                             </Image.Source>
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip MaxWidth="1920" Placement="Right">
-                                                    <ToolTip.Content>
-                                                        <Image Source="{Binding Cover, Mode=OneWay}" Stretch="None" />
-                                                    </ToolTip.Content>
-                                                </ToolTip>
-                                            </ToolTipService.ToolTip>
                                         </Image>
+
+                                        <Button x:Name="cover_Button"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                BorderBrush="{x:Null}"
+                                                Click="cover_Button_Click"
+                                                CornerRadius="0" />
+
                                         <StackPanel Grid.Column="1"
                                                     Padding="4"
                                                     Spacing="4">
@@ -485,10 +490,12 @@
                                            Margin="8"
                                            VerticalAlignment="Top">
                                         <Image.Source>
-                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover, Mode=OneWay}" />
+                                            <BitmapImage UriSource="{Binding Cover, Mode=OneWay}" />
                                         </Image.Source>
                                         <ToolTipService.ToolTip>
-                                            <ToolTip MaxWidth="1920" Placement="Right">
+                                            <ToolTip MaxWidth="1920"
+                                                     MaxHeight="1080"
+                                                     Placement="Right">
                                                 <ToolTip.Content>
                                                     <Image Source="{Binding Cover, Mode=OneWay}" Stretch="None" />
                                                 </ToolTip.Content>

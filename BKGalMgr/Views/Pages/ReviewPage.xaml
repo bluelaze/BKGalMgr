@@ -187,10 +187,12 @@
                                            Margin="8"
                                            VerticalAlignment="Top">
                                         <Image.Source>
-                                            <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Game.Cover}" />
+                                            <BitmapImage UriSource="{Binding Game.Cover}" />
                                         </Image.Source>
                                         <ToolTipService.ToolTip>
-                                            <ToolTip MaxWidth="1920" Placement="Right">
+                                            <ToolTip MaxWidth="1920"
+                                                     MaxHeight="1080"
+                                                     Placement="Right">
                                                 <ToolTip.Content>
                                                     <Image Source="{Binding Game.Cover}" Stretch="None" />
                                                 </ToolTip.Content>

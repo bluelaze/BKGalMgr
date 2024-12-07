@@ -460,7 +460,10 @@
                     </FlipView.ContextFlyout>
                     <FlipView.ItemTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding}" Stretch="Uniform" />
+                            <Image x:Name="cover_Image"
+                                   DoubleTapped="cover_Image_DoubleTapped"
+                                   Source="{Binding}"
+                                   Stretch="Uniform" />
                         </DataTemplate>
                     </FlipView.ItemTemplate>
                 </FlipView>
@@ -493,9 +496,11 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsView Margin="12,0,0,0"
+                    <ItemsView x:Name="gallery_ItemsView"
+                               Margin="12,0,0,0"
                                CornerRadius="0"
-                               ItemsSource="{Binding Gallery}">
+                               ItemsSource="{Binding Gallery}"
+                               SelectionMode="None">
                         <ItemsView.Layout>
                             <LinedFlowLayout ItemsStretch="Fill"
                                              LineHeight="158"
@@ -504,7 +509,9 @@
                         </ItemsView.Layout>
                         <ItemsView.ItemTemplate>
                             <DataTemplate>
-                                <ItemContainer CornerRadius="0">
+                                <ItemContainer x:Name="gallery_ItemContainer"
+                                               CornerRadius="0"
+                                               Tapped="gallery_ItemContainer_Tapped">
                                     <Image MinWidth="64"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -525,9 +532,11 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsView Margin="12,0,0,0"
+                    <ItemsView x:Name="screen_capture_ItemsView"
+                               Margin="12,0,0,0"
                                CornerRadius="0"
-                               ItemsSource="{Binding ScreenCaptures}">
+                               ItemsSource="{Binding ScreenCaptures}"
+                               SelectionMode="None">
                         <ItemsView.Layout>
                             <LinedFlowLayout ItemsStretch="Fill"
                                              LineHeight="158"
@@ -536,7 +545,9 @@
                         </ItemsView.Layout>
                         <ItemsView.ItemTemplate>
                             <DataTemplate>
-                                <ItemContainer CornerRadius="0">
+                                <ItemContainer x:Name="screen_capture_ItemContainer"
+                                               CornerRadius="0"
+                                               Tapped="screen_capture_ItemContainer_Tapped">
                                     <Image MinWidth="64"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
@@ -620,7 +631,7 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </UserControl.ContextFlyout>
-                                    <Grid Margin="0,6" Style="{StaticResource GridItemStyle}">
+                                    <Grid Style="{StaticResource ListViewGridItemStyle}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="250" />
                                             <ColumnDefinition Width="*" />
@@ -628,7 +639,7 @@
 
                                         <Image Margin="8" VerticalAlignment="Top">
                                             <Image.Source>
-                                                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Illustration}" />
+                                                <BitmapImage UriSource="{Binding Illustration}" />
                                             </Image.Source>
                                         </Image>
                                         <Button x:Name="add_illustration_Button"

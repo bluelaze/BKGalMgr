@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -13,6 +14,8 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using ShareX.HelpersLib;
+using SkiaSharp;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -27,6 +30,12 @@ namespace BKGalMgr.Views;
 [ObservableObject]
 public sealed partial class MainWindow : Window
 {
+    [ObservableProperty]
+    private ObservableCollection<string> _images;
+
+    [ObservableProperty]
+    private int _imageSelectedIndex = -1;
+
     public MainWindow()
     {
         this.InitializeComponent();
@@ -48,6 +57,19 @@ public sealed partial class MainWindow : Window
     public void HideLoading()
     {
         loading_contentpresenter.Visibility = Visibility.Collapsed;
+    }
+
+    public void ShowImages(IEnumerable<string> images, int selectedIndex)
+    {
+        Images = new(images);
+        ImageSelectedIndex = selectedIndex;
+        image_viewer_Grid.Visibility = Visibility.Visible;
+    }
+
+    [RelayCommand]
+    public void HideImages()
+    {
+        image_viewer_Grid.Visibility = Visibility.Collapsed;
     }
 
     [RelayCommand]
@@ -116,4 +138,56 @@ public sealed partial class MainWindow : Window
     private void main_root_frame_Navigated(object sender, NavigationEventArgs e) { }
 
     private void main_root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
+
+    private void ImageFitToScreen(ScrollViewer scrollerViwer, Image imagePost)
+    {
+        if (scrollerViwer.ActualWidth == 0 || scrollerViwer.ActualHeight == 0)
+            return;
+        if (imagePost.ActualWidth == 0 || imagePost.ActualHeight == 0)
+            return;
+
+        double widthCompare = scrollerViwer.ActualWidth / imagePost.ActualWidth;
+        double heightCompare = scrollerViwer.ActualHeight / imagePost.ActualHeight;
+
+        double zoomFactor = 1.0f;
+        double v = 0.001f;
+        if (widthCompare > 1 && heightCompare > 1)
+        {
+            zoomFactor = 1.0f;
+        }
+        else if (widthCompare > heightCompare)
+        {
+            while (imagePost.ActualHeight * heightCompare >= scrollerViwer.ActualHeight)
+                heightCompare -= v;
+
+            zoomFactor = heightCompare;
+        }
+        else
+        {
+            while (imagePost.ActualWidth * widthCompare >= scrollerViwer.ActualWidth)
+                widthCompare -= v;
+
+            zoomFactor = widthCompare;
+        }
+
+        scrollerViwer.ChangeView(0, 0, (float)zoomFactor);
+    }
+
+    private void image_ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        var scrollerViwer = sender as ScrollViewer;
+        ImageFitToScreen(sender as ScrollViewer, scrollerViwer.FindName("post_Image") as Image);
+    }
+
+    private void post_Image_ImageOpened(object sender, RoutedEventArgs e)
+    {
+        var image = sender as Image;
+        ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image);
+    }
+
+    private void image_viewer_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var listView = sender as ListView;
+        listView.ScrollIntoView(listView.SelectedItem);
+    }
 }

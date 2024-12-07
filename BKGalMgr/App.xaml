@@ -27,7 +27,6 @@
             <Style x:Key="ListViewGridItemStyle"
                    BasedOn="{StaticResource GridItemStyle}"
                    TargetType="Grid">
-                <Setter Property="Padding" Value="8,0" />
                 <Setter Property="Margin" Value="0,6" />
             </Style>
             <Style x:Key="StackItemStyle" TargetType="StackPanel">
@@ -51,6 +50,13 @@
             <ImageSource x:Key="LocalEmulatorGray">ms-appx:///Assets/LocalEmulator/gray.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorPurple">ms-appx:///Assets/LocalEmulator/purple.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorYellow">ms-appx:///Assets/LocalEmulator/yellow.bmp</ImageSource>
+
+            <AcrylicBrush x:Key="AcrylicControlTransientBackgroundBrush"
+                          FallbackColor="#2C2C2C"
+                          TintColor="#2C2C2C"
+                          TintLuminosityOpacity="0"
+                          TintOpacity="0" />
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -113,6 +113,9 @@ public partial class App : Application
 
     public static void HideLoading() => MainWindow.HideLoading();
 
+    public static void ShowImages(IEnumerable<string> images, int selectedIndex) =>
+        MainWindow.ShowImages(images, selectedIndex);
+
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
 
     private bool ExistLaunchedApp()
