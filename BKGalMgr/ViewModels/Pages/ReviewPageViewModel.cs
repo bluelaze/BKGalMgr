@@ -50,7 +50,7 @@ public partial class ReviewPageViewModel : ObservableObject
                 PlayedTime += game.PlayedTime;
                 SessionsPlayed += game
                     .PlayedPeriods.Where(t =>
-                        t.Period >= TimeSpan.FromSeconds(60) && t.PauseTime < TimeSpan.FromSeconds(60)
+                        t.Period >= TimeSpan.FromSeconds(60) || t.PauseTime >= TimeSpan.FromSeconds(60)
                     )
                     .Count();
                 foreach (var playedPriods in game.PlayedPeriods)
