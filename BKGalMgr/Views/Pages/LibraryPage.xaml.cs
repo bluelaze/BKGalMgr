@@ -444,4 +444,20 @@ public sealed partial class LibraryPage : Page
         if (gameInfo.ScreenCaptures.Count > 0)
             App.ShowImages(gameInfo.ScreenCaptures, 0);
     }
+
+    private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)
+    {
+        var gameInfo = sender.DataContext as GameInfo;
+        var playedChart = new GamePlayedPeriodChartControl() { PlayedPeriods = gameInfo.PlayedPeriods };
+        playedChart.CloseClick += (_, _) =>
+        {
+            sender.IsPaneOpen = false;
+        };
+        sender.Pane = playedChart;
+    }
+
+    private void gameinfo_SplitView_PaneClosed(SplitView sender, object args)
+    {
+        sender.Pane = null;
+    }
 }

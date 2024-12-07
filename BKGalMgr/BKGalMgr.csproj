@@ -28,14 +28,18 @@
         <None Remove="Views\Controls\CharacterInfoControl.xaml" />
         <None Remove="Views\Controls\ContributorInfoControl.xaml" />
         <None Remove="Views\Controls\GameInfoControl.xaml" />
+        <None Remove="Views\Controls\GamePlayedPeriodChartControl.xaml"/>
         <None Remove="Views\Controls\GroupInfoControl.xaml" />
         <None Remove="Views\Controls\HeaderedTextBox.xaml" />
         <None Remove="Views\Controls\LocalizationInfoControl.xaml" />
+        <None Remove="Views\Controls\MetadataControl.xaml" />
         <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
+        <None Remove="Views\Controls\SaveDataInfoControl.xaml" />
+        <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
-        <None Remove="Views\MainPage.xaml" />
         <None Remove="Views\Pages\LibraryPage.xaml" />
+        <None Remove="Views\Pages\MainPage.xaml" />
         <None Remove="Views\Pages\ManagePage.xaml" />
         <None Remove="Views\Pages\MigrationPage.xaml" />
         <None Remove="Views\Pages\ReviewPage.xaml" />
@@ -105,10 +109,13 @@
         <Page Update="Views\Controls\ContributorInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
-        <Page Update="Views\Controls\GroupInfoControl.xaml">
+        <Page Update="Views\Controls\GameInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
-        <Page Update="Views\Controls\GameInfoControl.xaml">
+        <Page Update="Views\Controls\GamePlayedPeriodChartControl.xaml">
+          <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\GroupInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\HeaderedTextBox.xaml">
@@ -120,14 +127,18 @@
         <Page Update="Views\Controls\RepositoryInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
+        <Page Update="Views\Controls\SaveDataInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\SaveDataSettingsInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
         <Page Update="Views\Controls\SourceInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\TargetInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
-    </ItemGroup>
-    <ItemGroup>
         <Page Update="Views\Pages\LibraryPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>

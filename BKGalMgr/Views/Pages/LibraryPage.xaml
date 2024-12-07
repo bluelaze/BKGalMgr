@@ -8,7 +8,6 @@
       xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
-      xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
       xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
@@ -22,9 +21,6 @@
     <Page.Resources>
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
         <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
-        <converters:PlayedPeriodToColumnSeriesConverter x:Key="PlayedPeriodToColumnSeriesConverter" />
-        <converters:PlayedPeriodToXAxesConverter x:Key="PlayedPeriodToXAxesConverter" />
-        <converters:PlayedPeriodToYAxesConverter x:Key="PlayedPeriodToYAxesConverter" />
         <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
         <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
         <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
@@ -168,34 +164,12 @@
                                         <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click" Text="SCREENSHOT" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
-                                <SplitView x:Name="gameinfo_spliteview"
+                                <SplitView x:Name="gameinfo_SplitView"
                                            DisplayMode="Inline"
                                            OpenPaneLength="720"
+                                           PaneClosed="gameinfo_SplitView_PaneClosed"
+                                           PaneOpening="gameinfo_SplitView_PaneOpening"
                                            PanePlacement="Right">
-                                    <SplitView.Pane>
-                                        <Grid>
-                                            <lvc:CartesianChart Series="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
-                                                                XAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToXAxesConverter}}"
-                                                                YAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToYAxesConverter}}"
-                                                                ZoomMode="X" />
-                                            <Button Padding="4"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Background="Transparent"
-                                                    BorderBrush="{x:Null}"
-                                                    Content="{mui:FontIcon FontSize=16,
-                                                                           Glyph=&#xE89F;}"
-                                                    Style="{StaticResource IconButtonStyle}">
-                                                <interactivity:Interaction.Behaviors>
-                                                    <interactions:EventTriggerBehavior EventName="Click">
-                                                        <interactions:ChangePropertyAction PropertyName="IsPaneOpen"
-                                                                                           TargetObject="{Binding ElementName=gameinfo_spliteview}"
-                                                                                           Value="False" />
-                                                    </interactions:EventTriggerBehavior>
-                                                </interactivity:Interaction.Behaviors>
-                                            </Button>
-                                        </Grid>
-                                    </SplitView.Pane>
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup>
                                             <VisualState x:Name="PlayingState">
@@ -263,7 +237,7 @@
                                                     <interactivity:Interaction.Behaviors>
                                                         <interactions:EventTriggerBehavior EventName="Tapped">
                                                             <interactions:ChangePropertyAction PropertyName="IsPaneOpen"
-                                                                                               TargetObject="{Binding ElementName=gameinfo_spliteview}"
+                                                                                               TargetObject="{Binding ElementName=gameinfo_SplitView}"
                                                                                                Value="True" />
                                                         </interactions:EventTriggerBehavior>
                                                     </interactivity:Interaction.Behaviors>
