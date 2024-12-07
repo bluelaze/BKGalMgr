@@ -48,7 +48,11 @@ public partial class ReviewPageViewModel : ObservableObject
             foreach (var game in repo.Games.OrderByDescending(g => g.LastPlayDate))
             {
                 PlayedTime += game.PlayedTime;
-                SessionsPlayed += game.PlayedPeriods.Count;
+                SessionsPlayed += game
+                    .PlayedPeriods.Where(t =>
+                        t.Period >= TimeSpan.FromSeconds(60) && t.PauseTime < TimeSpan.FromSeconds(60)
+                    )
+                    .Count();
                 foreach (var playedPriods in game.PlayedPeriods)
                 {
                     var label = playedPriods.BenginTime.ToString("d", CultureInfo.CurrentUICulture);
