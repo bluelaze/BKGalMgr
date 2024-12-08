@@ -37,7 +37,7 @@ public sealed partial class CharacterInfoControl : UserControl
         Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
         if (file != null)
         {
-            pick_illustration_HeaderedTextBox.Text = file.Name;
+            pick_illustration_HeaderedTextBox.Text = file.Path;
         }
     }
 

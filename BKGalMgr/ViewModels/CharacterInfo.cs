@@ -35,6 +35,9 @@ public partial class CharacterInfo : ObservableObject
     private int _age;
 
     [ObservableProperty]
+    private string _bloodType;
+
+    [ObservableProperty]
     private string _cup;
 
     [ObservableProperty]

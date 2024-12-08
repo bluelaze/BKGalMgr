@@ -668,13 +668,16 @@
                                                 <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
                                                            Text="{Binding Age, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}y'}"
                                                            Visibility="{Binding Age, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{Binding BloodType}"
+                                                           Visibility="{Binding BloodType, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
                                             </StackPanel>
                                             <StackPanel Padding="10,0"
                                                         Orientation="Horizontal"
                                                         Spacing="8">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                               Text="{Binding Bust, Converter={StaticResource StringFormatConverter}, ConverterParameter='H{0}'}"
+                                                               Text="{Binding Bust, Converter={StaticResource StringFormatConverter}, ConverterParameter='B{0}'}"
                                                                Visibility="{Binding Bust, Converter={StaticResource DoubleToVisibilityConverter}}" />
                                                     <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
                                                                Text="{Binding Cup, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"

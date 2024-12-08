@@ -423,6 +423,9 @@
   <data name="CharacterInfo_Age.Header" xml:space="preserve">
     <value>年龄</value>
   </data>
+  <data name="CharacterInfo_BloodType.Header" xml:space="preserve">
+    <value>血型</value>
+  </data>
   <data name="CharacterInfo_Cup.Header" xml:space="preserve">
     <value>Cup</value>
   </data>

@@ -359,6 +359,8 @@ public partial class GameInfo : ObservableObject
                         oldCharacter.Illustration = newCharacter.Illustration;
                     if (oldCharacter.CV.IsNullOrEmpty())
                         oldCharacter.CV = newCharacter.CV;
+                    if(oldCharacter.BloodType.IsNullOrEmpty())
+                        oldCharacter.BloodType = newCharacter.BloodType;
                 }
             }
         }

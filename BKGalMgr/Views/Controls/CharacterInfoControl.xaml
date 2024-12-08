@@ -59,6 +59,7 @@
                 </Button.Resources>
             </Button>
             <NumberBox x:Uid="CharacterInfo_Age" Value="{Binding Age, Mode=TwoWay}" />
+            <TextBox x:Uid="CharacterInfo_BloodType" Text="{Binding BloodType, Mode=TwoWay}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
             <TextBox x:Uid="CharacterInfo_Cup" Text="{Binding Cup, Mode=TwoWay}" />

@@ -95,7 +95,7 @@ public class BangumiService
     {
         foreach (var c in gameInfo.Characters)
         {
-            if(c.BangumiCharacterId.IsNullOrEmpty())
+            if (c.BangumiCharacterId.IsNullOrEmpty())
                 continue;
 
             var charactersResponse = await GetCharactersAsync(c.BangumiCharacterId);
@@ -188,14 +188,16 @@ public class BangumiService
         characterInfo.Description = character.summary;
         characterInfo.Illustration = character.images.large;
         if (character.birth_mon != null && character.birth_day != null)
+        {
             characterInfo.Birthday = new(
-                gameInfo.PublishDate.Year,
+                character.birth_mon == 2 && character.birth_day == 29 ? 2024 : gameInfo.PublishDate.Year,
                 character.birth_mon ?? 0,
                 character.birth_day ?? 0,
                 0,
                 0,
                 0
             );
+        }
 
         foreach (var item in character.infobox)
         {
@@ -208,6 +210,10 @@ public class BangumiService
                 {
                     characterInfo.Height = height;
                 }
+            }
+            else if (item.key == "血型")
+            {
+                characterInfo.BloodType = item.value.ToString().ToUpper();
             }
             else if (item.key == "BWH")
             {
