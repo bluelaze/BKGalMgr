@@ -526,10 +526,10 @@ public sealed partial class ManagePage : Page
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
         dialog.Title = LanguageHelper.GetString("Dlg_SaveData_Settings");
         dialog.Content = savedataSettingsInfoControl;
-        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-        {
-            args.Cancel = !savedataSettingsInfoControl.IsValidSaveDataSettings();
-        };
+        //dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        //{
+        //    args.Cancel = !savedataSettingsInfoControl.IsValidSaveDataSettings();
+        //};
 
         if (await dialog.ShowAsync() == ContentDialogResult.Primary)
         {
@@ -629,7 +629,9 @@ public sealed partial class ManagePage : Page
         var charater = (sender as Button).DataContext as CharacterInfo;
         if (charater.Illustration.IsNullOrEmpty())
         {
-            Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
+            Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(
+                GlobalInfo.GameCoverSupportFormats.ToList()
+            );
             if (file != null)
             {
                 charater.Illustration = file.Path;

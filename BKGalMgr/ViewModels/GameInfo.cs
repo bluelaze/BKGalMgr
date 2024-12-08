@@ -234,6 +234,7 @@ public partial class GameInfo : ObservableObject
         if (Directory.Exists(path))
         {
             gameInfo.SaveDataSettings = SaveDataSettingsInfo.Open(path) ?? new();
+            gameInfo.SaveDataSettings.JsonPath = Path.Combine(path, GlobalInfo.SaveDataSettingsJsonName);
 
             var dirs = Directory.GetDirectories(path);
             foreach (var dir in dirs)
