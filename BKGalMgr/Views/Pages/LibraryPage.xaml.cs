@@ -437,6 +437,15 @@ public sealed partial class LibraryPage : Page
             App.ShowImages(gameInfo.Gallery, 0);
     }
 
+
+    private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadSpecail();
+        if (gameInfo.Special.Count > 0)
+            App.ShowImages(gameInfo.Special, 0);
+    }
+
     private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;

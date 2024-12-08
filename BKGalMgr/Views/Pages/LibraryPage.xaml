@@ -161,6 +161,7 @@
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click" Text="GALLERY" />
+                                        <MenuFlyoutItem Click="special_MenuFlyoutItem_Click" Text="SPECIAL" />
                                         <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click" Text="SCREENSHOT" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>

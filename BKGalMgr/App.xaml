@@ -51,12 +51,6 @@
             <ImageSource x:Key="LocalEmulatorPurple">ms-appx:///Assets/LocalEmulator/purple.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorYellow">ms-appx:///Assets/LocalEmulator/yellow.bmp</ImageSource>
 
-            <AcrylicBrush x:Key="AcrylicControlTransientBackgroundBrush"
-                          FallbackColor="#2C2C2C"
-                          TintColor="#2C2C2C"
-                          TintLuminosityOpacity="0"
-                          TintOpacity="0" />
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

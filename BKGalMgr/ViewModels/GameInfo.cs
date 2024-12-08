@@ -108,6 +108,10 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
+    private ObservableCollection<string> _special = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
     private ObservableCollection<string> _screenCaptures = new();
 
     [ObservableProperty]
@@ -287,7 +291,7 @@ public partial class GameInfo : ObservableObject
         base.OnPropertyChanged(e);
         if (e.PropertyName != nameof(IsPropertyChanged) && PlayStatus == PlayStatus.Stop)
             IsPropertyChanged = true;
-        if(e.PropertyName == nameof(PinValue))
+        if (e.PropertyName == nameof(PinValue))
             SaveJsonFile();
     }
 
@@ -359,7 +363,7 @@ public partial class GameInfo : ObservableObject
                         oldCharacter.Illustration = newCharacter.Illustration;
                     if (oldCharacter.CV.IsNullOrEmpty())
                         oldCharacter.CV = newCharacter.CV;
-                    if(oldCharacter.BloodType.IsNullOrEmpty())
+                    if (oldCharacter.BloodType.IsNullOrEmpty())
                         oldCharacter.BloodType = newCharacter.BloodType;
                 }
             }
@@ -752,6 +756,15 @@ public partial class GameInfo : ObservableObject
 
     [RelayCommand]
     [property: JsonIgnore]
+    public void OpenSpecialFolder()
+    {
+        var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
+        Directory.CreateDirectory(specialPath);
+        Process.Start("explorer", specialPath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
     public void OpenScreenCaptureFolder()
     {
         var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
@@ -789,11 +802,7 @@ public partial class GameInfo : ObservableObject
             covers.Insert(0, Cover);
 
         Covers.MergeRange(covers);
-        foreach (var cover in Covers)
-        {
-            if (!File.Exists(cover))
-                Covers.Remove(cover);
-        }
+        Covers.RemoveIf(t => !File.Exists(t));
     }
 
     public void LoadGallery()
@@ -802,11 +811,17 @@ public partial class GameInfo : ObservableObject
         if (Directory.Exists(galleryPath))
         {
             Gallery.MergeRange(Directory.GetFiles(galleryPath));
-            foreach (var gallery in Gallery)
-            {
-                if (!File.Exists(gallery))
-                    Covers.Remove(gallery);
-            }
+            Gallery.RemoveIf(t => !File.Exists(t));
+        }
+    }
+
+    public void LoadSpecail()
+    {
+        var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
+        if (Directory.Exists(specialPath))
+        {
+            Special.MergeRange(Directory.GetFiles(specialPath));
+            Special.RemoveIf(t => !File.Exists(t));
         }
     }
 
@@ -816,11 +831,7 @@ public partial class GameInfo : ObservableObject
         if (Directory.Exists(capturePath))
         {
             ScreenCaptures.MergeRange(Directory.GetFiles(capturePath));
-            foreach (var c in ScreenCaptures)
-            {
-                if (!File.Exists(c))
-                    Covers.Remove(c);
-            }
+            ScreenCaptures.RemoveIf(t => !File.Exists(t));
         }
     }
 
@@ -837,6 +848,7 @@ public partial class GameInfo : ObservableObject
     {
         LoadCover();
         LoadGallery();
+        LoadSpecail();
         LoadScreenCapture();
         LoadCharacter();
     }

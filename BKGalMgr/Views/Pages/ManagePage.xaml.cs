@@ -718,4 +718,10 @@ public sealed partial class ManagePage : Page
         var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
         App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
     }
+
+    private void special_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.Special;
+        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
+    }
 }

@@ -60,4 +60,18 @@ public static class IListExtension
 
         return -1;
     }
+
+    public static void RemoveIf<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
+    {
+        if (source == null || predicate == null)
+            return;
+
+        for (int i = source.Count() - 1; i >= 0; i--)
+        {
+            if (predicate(source.ElementAt(i)))
+            {
+                source.RemoveAt(i);
+            }
+        }
+    }
 }
