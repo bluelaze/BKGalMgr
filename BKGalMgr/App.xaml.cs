@@ -72,6 +72,12 @@ public partial class App : Application
     public App()
     {
         this.InitializeComponent();
+        this.UnhandledException += App_UnhandledException;
+    }
+
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        _ = DialogHelper.ShowError($"{LanguageHelper.GetString("Msg_App_UnhandledException")}\n{e}");
     }
 
     /// <summary>

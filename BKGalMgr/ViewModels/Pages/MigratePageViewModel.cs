@@ -22,10 +22,10 @@ public partial class MigratePageViewModel : ObservableObject
         LibraryAndManagePageViewModel = libraryAndManagePageViewModel;
     }
 
-    public async Task MigrateGames(IList<GameInfo> games, bool fromLeftToRight)
+    public async Task<bool> MigrateGames(IList<GameInfo> games, bool fromLeftToRight)
     {
         if (games == null || LeftRepository == null || RightRepository == null)
-            return;
+            return false;
         RepositoryInfo fromRepository = LeftRepository;
         RepositoryInfo toRepository = RightRepository;
         if (!fromLeftToRight)
@@ -38,14 +38,29 @@ public partial class MigratePageViewModel : ObservableObject
             if (fromRepository.Games.Contains(game))
             {
                 var gameNewPath = Path.Combine(toRepository.FolderPath, Path.GetFileName(game.FolderPath));
-                await Task.Run(() =>
+                var ret = await Task.Run(() =>
                 {
-                    FileSystemMisc.DirectoryMoveOrCopy(game.FolderPath, gameNewPath);
+                    try
+                    {
+                        FileSystemMisc.DirectoryMoveOrCopy(game.FolderPath, gameNewPath);
+                        return true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 });
+                if (ret == false)
+                {
+                    Directory.Delete(gameNewPath, true);
+                    return false;
+                }
+
                 await fromRepository.DeleteGame(game);
                 toRepository.AddGame(gameNewPath);
                 toRepository.RestoreAddGroupIndex();
             }
         }
+        return true;
     }
 }

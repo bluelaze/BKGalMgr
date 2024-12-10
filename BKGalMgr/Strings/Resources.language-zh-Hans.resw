@@ -153,6 +153,9 @@
   <data name="Msg_Migrate_Confirm" xml:space="preserve">
     <value>确定从 {1} 迁移 {0} 个游戏到 {2} ?</value>
   </data>
+  <data name="Msg_Migrate_Exception" xml:space="preserve">
+    <value>发生异常，迁移失败，请重启软件后再试！</value>
+  </data>
   <data name="Msg_SaveData_Invalid_Path" xml:space="preserve">
     <value>无效存档路径</value>
   </data>
@@ -170,6 +173,9 @@
   </data>
   <data name="Msg_Game_Need_Stop" xml:space="preserve">
     <value>当前正在游玩，请先停止！</value>
+  </data>
+  <data name="Msg_App_UnhandledException" xml:space="preserve">
+    <value>发生异常，请重启软件！</value>
   </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>
