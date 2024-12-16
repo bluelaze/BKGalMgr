@@ -125,6 +125,9 @@
                                 Click="check_for_updates_Button_Click"
                                 Content="{x:Bind ViewModel.CheckForUpdatesContent, Mode=OneWay}" />
                     </mcontrols:SettingsCard>
+                    <mcontrols:SettingsCard x:Uid="Settings_About_Website">
+                        <HyperlinkButton Content="https://bkgalmgr.com" NavigateUri="https://bkgalmgr.com" />
+                    </mcontrols:SettingsCard>
                     <mcontrols:SettingsCard x:Uid="Settings_About_Project">
                         <HyperlinkButton Content="https://github.com/bluelaze/BKGalMgr" NavigateUri="https://github.com/bluelaze/BKGalMgr" />
                     </mcontrols:SettingsCard>
