@@ -77,7 +77,7 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        _ = DialogHelper.ShowError($"{LanguageHelper.GetString("Msg_App_UnhandledException")}\n{e}");
+        _ = DialogHelper.ShowError($"{LanguageHelper.GetString("Msg_App_UnhandledException")}\n{e.Exception}");
     }
 
     /// <summary>
