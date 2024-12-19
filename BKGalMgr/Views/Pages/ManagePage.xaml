@@ -192,18 +192,16 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <!--  这里绑定层级深了，使用DataContext  -->
+        <!--  游戏信息  -->
         <ScrollViewer x:Name="gameinfo_ScrollViewer"
                       Grid.Row="1"
                       Margin="0,16,0,0"
                       Padding="16,0"
-                      d:DataContext="{d:DesignInstance vm:GameInfo}"
-                      DataContext="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}"
                       IsTabStop="True"
-                      Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+                      Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">
                 <!--  GameInfo  -->
-                <controls:GameInfoControl DataContext="{Binding}" />
+                <controls:GameInfoControl DataContext="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
                 <!--  source, localization, target, savedata  -->
                 <Grid MaxHeight="480">
                     <Grid.ColumnDefinitions>
@@ -212,7 +210,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <ListView Padding="0" ItemsSource="{Binding Sources, Mode=OneWay}">
+                    <ListView Padding="0" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
                                         Orientation="Horizontal"
@@ -223,7 +221,7 @@
                                         Click="add_source_folder_button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE8F4;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
                         </ListView.Header>
@@ -257,7 +255,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Grid.Column="1" ItemsSource="{Binding Localizations, Mode=OneWay}">
+                    <ListView Grid.Column="1" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Localizations, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
                                         Orientation="Horizontal"
@@ -268,7 +266,7 @@
                                         Click="add_localization_folder_button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE8F4;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
                         </ListView.Header>
@@ -302,7 +300,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Grid.Column="2" ItemsSource="{Binding Targets, Mode=OneWay}">
+                    <ListView Grid.Column="2" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Targets, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
                                         Orientation="Horizontal"
@@ -312,21 +310,21 @@
                                         Click="add_target_button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE948;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                                 <Button x:Name="add_target_folder_button"
                                         x:Uid="Manage_Target_Add"
                                         Click="add_target_folder_button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE8F4;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                                 <Button x:Name="add_target_shortcut_Button"
                                         x:Uid="Manage_Target_Add_Shortcut"
                                         Click="add_target_shortcut_Button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xF61B;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
                         </ListView.Header>
@@ -394,7 +392,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <ListView Grid.Column="3" ItemsSource="{Binding SaveDatas, Mode=OneWay}">
+                    <ListView Grid.Column="3" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.SaveDatas, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
                                         Orientation="Horizontal"
@@ -405,13 +403,13 @@
                                         Click="savedata_Button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xEA35;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                                 <Button x:Name="savedata_settings_Button"
                                         Click="savedata_settings_Button_Click"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE713;}"
-                                        IsEnabled="{Binding IsValid, Mode=OneWay}"
+                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
                                         Style="{StaticResource IconButtonStyle}" />
                             </StackPanel>
                         </ListView.Header>
@@ -453,10 +451,10 @@
                 <FlipView x:Name="covers_FlipView"
                           MaxHeight="480"
                           Background="Transparent"
-                          ItemsSource="{Binding Covers}">
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}">
                     <FlipView.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenCoversFolderCommand}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCoversFolderCommand, Mode=OneWay}" />
                         </MenuFlyout>
                     </FlipView.ContextFlyout>
                     <FlipView.ItemTemplate>
@@ -470,7 +468,7 @@
                 </FlipView>
                 <ListView Height="64"
                           HorizontalAlignment="Center"
-                          ItemsSource="{Binding Covers}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}"
                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                           ScrollViewer.HorizontalScrollMode="Enabled"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -493,14 +491,14 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{Binding OpenGalleryFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenGalleryFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
                     <ItemsView x:Name="gallery_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
-                               ItemsSource="{Binding Gallery}"
+                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
                             <LinedFlowLayout ItemsStretch="Fill"
@@ -529,14 +527,14 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{Binding OpenSpecialFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
                     <ItemsView x:Name="special_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
-                               ItemsSource="{Binding Special}"
+                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
                             <LinedFlowLayout ItemsStretch="Fill"
@@ -565,14 +563,14 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{Binding OpenScreenCaptureFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenCaptureFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
                     <ItemsView x:Name="screen_capture_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
-                               ItemsSource="{Binding ScreenCaptures}"
+                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.ScreenCaptures, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
                             <LinedFlowLayout ItemsStretch="Fill"
@@ -609,7 +607,7 @@
                              Background="Transparent"
                              BorderBrush="Transparent"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{Binding Story, Mode=TwoWay}"
+                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Story, Mode=TwoWay}"
                              TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  blog  -->
@@ -626,7 +624,7 @@
                              Background="Transparent"
                              BorderBrush="Transparent"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{Binding Blog, Mode=TwoWay}"
+                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Blog, Mode=TwoWay}"
                              TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  character  -->
@@ -635,13 +633,13 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{Binding OpenCharacterFolderCommand}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCharacterFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CHARACTER" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
                     <ItemsControl Margin="12,0,0,0"
                                   Padding="0"
-                                  ItemsSource="{Binding Characters}">
+                                  ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Characters, Mode=OneWay}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:CharacterInfo">
                                 <UserControl>

@@ -141,16 +141,14 @@
             </StackPanel>
         </Grid>
 
-        <!--  这里用DataContext是因为x:Bind绑定的层级深了，数据切换有些问题  -->
+        <!--  游戏列表  -->
         <SemanticZoom x:Name="games_view_semanticzoom"
                       Grid.Row="1"
                       Margin="-16,16,-16,0"
-                      d:DataContext="{d:DesignInstance vm:RepositoryInfo}"
-                      DataContext="{x:Bind ViewModel.SelectedRepository, Mode=OneWay}"
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
             <SemanticZoom.ZoomedInView>
-                <ListView x:Name="games_listview" ItemsSource="{Binding GamesView, Mode=OneWay}">
+                <ListView x:Name="games_listview" ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <UserControl>
@@ -244,7 +242,7 @@
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Company" />
-                                                <!--  Uri只能用Binding，否者运行时会报参数错误  -->
+                                                <!--  Uri只能用Binding，否者运行时会报参数错误，或者用converter  -->
                                                 <HyperlinkButton Margin="0,-1,0,0"
                                                                  Padding="0"
                                                                  Content="{x:Bind Company, Mode=OneWay}"
@@ -442,7 +440,7 @@
 
             <SemanticZoom.ZoomedOutView>
                 <GridView Margin="12,0,0,0"
-                          ItemsSource="{Binding GamesView, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
                           SelectionMode="Single">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
