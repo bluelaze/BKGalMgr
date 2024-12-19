@@ -510,7 +510,6 @@ public sealed partial class ManagePage : Page
         if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Target_Delete_Folder_Only")))
         {
             App.ShowLoading();
-            targetInfo.CheckArchiveStatus();
             await targetInfo.DeleteFolderOnly();
             App.HideLoading();
         }

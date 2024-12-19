@@ -295,7 +295,8 @@ public partial class TargetInfo : ObservableObject
 
     public async Task DeleteFolderOnly()
     {
-        if (!IsArchive)
+        CheckArchiveStatus();
+        if (!IsArchive || !Directory.Exists(TargetPath))
             return;
         await Task.Run(() =>
         {
