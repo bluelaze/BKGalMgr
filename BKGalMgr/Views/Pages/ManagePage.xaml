@@ -199,6 +199,7 @@
                       Padding="16,0"
                       d:DataContext="{d:DesignInstance vm:GameInfo}"
                       DataContext="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}"
+                      IsTabStop="True"
                       Visibility="{Binding Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">
                 <!--  GameInfo  -->
