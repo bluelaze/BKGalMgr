@@ -81,14 +81,12 @@
                                    IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
                     <ToggleSplitButton.Flyout>
                         <Flyout Placement="Bottom">
-                            <ItemsView Width="{ThemeResource CommandBarOverflowMaxHeight}"
+                            <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
+                            <ItemsView Width="{ThemeResource GroupDialogMaxWidth}"
                                        ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
                                        SelectionMode="None">
                                 <ItemsView.Layout>
-                                    <LinedFlowLayout ItemsStretch="None"
-                                                     LineHeight="{ThemeResource ContentDialogButtonHeight}"
-                                                     LineSpacing="8"
-                                                     MinItemSpacing="8" />
+                                    <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
                                 </ItemsView.Layout>
                                 <ItemsView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:GroupInfo">
@@ -96,11 +94,11 @@
                                             <Grid>
                                                 <ToggleButton x:Name="group_togglebutton"
                                                               Checked="group_togglebutton_IsCheckedChanged"
-                                                              Content="{x:Bind Name, Mode=OneWay}"
+                                                              Content="{Binding Name, Mode=OneWay}"
                                                               FontSize="12"
-                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
                                                               Unchecked="group_togglebutton_IsCheckedChanged"
-                                                              Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                              Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
                                                     <ToggleButton.ContextFlyout>
                                                         <MenuFlyout>
                                                             <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
@@ -125,7 +123,7 @@
                                                         Click="add_group_button_Click"
                                                         Content="{mui:FontIcon FontSize=16,
                                                                                Glyph=&#xE948;}"
-                                                        Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                                        Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
                                             </Grid>
                                         </ItemContainer>
                                     </DataTemplate>
@@ -287,22 +285,19 @@
                                                                 Opened="game_group_Flyout_Opened"
                                                                 Placement="BottomEdgeAlignedLeft">
                                                             <ItemsView x:Name="game_group_ItemsView"
-                                                                       Width="{ThemeResource CommandBarOverflowMaxHeight}"
+                                                                       Width="{ThemeResource GroupDialogMaxWidth}"
                                                                        SelectionMode="None">
                                                                 <ItemsView.Layout>
-                                                                    <LinedFlowLayout ItemsStretch="None"
-                                                                                     LineHeight="{ThemeResource ContentDialogButtonHeight}"
-                                                                                     LineSpacing="8"
-                                                                                     MinItemSpacing="8" />
+                                                                    <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
                                                                 </ItemsView.Layout>
                                                                 <ItemsView.ItemTemplate>
                                                                     <DataTemplate x:DataType="vm:GroupInfo">
                                                                         <ItemContainer>
                                                                             <ToggleButton x:Name="group_togglebutton"
                                                                                           Checked="group_togglebutton_IsCheckedChanged"
-                                                                                          Content="{x:Bind Name, Mode=OneWay}"
+                                                                                          Content="{Binding Name, Mode=OneWay}"
                                                                                           FontSize="12"
-                                                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                                                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
                                                                                           Unchecked="group_togglebutton_IsCheckedChanged" />
                                                                         </ItemContainer>
                                                                     </DataTemplate>
