@@ -23,7 +23,7 @@ public partial class SaveDataSettingsInfo : ObservableObject
     private string _saveDataFolderPath;
 
     [ObservableProperty]
-    private bool _autoBackup = true;
+    private bool _autoBackup = false;
 
     [ObservableProperty]
     private string _description;
