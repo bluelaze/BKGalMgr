@@ -97,7 +97,7 @@ public sealed partial class ReviewPage : Page
         var gameItem = (sender as HyperlinkButton).DataContext as GameReviewGroupItem;
         gameItem.Game.Repository.SelectedGame = gameItem.Game;
         ViewModel.LibraryAndManagePageViewModel.SelectedRepository = gameItem.Game.Repository;
-        MainPage.NavigateTo(typeof(LibraryPage), gameItem.Game);
+        MainPage.NavigateTo(typeof(ManagePage));
     }
 
     private async void review_refresh_Button_Click(object sender, RoutedEventArgs e)

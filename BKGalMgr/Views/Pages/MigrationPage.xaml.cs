@@ -52,7 +52,7 @@ public sealed partial class MigrationPage : Page
         var gameItem = (sender as HyperlinkButton).DataContext as GameInfo;
         gameItem.Repository.SelectedGame = gameItem;
         ViewModel.LibraryAndManagePageViewModel.SelectedRepository = gameItem.Repository;
-        MainPage.NavigateTo(typeof(LibraryPage), gameItem);
+        MainPage.NavigateTo(typeof(ManagePage));
     }
 
     private async void move_game_left_to_right_Button_Click(object sender, RoutedEventArgs e)

@@ -52,55 +52,6 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void add_repository_button_Click(object sender, RoutedEventArgs e)
-    {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
-        {
-            App.ShowLoading();
-            RepositoryInfo newRepository = new() { FolderPath = folder.Path };
-
-            var result = await EditRepositoryInfo(newRepository);
-            if (result == ContentDialogResult.Primary)
-            {
-                await ViewModel.AddRepository(newRepository);
-            }
-
-            App.HideLoading();
-        }
-    }
-
-    private async Task<ContentDialogResult> EditRepositoryInfo(RepositoryInfo repositoryInfo)
-    {
-        ContentDialog dialog = DialogHelper.GetConfirmDialog();
-        dialog.Title = LanguageHelper.GetString("Dlg_Repository_Edit");
-        dialog.Content = new RepositoryInfoControl() { Width = 720, DataContext = repositoryInfo };
-        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
-        {
-            args.Cancel = !repositoryInfo.IsValid();
-        };
-        return await dialog.ShowAsync();
-    }
-
-    private async void edit_repository_menuflyoutitem_Click(object sender, RoutedEventArgs e)
-    {
-        RepositoryInfo editRepository = ViewModel.SelectedRepository;
-
-        var result = await EditRepositoryInfo(editRepository);
-        if (result == ContentDialogResult.Primary)
-        {
-            editRepository.SaveJsonFile();
-        }
-    }
-
-    private async void remove_repository_menuflyoutitem_Click(object sender, RoutedEventArgs e)
-    {
-        if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Remove_Confirm")))
-        {
-            ViewModel.RemoveRepository(ViewModel.SelectedRepository);
-        }
-    }
-
     private void add_game_button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.AddNewGame();

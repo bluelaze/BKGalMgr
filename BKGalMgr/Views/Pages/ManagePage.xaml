@@ -50,7 +50,7 @@
             </Style.Setters>
         </Style>
     </Page.Resources>
-    <Grid Margin="8,16">
+    <Grid Margin="0,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -58,47 +58,6 @@
         <StackPanel Margin="16,0"
                     Orientation="Horizontal"
                     Spacing="8">
-            <ComboBox x:Uid="Manage_Repository_ComboBox"
-                      ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
-                      SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
-                <ComboBox.ContextFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
-                                        x:Uid="Commom_MenuItem_Edit"
-                                        Click="edit_repository_menuflyoutitem_Click" />
-                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.OpenJsonFolderCommand, Mode=OneWay}" />
-                        <MenuFlyoutSeparator />
-                        <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
-                                        x:Uid="Commom_MenuItem_Remove"
-                                        Click="remove_repository_menuflyoutitem_Click">
-                            <MenuFlyoutItem.Resources>
-                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                            </MenuFlyoutItem.Resources>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </ComboBox.ContextFlyout>
-                <ComboBox.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock x:Uid="Manage_Repository" VerticalAlignment="Center" />
-                        <Button x:Name="add_repository_button"
-                                Click="add_repository_button_Click"
-                                Content="{mui:FontIcon FontSize=16,
-                                                       Glyph=&#xE948;}"
-                                Style="{StaticResource IconButtonStyle}" />
-                    </StackPanel>
-                </ComboBox.Header>
-                <ComboBox.ItemTemplate>
-                    <DataTemplate x:DataType="vm:RepositoryInfo">
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                            <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
             <!--  要用Binding，否则切换仓库无法正确选择游戏  -->
             <ComboBox ItemsSource="{Binding ViewModel.SelectedRepository.Games, Mode=OneWay}"
                       SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"

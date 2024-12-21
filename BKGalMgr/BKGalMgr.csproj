@@ -38,6 +38,7 @@
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
+        <None Remove="Views\Pages\LibraryAndManagePage.xaml" />
         <None Remove="Views\Pages\LibraryPage.xaml" />
         <None Remove="Views\Pages\MainPage.xaml" />
         <None Remove="Views\Pages\ManagePage.xaml" />
@@ -180,6 +181,11 @@
     <!-- https://stackoverflow.com/questions/75028309/winui3-standalone-executible-produces-many-additional-files -->
     <ItemGroup>
         <UpdateProgramFiles Include="..\BKGalMgr.Update\bin\publish\$(RuntimeIdentifier)\*.*" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Views\Pages\LibraryAndManagePage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <Target Name="ProgressAfterBuild" AfterTargets="Build">
         <!-- Remove Invalid Language Folders -->

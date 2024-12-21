@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="app_titlebar_grid" Height="32">
+        <Grid x:Name="app_titlebar_grid" Height="38">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
@@ -23,12 +23,15 @@
                     </Style>
                 </StackPanel.Resources>
 
-                <Image Width="16"
-                       Height="16"
+                <Image Width="20"
+                       Height="20"
                        Margin="16,0,0,0"
                        VerticalAlignment="Center"
                        Source="ms-appx:///BKGalMgr.ico" />
-                <TextBlock Padding="0,0,0,2" Text="BKGalMgr" />
+                <TextBlock Padding="0,0,0,2"
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Text="BKGalMgr" />
 
             </StackPanel>
         </Grid>

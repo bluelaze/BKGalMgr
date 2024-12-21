@@ -27,7 +27,7 @@
                                                   EmptyValue="Collapsed"
                                                   NotEmptyValue="Visible" />
     </Page.Resources>
-    <Grid Margin="24,16">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -38,31 +38,11 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <ComboBox x:Uid="Library_Repository"
-                          ItemsSource="{x:Bind ViewModel.Repository, Mode=OneWay}"
-                          SelectedItem="{x:Bind ViewModel.SelectedRepository, Mode=TwoWay}">
-                    <ComboBox.ContextFlyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.OpenJsonFolderCommand, Mode=OneWay}" />
-                        </MenuFlyout>
-                    </ComboBox.ContextFlyout>
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:RepositoryInfo">
-                            <StackPanel>
-                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-
             <!--  ItemsSource这里又不能用x:Bind，否者属性又报错  -->
             <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
                                          Grid.Column="1"
                                          MaxWidth="360"
-                                         Margin="0,26,0,0"
+                                         Margin="0,-10,0,0"
                                          VerticalAlignment="Top"
                                          ItemsSource="{Binding ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
                                          QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
@@ -72,7 +52,7 @@
                                          Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}" />
 
             <StackPanel Grid.Column="2"
-                        Margin="16,36,0,0"
+                        Margin="16,0,0,0"
                         Orientation="Horizontal"
                         Spacing="8"
                         Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
@@ -144,11 +124,13 @@
         <!--  游戏列表  -->
         <SemanticZoom x:Name="games_view_semanticzoom"
                       Grid.Row="1"
-                      Margin="-16,16,-16,0"
+                      Margin="0,16,0,0"
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
             <SemanticZoom.ZoomedInView>
-                <ListView x:Name="games_listview" ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
+                <ListView x:Name="games_listview"
+                          Padding="0,0,16,0"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <UserControl>
@@ -531,7 +513,7 @@
         </SemanticZoom>
 
         <mcontrols:SwitchPresenter Grid.Row="1"
-                                   Margin="0,-14,0,0"
+                                   Margin="0,-10,16,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
                                    TargetType="x:Boolean"

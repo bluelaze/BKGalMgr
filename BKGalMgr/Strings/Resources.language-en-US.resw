@@ -484,6 +484,12 @@
   <data name="Main_Nav_Review.Content" xml:space="preserve">
     <value>Review</value>
   </data>
+  <data name="Repository_Nav_Library.Text" xml:space="preserve">
+    <value>Game List</value>
+  </data>
+  <data name="Repository_Nav_Manage.Text" xml:space="preserve">
+    <value>Game Manage</value>
+  </data>
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>Settings</value>
   </data>

@@ -6,6 +6,7 @@
       xmlns:local="using:BKGalMgr.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mui="using:CommunityToolkit.WinUI"
+      xmlns:vm="using:BKGalMgr.ViewModels"
       mc:Ignorable="d">
 
     <Grid>
@@ -14,14 +15,9 @@
                         IsSettingsVisible="False"
                         IsTabStop="False"
                         IsTitleBarAutoPaddingEnabled="True"
+                        OpenPaneLength="200"
                         SelectionChanged="root_navigationview_SelectionChanged">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Name="library_navitem"
-                                    x:Uid="Main_Nav_Library"
-                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}" />
-                <NavigationViewItem x:Name="manage_navitem"
-                                    x:Uid="Main_Nav_Manage"
-                                    Icon="{mui:FontIcon Glyph=&#xE70F;}" />
                 <NavigationViewItem x:Name="review_navitem"
                                     x:Uid="Main_Nav_Review"
                                     Icon="{mui:FontIcon Glyph=&#xE9D2;}" />
@@ -29,6 +25,58 @@
                                     x:Uid="Main_Nav_Migration"
                                     Icon="{mui:FontIcon Glyph=&#xE8F7;}" />
             </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <ListView x:Name="reporitory_ListView"
+                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneWay}"
+                          SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
+                    <ListView.Header>
+                        <StackPanel>
+                            <Grid>
+                                <NavigationViewItem x:Name="reporitory_navitem"
+                                                    x:Uid="Main_Nav_Library"
+                                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                                    Tapped="reporitory_navitem_Tapped" />
+                                <Button x:Name="add_repository_button"
+                                        Margin="64,0,16,0"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        BorderBrush="{x:Null}"
+                                        Click="add_repository_Button_Click"
+                                        Content="{mui:FontIcon FontSize=10,
+                                                               Glyph=&#xE948;}" />
+                            </Grid>
+                            <NavigationViewItemSeparator />
+                        </StackPanel>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:RepositoryInfo">
+                            <StackPanel Padding="0,8">
+                                <StackPanel.ContextFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Edit"
+                                                        Click="edit_repository_Menuflyoutitem_Click" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Remove"
+                                                        Click="remove_repository_Menuflyoutitem_Click">
+                                            <MenuFlyoutItem.Resources>
+                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                            </MenuFlyoutItem.Resources>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout>
+                                </StackPanel.ContextFlyout>
+                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </NavigationView.PaneFooter>
 
             <NavigationView.FooterMenuItems>
                 <NavigationViewItemSeparator />
