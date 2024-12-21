@@ -499,6 +499,33 @@
   <data name="Library_Group.Content" xml:space="preserve">
     <value>分组</value>
   </data>
+  <data name="Library_SortType_CreateDate.Text" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="Library_SortType_LastPlayDate.Text" xml:space="preserve">
+    <value>最后游玩日期</value>
+  </data>
+  <data name="Library_SortType_PlayedTime.Text" xml:space="preserve">
+    <value>游玩时间</value>
+  </data>
+  <data name="Library_SortType_Name.Text" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Library_SortType_Company.Text" xml:space="preserve">
+    <value>制作社</value>
+  </data>
+  <data name="Library_SortType_PublishDate.Text" xml:space="preserve">
+    <value>发售日期</value>
+  </data>
+  <data name="Library_SortType_PinValue.Text" xml:space="preserve">
+    <value>Pin值</value>
+  </data>
+  <data name="Library_SortOrderType_Ascending.Text" xml:space="preserve">
+    <value>升序</value>
+  </data>
+  <data name="Library_SortOrderType_Descending.Text" xml:space="preserve">
+    <value>降序</value>
+  </data>
   <data name="Library_GameInfo_Company.Text" xml:space="preserve">
     <value>制作社:</value>
   </data>

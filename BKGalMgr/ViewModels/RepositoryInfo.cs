@@ -220,6 +220,24 @@ public partial class RepositoryInfo : ObservableObject
         SaveJsonFile();
     }
 
+    [RelayCommand]
+    void SelectSortType(string sortTypeName)
+    {
+        if (Enum.TryParse(sortTypeName, out SortType result))
+        {
+            SortType = result;
+        }
+    }
+
+    [RelayCommand]
+    void SelectSortOrderType(string sortOrderTypeName)
+    {
+        if (Enum.TryParse(sortOrderTypeName, out SortDirection result))
+        {
+            SortOrderType = result;
+        }
+    }
+
     public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
     {
         switch (type)

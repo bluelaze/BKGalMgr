@@ -484,20 +484,47 @@
   <data name="Main_Nav_Review.Content" xml:space="preserve">
     <value>Review</value>
   </data>
+  <data name="Main_Nav_Settings.Content" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Repository_Nav_Library.Text" xml:space="preserve">
     <value>Game List</value>
   </data>
   <data name="Repository_Nav_Manage.Text" xml:space="preserve">
     <value>Game Manage</value>
   </data>
-  <data name="Main_Nav_Settings.Content" xml:space="preserve">
-    <value>Settings</value>
-  </data>
   <data name="Library_Repository.Header" xml:space="preserve">
     <value>Repository</value>
   </data>
   <data name="Library_Group.Content" xml:space="preserve">
     <value>Group</value>
+  </data>
+  <data name="Library_SortType_CreateDate.Text" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="Library_SortType_LastPlayDate.Text" xml:space="preserve">
+    <value>Last Play Date</value>
+  </data>
+  <data name="Library_SortType_PlayedTime.Text" xml:space="preserve">
+    <value>Played Time</value>
+  </data>
+  <data name="Library_SortType_Name.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Library_SortType_Company.Text" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Library_SortType_PublishDate.Text" xml:space="preserve">
+    <value>Publish Date</value>
+  </data>
+  <data name="Library_SortType_PinValue.Text" xml:space="preserve">
+    <value>Pin Value</value>
+  </data>
+  <data name="Library_SortOrderType_Ascending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="Library_SortOrderType_Descending.Text" xml:space="preserve">
+    <value>Descending</value>
   </data>
   <data name="Library_GameInfo_Company.Text" xml:space="preserve">
     <value>Company:</value>

@@ -20,6 +20,8 @@
     <Page.Resources>
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
         <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
+        <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
+        <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
 
         <DataTemplate x:Key="GameInfoDataTemplate" x:DataType="vm:GameInfo">
             <Grid Style="{StaticResource ListViewGridItemStyle}">
@@ -161,14 +163,45 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <ComboBox MinWidth="130"
-                          Margin="0,28,0,0"
-                          ItemsSource="{mui:EnumValues Type=vm:SortType}"
-                          SelectedItem="{x:Bind ViewModel.LeftRepository.SortType, Mode=TwoWay}" />
-                <ComboBox MinWidth="80"
-                          Margin="0,28,0,0"
-                          ItemsSource="{mui:EnumValues Type=mcollections:SortDirection}"
-                          SelectedItem="{x:Bind ViewModel.LeftRepository.SortOrderType, Mode=TwoWay}" />
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="CreateDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="LastPlayDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PlayedTime" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_Name"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Name" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_Company"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Company" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PublishDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PinValue" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Ascending" />
+                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
+                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Descending" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
             </StackPanel>
             <ListView x:Name="left_repository_ListView"
                       Grid.Row="1"
@@ -227,14 +260,45 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <ComboBox MinWidth="130"
-                          Margin="0,28,0,0"
-                          ItemsSource="{mui:EnumValues Type=vm:SortType}"
-                          SelectedItem="{x:Bind ViewModel.RightRepository.SortType, Mode=TwoWay}" />
-                <ComboBox MinWidth="80"
-                          Margin="0,28,0,0"
-                          ItemsSource="{mui:EnumValues Type=mcollections:SortDirection}"
-                          SelectedItem="{x:Bind ViewModel.RightRepository.SortOrderType, Mode=TwoWay}" />
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="CreateDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="LastPlayDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PlayedTime" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_Name"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Name" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_Company"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Company" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PublishDate" />
+                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                            CommandParameter="PinValue" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Ascending" />
+                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
+                                            Command="{x:Bind ViewModel.RightRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                            CommandParameter="Descending" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
             </StackPanel>
 
             <ListView x:Name="right_repository_ListView"

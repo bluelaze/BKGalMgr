@@ -29,7 +29,7 @@
                   UseSystemFocusVisuals="False"
                   VerticalScrollBarVisibility="Auto"
                   VerticalScrollMode="Auto">
-        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+        <StackPanel MaxWidth="{ThemeResource PageContentMaxWidth}" Spacing="{StaticResource SettingsCardSpacing}">
             <StackPanel.ChildrenTransitions>
                 <EntranceThemeTransition FromVerticalOffset="50" />
                 <RepositionThemeTransition IsStaggeringEnabled="False" />

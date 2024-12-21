@@ -21,7 +21,14 @@ public class LanguageHelper
 
     public static string GetString(string reswKey)
     {
-        return _resourceLoader.GetString(reswKey);
+        try
+        {
+            return _resourceLoader.GetString(reswKey);
+        }
+        catch
+        {
+            return "";
+        }
     }
 
     public static Dictionary<SupportLanguages, string> GetSupportLangugesName()
