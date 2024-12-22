@@ -38,6 +38,7 @@ public sealed partial class ReviewPage : Page
         {
             App.ShowLoading();
             await ViewModel.LibraryAndManagePageViewModel.LoadRepository();
+            await ViewModel.RefreshAsync();
             App.HideLoading();
         }
     }

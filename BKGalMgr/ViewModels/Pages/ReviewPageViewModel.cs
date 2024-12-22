@@ -30,7 +30,6 @@ public partial class ReviewPageViewModel : ObservableObject
     public ReviewPageViewModel(LibraryAndManagePageViewModel libraryAndManagePageViewModel)
     {
         LibraryAndManagePageViewModel = libraryAndManagePageViewModel;
-        _ = RefreshAsync();
     }
 
     public async Task RefreshAsync()
