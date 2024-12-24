@@ -42,9 +42,11 @@ public sealed partial class MainWindow : Window
 
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar
         ExtendsContentIntoTitleBar = true;
-        SetTitleBar(app_titlebar_grid);
+        //SetTitleBar(app_titlebar_grid);
+        AppWindow.ResizeClient(new(1600, 880));
         AppWindow.Changed += AppWindow_Changed;
         AppWindow.Closing += AppWindow_Closing;
+        this.CenterToScreen();
 
         main_root_frame.Navigate(typeof(MainPage));
     }
@@ -100,21 +102,21 @@ public sealed partial class MainWindow : Window
                 case AppWindowPresenterKind.CompactOverlay:
                     // Compact overlay - hide custom title bar
                     // and use the default system title bar instead.
-                    app_titlebar_grid.Visibility = Visibility.Collapsed;
+                    //app_titlebar_grid.Visibility = Visibility.Collapsed;
                     sender.TitleBar.ResetToDefault();
                     break;
 
                 case AppWindowPresenterKind.FullScreen:
                     // Full screen - hide the custom title bar
                     // and the default system title bar.
-                    app_titlebar_grid.Visibility = Visibility.Collapsed;
+                    //app_titlebar_grid.Visibility = Visibility.Collapsed;
                     sender.TitleBar.ExtendsContentIntoTitleBar = true;
                     break;
 
                 case AppWindowPresenterKind.Overlapped:
                     // Normal - hide the system title bar
                     // and use the custom title bar instead.
-                    app_titlebar_grid.Visibility = Visibility.Visible;
+                    //app_titlebar_grid.Visibility = Visibility.Visible;
                     sender.TitleBar.ExtendsContentIntoTitleBar = true;
                     break;
 

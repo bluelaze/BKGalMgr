@@ -11,32 +11,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="38" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="app_titlebar_grid" Height="38">
-            <StackPanel Orientation="Horizontal" Spacing="8">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Padding" Value="0,0,0,2" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                    </Style>
-                </StackPanel.Resources>
-
-                <Image Width="20"
-                       Height="20"
-                       Margin="16,0,0,0"
-                       VerticalAlignment="Center"
-                       Source="ms-appx:///BKGalMgr.ico" />
-                <TextBlock Padding="0,0,0,2"
-                           FontSize="14"
-                           FontWeight="Bold"
-                           Text="BKGalMgr" />
-
-            </StackPanel>
-        </Grid>
         <Frame x:Name="main_root_frame"
-               Grid.Row="1"
+               Grid.RowSpan="2"
                Navigated="main_root_frame_Navigated"
                Navigating="main_root_frame_Navigating" />
         <ContentPresenter x:Name="loading_contentpresenter"

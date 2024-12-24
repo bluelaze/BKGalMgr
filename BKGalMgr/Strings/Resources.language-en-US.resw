@@ -472,6 +472,9 @@
   <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
     <value>Update Current Game</value>
   </data>
+  <data name="Main_Nav_Home.Content" xml:space="preserve">
+    <value>Home</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>Library</value>
   </data>
@@ -489,6 +492,75 @@
   </data>
   <data name="Repository_Nav_Library.Text" xml:space="preserve">
     <value>Game List</value>
+  </data>
+  <data name="Home_Theme.Content" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Home_Theme_Dark.Text" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Home_Theme_Light.Text" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Home_Recently_Played.Text" xml:space="preserve">
+    <value>Recently Played</value>
+  </data>
+  <data name="Home_Recently_Created.Text" xml:space="preserve">
+    <value>Recently Created</value>
+  </data>
+  <data name="Home_Greeting_Midnight" xml:space="preserve">
+    <value>Midnight has arrived</value>
+  </data>
+  <data name="Home_Time_Period_Midnight" xml:space="preserve">
+    <value>Midnight</value>
+  </data>
+  <data name="Home_Greeting_Night" xml:space="preserve">
+    <value>The moonlight is beautiful tonight</value>
+  </data>
+  <data name="Home_Time_Period_Night" xml:space="preserve">
+    <value>Night</value>
+  </data>
+  <data name="Home_Greeting_Evening" xml:space="preserve">
+    <value>The sun is setting in the west</value>
+  </data>
+  <data name="Home_Time_Period_Evening" xml:space="preserve">
+    <value>Evening</value>
+  </data>
+  <data name="Home_Greeting_Afternoon" xml:space="preserve">
+    <value>Good afternoon</value>
+  </data>
+  <data name="Home_Time_Period_Afternoon" xml:space="preserve">
+    <value>Afternoon</value>
+  </data>
+  <data name="Home_Greeting_Noon" xml:space="preserve">
+    <value>It's lunchtime</value>
+  </data>
+  <data name="Home_Time_Period_Noon" xml:space="preserve">
+    <value>Noon</value>
+  </data>
+  <data name="Home_Greeting_Morning" xml:space="preserve">
+    <value>Good morning</value>
+  </data>
+  <data name="Home_Time_Period_Morning" xml:space="preserve">
+    <value>Morning</value>
+  </data>
+  <data name="Home_Greeting_Early_Morning" xml:space="preserve">
+    <value>Good morning</value>
+  </data>
+  <data name="Home_Time_Period_Early_Morning" xml:space="preserve">
+    <value>Early morning</value>
+  </data>
+  <data name="Home_Greeting_Predawn" xml:space="preserve">
+    <value>The first light of dawn</value>
+  </data>
+  <data name="Home_Time_Period_Predawn" xml:space="preserve">
+    <value>Pre-dawn</value>
+  </data>
+  <data name="Home_Greeting_Late_Night" xml:space="preserve">
+    <value>It's late, get some rest</value>
+  </data>
+  <data name="Home_Time_Period_Late_Night" xml:space="preserve">
+    <value>Late night</value>
   </data>
   <data name="Repository_Nav_Manage.Text" xml:space="preserve">
     <value>Game Manage</value>

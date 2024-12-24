@@ -36,7 +36,13 @@ public sealed partial class MainPage : Page
         ViewModel = App.GetRequiredService<MainPageViewModel>();
         DataContext = this;
         this.InitializeComponent();
+        this.Loaded += MainPage_Loaded;
         _mainpage = this;
+    }
+
+    private void MainPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        App.MainWindow.SetTitleBar(titlebar_Grid);
     }
 
     public static void NavigateTo(Type pageType, object parameter = null)
@@ -80,7 +86,12 @@ public sealed partial class MainPage : Page
     {
         love_and_peace_textblock.Visibility = Visibility.Collapsed;
         var selectedItem = args.SelectedItemContainer;
-        if (selectedItem == review_navitem)
+        if (selectedItem == home_navitem)
+        {
+            if (root_frame.CurrentSourcePageType != typeof(HomePage))
+                root_frame.Navigate(typeof(HomePage));
+        }
+        else if(selectedItem == review_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(ReviewPage))
                 root_frame.Navigate(typeof(ReviewPage));
@@ -89,11 +100,6 @@ public sealed partial class MainPage : Page
         {
             if (root_frame.CurrentSourcePageType != typeof(MigrationPage))
                 root_frame.Navigate(typeof(MigrationPage));
-        }
-        else if (selectedItem == settings_navitem)
-        {
-            if (root_frame.CurrentSourcePageType != typeof(SettingsPage))
-                root_frame.Navigate(typeof(SettingsPage));
         }
         else if (selectedItem == settings_navitem)
         {

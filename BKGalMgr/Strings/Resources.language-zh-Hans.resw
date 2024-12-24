@@ -472,6 +472,9 @@
   <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
     <value>更新当前游戏</value>
   </data>
+  <data name="Main_Nav_Home.Content" xml:space="preserve">
+    <value>主页</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>库</value>
   </data>
@@ -486,6 +489,75 @@
   </data>
   <data name="Main_Nav_Settings.Content" xml:space="preserve">
     <value>设置</value>
+  </data>
+  <data name="Home_Theme.Content" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Home_Theme_Dark.Text" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="Home_Theme_Light.Text" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="Home_Recently_Played.Text" xml:space="preserve">
+    <value>最近游玩</value>
+  </data>
+  <data name="Home_Recently_Created.Text" xml:space="preserve">
+    <value>最近添加</value>
+  </data>
+  <data name="Home_Greeting_Midnight" xml:space="preserve">
+    <value>午夜已至</value>
+  </data>
+  <data name="Home_Time_Period_Midnight" xml:space="preserve">
+    <value>午夜</value>
+  </data>
+  <data name="Home_Greeting_Night" xml:space="preserve">
+    <value>今晚的月色真美</value>
+  </data>
+  <data name="Home_Time_Period_Night" xml:space="preserve">
+    <value>晚上</value>
+  </data>
+  <data name="Home_Greeting_Evening" xml:space="preserve">
+    <value>夕阳西下</value>
+  </data>
+  <data name="Home_Time_Period_Evening" xml:space="preserve">
+    <value>傍晚</value>
+  </data>
+  <data name="Home_Greeting_Afternoon" xml:space="preserve">
+    <value>下午好</value>
+  </data>
+  <data name="Home_Time_Period_Afternoon" xml:space="preserve">
+    <value>下午</value>
+  </data>
+  <data name="Home_Greeting_Noon" xml:space="preserve">
+    <value>午时已到</value>
+  </data>
+  <data name="Home_Time_Period_Noon" xml:space="preserve">
+    <value>中午</value>
+  </data>
+  <data name="Home_Greeting_Morning" xml:space="preserve">
+    <value>上午好</value>
+  </data>
+  <data name="Home_Time_Period_Morning" xml:space="preserve">
+    <value>上午</value>
+  </data>
+  <data name="Home_Greeting_Early_Morning" xml:space="preserve">
+    <value>早上好</value>
+  </data>
+  <data name="Home_Time_Period_Early_Morning" xml:space="preserve">
+    <value>早晨</value>
+  </data>
+  <data name="Home_Greeting_Predawn" xml:space="preserve">
+    <value>晨光熹微</value>
+  </data>
+  <data name="Home_Time_Period_Predawn" xml:space="preserve">
+    <value>凌晨</value>
+  </data>
+  <data name="Home_Greeting_Late_Night" xml:space="preserve">
+    <value>夜色深了，早点休息吧</value>
+  </data>
+  <data name="Home_Time_Period_Late_Night" xml:space="preserve">
+    <value>深夜</value>
   </data>
   <data name="Repository_Nav_Library.Text" xml:space="preserve">
     <value>游戏列表</value>

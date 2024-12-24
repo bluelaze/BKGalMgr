@@ -16,6 +16,9 @@ public class GameReviewGroupItem
 public partial class GameReviewGroupInfo : ObservableObject
 {
     [ObservableProperty]
+    private string _name;
+
+    [ObservableProperty]
     private DateTime _label;
 
     [ObservableProperty]

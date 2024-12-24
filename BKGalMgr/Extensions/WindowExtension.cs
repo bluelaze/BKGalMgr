@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 
 namespace BKGalMgr.Extensions;
 
@@ -22,5 +24,31 @@ public static class WindowExtension
             return rootElement.RequestedTheme;
 
         return ElementTheme.Default;
+    }
+
+    public static IntPtr GetWindowHandle(this Window window)
+    {
+        return WinRT.Interop.WindowNative.GetWindowHandle(window);
+    }
+
+    public static WindowId GetWindowId(this Window window)
+    {
+        return Win32Interop.GetWindowIdFromWindow(window.GetWindowHandle());
+    }
+
+    // https://stackoverflow.com/questions/71546846/open-app-always-in-the-center-of-the-display-windows-11-winui-3
+    public static void CenterToScreen(this Window window)
+    {
+        if (window.AppWindow is not null)
+        {
+            DisplayArea displayArea = DisplayArea.GetFromWindowId(window.GetWindowId(), DisplayAreaFallback.Nearest);
+            if (displayArea is not null)
+            {
+                var CenteredPosition = window.AppWindow.Position;
+                CenteredPosition.X = ((displayArea.WorkArea.Width - window.AppWindow.Size.Width) / 2);
+                CenteredPosition.Y = ((displayArea.WorkArea.Height - window.AppWindow.Size.Height) / 2);
+                window.AppWindow.Move(CenteredPosition);
+            }
+        }
     }
 }

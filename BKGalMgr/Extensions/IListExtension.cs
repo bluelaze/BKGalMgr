@@ -74,4 +74,26 @@ public static class IListExtension
             }
         }
     }
+
+    private static readonly Random rnd = new Random();
+    // 随机选择指定数量的元素
+    public static IEnumerable<T> TakeRandom<T>(this IList<T> source, int count)
+    {
+        if (source == null || source.Count == 0)
+            throw new ArgumentException("List is empty or null");
+        if (count <= 0)
+            throw new ArgumentException("Count must be positive");
+        if (count > source.Count)
+            throw new ArgumentException("Count cannot be greater than list size");
+
+        // Fisher-Yates洗牌算法
+        var indices = Enumerable.Range(0, source.Count).ToList();
+        for (int i = 0; i < count; i++)
+        {
+            int j = rnd.Next(i, indices.Count);
+            (indices[i], indices[j]) = (indices[j], indices[i]);
+        }
+
+        return indices.Take(count).Select(i => source[i]);
+    }
 }

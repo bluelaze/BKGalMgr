@@ -38,6 +38,7 @@
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
+        <None Remove="Views\Pages\HomePage.xaml" />
         <None Remove="Views\Pages\LibraryAndManagePage.xaml" />
         <None Remove="Views\Pages\LibraryPage.xaml" />
         <None Remove="Views\Pages\MainPage.xaml" />
@@ -49,6 +50,7 @@
 
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+        <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.1.240916" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.1.240916" />
         <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.1.240916" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.1.240916" />
@@ -140,6 +142,12 @@
         <Page Update="Views\Controls\TargetInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
+        <Page Update="Views\Pages\HomePage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Pages\LibraryAndManagePage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
         <Page Update="Views\Pages\LibraryPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
@@ -182,11 +190,7 @@
     <ItemGroup>
         <UpdateProgramFiles Include="..\BKGalMgr.Update\bin\publish\$(RuntimeIdentifier)\*.*" />
     </ItemGroup>
-    <ItemGroup>
-      <Page Update="Views\Pages\LibraryAndManagePage.xaml">
-        <Generator>MSBuild:Compile</Generator>
-      </Page>
-    </ItemGroup>
+
     <Target Name="ProgressAfterBuild" AfterTargets="Build">
         <!-- Remove Invalid Language Folders -->
         <ItemGroup>
