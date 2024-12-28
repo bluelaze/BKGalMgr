@@ -80,11 +80,11 @@ public static class IListExtension
     public static IEnumerable<T> TakeRandom<T>(this IList<T> source, int count)
     {
         if (source == null || source.Count == 0)
-            throw new ArgumentException("List is empty or null");
+            return null;
         if (count <= 0)
-            throw new ArgumentException("Count must be positive");
+            return null;
         if (count > source.Count)
-            throw new ArgumentException("Count cannot be greater than list size");
+            count = source.Count;
 
         // Fisher-Yatesœ¥≈∆À„∑®
         var indices = Enumerable.Range(0, source.Count).ToList();

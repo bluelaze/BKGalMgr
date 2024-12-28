@@ -7,6 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mtriggers="using:CommunityToolkit.WinUI"
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
       d:DataContext="{d:DesignInstance local:HomePage}"
@@ -16,207 +17,160 @@
     <Page.Resources>
         <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
 
-        <DataTemplate x:Key="GameInfoDataTemplate" x:DataType="vm:GameReviewGroupItem">
-            <Grid Width="196" HorizontalAlignment="Stretch">
-                <Image Height="248"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Source="{Binding Game.Cover, Mode=OneWay}"
-                       Stretch="UniformToFill" />
-                <ContentPresenter Height="52"
-                                  VerticalAlignment="Bottom"
-                                  Background="{ThemeResource SystemControlTransientBackgroundBrush}">
-                    <TextBlock Height="46"
-                               Padding="8,6,8,0"
-                               Text="{x:Bind Game.Name, Mode=OneWay}"
-                               TextWrapping="Wrap" />
-                </ContentPresenter>
-            </Grid>
+        <DataTemplate x:Key="GameGroupDataTemplate" x:DataType="vm:GameReviewGroupItem">
+            <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                <Grid Width="196"
+                      Height="248"
+                      HorizontalAlignment="Stretch"
+                      Background="{ThemeResource CardBackgroundFillColorDefault}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="0"
+                                                     Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
+                                                     Storyboard.TargetProperty="Y"
+                                                     To="0"
+                                                     Duration="0:0:0.2" />
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="PointerOver">
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="0"
+                                                     Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
+                                                     Storyboard.TargetProperty="Y"
+                                                     To="-88"
+                                                     Duration="0:0:0.2" />
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Image HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Source="{Binding Game.Cover, Mode=OneWay}"
+                           Stretch="UniformToFill" />
+                    <StackPanel>
+                        <ContentPresenter Height="196" />
+                        <StackPanel Height="144"
+                                    Padding="8,6,8,0"
+                                    Background="{ThemeResource SystemControlTransientBackgroundBrush}"
+                                    Spacing="4">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform x:Name="translateTransform" />
+                            </StackPanel.RenderTransform>
+                            <TextBlock Height="36"
+                                       Text="{x:Bind Game.Name, Mode=OneWay}"
+                                       TextWrapping="Wrap" />
+                            <ContentPresenter Height="6" />
+                            <SelectorBarItem Padding="0"
+                                             FontSize="14"
+                                             Icon="{mui:FontIcon Glyph=&#xE768;}"
+                                             Text="{x:Bind Game.LastPlayDate, Mode=OneWay}" />
+                            <SelectorBarItem Padding="0"
+                                             FontSize="14"
+                                             Icon="{mui:FontIcon Glyph=&#xEC06;}"
+                                             Text="{x:Bind Game.Company, Mode=OneWay}" />
+                            <SelectorBarItem Padding="0"
+                                             FontSize="14"
+                                             Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                             Text="{x:Bind Game.Repository.Name, Mode=OneWay}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </UserControl>
+
         </DataTemplate>
     </Page.Resources>
 
-    <ScrollViewer Padding="16,24,16,0">
-        <StackPanel MaxWidth="1296"
-                    HorizontalAlignment="Center"
-                    Spacing="18">
-            <StackPanel Orientation="Horizontal" Spacing="20">
-                <Grid>
-                    <FlipView x:Name="banner_FlipView"
-                              Width="480"
-                              Height="180"
-                              Background="Transparent"
-                              ItemsSource="{x:Bind ViewModel.Banners, Mode=OneWay}">
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="vm:GameInfo">
-                                <Grid Width="480">
-                                    <Image HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="{x:Bind Cover, Mode=OneWay}"
-                                           Stretch="UniformToFill" />
-                                </Grid>
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
-                    <!--  NumberOfPages有bug，后面设置的值不能大于第一次设置的值  -->
-                    <!--  NumberOfPages="{x:Bind ViewModel.Banners.Count, Mode=OneWay}"  -->
-                    <PipsPager Margin="4"
-                               VerticalAlignment="Bottom"
-                               MaxVisiblePips="24"
-                               NumberOfPages="{x:Bind ViewModel.BannersCount, Mode=OneWay}"
-                               SelectedPageIndex="{x:Bind banner_FlipView.SelectedIndex, Mode=TwoWay}" />
-                </Grid>
-                <Grid Height="180"
-                      MinWidth="230"
-                      MaxWidth="480"
-                      Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                      CornerRadius="{ThemeResource GridViewItemCornerRadius}">
-                    <Grid Margin="14">
-                        <TextBlock x:Name="greeting_TextBlock"
-                                   FontWeight="Bold"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <GridView x:Name="repository_GridView"
-                                  Height="105"
-                                  VerticalAlignment="Bottom"
-                                  IsItemClickEnabled="True"
-                                  ItemClick="repository_GridView_ItemClick"
-                                  ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneWay}"
-                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                  ScrollViewer.HorizontalScrollMode="Enabled"
-                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                  ScrollViewer.VerticalScrollMode="Disabled"
-                                  SelectionMode="None">
-                            <GridView.ItemContainerStyle>
-                                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                    <Setter Property="Margin" Value="0,0,12,0" />
-                                </Style>
-                            </GridView.ItemContainerStyle>
-                            <GridView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                                </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                            <GridView.ItemTemplate>
+
+    <Grid>
+        <ScrollViewer x:Name="root_ScrollViewer" Padding="16,24,16,0">
+            <StackPanel MaxWidth="1296"
+                        HorizontalAlignment="Center"
+                        Spacing="18">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <Grid>
+                        <FlipView x:Name="banner_FlipView"
+                                  Width="480"
+                                  Height="180"
+                                  Background="Transparent"
+                                  ItemsSource="{x:Bind ViewModel.Banners, Mode=OneWay}"
+                                  Loaded="banner_FlipView_Loaded">
+                            <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
-                                    <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
-                                    <Grid Width="105">
-                                        <Image Height="105"
-                                               HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Source="{Binding Cover, Mode=OneWay}"
-                                               Stretch="UniformToFill" />
-                                        <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
-                                            <TextBlock Margin="4,2"
-                                                       FontSize="12"
-                                                       Text="{x:Bind Repository.Name, Mode=OneWay}"
-                                                       TextWrapping="Wrap" />
-                                        </ContentPresenter>
-                                    </Grid>
+                                    <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                                        <Grid Width="480">
+                                            <Grid.RenderTransform>
+                                                <ScaleTransform x:Name="grid_ScaleTransform" CenterX="245" CenterY="90" />
+                                            </Grid.RenderTransform>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleX"
+                                                                             To="1"
+                                                                             Duration="0:0:0.2" />
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleY"
+                                                                             To="1"
+                                                                             Duration="0:0:0.2" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleX"
+                                                                             To="1.1"
+                                                                             Duration="0:0:0.2" />
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleY"
+                                                                             To="1.1"
+                                                                             Duration="0:0:0.2" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Image x:Name="banner_image"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Source="{x:Bind Cover, Mode=OneWay}"
+                                                   Stretch="UniformToFill"
+                                                   Tapped="banner_image_Tapped" />
+                                        </Grid>
+                                    </UserControl>
                                 </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                        <!--  NumberOfPages有bug，后面设置的值不能大于第一次设置的值  -->
+                        <!--  NumberOfPages="{x:Bind ViewModel.Banners.Count, Mode=OneWay}"  -->
+                        <PipsPager Margin="4"
+                                   VerticalAlignment="Bottom"
+                                   MaxVisiblePips="24"
+                                   NumberOfPages="{x:Bind ViewModel.BannersCount, Mode=OneWay}"
+                                   SelectedPageIndex="{x:Bind banner_FlipView.SelectedIndex, Mode=TwoWay}" />
                     </Grid>
-                </Grid>
-                <Grid Width="230"
-                      Height="180"
-                      Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                      CornerRadius="{ThemeResource GridViewItemCornerRadius}">
-                    <Grid Margin="14">
-                        <TextBlock x:Name="time_period_TextBlock"
-                                   FontWeight="Bold"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <DropDownButton x:Uid="Home_Theme"
-                                        Padding="8,4,6,6"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Background="Transparent"
-                                        CornerRadius="12"
-                                        FontSize="12">
-                            <DropDownButton.Flyout>
-                                <MenuFlyout Placement="Bottom">
-                                    <MenuFlyoutItem x:Uid="Home_Theme_Dark"
-                                                    Click="theme_MenuFlyoutItem_Click"
-                                                    Tag="Dark" />
-                                    <MenuFlyoutItem x:Uid="Home_Theme_Light"
-                                                    Click="theme_MenuFlyoutItem_Click"
-                                                    Tag="Light" />
-                                </MenuFlyout>
-                            </DropDownButton.Flyout>
-                        </DropDownButton>
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Style="{ThemeResource TitleLargeTextBlockStyle}"
-                                   Text="{x:Bind ViewModel.CurrentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='t'}" />
-                    </Grid>
-                </Grid>
-            </StackPanel>
-
-            <!--  最近游玩  -->
-            <GridView IsItemClickEnabled="True"
-                      ItemTemplate="{StaticResource GameInfoDataTemplate}"
-                      ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneWay}"
-                      SelectionMode="None">
-                <GridView.Header>
-                    <TextBlock x:Uid="Home_Recently_Played"
-                               Margin="0,20,0,10"
-                               Padding="0"
-                               FontWeight="Bold"
-                               Style="{ThemeResource SubtitleTextBlockStyle}" />
-                </GridView.Header>
-                <GridView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,20,20" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-            </GridView>
-
-            <!--  最近添加  -->
-            <GridView IsItemClickEnabled="True"
-                      ItemTemplate="{StaticResource GameInfoDataTemplate}"
-                      ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneWay}"
-                      SelectionMode="None">
-                <GridView.Header>
-                    <TextBlock x:Uid="Home_Recently_Created"
-                               Margin="0,0,0,10"
-                               Padding="0"
-                               FontWeight="Bold"
-                               Style="{ThemeResource SubtitleTextBlockStyle}" />
-                </GridView.Header>
-                <GridView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="0,0,20,20" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-                <GridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </GridView.ItemsPanel>
-            </GridView>
-
-            <!--  游戏分组  -->
-            <ListView ItemsSource="{x:Bind ViewModel.Groups}" SelectionMode="None">
-                <ListView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="0" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:GameReviewGroupInfo">
-                        <StackPanel Margin="0,0,0,38">
-                            <TextBlock Margin="0,0,0,10"
-                                       Padding="0"
+                    <Grid Height="180"
+                          MinWidth="230"
+                          MaxWidth="480"
+                          Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                          CornerRadius="{ThemeResource GridViewItemCornerRadius}">
+                        <Grid Margin="14">
+                            <TextBlock x:Name="greeting_TextBlock"
                                        FontWeight="Bold"
-                                       Style="{ThemeResource SubtitleTextBlockStyle}"
-                                       Text="{x:Bind Name, Mode=OneWay}" />
-                            <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，布局好些  -->
-                            <GridView IsItemClickEnabled="True"
-                                      ItemTemplate="{StaticResource GameInfoDataTemplate}"
-                                      ItemsSource="{x:Bind Games, Mode=OneWay}"
+                                       Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <GridView x:Name="repository_GridView"
+                                      Height="105"
+                                      VerticalAlignment="Bottom"
+                                      IsItemClickEnabled="True"
+                                      ItemClick="repository_GridView_ItemClick"
+                                      ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneWay}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                       ScrollViewer.HorizontalScrollMode="Enabled"
                                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -224,8 +178,7 @@
                                       SelectionMode="None">
                                 <GridView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                        <Setter Property="Margin" Value="0,0,20,0" />
-                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0,0,12,0" />
                                     </Style>
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemsPanel>
@@ -233,13 +186,215 @@
                                         <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
                                     </ItemsPanelTemplate>
                                 </GridView.ItemsPanel>
+                                <GridView.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:GameInfo">
+                                        <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                                            <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
+                                            <Grid Width="104">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="CommonStates">
+                                                        <VisualState x:Name="Normal">
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                                 Storyboard.TargetProperty="ScaleX"
+                                                                                 To="1"
+                                                                                 Duration="0:0:0.2" />
+                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                                 Storyboard.TargetProperty="ScaleY"
+                                                                                 To="1"
+                                                                                 Duration="0:0:0.2" />
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                        <VisualState x:Name="PointerOver">
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                                 Storyboard.TargetProperty="ScaleX"
+                                                                                 To="1.1"
+                                                                                 Duration="0:0:0.2" />
+                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                                 Storyboard.TargetProperty="ScaleY"
+                                                                                 To="1.1"
+                                                                                 Duration="0:0:0.2" />
+                                                            </Storyboard>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <Grid Height="104">
+                                                    <Grid.RenderTransform>
+                                                        <ScaleTransform x:Name="grid_ScaleTransform" CenterX="52" CenterY="52" />
+                                                    </Grid.RenderTransform>
+                                                    <Image HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Source="{Binding Cover, Mode=OneWay}"
+                                                           Stretch="UniformToFill">
+                                                        <Image.RenderTransform>
+                                                            <ScaleTransform x:Name="scale" CenterX="52" CenterY="104" />
+                                                        </Image.RenderTransform>
+                                                    </Image>
+                                                </Grid>
+                                                <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
+                                                    <TextBlock Margin="4,2"
+                                                               FontSize="12"
+                                                               Text="{x:Bind Repository.Name, Mode=OneWay}"
+                                                               TextWrapping="Wrap" />
+                                                </ContentPresenter>
+                                            </Grid>
+                                        </UserControl>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
                             </GridView>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                        </Grid>
+                    </Grid>
+                    <Grid Width="230"
+                          Height="180"
+                          Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+                          CornerRadius="{ThemeResource GridViewItemCornerRadius}">
+                        <Grid Margin="14">
+                            <TextBlock x:Name="time_period_TextBlock"
+                                       FontWeight="Bold"
+                                       Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <DropDownButton x:Uid="Home_Theme"
+                                            Padding="8,4,6,6"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Background="Transparent"
+                                            CornerRadius="12"
+                                            FontSize="12">
+                                <DropDownButton.Flyout>
+                                    <MenuFlyout Placement="Bottom">
+                                        <MenuFlyoutItem x:Uid="Home_Theme_Dark"
+                                                        Click="theme_MenuFlyoutItem_Click"
+                                                        Tag="Dark" />
+                                        <MenuFlyoutItem x:Uid="Home_Theme_Light"
+                                                        Click="theme_MenuFlyoutItem_Click"
+                                                        Tag="Light" />
+                                    </MenuFlyout>
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                       Text="{x:Bind ViewModel.CurrentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='t'}" />
+                        </Grid>
+                    </Grid>
+                </StackPanel>
 
-        </StackPanel>
+                <!--  最近游玩  -->
+                <GridView IsItemClickEnabled="True"
+                          ItemClick="game_group_GridView_ItemClick"
+                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneWay}"
+                          SelectionMode="None">
+                    <GridView.Header>
+                        <TextBlock x:Uid="Home_Recently_Played"
+                                   Margin="0,20,0,10"
+                                   Padding="0"
+                                   FontWeight="Bold"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </GridView.Header>
+                    <GridView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="0,0,20,20" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
 
-    </ScrollViewer>
+                <!--  最近添加  -->
+                <GridView IsItemClickEnabled="True"
+                          ItemClick="game_group_GridView_ItemClick"
+                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneWay}"
+                          SelectionMode="None">
+                    <GridView.Header>
+                        <TextBlock x:Uid="Home_Recently_Created"
+                                   Margin="0,0,0,10"
+                                   Padding="0"
+                                   FontWeight="Bold"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    </GridView.Header>
+                    <GridView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="0,0,20,20" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+
+                <!--  游戏分组  -->
+                <ListView ItemsSource="{x:Bind ViewModel.Groups}" SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:GameReviewGroupInfo">
+                            <StackPanel Margin="0,0,0,38">
+                                <TextBlock Margin="0,0,0,10"
+                                           Padding="0"
+                                           FontWeight="Bold"
+                                           Style="{ThemeResource SubtitleTextBlockStyle}"
+                                           Text="{x:Bind Name, Mode=OneWay}" />
+                                <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，布局好些  -->
+                                <GridView IsItemClickEnabled="True"
+                                          ItemClick="game_group_GridView_ItemClick"
+                                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                                          ItemsSource="{x:Bind Games, Mode=OneWay}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                          ScrollViewer.HorizontalScrollMode="Enabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                          ScrollViewer.VerticalScrollMode="Disabled"
+                                          SelectionMode="None">
+                                    <GridView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                            <Setter Property="Margin" Value="0,0,20,0" />
+                                            <Setter Property="Padding" Value="0" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </GridView.ItemsPanel>
+                                </GridView>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <Button x:Name="refresh_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="0,0,10,60"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="refresh_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE72C;}"
+                Style="{StaticResource IconButtonStyle}" />
+
+        <Button x:Name="goto_top_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="goto_top_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE74A;}"
+                Style="{StaticResource IconButtonStyle}" />
+    </Grid>
 </Page>

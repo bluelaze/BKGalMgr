@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page x:Class="BKGalMgr.Views.Pages.GamePlayPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:BKGalMgr.Views.Controls"
+      xmlns:converters="using:BKGalMgr.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
+      xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+      xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
+      xmlns:mtriggers="using:CommunityToolkit.WinUI"
+      xmlns:mui="using:CommunityToolkit.WinUI"
+      xmlns:vm="using:BKGalMgr.ViewModels"
+      d:DataContext="{d:DesignInstance local:GamePlayPage}"
+      RequestedTheme="Dark"
+      mc:Ignorable="d">
+
+    <Page.Background>
+        <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+            <GradientStop Offset="0.0" Color="Black"  />
+            <GradientStop Offset="1.0" Color="DarkGray" />
+        </LinearGradientBrush>
+    </Page.Background>
+    <Page.Resources>
+        <Style x:Key="BottomButtonStyle"
+               BasedOn="{StaticResource DefaultButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="DarkGray" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Height="90" Spacing="20">
+            <Button x:Name="back_Button"
+                    Width="40"
+                    Height="40"
+                    Padding="4"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    Click="back_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE76B;}"
+                    CornerRadius="0" />
+        </StackPanel>
+        <!--  center  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--  left  -->
+            <Grid Grid.Column="1">
+                <Image x:Name="cover_Image"
+                       Width="506"
+                       Height="506"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="{Binding ViewModel.Game.Cover, Mode=OneWay}"
+                       Stretch="Uniform" />
+            </Grid>
+            <!--  right  -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Spacing="20">
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.Game.Name, Mode=OneWay}" />
+                    <StackPanel Orientation="Horizontal" Spacing="20">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Company" />
+                            <TextBlock Text="：" />
+                            <TextBlock Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Scenario" />
+                            <TextBlock Text="：" />
+                            <controls:MetadataControl ItemsSource="{x:Bind ViewModel.Game.Scenario, Mode=OneWay}" Separator=" " />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Artist" />
+                            <TextBlock Text="：" />
+                            <controls:MetadataControl ItemsSource="{x:Bind ViewModel.Game.Artist, Mode=OneWay}" Separator=" " />
+                        </StackPanel>
+                    </StackPanel>
+                    <mcontrols:Segmented x:Name="switch_Segmented"
+                                         CornerRadius="16"
+                                         SelectedIndex="0">
+                        <mcontrols:SegmentedItem Content="Story"
+                                                 CornerRadius="16"
+                                                 Loaded="SegmentedItem_Loaded"
+                                                 Tag="story" />
+                        <mcontrols:SegmentedItem Content="BLog"
+                                                 CornerRadius="16"
+                                                 Loaded="SegmentedItem_Loaded"
+                                                 Tag="blog" />
+                        <mcontrols:SegmentedItem Content="Character"
+                                                 CornerRadius="16"
+                                                 Loaded="SegmentedItem_Loaded"
+                                                 Tag="character" />
+                    </mcontrols:Segmented>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <mcontrols:SwitchPresenter Margin="0,20,20,20" Value="{Binding SelectedItem.Tag, Mode=OneWay, ElementName=switch_Segmented}">
+                        <mcontrols:Case Value="story">
+                            <TextBox HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     AcceptsReturn="True"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     Text="{x:Bind ViewModel.Game.Story, Mode=TwoWay}"
+                                     TextWrapping="Wrap" />
+                        </mcontrols:Case>
+                        <mcontrols:Case Value="blog">
+                            <TextBox HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     AcceptsReturn="True"
+                                     Background="Transparent"
+                                     BorderBrush="Transparent"
+                                     Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay}"
+                                     TextWrapping="Wrap" />
+                        </mcontrols:Case>
+                        <mcontrols:Case Value="character">
+                            <!--  TODO  -->
+                        </mcontrols:Case>
+                    </mcontrols:SwitchPresenter>
+                </Grid>
+            </Grid>
+        </Grid>
+        <!--  bottom  -->
+        <Grid Grid.Row="2"
+              Height="80"
+              Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Padding="20,0"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                <Button Content="{mui:FontIcon Glyph=&#xE8B9;}" Style="{StaticResource BottomButtonStyle}" />
+                <Button Content="{mui:FontIcon Glyph=&#xECA5;}" Style="{StaticResource BottomButtonStyle}" />
+                <Button Content="{mui:FontIcon Glyph=&#xF408;}" Style="{StaticResource BottomButtonStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                <Button Content="{mui:FontIcon Glyph=&#xE71A;}" Style="{StaticResource BottomButtonStyle}" />
+                <Button Width="40"
+                        Height="40"
+                        Padding="0"
+                        BorderBrush="{x:Null}"
+                        Content="{mui:FontIcon Glyph=&#xF5B0;}"
+                        CornerRadius="20" />
+                <Button Content="LE"
+                        FontSize="18"
+                        Style="{StaticResource BottomButtonStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2"
+                        Padding="20,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                <Button Content="{mui:FontIcon Glyph=&#xEB51;}" Style="{StaticResource BottomButtonStyle}" />
+                <Button Content="{mui:FontIcon Glyph=&#xF406;}" Style="{StaticResource BottomButtonStyle}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

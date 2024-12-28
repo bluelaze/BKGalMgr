@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
+using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -28,9 +29,10 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class HomePage : Page
 {
-    private int bannerLoopCount = 0;
+    private int _bannerLoopCount = 0;
 
-    private IDisposable dateTimer;
+    private IDisposable _dateTimer;
+    private int _secondTiming = 0;
 
     public HomePageViewModel ViewModel { get; }
 
@@ -44,16 +46,21 @@ public sealed partial class HomePage : Page
     private void StartTimer()
     {
         ViewModel.CurrentDate += TimeSpan.FromSeconds(1);
-        dateTimer = Observable
+        _dateTimer = Observable
             .Interval(TimeSpan.FromSeconds(1))
             .ObserveOn(SynchronizationContext.Current)
             .Subscribe(_ =>
             {
-                ViewModel.CurrentDate += TimeSpan.FromSeconds(1);
+                _secondTiming++;
                 // 4√Î“ª¥Œ«–Õº
-                bannerLoopCount++;
-                bannerLoopCount %= 4;
-                if (bannerLoopCount == 0 && ViewModel.BannersCount != 0)
+                if (!banner_FlipView.IsLoaded)
+                    return;
+                ViewModel.CurrentDate += TimeSpan.FromSeconds(_secondTiming);
+                _secondTiming = 0;
+
+                _bannerLoopCount++;
+                _bannerLoopCount %= 4;
+                if (_bannerLoopCount == 0 && ViewModel.BannersCount != 0)
                     banner_FlipView.SelectedIndex = (banner_FlipView.SelectedIndex + 1) % ViewModel.BannersCount;
                 UpdateTimePriod();
             });
@@ -155,5 +162,54 @@ public sealed partial class HomePage : Page
             ViewModel.LibraryAndManagePageViewModel.SelectedRepository = gameInfo.Repository;
             MainPage.NavigateTo(typeof(LibraryAndManagePage));
         }
+    }
+
+    private void StartPlayGame(GameInfo gameInfo)
+    {
+        App.MainWindow.NavigateToGamePlayPage(gameInfo);
+    }
+
+    private void game_group_GridView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        var gameGroupItem = e.ClickedItem as GameReviewGroupItem;
+        StartPlayGame(gameGroupItem.Game);
+    }
+
+    private void refresh_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Refresh();
+    }
+
+    private void goto_top_Button_Click(object sender, RoutedEventArgs e)
+    {
+        root_ScrollViewer.ChangeView(0, 0, null);
+    }
+
+    private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        var control = sender as UserControl;
+        VisualStateManager.GoToState(control, "PointerOver", false);
+    }
+
+    private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        var control = sender as UserControl;
+        VisualStateManager.GoToState(control, "Normal", false);
+    }
+
+    private void banner_FlipView_Loaded(object sender, RoutedEventArgs e)
+    {
+        var preButton = banner_FlipView.FindDescendant("PreviousButtonHorizontal");
+        var nextButton = banner_FlipView.FindDescendant("NextButtonHorizontal");
+        if (preButton is Button pre)
+            pre.Opacity = 0;
+        if (nextButton is Button next)
+            next.Opacity = 0;
+    }
+
+    private void banner_image_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        var image = sender as Image;
+        StartPlayGame(image.DataContext as GameInfo);
     }
 }

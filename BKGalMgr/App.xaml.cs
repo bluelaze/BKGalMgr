@@ -58,6 +58,7 @@ public partial class App : Application
                 services.AddSingleton<SettingsPageViewModel>();
                 services.AddTransient<ReviewPageViewModel>();
                 services.AddTransient<MigratePageViewModel>();
+                services.AddSingleton<GamePlayPageViewModel>();
                 // Models
                 services.AddSingleton<SettingsDto>();
                 // Servces

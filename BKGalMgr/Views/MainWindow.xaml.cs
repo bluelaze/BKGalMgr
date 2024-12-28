@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
 using Microsoft.UI.Windowing;
@@ -13,6 +14,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using ShareX.HelpersLib;
 using SkiaSharp;
@@ -36,6 +38,9 @@ public sealed partial class MainWindow : Window
     [ObservableProperty]
     private int _imageSelectedIndex = -1;
 
+    [ObservableProperty]
+    private GameInfo _selectedGame = null;
+
     public MainWindow()
     {
         this.InitializeComponent();
@@ -48,7 +53,31 @@ public sealed partial class MainWindow : Window
         AppWindow.Closing += AppWindow_Closing;
         this.CenterToScreen();
 
-        main_root_frame.Navigate(typeof(MainPage));
+        main_root_frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+    }
+
+    public void NavigateToGamePlayPage(GameInfo game)
+    {
+        main_root_frame.Navigate(
+            typeof(GamePlayPage),
+            game,
+            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight }
+        );
+    }
+
+    public void NavigateToMainPage()
+    {
+        main_root_frame.Navigate(
+            typeof(MainPage),
+            null,
+            new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }
+        );
+    }
+
+    public void SelecteTarget(GameInfo game)
+    {
+        SelectedGame = game;
+        target_selecte_Grid.Visibility =  Visibility.Visible;
     }
 
     public void ShowLoading()
