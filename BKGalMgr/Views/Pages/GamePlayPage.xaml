@@ -186,6 +186,10 @@
                                                  CornerRadius="16"
                                                  Loaded="SegmentedItem_Loaded"
                                                  Tag="character" />
+                        <mcontrols:SegmentedItem Content="PLAYCHART"
+                                                 CornerRadius="16"
+                                                 Loaded="SegmentedItem_Loaded"
+                                                 Tag="playchart" />
                     </mcontrols:Segmented>
                 </StackPanel>
                 <Grid Grid.Row="1">
@@ -315,6 +319,11 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
                             </Grid>
+                        </mcontrols:Case>
+                        <mcontrols:Case Value="playchart">
+                            <controls:GamePlayedPeriodChartControl Foreground="LightGray"
+                                                                   PlayedPeriods="{x:Bind ViewModel.Game.PlayedPeriods, Mode=OneWay}"
+                                                                   ShowClose="Collapsed" />
                         </mcontrols:Case>
                     </mcontrols:SwitchPresenter>
                 </Grid>

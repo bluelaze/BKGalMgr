@@ -17,8 +17,8 @@
     </UserControl.Resources>
     <Grid>
         <lvc:CartesianChart Series="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
-                            XAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToXAxesConverter}}"
-                            YAxes="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToYAxesConverter}}"
+                            XAxes="{x:Bind XAxes, Mode=OneWay}"
+                            YAxes="{x:Bind YAxes, Mode=OneWay}"
                             ZoomMode="X" />
         <Button Padding="4"
                 HorizontalAlignment="Right"
@@ -28,6 +28,7 @@
                 Click="Close_Button_Click"
                 Content="{mui:FontIcon FontSize=16,
                                        Glyph=&#xE89F;}"
-                Style="{StaticResource IconButtonStyle}" />
+                Style="{StaticResource IconButtonStyle}"
+                Visibility="{x:Bind ShowClose, Mode=OneWay}" />
     </Grid>
 </UserControl>
