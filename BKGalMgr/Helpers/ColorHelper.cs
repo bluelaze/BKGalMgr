@@ -29,7 +29,7 @@ public class ColorHelper
         }
     }
 
-    public static unsafe Color GetImagePrimaryColor(string imagePath)
+    public static Color GetImagePrimaryColor(string imagePath)
     {
         using (var bitmap = new Bitmap(imagePath))
         {
@@ -50,10 +50,14 @@ public class ColorHelper
 
                 try
                 {
-                    var ptr = (byte*)bitmapData.Scan0;
+                    int bytesPerPixel = 4;
                     var stride = bitmapData.Stride;
                     var width = bitmapData.Width;
                     var height = bitmapData.Height;
+
+                    int bytes = Math.Abs(stride) * bitmapData.Height;
+                    byte[] rgbValues = new byte[bytes];
+                    Marshal.Copy(bitmapData.Scan0, rgbValues, 0, bytes);
 
                     // 使用SIMD和并行处理
                     Parallel.For(
@@ -61,14 +65,13 @@ public class ColorHelper
                         height,
                         y =>
                         {
-                            var row = ptr + (y * stride);
                             for (var x = 0; x < width; x++)
                             {
-                                var idx = x * 4;
-                                var b = row[idx];
-                                var g = row[idx + 1];
-                                var r = row[idx + 2];
-                                var a = row[idx + 3];
+                                int idx = y * stride + x * bytesPerPixel;
+                                var b = rgbValues[idx];
+                                var g = rgbValues[idx + 1];
+                                var r = rgbValues[idx + 2];
+                                var a = rgbValues[idx + 3];
 
                                 // 忽略接近透明的像素
                                 if (a < 127)
