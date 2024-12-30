@@ -56,6 +56,13 @@ public sealed partial class LibraryPage : Page
             await ViewModel.LoadRepository();
             App.HideLoading();
         }
+        if (e.Parameter is GameInfo game && ViewModel.SelectedRepository?.Games.IndexOf(game) != -1)
+        {
+            games_listview.SelectedItem = game;
+            games_listview.ScrollIntoView(game);
+            games_listview.MakeVisible(new SemanticZoomLocation() { Item = game });
+            games_listview.UpdateLayout();
+        }
     }
 
     private void gamename_linkbutton_Click(object sender, RoutedEventArgs e)
@@ -433,7 +440,7 @@ public sealed partial class LibraryPage : Page
     private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
-        gameInfo.LoadSpecail();
+        gameInfo.LoadSpecial();
         if (gameInfo.Special.Count > 0)
             App.ShowImages(gameInfo.Special, 0);
     }

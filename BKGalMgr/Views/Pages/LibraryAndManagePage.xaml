@@ -27,6 +27,14 @@
                              Icon="{mui:FontIcon Glyph=&#xE70F;}" />
         </SelectorBar>
 
-        <Frame x:Name="root_Frame" Grid.Row="1" />
+        <Frame x:Name="root_Frame"
+               Grid.Row="1"
+               Navigated="root_Frame_Navigated">
+            <Frame.ContentTransitions>
+                <TransitionCollection>
+                    <NavigationThemeTransition />
+                </TransitionCollection>
+            </Frame.ContentTransitions>
+        </Frame>
     </Grid>
 </Page>

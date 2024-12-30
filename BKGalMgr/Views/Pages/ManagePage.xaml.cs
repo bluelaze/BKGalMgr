@@ -63,7 +63,7 @@ public sealed partial class ManagePage : Page
         {
             Width = 720,
             AccessToken = ViewModel.BangumiAccessToken,
-            SubjectUrl = bangumiSubjectId
+            SubjectUrl = bangumiSubjectId,
         };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
@@ -118,6 +118,11 @@ public sealed partial class ManagePage : Page
             if (!errMsg.IsNullOrEmpty())
                 _ = DialogHelper.ShowError(errMsg);
         }
+    }
+
+    private void play_game_Button_Click(object sender, RoutedEventArgs e)
+    {
+        App.MainWindow.NavigateToGamePlayPage(ViewModel.SelectedRepository.SelectedGame);
     }
 
     private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)
@@ -312,7 +317,7 @@ public sealed partial class ManagePage : Page
 
     private async Task<ContentDialogResult> EditTargetInfo(TargetInfo targetInfo)
     {
-        TargetInfoControl targetInfoControl = new() { Width = 720, DataContext = targetInfo, };
+        TargetInfoControl targetInfoControl = new() { Width = 720, DataContext = targetInfo };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
         dialog.Title = LanguageHelper.GetString("Dlg_Target_Edit");
@@ -470,8 +475,11 @@ public sealed partial class ManagePage : Page
     {
         var savedataSettingsInfo = ViewModel.SelectedRepository.SelectedGame.SaveDataSettings;
 
-        SaveDataSettingsInfoControl savedataSettingsInfoControl =
-            new() { Width = 720, DataContext = savedataSettingsInfo };
+        SaveDataSettingsInfoControl savedataSettingsInfoControl = new()
+        {
+            Width = 720,
+            DataContext = savedataSettingsInfo,
+        };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
         dialog.Title = LanguageHelper.GetString("Dlg_SaveData_Settings");

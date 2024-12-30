@@ -816,7 +816,7 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public void LoadSpecail()
+    public void LoadSpecial()
     {
         var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
         if (Directory.Exists(specialPath))
@@ -849,7 +849,7 @@ public partial class GameInfo : ObservableObject
     {
         LoadCover();
         LoadGallery();
-        LoadSpecail();
+        LoadSpecial();
         LoadScreenCapture();
         LoadCharacter();
     }

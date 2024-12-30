@@ -559,6 +559,18 @@
   <data name="Home_Time_Period_Late_Night" xml:space="preserve">
     <value>深夜</value>
   </data>
+  <data name="Game_Play_Company.Text" xml:space="preserve">
+    <value>制作社</value>
+  </data>
+  <data name="Game_Play_Scenario.Text" xml:space="preserve">
+    <value>剧本</value>
+  </data>
+  <data name="Game_Play_Artist.Text" xml:space="preserve">
+    <value>原画</value>
+  </data>
+  <data name="Game_Play_Selecte_Target.Text" xml:space="preserve">
+    <value>选择本</value>
+  </data>
   <data name="Repository_Nav_Library.Text" xml:space="preserve">
     <value>游戏列表</value>
   </data>

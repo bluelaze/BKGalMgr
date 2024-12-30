@@ -48,19 +48,6 @@ public sealed partial class MainPage : Page
     public static void NavigateTo(Type pageType, object parameter = null)
     {
         _mainpage.love_and_peace_textblock.Visibility = Visibility.Collapsed;
-        if (
-            pageType == typeof(LibraryAndManagePage)
-            || pageType == typeof(LibraryPage)
-            || pageType == typeof(ManagePage)
-        )
-        {
-            _mainpage.root_navigationview.SelectedItem = null;
-            _mainpage.reporitory_navitem.IsSelected = true;
-        }
-        else
-        {
-            _mainpage.reporitory_navitem.IsSelected = false;
-        }
 
         if (pageType == typeof(ManagePage))
         {
@@ -91,7 +78,7 @@ public sealed partial class MainPage : Page
             if (root_frame.CurrentSourcePageType != typeof(HomePage))
                 root_frame.Navigate(typeof(HomePage));
         }
-        else if(selectedItem == review_navitem)
+        else if (selectedItem == review_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(ReviewPage))
                 root_frame.Navigate(typeof(ReviewPage));
@@ -106,11 +93,21 @@ public sealed partial class MainPage : Page
             if (root_frame.CurrentSourcePageType != typeof(SettingsPage))
                 root_frame.Navigate(typeof(SettingsPage));
         }
-        if (selectedItem != null)
-            _mainpage.reporitory_navitem.IsSelected = false;
     }
 
-    private void root_frame_Navigated(object sender, NavigationEventArgs e) { }
+    private async void root_frame_Navigated(object sender, NavigationEventArgs e)
+    {
+        if (e.SourcePageType == typeof(LibraryAndManagePage))
+        {
+            await Task.Delay(67);
+            reporitory_navitem.IsSelected = true;
+            root_navigationview.SelectedItem = null;
+        }
+        else
+        {
+            reporitory_navitem.IsSelected = false;
+        }
+    }
 
     private void root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 
@@ -118,7 +115,6 @@ public sealed partial class MainPage : Page
     {
         if (root_frame.CurrentSourcePageType == typeof(LibraryAndManagePage))
             return;
-        root_navigationview.SelectedItem = null;
         NavigateTo(typeof(LibraryAndManagePage));
     }
 

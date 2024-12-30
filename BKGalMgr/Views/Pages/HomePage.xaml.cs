@@ -52,7 +52,7 @@ public sealed partial class HomePage : Page
             .Subscribe(_ =>
             {
                 _secondTiming++;
-                // 4ÃëÒ»´ÎÇĞÍ¼
+                // 4ç§’ä¸€æ¬¡åˆ‡å›¾
                 if (!banner_FlipView.IsLoaded)
                     return;
                 ViewModel.CurrentDate += TimeSpan.FromSeconds(_secondTiming);
@@ -68,7 +68,7 @@ public sealed partial class HomePage : Page
 
     private void UpdateTimePriod()
     {
-        // Ê±¶ÎÇĞ»»
+        // æ—¶æ®µåˆ‡æ¢
         var hour = ViewModel.CurrentDate.TimeOfDay.Hours;
         switch (hour)
         {
@@ -125,7 +125,7 @@ public sealed partial class HomePage : Page
             await ViewModel.LibraryAndManagePageViewModel.LoadRepository();
             ViewModel.Refresh();
 
-            // ±È½Ï×¼È·µÄ¿ªÆôÃ¿Ãë¼ÆÊ±
+            // æ¯”è¾ƒå‡†ç¡®çš„å¼€å¯æ¯ç§’è®¡æ—¶
             ViewModel.CurrentDate = DateTime.Now;
             Observable
                 .Timer(TimeSpan.FromMilliseconds(1000 - ViewModel.CurrentDate.Millisecond))

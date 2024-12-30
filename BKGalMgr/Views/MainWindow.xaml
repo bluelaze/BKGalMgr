@@ -121,9 +121,9 @@
                           ItemsSource="{x:Bind SelectedGame.Targets, Mode=OneWay}"
                           SelectedItem="{x:Bind SelectedGame.SelectedTarget, Mode=TwoWay}">
                     <ListView.Header>
-                        <TextBlock Padding="16,0,0,12"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}"
-                                   Text="Selecte Target" />
+                        <TextBlock x:Uid="Game_Play_Selecte_Target"
+                                   Padding="16,0,0,12"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:TargetInfo">

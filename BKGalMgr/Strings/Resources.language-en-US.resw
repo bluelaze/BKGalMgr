@@ -562,6 +562,18 @@
   <data name="Home_Time_Period_Late_Night" xml:space="preserve">
     <value>Late night</value>
   </data>
+  <data name="Game_Play_Company.Text" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Game_Play_Scenario.Text" xml:space="preserve">
+    <value>Scenario</value>
+  </data>
+  <data name="Game_Play_Artist.Text" xml:space="preserve">
+    <value>Artist</value>
+  </data>
+  <data name="Game_Play_Selecte_Target.Text" xml:space="preserve">
+    <value>Selecte Target</value>
+  </data>
   <data name="Repository_Nav_Manage.Text" xml:space="preserve">
     <value>Game Manage</value>
   </data>

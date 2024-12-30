@@ -16,13 +16,12 @@
       d:DataContext="{d:DesignInstance local:GamePlayPage}"
       RequestedTheme="Dark"
       mc:Ignorable="d">
-
-    <Page.Background>
+    <!--<Page.Background>
         <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
-            <GradientStop Offset="0.0" Color="Black"  />
+            <GradientStop Offset="0.0" Color="Black" />
             <GradientStop Offset="1.0" Color="DarkGray" />
         </LinearGradientBrush>
-    </Page.Background>
+    </Page.Background>-->
     <Page.Resources>
         <Style x:Key="BottomButtonStyle"
                BasedOn="{StaticResource DefaultButtonStyle}"
@@ -35,15 +34,65 @@
             <Setter Property="Foreground" Value="DarkGray" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
-    </Page.Resources>
 
-    <Grid>
+        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
+        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
+        <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
+        <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
+        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
+                                                  EmptyValue="Collapsed"
+                                                  NotEmptyValue="Visible" />
+        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
+        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
+                                                  EmptyValue="Collapsed"
+                                                  NotEmptyValue="Visible" />
+        <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToBoolConverter"
+                                                  EmptyValue="False"
+                                                  NotEmptyValue="True" />
+    </Page.Resources>
+    <Grid x:Name="root_Grid"
+          Background="Transparent"
+          PointerPressed="root_Grid_PointerPressed">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Height="90" Spacing="20">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="PlayingState">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.Game.PlayStatus}" To="Playing" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />-->
+                        <!--<Setter Target="stop_Button.IsEnabled" Value="True" />-->
+                        <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
+
+                        <Setter Target="play_Button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                        <Setter Target="play_Button.Content" Value="{mui:FontIcon Glyph=&#xE769;}" />
+
+                        <Setter Target="play_Button.Content" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PauseState">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.Game.PlayStatus}" To="Pause" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />-->
+                        <!--<Setter Target="stop_Button.IsEnabled" Value="True" />-->
+                        <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
+
+                        <Setter Target="play_Button.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                        <Setter Target="play_Button.Content" Value="{mui:FontIcon Glyph=&#xE768;}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--  title  -->
+        <StackPanel Height="50" Spacing="20">
             <Button x:Name="back_Button"
                     Width="40"
                     Height="40"
@@ -64,16 +113,26 @@
             </Grid.ColumnDefinitions>
             <!--  left  -->
             <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3.5*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="3.5*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
                 <Image x:Name="cover_Image"
-                       Width="506"
-                       Height="506"
+                       Grid.Row="1"
+                       Grid.Column="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Source="{Binding ViewModel.Game.Cover, Mode=OneWay}"
-                       Stretch="Uniform" />
+                       DoubleTapped="cover_Image_DoubleTapped"
+                       Source="{Binding ViewModel.Game.Cover, Mode=OneWay}" />
             </Grid>
             <!--  right  -->
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="2" Padding="0,40,20,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -81,49 +140,62 @@
                 <StackPanel Spacing="20">
                     <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.Game.Name, Mode=OneWay}" />
                     <StackPanel Orientation="Horizontal" Spacing="20">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </Style>
+                        </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Company" />
+                            <TextBlock x:Uid="Game_Play_Company" />
                             <TextBlock Text="：" />
-                            <TextBlock Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}" />
+                            <TextBlock>
+                                <Hyperlink Foreground="DarkGray"
+                                           NavigateUri="{Binding ViewModel.Game.Website, Mode=OneWay}"
+                                           UnderlineStyle="None">
+                                    <Run Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}" />
+                                </Hyperlink>
+                            </TextBlock>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Scenario" />
+                            <TextBlock x:Uid="Game_Play_Scenario" />
                             <TextBlock Text="：" />
-                            <controls:MetadataControl ItemsSource="{x:Bind ViewModel.Game.Scenario, Mode=OneWay}" Separator=" " />
+                            <controls:MetadataControl Foreground="DarkGray"
+                                                      ItemsSource="{x:Bind ViewModel.Game.Scenario, Mode=OneWay}"
+                                                      Separator=" " />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Artist" />
+                            <TextBlock x:Uid="Game_Play_Artist" />
                             <TextBlock Text="：" />
-                            <controls:MetadataControl ItemsSource="{x:Bind ViewModel.Game.Artist, Mode=OneWay}" Separator=" " />
+                            <controls:MetadataControl Foreground="DarkGray"
+                                                      ItemsSource="{x:Bind ViewModel.Game.Artist, Mode=OneWay}"
+                                                      Separator=" " />
                         </StackPanel>
                     </StackPanel>
                     <mcontrols:Segmented x:Name="switch_Segmented"
                                          CornerRadius="16"
                                          SelectedIndex="0">
-                        <mcontrols:SegmentedItem Content="Story"
+                        <mcontrols:SegmentedItem Content="STORY"
                                                  CornerRadius="16"
                                                  Loaded="SegmentedItem_Loaded"
                                                  Tag="story" />
-                        <mcontrols:SegmentedItem Content="BLog"
+                        <mcontrols:SegmentedItem Content="BLOG"
                                                  CornerRadius="16"
                                                  Loaded="SegmentedItem_Loaded"
                                                  Tag="blog" />
-                        <mcontrols:SegmentedItem Content="Character"
+                        <mcontrols:SegmentedItem Content="CHARACTER"
                                                  CornerRadius="16"
                                                  Loaded="SegmentedItem_Loaded"
                                                  Tag="character" />
                     </mcontrols:Segmented>
                 </StackPanel>
                 <Grid Grid.Row="1">
-                    <mcontrols:SwitchPresenter Margin="0,20,20,20" Value="{Binding SelectedItem.Tag, Mode=OneWay, ElementName=switch_Segmented}">
+                    <mcontrols:SwitchPresenter Margin="0,20" Value="{Binding SelectedItem.Tag, Mode=OneWay, ElementName=switch_Segmented}">
                         <mcontrols:Case Value="story">
-                            <TextBox HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch"
-                                     AcceptsReturn="True"
-                                     Background="Transparent"
-                                     BorderBrush="Transparent"
-                                     Text="{x:Bind ViewModel.Game.Story, Mode=TwoWay}"
-                                     TextWrapping="Wrap" />
+                            <TextBlock HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       Foreground="LightGray"
+                                       Text="{x:Bind ViewModel.Game.Story, Mode=OneWay}"
+                                       TextWrapping="Wrap" />
                         </mcontrols:Case>
                         <mcontrols:Case Value="blog">
                             <TextBox HorizontalAlignment="Stretch"
@@ -131,11 +203,118 @@
                                      AcceptsReturn="True"
                                      Background="Transparent"
                                      BorderBrush="Transparent"
-                                     Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay}"
+                                     Foreground="LightGray"
+                                     LostFocus="blog_TextBox_LostFocus"
+                                     Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                      TextWrapping="Wrap" />
                         </mcontrols:Case>
                         <mcontrols:Case Value="character">
-                            <!--  TODO  -->
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <FlipView x:Name="character_FlipView"
+                                          Background="Transparent"
+                                          ItemsSource="{x:Bind ViewModel.Game.Characters, Mode=OneWay}"
+                                          Loaded="character_FlipView_Loaded">
+                                    <FlipView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CharacterInfo">
+                                            <Grid>
+                                                <Grid.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="DarkGray" />
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1.5*" />
+                                                    <ColumnDefinition Width="3.5*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Image x:Name="character_illustration_Image"
+                                                       Margin="8"
+                                                       VerticalAlignment="Top"
+                                                       DoubleTapped="character_illustration_Image_DoubleTapped"
+                                                       Source="{Binding Illustration}" />
+                                                <StackPanel Grid.Column="1"
+                                                            Padding="30,50,4,0"
+                                                            Spacing="6">
+                                                    <StackPanel Orientation="Horizontal" Spacing="0">
+                                                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
+                                                        <TextBlock VerticalAlignment="Bottom"
+                                                                   Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
+                                                                   Visibility="{x:Bind CV, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                                    </StackPanel>
+
+                                                    <StackPanel Padding="10,0"
+                                                                Orientation="Horizontal"
+                                                                Spacing="8">
+                                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                   Text="{x:Bind Birthday, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:MM/dd}'}"
+                                                                   Visibility="{x:Bind Birthday.Ticks, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                   Text="{x:Bind Age, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}y'}"
+                                                                   Visibility="{x:Bind Age, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                   Text="{x:Bind BloodType, Mode=OneWay}"
+                                                                   Visibility="{x:Bind BloodType, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                                    </StackPanel>
+                                                    <StackPanel Padding="10,0"
+                                                                Orientation="Horizontal"
+                                                                Spacing="8">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                       Text="{x:Bind Bust, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='B{0}'}"
+                                                                       Visibility="{x:Bind Bust, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                       Text="{x:Bind Cup, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
+                                                                       Visibility="{x:Bind Cup, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                       Text="{x:Bind Waist, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/W{0}'}"
+                                                                       Visibility="{x:Bind Waist, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                       Text="{x:Bind Hips, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/H{0}'}"
+                                                                       Visibility="{x:Bind Hips, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                        </StackPanel>
+
+                                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                   Text="{x:Bind Height, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}cm'}"
+                                                                   Visibility="{x:Bind Height, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                                   Text="{x:Bind Weight, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}kg'}"
+                                                                   Visibility="{x:Bind Weight, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                    </StackPanel>
+
+                                                    <TextBlock Margin="0,10,0,0"
+                                                               HorizontalAlignment="Stretch"
+                                                               Text="{x:Bind Description, Mode=OneWay}"
+                                                               TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </FlipView.ItemTemplate>
+                                </FlipView>
+                                <ListView Grid.Row="1"
+                                          Height="64"
+                                          HorizontalAlignment="Center"
+                                          ItemsSource="{x:Bind ViewModel.Game.Characters, Mode=OneWay}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                          ScrollViewer.HorizontalScrollMode="Enabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                          ScrollViewer.VerticalScrollMode="Disabled"
+                                          SelectedIndex="{x:Bind character_FlipView.SelectedIndex, Mode=TwoWay}">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:CharacterInfo">
+                                            <Image Source="{Binding Illustration}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
                         </mcontrols:Case>
                     </mcontrols:SwitchPresenter>
                 </Grid>
@@ -145,40 +324,92 @@
         <Grid Grid.Row="2"
               Height="80"
               Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}">
+            <Grid.Resources>
+                <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+                <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <!--  left  -->
             <StackPanel Padding="20,0"
                         Orientation="Horizontal"
                         Spacing="10">
-                <Button Content="{mui:FontIcon Glyph=&#xE8B9;}" Style="{StaticResource BottomButtonStyle}" />
-                <Button Content="{mui:FontIcon Glyph=&#xECA5;}" Style="{StaticResource BottomButtonStyle}" />
-                <Button Content="{mui:FontIcon Glyph=&#xF408;}" Style="{StaticResource BottomButtonStyle}" />
+                <Button x:Name="gallery_Button"
+                        Click="gallery_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xE8B9;}"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="GALLERY" />
+                <Button x:Name="special_Button"
+                        Click="special_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xECA5;}"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="SPECIAL" />
+                <Button x:Name="screenshot_Button"
+                        Click="screenshot_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xF408;}"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="SCREENSHOT" />
+                <TextBlock x:Name="played_time_TextBlock"
+                           VerticalAlignment="Center"
+                           Foreground="DarkGray"
+                           Text="{x:Bind ViewModel.Game.PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
             </StackPanel>
+            <!--  center  -->
             <StackPanel Grid.Column="1"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="10">
-                <Button Content="{mui:FontIcon Glyph=&#xE71A;}" Style="{StaticResource BottomButtonStyle}" />
-                <Button Width="40"
+                <!--<Button x:Name="stop_Button"
+                        Content="{mui:FontIcon Glyph=&#xE71A;}"
+                        IsEnabled="False"
+                        Style="{StaticResource BottomButtonStyle}" />-->
+                <Button x:Name="targets_Button"
+                        Click="targets_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xEA37;}"
+                        Style="{StaticResource BottomButtonStyle}" />
+                <Button x:Name="play_Button"
+                        Width="40"
                         Height="40"
                         Padding="0"
                         BorderBrush="{x:Null}"
+                        Click="play_Button_Click"
                         Content="{mui:FontIcon Glyph=&#xF5B0;}"
-                        CornerRadius="20" />
+                        CornerRadius="20"
+                        Foreground="LightGray" />
                 <Button Content="LE"
                         FontSize="18"
-                        Style="{StaticResource BottomButtonStyle}" />
+                        IsEnabled="{x:Bind ViewModel.Settings.LocalEmulator.LEProcPath, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                        Style="{StaticResource BottomButtonStyle}">
+                    <Button.Flyout>
+                        <MenuFlyout x:Name="local_emulator_MenuFlyout"
+                                    Opening="local_emulator_MenuFlyout_Opening"
+                                    Placement="RightEdgeAlignedTop" />
+                    </Button.Flyout>
+                </Button>
             </StackPanel>
+            <!--  right  -->
             <StackPanel Grid.Column="2"
                         Padding="20,0"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="10">
-                <Button Content="{mui:FontIcon Glyph=&#xEB51;}" Style="{StaticResource BottomButtonStyle}" />
-                <Button Content="{mui:FontIcon Glyph=&#xF406;}" Style="{StaticResource BottomButtonStyle}" />
+                <!--<Button x:Name="favorite_Button"
+                        Content="{mui:FontIcon Glyph=&#xEB51;}"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="Favorite" />-->
+                <Button x:Name="screen_capture_Button"
+                        Click="screen_capture_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xF406;}"
+                        IsEnabled="False"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.Game.SelectedTarget.ScreenCaptureHotkey, Mode=OneWay}" />
+                <Button x:Name="library_Button"
+                        Click="library_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xE8F1;}"
+                        Style="{StaticResource BottomButtonStyle}" />
             </StackPanel>
         </Grid>
     </Grid>

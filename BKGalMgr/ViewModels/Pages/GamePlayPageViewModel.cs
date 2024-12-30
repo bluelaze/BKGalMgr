@@ -15,9 +15,11 @@ public partial class GamePlayPageViewModel : ObservableObject
     private GameInfo _game;
 
     public readonly SettingsDto Settings;
+    public LibraryAndManagePageViewModel LibraryAndManagePageViewModel { get; }
 
-    public GamePlayPageViewModel(SettingsDto settings)
+    public GamePlayPageViewModel(SettingsDto settings, LibraryAndManagePageViewModel libraryAndManagePageViewModel)
     {
         Settings = settings;
+        LibraryAndManagePageViewModel = libraryAndManagePageViewModel;
     }
 }
