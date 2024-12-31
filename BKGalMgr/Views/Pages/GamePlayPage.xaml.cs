@@ -349,8 +349,6 @@ public sealed partial class GamePlayPage : Page
 
     private void library_Button_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.Game.Repository.SelectedGame = ViewModel.Game;
-        ViewModel.LibraryAndManagePageViewModel.SelectedRepository = ViewModel.Game.Repository;
         MainPage.NavigateTo(typeof(LibraryAndManagePage), ViewModel.Game);
         App.MainWindow.NavigateToMainPage();
     }

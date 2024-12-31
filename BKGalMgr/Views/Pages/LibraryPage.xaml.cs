@@ -56,8 +56,11 @@ public sealed partial class LibraryPage : Page
             await ViewModel.LoadRepository();
             App.HideLoading();
         }
-        if (e.Parameter is GameInfo game && ViewModel.SelectedRepository?.Games.IndexOf(game) != -1)
+        if (e.Parameter is GameInfo game)
         {
+            game.Repository.SelectedGame = game;
+            ViewModel.SelectedRepository = game.Repository;
+
             games_ListView.SelectedItem = game;
             games_ListView.ScrollIntoView(game);
             games_ListView.MakeVisible(new SemanticZoomLocation() { Item = game });
@@ -273,6 +276,5 @@ public sealed partial class LibraryPage : Page
     {
         games_ListView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
         games_GridView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
-
     }
 }
