@@ -481,9 +481,6 @@
   <data name="Main_Nav_Migration.Content" xml:space="preserve">
     <value>Migration</value>
   </data>
-  <data name="Main_Nav_Manage.Content" xml:space="preserve">
-    <value>Manage</value>
-  </data>
   <data name="Main_Nav_Review.Content" xml:space="preserve">
     <value>Review</value>
   </data>
@@ -630,21 +627,6 @@
   </data>
   <data name="Library_GameInfo_Pick_Target.PlaceholderText" xml:space="preserve">
     <value>Pick a target to launch</value>
-  </data>
-  <data name="Library_GameInfo_Play.Content" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="Library_GameInfo_Playing.Value" xml:space="preserve">
-    <value>Pause</value>
-  </data>
-  <data name="Library_GameInfo_Pause.Value" xml:space="preserve">
-    <value>Continue</value>
-  </data>
-  <data name="Manage_Repository.Text" xml:space="preserve">
-    <value>Repository</value>
-  </data>
-  <data name="Manage_Repository_ComboBox.PlaceholderText" xml:space="preserve">
-    <value>Select a repository</value>
   </data>
   <data name="Manage_Game.Text" xml:space="preserve">
     <value>Game</value>

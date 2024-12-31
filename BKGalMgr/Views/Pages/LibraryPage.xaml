@@ -158,9 +158,14 @@
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
             <SemanticZoom.ZoomedInView>
-                <ListView x:Name="games_listview"
+                <ListView x:Name="games_ListView"
                           Padding="0,0,16,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="MaxWidth" Value="1600" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <UserControl>
@@ -187,7 +192,6 @@
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
                                                     <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                    <Setter x:Uid="Library_GameInfo_Playing" Target="play_splitbutton.Content" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                             <VisualState x:Name="PauseState">
@@ -196,7 +200,6 @@
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
                                                     <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                                    <Setter x:Uid="Library_GameInfo_Pause" Target="play_splitbutton.Content" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
@@ -208,11 +211,7 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Margin="8">
-                                            <Image.Source>
-                                                <BitmapImage UriSource="{Binding Cover, Mode=OneWay}" />
-                                            </Image.Source>
-                                        </Image>
+                                        <Image Margin="8" Source="{Binding Cover, Mode=OneWay}" />
 
                                         <Button x:Name="cover_Button"
                                                 HorizontalAlignment="Stretch"
@@ -333,10 +332,10 @@
 
                                         </StackPanel>
                                         <StackPanel Grid.Column="2"
-                                                    Padding="4"
                                                     Orientation="Horizontal"
-                                                    Spacing="8">
+                                                    Spacing="16">
                                             <ComboBox x:Uid="Library_GameInfo_Pick_Target"
+                                                      MinWidth="200"
                                                       VerticalAlignment="Center"
                                                       ItemsSource="{x:Bind Targets, Mode=OneWay}"
                                                       SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
@@ -400,47 +399,25 @@
                                                                                  Margin="0"
                                                                                  Padding="0"
                                                                                  Click="capture_hotkey_button_Click"
-                                                                                 IsEnabled="False"
-                                                                                 Visibility="{x:Bind EnableScreenCapture, Mode=OneWay}">
+                                                                                 IsEnabled="False">
                                                                     <SelectorBarItem Padding="0"
                                                                                      Icon="{mui:FontIcon Glyph='&#xF406;'}"
                                                                                      Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}" />
                                                                 </HyperlinkButton>
-                                                                <SelectorBarItem Padding="0"
-                                                                                 Text="Local Emulator"
-                                                                                 Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
-                                                                    <SelectorBarItem.Icon>
-                                                                        <ImageIcon Margin="2,0" Source="{StaticResource LocalEmulatorYellow}" />
-                                                                    </SelectorBarItem.Icon>
-                                                                    <SelectorBarItem.ContextFlyout>
-                                                                        <MenuFlyout x:Name="local_emulator_MenuFlyout"
-                                                                                    Opening="local_emulator_MenuFlyout_Opening"
-                                                                                    Placement="RightEdgeAlignedTop" />
-                                                                    </SelectorBarItem.ContextFlyout>
-                                                                </SelectorBarItem>
                                                             </StackPanel>
                                                         </UserControl>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-                                            <SplitButton x:Name="play_splitbutton"
-                                                         x:Uid="Library_GameInfo_Play"
-                                                         Click="play_splitbutton_Click">
-                                                <SplitButton.Flyout>
-                                                    <Flyout Placement="Bottom">
-                                                        <mcontrols:WrapPanel MaxWidth="{ThemeResource ToolTipMaxWidth}"
-                                                                             HorizontalSpacing="8"
-                                                                             VerticalSpacing="8">
-                                                            <ToggleButton Content="{mui:FontIcon FontSize=16, Glyph='&#xF406;'}" IsChecked="{x:Bind SelectedTarget.EnableScreenCapture, Mode=TwoWay}" />
-                                                            <ToggleButton IsChecked="{x:Bind SelectedTarget.EnableLocalEmulator, Mode=TwoWay}">
-                                                                <ImageIcon Width="16"
-                                                                           Height="16"
-                                                                           Source="{StaticResource LocalEmulatorYellow}" />
-                                                            </ToggleButton>
-                                                        </mcontrols:WrapPanel>
-                                                    </Flyout>
-                                                </SplitButton.Flyout>
-                                            </SplitButton>
+                                            <Button x:Name="play_Button"
+                                                    Width="60"
+                                                    Padding="0"
+                                                    VerticalAlignment="Stretch"
+                                                    Background="Transparent"
+                                                    BorderBrush="{x:Null}"
+                                                    Click="play_Button_Click"
+                                                    Content="{mui:FontIcon Glyph=&#xE76C;}"
+                                                    CornerRadius="0" />
                                         </StackPanel>
                                     </Grid>
                                 </SplitView>
@@ -451,9 +428,17 @@
             </SemanticZoom.ZoomedInView>
 
             <SemanticZoom.ZoomedOutView>
-                <GridView Margin="12,0,0,0"
+                <GridView x:Name="games_GridView"
+                          Margin="12,0,0,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
                           SelectionMode="Single">
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid HorizontalAlignment="Center"
+                                           MaximumRowsOrColumns="7"
+                                           Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <GridViewItem Width="260"
@@ -569,5 +554,15 @@
                         Style="{StaticResource IconButtonStyle}" />
             </mcontrols:Case>
         </mcontrols:SwitchPresenter>
+        <Button x:Name="goto_top_Button"
+                Grid.RowSpan="2"
+                Height="40"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="goto_top_Button_Click"
+                Content="{mui:FontIcon FontSize=16,
+                                       Glyph=&#xE74A;}"
+                Style="{StaticResource IconButtonStyle}" />
     </Grid>
 </Page>

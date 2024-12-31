@@ -58,10 +58,10 @@ public sealed partial class LibraryPage : Page
         }
         if (e.Parameter is GameInfo game && ViewModel.SelectedRepository?.Games.IndexOf(game) != -1)
         {
-            games_listview.SelectedItem = game;
-            games_listview.ScrollIntoView(game);
-            games_listview.MakeVisible(new SemanticZoomLocation() { Item = game });
-            games_listview.UpdateLayout();
+            games_ListView.SelectedItem = game;
+            games_ListView.ScrollIntoView(game);
+            games_ListView.MakeVisible(new SemanticZoomLocation() { Item = game });
+            games_ListView.UpdateLayout();
         }
     }
 
@@ -72,180 +72,6 @@ public sealed partial class LibraryPage : Page
         {
             ViewModel.SelectedRepository.SelectedGame = gameInfo;
             MainPage.NavigateTo(typeof(ManagePage));
-        }
-    }
-
-    private async void play_splitbutton_Click(SplitButton sender, SplitButtonClickEventArgs args)
-    {
-        var playBtn = sender;
-        var gameInfo = playBtn.DataContext as GameInfo;
-        var targetInfo = gameInfo.SelectedTarget;
-        await PlayGame(gameInfo, targetInfo, "");
-    }
-
-    private async Task PlayGame(GameInfo gameInfo, TargetInfo targetInfo, string leGuid)
-    {
-        if (targetInfo != null)
-        {
-            if (gameInfo.PlayStatus == PlayStatus.Playing)
-            {
-                gameInfo.PlayStatus = PlayStatus.Pause;
-                targetInfo.PlayStatus = PlayStatus.Pause;
-                return;
-            }
-            else if (gameInfo.PlayStatus == PlayStatus.Pause)
-            {
-                gameInfo.PlayStatus = PlayStatus.Playing;
-                targetInfo.PlayStatus = PlayStatus.Playing;
-                return;
-            }
-
-            if (!File.Exists(targetInfo.TargetExePath))
-            {
-                if (
-                    targetInfo.IsArchive
-                    && await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_Target_Deachive"))
-                )
-                {
-                    App.ShowLoading();
-                    await targetInfo.DeArchive();
-                    App.HideLoading();
-                }
-                if (!File.Exists(targetInfo.TargetExePath))
-                {
-                    _ = DialogHelper.ShowError(
-                        LanguageHelper.GetString("Msg_TargetExe_Invalid").Format(targetInfo.TargetExePath)
-                    );
-                    return;
-                }
-            }
-
-            Process gameProcess;
-            bool startSuccess = false;
-
-            if (leGuid.IsNullOrEmpty())
-            {
-                // normal start
-                gameProcess = new();
-                gameProcess.StartInfo.FileName = targetInfo.TargetExePath;
-                gameProcess.StartInfo.UseShellExecute = true;
-                gameProcess.StartInfo.WorkingDirectory = targetInfo.TargetPath;
-                try
-                {
-                    try
-                    {
-                        startSuccess = gameProcess.Start();
-                    }
-                    catch
-                    {
-                        startSuccess = false;
-                    }
-                    if (!startSuccess)
-                    {
-                        // retry
-                        gameProcess.StartInfo.UseShellExecute = false;
-                        startSuccess = gameProcess.Start();
-                    }
-                }
-                catch
-                {
-                    startSuccess = false;
-                }
-            }
-            else if (leGuid == LEProfileInfo.RunGuid)
-            {
-                gameProcess = LocaleEmulatorHelper.RunDefault(
-                    ViewModel.Settings.LocalEmulator.LEProcPath,
-                    targetInfo.TargetExePath
-                );
-                startSuccess = gameProcess != null;
-            }
-            else if (leGuid == LEProfileInfo.ManageGuid)
-            {
-                gameProcess = LocaleEmulatorHelper.ManageApp(
-                    ViewModel.Settings.LocalEmulator.LEProcPath,
-                    targetInfo.TargetExePath
-                );
-                startSuccess = gameProcess != null;
-            }
-            else
-            {
-                gameProcess = LocaleEmulatorHelper.RunAs(
-                    ViewModel.Settings.LocalEmulator.LEProcPath,
-                    targetInfo.TargetExePath,
-                    leGuid
-                );
-                startSuccess = gameProcess != null;
-            }
-
-            if (!startSuccess)
-            {
-                _ = DialogHelper.ShowError(
-                    LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath)
-                );
-            }
-            else
-            {
-                targetInfo.LastPlayDate = DateTime.Now;
-                targetInfo.SaveJsonFile();
-
-                gameInfo.LastPlayDate = targetInfo.LastPlayDate;
-                gameInfo.SaveJsonFile();
-
-                TimeSpan pauseTime = TimeSpan.Zero;
-                var savePlayedTime = () =>
-                {
-                    var timeCost = TimeSpan.FromSeconds(1);
-
-                    if (gameInfo.PlayStatus == PlayStatus.Pause)
-                        pauseTime += timeCost;
-
-                    if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
-                        return;
-
-                    targetInfo.PlayedTime += timeCost;
-                    targetInfo.SaveJsonFile();
-
-                    gameInfo.PlayedTime += timeCost;
-                    gameInfo.SaveJsonFile();
-                };
-
-                // update game here, but need in open target?
-                targetInfo.Game = gameInfo;
-
-                gameInfo.PlayStatus = PlayStatus.Playing;
-                targetInfo.PlayStatus = PlayStatus.Playing;
-
-                var timer = Observable
-                    .Interval(TimeSpan.FromSeconds(1))
-                    .ObserveOn(SynchronizationContext.Current)
-                    .Subscribe(_ =>
-                    {
-                        savePlayedTime();
-                    });
-
-                // check child process, maybe startup exe is a launcher
-                await gameProcess.WaitForAllExitAsync();
-
-                timer.Dispose();
-
-                gameInfo.PlayStatus = PlayStatus.Stop;
-                targetInfo.PlayStatus = PlayStatus.Stop;
-
-                gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
-                gameInfo.SaveJsonFile();
-
-                // Auto backup
-                if (gameInfo.SaveDataSettings.AutoBackup)
-                {
-                    var savedata = gameInfo.NewSaveData();
-                    savedata.Name = LanguageHelper.GetString("SaveDataInfo_Auto_Backup");
-                    if (await gameInfo.AddSaveData(savedata) == false)
-                    {
-                        _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Auto_Backup_Fail"));
-                    }
-                }
-            }
         }
     }
 
@@ -262,6 +88,15 @@ public sealed partial class LibraryPage : Page
                 },
                 TaskScheduler.FromCurrentSynchronizationContext()
             );
+    }
+
+    private void play_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;
+        if (gameInfo != null)
+        {
+            App.MainWindow.NavigateToGamePlayPage(gameInfo);
+        }
     }
 
     private void group_togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
@@ -338,52 +173,17 @@ public sealed partial class LibraryPage : Page
         if (e.IsSourceZoomedInView == false)
         {
             e.DestinationItem.Item = e.SourceItem.Item;
-            games_listview.SelectedItem = e.SourceItem.Item;
+            games_ListView.SelectedItem = e.SourceItem.Item;
         }
         else
         {
-            e.DestinationItem.Item = games_listview.SelectedItem;
+            e.DestinationItem.Item = games_ListView.SelectedItem;
         }
     }
 
     private void switch_gameview_button_Click(object sender, RoutedEventArgs e)
     {
         games_view_semanticzoom.ToggleActiveView();
-    }
-
-    private void local_emulator_MenuFlyout_Opening(object sender, object e)
-    {
-        var menu = sender as MenuFlyout;
-        menu.Items.Clear();
-        foreach (var profile in ViewModel.Settings.LocalEmulator.Profiles)
-        {
-            if (!profile.IsSeparator)
-            {
-                var item = new MenuFlyoutItem() { Text = profile.Name, Tag = profile.Guid };
-
-                if (profile.Guid == LEProfileInfo.RunGuid)
-                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorYellow"] };
-                else if (profile.Guid == LEProfileInfo.ManageGuid)
-                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorGray"] };
-                else
-                    item.Icon = new ImageIcon() { Source = (ImageSource)App.Current.Resources["LocalEmulatorPurple"] };
-
-                item.Click += local_emulator_MenuFlyoutItem_Click;
-                menu.Items.Add(item);
-            }
-            else
-            {
-                menu.Items.Add(new MenuFlyoutSeparator());
-            }
-        }
-    }
-
-    private async void local_emulator_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        var menuItem = sender as MenuFlyoutItem;
-        var targetInfo = menuItem.DataContext as TargetInfo;
-        var gameInfo = targetInfo.Game;
-        await PlayGame(gameInfo, targetInfo, menuItem.Tag as string);
     }
 
     private void game_group_Flyout_Opened(object sender, object e)
@@ -467,5 +267,12 @@ public sealed partial class LibraryPage : Page
     private void gameinfo_SplitView_PaneClosed(SplitView sender, object args)
     {
         sender.Pane = null;
+    }
+
+    private void goto_top_Button_Click(object sender, RoutedEventArgs e)
+    {
+        games_ListView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
+        games_GridView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
+
     }
 }

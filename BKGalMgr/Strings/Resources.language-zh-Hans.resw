@@ -478,9 +478,6 @@
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>库</value>
   </data>
-  <data name="Main_Nav_Manage.Content" xml:space="preserve">
-    <value>管理</value>
-  </data>
   <data name="Main_Nav_Review.Content" xml:space="preserve">
     <value>回顾</value>
   </data>
@@ -630,21 +627,6 @@
   </data>
   <data name="Library_GameInfo_Pick_Target.PlaceholderText" xml:space="preserve">
     <value>选择一个本</value>
-  </data>
-  <data name="Library_GameInfo_Play.Content" xml:space="preserve">
-    <value>运行</value>
-  </data>
-  <data name="Library_GameInfo_Playing.Value" xml:space="preserve">
-    <value>暂停</value>
-  </data>
-  <data name="Library_GameInfo_Pause.Value" xml:space="preserve">
-    <value>继续</value>
-  </data>
-  <data name="Manage_Repository.Text" xml:space="preserve">
-    <value>仓库</value>
-  </data>
-  <data name="Manage_Repository_ComboBox.PlaceholderText" xml:space="preserve">
-    <value>选择一个仓库</value>
   </data>
   <data name="Manage_Game.Text" xml:space="preserve">
     <value>条目</value>

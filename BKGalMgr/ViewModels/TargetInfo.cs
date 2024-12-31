@@ -40,20 +40,6 @@ public partial class TargetInfo : ObservableObject
     private string _description;
 
     [ObservableProperty]
-    private bool _enableScreenCapture;
-
-    partial void OnEnableScreenCaptureChanged(bool value)
-    {
-        if (PlayStatus == PlayStatus.Playing)
-        {
-            ScreenCaptureActive(value);
-        }
-    }
-
-    [ObservableProperty]
-    private bool _enableLocalEmulator;
-
-    [ObservableProperty]
     [property: JsonIgnore]
     private string _screenCaptureHotkey = string.Empty;
 
@@ -72,10 +58,7 @@ public partial class TargetInfo : ObservableObject
 
     partial void OnPlayStatusChanged(PlayStatus value)
     {
-        if (EnableScreenCapture)
-        {
-            ScreenCaptureActive(value == PlayStatus.Playing || value == PlayStatus.Pause);
-        }
+        ScreenCaptureActive(value == PlayStatus.Playing || value == PlayStatus.Pause);
     }
 
     [ObservableProperty]
