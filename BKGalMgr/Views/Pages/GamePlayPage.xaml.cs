@@ -301,7 +301,8 @@ public sealed partial class GamePlayPage : Page
 
     private async void local_emulator_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        await PlayGame(ViewModel.Game, "");
+        var menuItem = sender as MenuFlyoutItem;
+        await PlayGame(ViewModel.Game, menuItem.Tag as string);
     }
 
     private void cover_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
