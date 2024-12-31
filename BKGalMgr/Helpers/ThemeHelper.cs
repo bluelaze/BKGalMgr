@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml.Media;
@@ -17,7 +18,7 @@ public enum Theme
 {
     Default,
     Light,
-    Dark
+    Dark,
 }
 
 public enum BackdropMaterial
@@ -228,6 +229,17 @@ public class ThemeHelper
                 _window.ApplyTheme(ElementTheme.Default);
                 break;
         }
+        if (_window.ActualTheme() == ElementTheme.Dark)
+        {
+            Application.Current.Resources["WindowCaptionForeground"] = Colors.White;
+            _window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
+        }
+        else
+        {
+            Application.Current.Resources["WindowCaptionForeground"] = Colors.Black;
+            _window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
+        }
+
         if (_systemBackdrop == null || IsMicaBackdropMaterial(_backdrop) ^ IsMicaBackdropMaterial(backdrop))
         {
             _backdrop = backdrop;
@@ -235,13 +247,13 @@ public class ThemeHelper
                 _systemBackdrop = new MicaSystemBackdrop()
                 {
                     Kind = ToMicaKind(_backdrop),
-                    Theme = ToSystemBackdropTheme(_window.RequestedTheme())
+                    Theme = ToSystemBackdropTheme(_window.RequestedTheme()),
                 };
             else
                 _systemBackdrop = new AcrylicSystemBackdrop()
                 {
                     Kind = ToAcrylicKind(_backdrop),
-                    Theme = ToSystemBackdropTheme(_window.RequestedTheme())
+                    Theme = ToSystemBackdropTheme(_window.RequestedTheme()),
                 };
             _window.SystemBackdrop = _systemBackdrop;
             return;

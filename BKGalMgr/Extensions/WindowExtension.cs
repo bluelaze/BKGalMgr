@@ -26,6 +26,14 @@ public static class WindowExtension
         return ElementTheme.Default;
     }
 
+    public static ElementTheme ActualTheme(this Window window)
+    {
+        if (window.Content is FrameworkElement rootElement)
+            return rootElement.ActualTheme;
+
+        return ElementTheme.Default;
+    }
+
     public static IntPtr GetWindowHandle(this Window window)
     {
         return WinRT.Interop.WindowNative.GetWindowHandle(window);

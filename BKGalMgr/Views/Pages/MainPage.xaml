@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid x:Name="titlebar_Grid" Height="38">
+        <Grid x:Name="titlebar_Grid" Height="{StaticResource TitleBarHeight}">
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <StackPanel.Resources>
                     <Style TargetType="TextBlock">
