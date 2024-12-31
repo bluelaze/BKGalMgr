@@ -19,15 +19,10 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
-        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
         <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
         <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
         <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
-        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
-                                                  EmptyValue="Collapsed"
-                                                  NotEmptyValue="Visible" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>

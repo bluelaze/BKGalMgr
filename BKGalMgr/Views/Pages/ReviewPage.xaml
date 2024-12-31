@@ -17,14 +17,10 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
-        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <converters:GameReviewGroupInfoToColumnSeriesConverter x:Key="GameReviewGroupInfoToColumnSeriesConverter" />
         <converters:GameReviewGroupInfoToXAxesConverter x:Key="GameReviewGroupInfoToXAxesConverter" />
         <converters:GameReviewGroupInfoToYAxesConverter x:Key="GameReviewGroupInfoToYAxesConverter" />
         <converters:GameReviewGroupInfoToScrollLabelsConverter x:Key="GameReviewGroupInfoToScrollLabelsConverter" />
-        <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
-        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
 
         <CollectionViewSource x:Name="GroupsCollectionViewSource"
                               IsSourceGrouped="True"

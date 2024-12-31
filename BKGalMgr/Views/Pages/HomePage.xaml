@@ -15,8 +15,6 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
-
         <DataTemplate x:Key="GameGroupDataTemplate" x:DataType="vm:GameReviewGroupItem">
             <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
                 <Grid Width="196"

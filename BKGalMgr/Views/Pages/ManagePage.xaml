@@ -18,17 +18,6 @@
       mc:Ignorable="d">
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
-        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
-                                                  EmptyValue="Collapsed"
-                                                  NotEmptyValue="Visible" />
-        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter"
-                                                  EmptyValue="False"
-                                                  NotEmptyValue="True" />
-        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
-        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
-                                                  EmptyValue="Collapsed"
-                                                  NotEmptyValue="Visible" />
-        <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
 
         <x:Double x:Key="HeaderedControlMaxWidth">1080</x:Double>
 

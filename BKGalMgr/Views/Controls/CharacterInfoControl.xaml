@@ -12,9 +12,6 @@
              d:DataContext="{d:DesignInstance vm:CharacterInfo,
                                               IsDesignTimeCreatable=False}"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
-    </UserControl.Resources>
     <StackPanel Spacing="4">
         <StackPanel.Resources>
             <Style TargetType="local:HeaderedTextBox">

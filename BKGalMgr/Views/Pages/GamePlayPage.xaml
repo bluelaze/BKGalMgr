@@ -35,21 +35,8 @@
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
 
-        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
-        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
         <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
-        <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
-                                                  EmptyValue="Collapsed"
-                                                  NotEmptyValue="Visible" />
-        <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
-        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
-                                                  EmptyValue="Collapsed"
-                                                  NotEmptyValue="Visible" />
-        <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
-        <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToBoolConverter"
-                                                  EmptyValue="False"
-                                                  NotEmptyValue="True" />
     </Page.Resources>
     <Grid x:Name="root_Grid"
           Background="Transparent"

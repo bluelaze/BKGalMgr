@@ -2,7 +2,9 @@
 <Application x:Class="BKGalMgr.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:BKGalMgr">
+             xmlns:converters="using:BKGalMgr.Converters"
+             xmlns:local="using:BKGalMgr"
+             xmlns:mconverters="using:CommunityToolkit.WinUI.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,6 +22,7 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <!--  Other app resources here  -->
+            <!--  style  -->
             <Style x:Key="GridItemStyle" TargetType="Grid">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
                 <Setter Property="CornerRadius" Value="{ThemeResource ListViewItemCornerRadius}" />
@@ -55,6 +58,26 @@
             <ImageSource x:Key="LocalEmulatorGray">ms-appx:///Assets/LocalEmulator/gray.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorPurple">ms-appx:///Assets/LocalEmulator/purple.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorYellow">ms-appx:///Assets/LocalEmulator/yellow.bmp</ImageSource>
+
+            <!--  coverter  -->
+            <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
+            <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+            <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
+            <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
+            <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
+                                                      EmptyValue="Collapsed"
+                                                      NotEmptyValue="Visible" />
+            <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter"
+                                                      EmptyValue="False"
+                                                      NotEmptyValue="True" />
+            <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
+                                                      EmptyValue="Collapsed"
+                                                      NotEmptyValue="Visible" />
+            <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToBoolConverter"
+                                                      EmptyValue="False"
+                                                      NotEmptyValue="True" />
+            <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+            <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
 
         </ResourceDictionary>
     </Application.Resources>

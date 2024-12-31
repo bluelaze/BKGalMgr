@@ -18,8 +18,6 @@
       d:DataContext="{d:DesignInstance local:MigrationPage}"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
-        <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
         <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
         <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
 

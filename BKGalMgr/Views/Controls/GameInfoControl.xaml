@@ -13,7 +13,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <x:Double x:Key="HeaderWidth">81</x:Double>
-        <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+
         <Style x:Key="HeaderTextBlockStyle"
                BasedOn="{StaticResource BodyTextBlockStyle}"
                TargetType="TextBlock">
