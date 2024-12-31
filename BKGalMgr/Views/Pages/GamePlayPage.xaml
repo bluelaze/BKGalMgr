@@ -196,7 +196,7 @@
                                      BorderBrush="Transparent"
                                      Foreground="LightGray"
                                      LostFocus="blog_TextBox_LostFocus"
-                                     Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                     Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay}"
                                      TextWrapping="Wrap" />
                         </mcontrols:Case>
                         <mcontrols:Case Value="character">
