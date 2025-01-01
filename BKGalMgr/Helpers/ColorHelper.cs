@@ -253,6 +253,34 @@ public class ColorHelper
         ;
     }
 
+    public static Color GenerateLessHarshColor(Color color)
+    {
+        (double h, double s, double l) = ColorToHSL(color);
+
+        // 降低饱和度
+        if (s > 0.7)
+        {
+            s = 0.65;
+        }
+
+        // 调整亮度
+        if (l > 0.7)
+        {
+            l = 0.65;
+        }
+        else if (l < 0.35)
+        {
+            l = 0.35;
+        }
+
+        // 调整色相
+        h *= 360;
+        //h += 15;
+        //h %= 360;
+
+        return HslToRgb(h / 360, s, l);
+    }
+
     private static Color HslToRgb(double h, double s, double l)
     {
         double r,

@@ -51,13 +51,15 @@ public sealed partial class GamePlayPage : Page
             var colors = await Task.Run(() =>
             {
                 var primaryColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover);
-                // 调亮
-                var secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor);
-                // 如果刺眼，再调暗
-                if (ColorHelper.IsHarshColor(secondColor))
+                var secondColor = primaryColor;
+                if (ColorHelper.IsHarshColor(primaryColor))
                 {
-                    secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor, false, 0.025);
-                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 0.125);
+                    secondColor = ColorHelper.GenerateLessHarshColor(primaryColor);
+                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false);
+                }
+                else
+                {
+                    secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor);
                 }
 
                 return (
