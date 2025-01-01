@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Management;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BKGalMgr.Extensions;
@@ -19,13 +20,20 @@ public static class ProcessExtensions
             .ToList();
 
     // https://stackoverflow.com/questions/7189117/find-all-child-processes-of-my-own-net-process-find-out-if-a-given-process-is/67235225#67235225
-    public static async Task WaitForAllExitAsync(this Process process)
+    public static async Task WaitForAllExitAsync(this Process process, CancellationToken token = default)
     {
+        if (token.IsCancellationRequested)
+            return;
         if (!process.HasExited)
-            await process.WaitForExitAsync();
+            await process.WaitForExitAsync(token);
+
+        if (token.IsCancellationRequested)
+            return;
         foreach (var child in process.GetChildProcesses())
         {
-            await WaitForAllExitAsync(child);
+            await WaitForAllExitAsync(child, token);
+            if (token.IsCancellationRequested)
+                return;
         }
     }
 }

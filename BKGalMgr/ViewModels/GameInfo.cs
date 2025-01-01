@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BKGalMgr.Helpers;
@@ -121,6 +122,9 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     [property: JsonIgnore]
     private PlayStatus _playStatus = PlayStatus.Stop;
+
+    [JsonIgnore]
+    public CancellationTokenSource PlayCancelTokenSource { get; set; }
 
     [ObservableProperty]
     [property: JsonIgnore]

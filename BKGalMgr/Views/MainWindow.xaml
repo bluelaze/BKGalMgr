@@ -7,6 +7,7 @@
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:BKGalMgr"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:mtriggers="using:CommunityToolkit.WinUI"
         xmlns:mui="using:CommunityToolkit.WinUI"
         xmlns:tb="using:H.NotifyIcon"
@@ -151,6 +152,13 @@
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
                                                      Text="{Binding CreateDate}" />
+                                    <SelectorBarItem Padding="0"
+                                                     Text="Local Emulator"
+                                                     Visibility="{Binding EnableLocalEmulator, Mode=OneWay}">
+                                        <SelectorBarItem.Icon>
+                                            <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                        </SelectorBarItem.Icon>
+                                    </SelectorBarItem>
                                     <TextBlock Text="{Binding Description}" />
                                 </StackPanel>
                             </UserControl>
@@ -159,6 +167,27 @@
                 </ListView>
             </StackPanel>
         </Grid>
+
+        <!--  有个bug，window不能用Converter，https://github.com/microsoft/microsoft-ui-xaml/issues/4966  -->
+        <ListView x:Name="notification_ListView"
+                  Grid.Row="1"
+                  Width="450"
+                  Margin="0,24"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Background="Transparent"
+                  ItemsSource="{x:Bind Notifications}"
+                  SelectionMode="None">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:NotificationInfo">
+                    <InfoBar Title="{x:Bind Title}"
+                             CloseButtonClick="notification_InfoBar_CloseButtonClick"
+                             IsOpen="{x:Bind IsOpen}"
+                             Message="{x:Bind Message}"
+                             Severity="{x:Bind Severity}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <tb:TaskbarIcon x:Name="taskbaricon"
                         ContextMenuMode="SecondWindow"
                         IconSource="ms-appx:///BKGalMgr.ico"

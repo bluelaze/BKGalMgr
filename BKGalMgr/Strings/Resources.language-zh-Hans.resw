@@ -144,6 +144,13 @@
   <data name="Msg_Target_Delete_Folder_Only" xml:space="preserve">
     <value>归档后可仅删除本的文件夹，确定删除？</value>
   </data>
+  <data name="Msg_LocalEmulator_Invalid" xml:space="preserve">
+    <value>无效的Local Emulator路径：{0}</value>
+  </data>
+  <data name="Msg_WaitForAllExit_Exception" xml:space="preserve">
+    <value>等待游戏进程退出发生异常，可手动停止计时：
+{0}</value>
+  </data>
   <data name="Msg_Delete_Confirm" xml:space="preserve">
     <value>无法还原，确定删除？</value>
   </data>
@@ -374,6 +381,12 @@
   </data>
   <data name="TargetInfo_Description.Header" xml:space="preserve">
     <value>备注</value>
+  </data>
+  <data name="TargetInfo_EnableLocalEmulator.Header" xml:space="preserve">
+    <value>Local Emulator</value>
+  </data>
+  <data name="TargetInfo_EnableLocalEmulator.Description" xml:space="preserve">
+    <value>默认使用Local Emulator启动游戏</value>
   </data>
   <data name="TargetInfo_Source_Contributors.Header" xml:space="preserve">
     <value>源贡献者</value>

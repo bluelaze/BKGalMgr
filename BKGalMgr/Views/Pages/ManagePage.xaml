@@ -339,6 +339,13 @@
                                         <SelectorBarItem Padding="0"
                                                          Icon="{mui:FontIcon Glyph='&#xEC92;'}"
                                                          Text="{Binding CreateDate}" />
+                                        <SelectorBarItem Padding="0"
+                                                         Text="Local Emulator"
+                                                         Visibility="{Binding EnableLocalEmulator, Mode=OneWay}">
+                                            <SelectorBarItem.Icon>
+                                                <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                            </SelectorBarItem.Icon>
+                                        </SelectorBarItem>
                                         <TextBlock Text="{Binding Description}" />
                                     </StackPanel>
                                 </UserControl>

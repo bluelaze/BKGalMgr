@@ -74,7 +74,7 @@ public sealed partial class MigrationPage : Page
             App.ShowLoading();
             var games = left_repository_ListView.SelectedItems.Select(i => i as GameInfo).ToList();
             if (await ViewModel.MigrateGames(games, true) == false)
-                await DialogHelper.ShowError(LanguageHelper.GetString("Msg_Migrate_Exception"));
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_Migrate_Exception"));
             App.HideLoading();
         }
     }
@@ -98,7 +98,7 @@ public sealed partial class MigrationPage : Page
             App.ShowLoading();
             var games = right_repository_ListView.SelectedItems.Select(i => i as GameInfo).ToList();
             if (await ViewModel.MigrateGames(games, false) == false)
-                await DialogHelper.ShowError(LanguageHelper.GetString("Msg_Migrate_Exception"));
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_Migrate_Exception"));
             App.HideLoading();
         }
     }

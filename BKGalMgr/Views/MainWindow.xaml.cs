@@ -41,6 +41,9 @@ public sealed partial class MainWindow : Window
     [ObservableProperty]
     private GameInfo _selectedGame = null;
 
+    [ObservableProperty]
+    private ObservableCollection<NotificationInfo> _notifications = new();
+
     public MainWindow()
     {
         this.InitializeComponent();
@@ -77,7 +80,7 @@ public sealed partial class MainWindow : Window
     public void SelecteTarget(GameInfo game)
     {
         SelectedGame = game;
-        target_selecte_Grid.Visibility =  Visibility.Visible;
+        target_selecte_Grid.Visibility = Visibility.Visible;
     }
 
     public void ShowLoading()
@@ -101,6 +104,11 @@ public sealed partial class MainWindow : Window
     public void HideImages()
     {
         image_viewer_Grid.Visibility = Visibility.Collapsed;
+    }
+
+    public void ShowNotification(NotificationInfo notification)
+    {
+        Notifications.Add(notification);
     }
 
     [RelayCommand]
@@ -220,5 +228,10 @@ public sealed partial class MainWindow : Window
     {
         var listView = sender as ListView;
         listView.ScrollIntoView(listView.SelectedItem);
+    }
+
+    private void notification_InfoBar_CloseButtonClick(InfoBar sender, object args)
+    {
+        Notifications.Remove(sender.DataContext as NotificationInfo);
     }
 }

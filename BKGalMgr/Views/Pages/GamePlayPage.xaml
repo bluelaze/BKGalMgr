@@ -16,12 +16,12 @@
       d:DataContext="{d:DesignInstance local:GamePlayPage}"
       RequestedTheme="Dark"
       mc:Ignorable="d">
-    <!--<Page.Background>
+    <Page.Background>
         <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
             <GradientStop Offset="0.0" Color="Black" />
-            <GradientStop Offset="1.0" Color="DarkGray" />
+            <GradientStop Offset="1.0" Color="Gray" />
         </LinearGradientBrush>
-    </Page.Background>-->
+    </Page.Background>
     <Page.Resources>
         <Style x:Key="BottomButtonStyle"
                BasedOn="{StaticResource DefaultButtonStyle}"
@@ -54,7 +54,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />-->
-                        <!--<Setter Target="stop_Button.IsEnabled" Value="True" />-->
+                        <Setter Target="stop_Button.IsEnabled" Value="True" />
                         <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
 
                         <Setter Target="play_Button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
@@ -69,7 +69,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />-->
-                        <!--<Setter Target="stop_Button.IsEnabled" Value="True" />-->
+                        <Setter Target="stop_Button.IsEnabled" Value="True" />
                         <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
 
                         <Setter Target="play_Button.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
@@ -358,14 +358,12 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="10">
-                <!--<Button x:Name="stop_Button"
+                <Button x:Name="stop_Button"
+                        Click="stop_Button_Click"
                         Content="{mui:FontIcon Glyph=&#xE71A;}"
                         IsEnabled="False"
-                        Style="{StaticResource BottomButtonStyle}" />-->
-                <Button x:Name="targets_Button"
-                        Click="targets_Button_Click"
-                        Content="{mui:FontIcon Glyph=&#xEA37;}"
-                        Style="{StaticResource BottomButtonStyle}" />
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="Stop" />
                 <Button x:Name="play_Button"
                         Width="40"
                         Height="40"
@@ -378,7 +376,8 @@
                 <Button Content="LE"
                         FontSize="18"
                         IsEnabled="{x:Bind ViewModel.Settings.LocalEmulator.LEProcPath, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
-                        Style="{StaticResource BottomButtonStyle}">
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="Local Emulator">
                     <Button.Flyout>
                         <MenuFlyout x:Name="local_emulator_MenuFlyout"
                                     Opening="local_emulator_MenuFlyout_Opening"
@@ -392,6 +391,10 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="10">
+                <Button x:Name="targets_Button"
+                        Click="targets_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xEA37;}"
+                        Style="{StaticResource BottomButtonStyle}" />
                 <!--<Button x:Name="favorite_Button"
                         Content="{mui:FontIcon Glyph=&#xEB51;}"
                         Style="{StaticResource BottomButtonStyle}"

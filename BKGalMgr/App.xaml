@@ -76,6 +76,7 @@
             <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToBoolConverter"
                                                       EmptyValue="False"
                                                       NotEmptyValue="True" />
+            <mconverters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
             <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
             <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
 

@@ -125,6 +125,21 @@ public partial class App : Application
     public static void ShowImages(IEnumerable<string> images, int selectedIndex) =>
         MainWindow.ShowImages(images, selectedIndex);
 
+    public static void ShowInfoMessage(string message)
+    {
+        MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Informational });
+    }
+
+    public static void ShowWarnMessage(string message)
+    {
+        MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Warning });
+    }
+
+    public static void ShowErrorMessage(string message)
+    {
+        MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Error });
+    }
+
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
 
     private bool ExistLaunchedApp()

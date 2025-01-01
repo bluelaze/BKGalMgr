@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Extensions;
 using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -132,7 +133,7 @@ public sealed partial class GamePlayPage : Page
             }
             if (!File.Exists(targetInfo.TargetExePath))
             {
-                _ = DialogHelper.ShowError(
+                App.ShowErrorMessage(
                     LanguageHelper.GetString("Msg_TargetExe_Invalid").Format(targetInfo.TargetExePath)
                 );
                 return;
@@ -141,6 +142,12 @@ public sealed partial class GamePlayPage : Page
 
         Process gameProcess;
         bool startSuccess = false;
+
+        // 以默认配置运行
+        if (targetInfo.EnableLocalEmulator && leGuid.IsNullOrEmpty())
+        {
+            leGuid = LEProfileInfo.RunGuid;
+        }
 
         if (leGuid.IsNullOrEmpty())
         {
@@ -171,6 +178,18 @@ public sealed partial class GamePlayPage : Page
                 startSuccess = false;
             }
         }
+        else if (
+            ViewModel.Settings.LocalEmulator.LEProcPath.IsNullOrEmpty()
+            || !File.Exists(ViewModel.Settings.LocalEmulator.LEProcPath)
+        )
+        {
+            App.ShowErrorMessage(
+                LanguageHelper
+                    .GetString("Msg_LocalEmulator_Invalid")
+                    .Format(ViewModel.Settings.LocalEmulator.LEProcPath)
+            );
+            return;
+        }
         else if (leGuid == LEProfileInfo.RunGuid)
         {
             gameProcess = LocaleEmulatorHelper.RunDefault(
@@ -199,70 +218,87 @@ public sealed partial class GamePlayPage : Page
 
         if (!startSuccess)
         {
-            _ = DialogHelper.ShowError(
-                LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath)
-            );
+            App.ShowErrorMessage(LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath));
+            return;
         }
-        else
+
+        targetInfo.LastPlayDate = DateTime.Now;
+        targetInfo.SaveJsonFile();
+
+        gameInfo.LastPlayDate = targetInfo.LastPlayDate;
+        gameInfo.SaveJsonFile();
+
+        TimeSpan pauseTime = TimeSpan.Zero;
+        var savePlayedTime = () =>
         {
-            targetInfo.LastPlayDate = DateTime.Now;
+            var timeCost = TimeSpan.FromSeconds(1);
+
+            if (gameInfo.PlayStatus == PlayStatus.Pause)
+                pauseTime += timeCost;
+
+            if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
+                return;
+
+            targetInfo.PlayedTime += timeCost;
             targetInfo.SaveJsonFile();
 
-            gameInfo.LastPlayDate = targetInfo.LastPlayDate;
+            gameInfo.PlayedTime += timeCost;
             gameInfo.SaveJsonFile();
+        };
 
-            TimeSpan pauseTime = TimeSpan.Zero;
-            var savePlayedTime = () =>
+        // update game here, but need in open target?
+        targetInfo.Game = gameInfo;
+
+        gameInfo.PlayStatus = PlayStatus.Playing;
+        targetInfo.PlayStatus = PlayStatus.Playing;
+
+        var timer = Observable
+            .Interval(TimeSpan.FromSeconds(1))
+            .ObserveOn(SynchronizationContext.Current)
+            .Subscribe(_ =>
             {
-                var timeCost = TimeSpan.FromSeconds(1);
+                savePlayedTime();
+            });
 
-                if (gameInfo.PlayStatus == PlayStatus.Pause)
-                    pauseTime += timeCost;
-
-                if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
-                    return;
-
-                targetInfo.PlayedTime += timeCost;
-                targetInfo.SaveJsonFile();
-
-                gameInfo.PlayedTime += timeCost;
-                gameInfo.SaveJsonFile();
-            };
-
-            // update game here, but need in open target?
-            targetInfo.Game = gameInfo;
-
-            gameInfo.PlayStatus = PlayStatus.Playing;
-            targetInfo.PlayStatus = PlayStatus.Playing;
-
-            var timer = Observable
-                .Interval(TimeSpan.FromSeconds(1))
-                .ObserveOn(SynchronizationContext.Current)
-                .Subscribe(_ =>
-                {
-                    savePlayedTime();
-                });
-
-            // check child process, maybe startup exe is a launcher
-            await gameProcess.WaitForAllExitAsync();
-
-            timer.Dispose();
-
-            gameInfo.PlayStatus = PlayStatus.Stop;
-            targetInfo.PlayStatus = PlayStatus.Stop;
-
-            gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
-            gameInfo.SaveJsonFile();
-
-            // Auto backup
-            if (gameInfo.SaveDataSettings.AutoBackup)
+        // 有可能时启动器之类的，等待所有子线程结束
+        gameInfo.PlayCancelTokenSource = new CancellationTokenSource();
+        try
+        {
+            await gameProcess.WaitForAllExitAsync(gameInfo.PlayCancelTokenSource.Token);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.ShowErrorMessage(LanguageHelper.GetString("Msg_WaitForAllExit_Exception").Format(ex.Message));
+            try
             {
-                var savedata = gameInfo.NewSaveData();
-                savedata.Name = LanguageHelper.GetString("SaveDataInfo_Auto_Backup");
-                if (await gameInfo.AddSaveData(savedata) == false)
-                {
-                    _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Auto_Backup_Fail"));
-                }
+                await Task.Delay(TimeSpan.FromDays(1), gameInfo.PlayCancelTokenSource.Token);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex2)
+            {
+                App.ShowErrorMessage(ex2.Message);
+            }
+        }
+
+        gameInfo.PlayCancelTokenSource.Dispose();
+        gameInfo.PlayCancelTokenSource = null;
+        timer.Dispose();
+
+        gameInfo.PlayStatus = PlayStatus.Stop;
+        targetInfo.PlayStatus = PlayStatus.Stop;
+
+        gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
+        gameInfo.SaveJsonFile();
+
+        // Auto backup
+        if (gameInfo.SaveDataSettings.AutoBackup)
+        {
+            var savedata = gameInfo.NewSaveData();
+            savedata.Name = LanguageHelper.GetString("SaveDataInfo_Auto_Backup");
+            if (await gameInfo.AddSaveData(savedata) == false)
+            {
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_SaveData_Auto_Backup_Fail"));
             }
         }
     }
@@ -270,6 +306,11 @@ public sealed partial class GamePlayPage : Page
     private async void play_Button_Click(object sender, RoutedEventArgs e)
     {
         await PlayGame(ViewModel.Game, "");
+    }
+
+    private void stop_Button_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Game.PlayCancelTokenSource?.Cancel();
     }
 
     private void local_emulator_MenuFlyout_Opening(object sender, object e)

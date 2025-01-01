@@ -395,6 +395,13 @@
                                                                                  Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                                                                  Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                                                <SelectorBarItem Padding="0"
+                                                                                 Text="Local Emulator"
+                                                                                 Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                                                    <SelectorBarItem.Icon>
+                                                                        <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                                                    </SelectorBarItem.Icon>
+                                                                </SelectorBarItem>
                                                                 <HyperlinkButton x:Name="capture_hotkey_button"
                                                                                  Margin="0"
                                                                                  Padding="0"

@@ -86,9 +86,7 @@ public sealed partial class ManagePage : Page
             );
 
             if (!response.ErrorMessage.IsNullOrEmpty())
-                await DialogHelper.ShowError(
-                    LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage)
-                );
+                App.ShowErrorMessage(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage));
 
             App.HideLoading();
             return response.Game;
@@ -104,7 +102,7 @@ public sealed partial class ManagePage : Page
             ViewModel.AddNewGame(gameInfo);
             var errMsg = await ViewModel.PullGameCharacterFromBangumi(gameInfo);
             if (!errMsg.IsNullOrEmpty())
-                _ = DialogHelper.ShowError(errMsg);
+                App.ShowErrorMessage(errMsg);
         }
     }
 
@@ -116,7 +114,7 @@ public sealed partial class ManagePage : Page
             ViewModel.UpdateGame(gameInfo);
             var errMsg = await ViewModel.PullGameCharacterFromBangumi(ViewModel.SelectedRepository.SelectedGame);
             if (!errMsg.IsNullOrEmpty())
-                _ = DialogHelper.ShowError(errMsg);
+                App.ShowErrorMessage(errMsg);
         }
     }
 
@@ -275,7 +273,7 @@ public sealed partial class ManagePage : Page
                     targetInfo.SeletedSource();
 
                 if (!targetInfo.IsValid())
-                    _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
+                    App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
                 else
                     await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }
@@ -292,7 +290,7 @@ public sealed partial class ManagePage : Page
 
         if (!ViewModel.SelectedRepository.SelectedGame.CreateShortcut(file.Path))
         {
-            await DialogHelper.ShowError(LanguageHelper.GetString("Msg_Target_Create_Shortcut_Fail"));
+            App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Create_Shortcut_Fail"));
             return;
         }
 
@@ -335,6 +333,7 @@ public sealed partial class ManagePage : Page
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         var editTargetInfo = TargetInfo.Open(targetInfo.FolderPath);
         editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
+        // 原本的源和本地化可能被删除了
         editTargetInfo.Localization =
             ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization)
             ?? targetInfo.Localization;
@@ -348,12 +347,9 @@ public sealed partial class ManagePage : Page
             if (editTargetInfo.Source != null && editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
             {
                 App.ShowLoading();
+                targetInfo.Source = editTargetInfo.Source;
                 await editTargetInfo.DecompressSource();
                 App.HideLoading();
-            }
-            else
-            {
-                editTargetInfo.Source = targetInfo.Source;
             }
 
             // replace new localization
@@ -363,15 +359,17 @@ public sealed partial class ManagePage : Page
             )
             {
                 App.ShowLoading();
+                targetInfo.Localization = editTargetInfo.Localization;
                 await editTargetInfo.DecompressLocalization();
                 App.HideLoading();
             }
-            else
-            {
-                editTargetInfo.Localization = targetInfo.Localization;
-            }
 
-            ViewModel.UpdateTarget(editTargetInfo);
+            // 手动刷新属性，用Adapt会卡死，也不合适
+            targetInfo.Name = editTargetInfo.Name;
+            targetInfo.StartupName = editTargetInfo.StartupName;
+            targetInfo.Description = editTargetInfo.Description;
+            targetInfo.EnableLocalEmulator = editTargetInfo.EnableLocalEmulator;
+            targetInfo.SaveJsonFile();
         }
     }
 
@@ -526,7 +524,7 @@ public sealed partial class ManagePage : Page
             || !Directory.Exists(savedataSettingsInfo.SaveDataFolderPath)
         )
         {
-            await DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Invalid_Path"));
+            App.ShowErrorMessage(LanguageHelper.GetString("Msg_SaveData_Invalid_Path"));
             return;
         }
 
@@ -536,7 +534,7 @@ public sealed partial class ManagePage : Page
         if (await EditSaveDataInfo(saveDataInfo) == ContentDialogResult.Primary)
         {
             if (!await ViewModel.SelectedRepository.SelectedGame.AddSaveData(saveDataInfo))
-                await DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Backup_Fail"));
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_SaveData_Backup_Fail"));
         }
 
         App.HideLoading();
@@ -558,7 +556,7 @@ public sealed partial class ManagePage : Page
         var savedataInfo = (sender as MenuFlyoutItem).DataContext as SaveDataInfo;
         if (ViewModel.SelectedRepository.SelectedGame.PlayStatus == PlayStatus.Playing)
         {
-            _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_Game_Need_Stop"));
+            App.ShowErrorMessage(LanguageHelper.GetString("Msg_Game_Need_Stop"));
             return;
         }
 
@@ -566,7 +564,7 @@ public sealed partial class ManagePage : Page
         {
             if (await ViewModel.SelectedRepository.SelectedGame.RestoreSaveData(savedataInfo) == false)
             {
-                _ = DialogHelper.ShowError(LanguageHelper.GetString("Msg_SaveData_Restore_Fail"));
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_SaveData_Restore_Fail"));
             }
         }
     }
