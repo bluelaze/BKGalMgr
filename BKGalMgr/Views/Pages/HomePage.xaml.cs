@@ -123,8 +123,17 @@ public sealed partial class HomePage : Page
             App.ShowLoading();
 
             await ViewModel.LibraryAndManagePageViewModel.LoadRepository();
-            ViewModel.Refresh();
 
+            App.HideLoading();
+        }
+
+        if (!ViewModel.Banners.Any())
+        {
+            ViewModel.Refresh();
+        }
+
+        if (_dateTimer == null)
+        {
             // 比较准确的开启每秒计时
             ViewModel.CurrentDate = DateTime.Now;
             Observable
@@ -132,12 +141,6 @@ public sealed partial class HomePage : Page
                 .ObserveOn(SynchronizationContext.Current)
                 .Subscribe(_ => StartTimer());
             UpdateTimePriod();
-
-            App.HideLoading();
-        }
-        else if (!ViewModel.Banners.Any())
-        {
-            ViewModel.Refresh();
         }
     }
 
