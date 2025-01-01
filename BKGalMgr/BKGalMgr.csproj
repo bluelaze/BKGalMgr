@@ -38,6 +38,7 @@
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
+        <None Remove="Views\Pages\BrowserPage.xaml" />
         <None Remove="Views\Pages\GamePlayPage.xaml" />
         <None Remove="Views\Pages\HomePage.xaml" />
         <None Remove="Views\Pages\LibraryAndManagePage.xaml" />
@@ -142,6 +143,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\TargetInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Pages\BrowserPage.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\GamePlayPage.xaml">

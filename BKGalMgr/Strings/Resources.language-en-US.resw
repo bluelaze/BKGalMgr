@@ -488,6 +488,9 @@
   <data name="Main_Nav_Home.Content" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Main_Nav_Browser.Content" xml:space="preserve">
+    <value>Browser</value>
+  </data>
   <data name="Main_Nav_Library.Content" xml:space="preserve">
     <value>Library</value>
   </data>

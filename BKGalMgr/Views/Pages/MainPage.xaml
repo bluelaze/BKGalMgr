@@ -48,6 +48,9 @@
                 <NavigationViewItem x:Name="home_navitem"
                                     x:Uid="Main_Nav_Home"
                                     Icon="Home" />
+                <NavigationViewItem x:Name="browser_navitem"
+                                    x:Uid="Main_Nav_Browser"
+                                    Icon="{mui:FontIcon Glyph=&#xE773;}" />
                 <NavigationViewItem x:Name="review_navitem"
                                     x:Uid="Main_Nav_Review"
                                     Icon="{mui:FontIcon Glyph=&#xE9D2;}" />
