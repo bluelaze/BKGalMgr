@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Controls;
 
 namespace BKGalMgr.Helpers;
 
@@ -198,12 +199,40 @@ public class ColorHelper
         return l < 30.0;
     }
 
+    public static bool IsHarshColor(Color color)
+    {
+        // 转换为HSL色彩空间
+        (double h, double s, double l) = ColorToHSL(color);
+
+        // 判断条件:
+        // 1. 饱和度大于70%
+        // 2. 亮度大于65%或小于15%
+        // 3. 色相在特定范围内(黄色、粉色等)
+        bool isSaturationHigh = s > 0.7;
+        bool isLightnessExtreme = l > 0.65 || l < 0.15;
+        bool isHarshHue = IsHarshHue(h * 360);
+
+        return isSaturationHigh && (isLightnessExtreme || isHarshHue);
+    }
+
+    private static bool IsHarshHue(double hue)
+    {
+        // 判断特定色相范围
+        // 黄色: 50-70
+        // 粉色: 300-335
+        // 亮绿: 90-110
+        return (hue >= 50 && hue <= 70) // 黄色
+            || (hue >= 300 && hue <= 335) // 粉色
+            || (hue >= 90 && hue <= 110) // 亮绿
+            || ((hue >= 0 && hue <= 30) || (hue >= 330 && hue <= 360)); // 红色
+    }
+
     public static Windows.UI.Color ConvertToWindowsColor(Color color)
     {
         return Windows.UI.Color.FromArgb(color.A, color.R, color.G, color.B);
     }
 
-    public static Color GenerateLighterOrDarkerColor(Color baseColor, bool isLighter = true)
+    public static Color GenerateLighterOrDarkerColor(Color baseColor, bool isLighter = true, double increment = 0.2)
     {
         // 将RGB转换为HSL
         double r = baseColor.R / 255.0;
@@ -215,12 +244,22 @@ public class ColorHelper
         // 调整亮度
         // 这个值可以根据你的需求调整
         l = isLighter
-            ? Math.Min(l + 0.2, 1.0)
+            ? Math.Min(l + increment, 1.0)
             : // 变亮
-            Math.Max(l - 0.2, 0.0); // 变暗
+            Math.Max(l - increment, 0.0); // 变暗
 
         // 转换回RGB
-        if (s == 0)
+        return HslToRgb(h, s, l);
+        ;
+    }
+
+    private static Color HslToRgb(double h, double s, double l)
+    {
+        double r,
+            g,
+            b;
+
+        if (Math.Abs(s) < 0.00001)
         {
             r = g = b = l;
         }
@@ -234,7 +273,7 @@ public class ColorHelper
             b = HueToRgb(p, q, h - 1.0 / 3.0);
         }
 
-        return Color.FromArgb(255, (int)(r * 255), (int)(g * 255), (int)(b * 255));
+        return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
     }
 
     private static double HueToRgb(double p, double q, double t)
