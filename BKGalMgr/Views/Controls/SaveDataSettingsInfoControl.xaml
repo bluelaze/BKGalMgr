@@ -34,8 +34,10 @@
                           Icon="{mui:FontIcon Glyph=&#xE8F7;}" />
         </CommandBar>
         <mcontrols:SettingsCard x:Uid="SaveDataSettingsInfo_SaveData_Path">
-            <Grid MinWidth="256">
-                <TextBox x:Name="pick_savedata_folder_TextBox" Text="{Binding SaveDataFolderPath, Mode=TwoWay}" />
+            <Grid MinWidth="256" MaxWidth="600">
+                <TextBox x:Name="pick_savedata_folder_TextBox"
+                         Text="{Binding SaveDataFolderPath, Mode=TwoWay}"
+                         TextWrapping="Wrap" />
                 <Button x:Name="pick_savedata_folder_Button"
                         Width="32"
                         Height="32"
