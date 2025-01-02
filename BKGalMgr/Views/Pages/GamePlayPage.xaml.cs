@@ -46,7 +46,7 @@ public sealed partial class GamePlayPage : Page
     {
         base.OnNavigatedTo(e);
         ViewModel.Game = e.Parameter as GameInfo;
-        if (!ViewModel.Game.Cover.IsNullOrEmpty())
+        if (!ViewModel.Game.Cover.IsNullOrEmpty() && !ViewModel.Game.Cover.EndsWith(".webp"))
         {
             var colors = await Task.Run(() =>
             {
@@ -55,7 +55,7 @@ public sealed partial class GamePlayPage : Page
                 if (ColorHelper.IsHarshColor(primaryColor))
                 {
                     secondColor = ColorHelper.GenerateLessHarshColor(primaryColor);
-                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false);
+                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 20);
                 }
                 else
                 {
