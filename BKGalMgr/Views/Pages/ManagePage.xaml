@@ -72,8 +72,7 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
-                            <Button x:Name="add_game_button"
-                                    Click="add_game_button_Click"
+                            <Button Command="{x:Bind ViewModel.AddNewGameCommand, Mode=OneWay}"
                                     Content="{mui:FontIcon FontSize=16,
                                                            Glyph=&#xE948;}"
                                     Style="{StaticResource IconButtonStyle}" />
@@ -186,7 +185,7 @@
                                             <MenuFlyoutItem x:Name="edit_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_source_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Delete"
@@ -199,11 +198,11 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{Binding CreateDate}" />
-                                    <TextBlock Text="{Binding Description}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -231,7 +230,7 @@
                                             <MenuFlyoutItem x:Name="edit_localization_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_localization_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Delete"
@@ -244,11 +243,11 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{Binding CreateDate}" />
-                                    <TextBlock Text="{Binding Description}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -290,7 +289,7 @@
                                                 <MenuFlyoutItem x:Name="edit_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Edit"
                                                                 Click="edit_target_menuflyoutitem_Click" />
-                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                                 <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Export_As_Source"
                                                                 Click="export_target_menuflyoutitem_Click" />
@@ -301,11 +300,11 @@
                                                 <MenuFlyoutItem x:Name="dearchive_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_DeArchive"
                                                                 Click="dearchive_target_menuflyoutitem_Click"
-                                                                IsEnabled="{Binding IsArchive}" />
+                                                                IsEnabled="{x:Bind IsArchive, Mode=OneWay}" />
                                                 <MenuFlyoutItem x:Name="delete_target_folder_only_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Delete_Folder_Only"
                                                                 Click="delete_target_folder_only_menuflyoutitem_Click"
-                                                                IsEnabled="{Binding IsArchive}" />
+                                                                IsEnabled="{x:Bind IsArchive, Mode=OneWay}" />
                                                 <MenuFlyoutSeparator />
                                                 <MenuFlyoutItem x:Name="delete_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Delete"
@@ -331,22 +330,22 @@
                                                 </VisualState>
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
-                                        <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                        <SelectorBarItem Padding="0" Text="{x:Bind Name, Mode=OneWay}">
                                             <SelectorBarItem.Icon>
                                                 <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
                                             </SelectorBarItem.Icon>
                                         </SelectorBarItem>
                                         <SelectorBarItem Padding="0"
                                                          Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                         Text="{Binding CreateDate}" />
+                                                         Text="{x:Bind CreateDate, Mode=OneWay}" />
                                         <SelectorBarItem Padding="0"
                                                          Text="Local Emulator"
-                                                         Visibility="{Binding EnableLocalEmulator, Mode=OneWay}">
+                                                         Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
                                             <SelectorBarItem.Icon>
                                                 <FontIcon Margin="0,-6,0,0" Glyph="LE" />
                                             </SelectorBarItem.Icon>
                                         </SelectorBarItem>
-                                        <TextBlock Text="{Binding Description}" />
+                                        <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                     </StackPanel>
                                 </UserControl>
                             </DataTemplate>
@@ -397,11 +396,11 @@
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{Binding CreateDate}" />
-                                    <TextBlock Text="{Binding Description}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -418,10 +417,10 @@
                         </MenuFlyout>
                     </FlipView.ContextFlyout>
                     <FlipView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="x:String">
                             <Image x:Name="cover_Image"
                                    DoubleTapped="cover_Image_DoubleTapped"
-                                   Source="{Binding}"
+                                   Source="{x:Bind}"
                                    Stretch="Uniform" />
                         </DataTemplate>
                     </FlipView.ItemTemplate>
@@ -436,12 +435,12 @@
                           SelectedIndex="{x:Bind covers_FlipView.SelectedIndex, Mode=TwoWay}">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <ItemsStackPanel Orientation="Horizontal" />
+                            <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}" Stretch="Uniform" />
+                        <DataTemplate x:DataType="x:String">
+                            <Image Source="{x:Bind}" Stretch="Uniform" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -458,6 +457,8 @@
                     <ItemsView x:Name="gallery_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
+                               IsItemInvokedEnabled="True"
+                               ItemInvoked="gallery_ItemsView_ItemInvoked"
                                ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
@@ -467,14 +468,12 @@
                                              MinItemSpacing="8" />
                         </ItemsView.Layout>
                         <ItemsView.ItemTemplate>
-                            <DataTemplate>
-                                <ItemContainer x:Name="gallery_ItemContainer"
-                                               CornerRadius="0"
-                                               Tapped="gallery_ItemContainer_Tapped">
+                            <DataTemplate x:DataType="x:String">
+                                <ItemContainer CornerRadius="0">
                                     <Image MinWidth="64"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Source="{Binding}"
+                                           Source="{x:Bind}"
                                            Stretch="UniformToFill" />
                                 </ItemContainer>
                             </DataTemplate>
@@ -494,6 +493,8 @@
                     <ItemsView x:Name="special_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
+                               IsItemInvokedEnabled="True"
+                               ItemInvoked="special_ItemsView_ItemInvoked"
                                ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
@@ -503,14 +504,12 @@
                                              MinItemSpacing="8" />
                         </ItemsView.Layout>
                         <ItemsView.ItemTemplate>
-                            <DataTemplate>
-                                <ItemContainer x:Name="special_ItemContainer"
-                                               CornerRadius="0"
-                                               Tapped="special_ItemContainer_Tapped">
+                            <DataTemplate x:DataType="x:String">
+                                <ItemContainer CornerRadius="0">
                                     <Image MinWidth="64"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Source="{Binding}"
+                                           Source="{x:Bind}"
                                            Stretch="UniformToFill" />
                                 </ItemContainer>
                             </DataTemplate>
@@ -530,6 +529,8 @@
                     <ItemsView x:Name="screen_capture_ItemsView"
                                Margin="12,0,0,0"
                                CornerRadius="0"
+                               IsItemInvokedEnabled="True"
+                               ItemInvoked="screen_capture_ItemsView_ItemInvoked"
                                ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.ScreenCaptures, Mode=OneWay}"
                                SelectionMode="None">
                         <ItemsView.Layout>
@@ -539,14 +540,12 @@
                                              MinItemSpacing="8" />
                         </ItemsView.Layout>
                         <ItemsView.ItemTemplate>
-                            <DataTemplate>
-                                <ItemContainer x:Name="screen_capture_ItemContainer"
-                                               CornerRadius="0"
-                                               Tapped="screen_capture_ItemContainer_Tapped">
+                            <DataTemplate x:DataType="x:String">
+                                <ItemContainer CornerRadius="0">
                                     <Image MinWidth="64"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Source="{Binding}"
+                                           Source="{x:Bind}"
                                            Stretch="UniformToFill" />
                                 </ItemContainer>
                             </DataTemplate>
@@ -632,11 +631,9 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Margin="8" VerticalAlignment="Top">
-                                            <Image.Source>
-                                                <BitmapImage UriSource="{Binding Illustration}" />
-                                            </Image.Source>
-                                        </Image>
+                                        <Image Margin="8"
+                                               VerticalAlignment="Top"
+                                               Source="{Binding Illustration}" />
                                         <Button x:Name="add_illustration_Button"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"

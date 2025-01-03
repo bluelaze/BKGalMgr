@@ -78,6 +78,7 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         return true;
     }
 
+    [RelayCommand]
     public void AddNewGame()
     {
         GameInfo newGame = SelectedRepository.NewGame();

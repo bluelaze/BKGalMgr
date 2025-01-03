@@ -71,11 +71,11 @@
                                             <Grid>
                                                 <ToggleButton x:Name="group_togglebutton"
                                                               Checked="group_togglebutton_IsCheckedChanged"
-                                                              Content="{Binding Name, Mode=OneWay}"
+                                                              Content="{x:Bind Name, Mode=OneWay}"
                                                               FontSize="12"
-                                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                               Unchecked="group_togglebutton_IsCheckedChanged"
-                                                              Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                              Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
                                                     <ToggleButton.ContextFlyout>
                                                         <MenuFlyout>
                                                             <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
@@ -100,7 +100,7 @@
                                                         Click="add_group_button_Click"
                                                         Content="{mui:FontIcon FontSize=16,
                                                                                Glyph=&#xE948;}"
-                                                        Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                                        Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
                                             </Grid>
                                         </ItemContainer>
                                     </DataTemplate>
@@ -304,9 +304,9 @@
                                                                         <ItemContainer>
                                                                             <ToggleButton x:Name="group_togglebutton"
                                                                                           Checked="group_togglebutton_IsCheckedChanged"
-                                                                                          Content="{Binding Name, Mode=OneWay}"
+                                                                                          Content="{x:Bind Name, Mode=OneWay}"
                                                                                           FontSize="12"
-                                                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                                                           Unchecked="group_togglebutton_IsCheckedChanged" />
                                                                         </ItemContainer>
                                                                     </DataTemplate>
@@ -460,10 +460,8 @@
                                 <StackPanel>
                                     <Image Height="350"
                                            Margin="8"
-                                           VerticalAlignment="Top">
-                                        <Image.Source>
-                                            <BitmapImage UriSource="{Binding Cover, Mode=OneWay}" />
-                                        </Image.Source>
+                                           VerticalAlignment="Top"
+                                           Source="{Binding Cover}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="1920"
                                                      MaxHeight="1080"

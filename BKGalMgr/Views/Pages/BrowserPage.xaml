@@ -65,9 +65,9 @@
                                             <Grid>
                                                 <ToggleButton x:Name="group_ToggleButton"
                                                               Checked="group_Togglebutton_IsCheckedChanged"
-                                                              Content="{Binding Name, Mode=OneWay}"
+                                                              Content="{x:Bind Name, Mode=OneWay}"
                                                               FontSize="12"
-                                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                               Unchecked="group_Togglebutton_IsCheckedChanged" />
                                             </Grid>
                                         </ItemContainer>

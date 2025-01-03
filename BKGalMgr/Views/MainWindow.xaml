@@ -53,7 +53,7 @@
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
                       SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}">
                 <FlipView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="x:String">
                         <ScrollViewer x:Name="image_ScrollViewer"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
@@ -63,7 +63,7 @@
                                       ZoomMode="Enabled">
                             <Image x:Name="post_Image"
                                    ImageOpened="post_Image_ImageOpened"
-                                   Source="{Binding}"
+                                   Source="{x:Bind}"
                                    Stretch="None" />
                         </ScrollViewer>
                     </DataTemplate>
@@ -82,12 +82,12 @@
                       SelectionChanged="image_viewer_ListView_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Horizontal" />
+                        <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding}" Stretch="Uniform" />
+                    <DataTemplate x:DataType="x:String">
+                        <Image Source="{x:Bind}" Stretch="Uniform" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -144,22 +144,22 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <SelectorBarItem Padding="0" Text="{Binding Name}">
+                                    <SelectorBarItem Padding="0" Text="{x:Bind Name}">
                                         <SelectorBarItem.Icon>
                                             <FontIcon x:Name="target_FontIcon" Glyph="&#xE736;" />
                                         </SelectorBarItem.Icon>
                                     </SelectorBarItem>
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{Binding CreateDate}" />
+                                                     Text="{x:Bind CreateDate}" />
                                     <SelectorBarItem Padding="0"
                                                      Text="Local Emulator"
-                                                     Visibility="{Binding EnableLocalEmulator, Mode=OneWay}">
+                                                     Visibility="{x:Bind EnableLocalEmulator}">
                                         <SelectorBarItem.Icon>
                                             <FontIcon Margin="0,-6,0,0" Glyph="LE" />
                                         </SelectorBarItem.Icon>
                                     </SelectorBarItem>
-                                    <TextBlock Text="{Binding Description}" />
+                                    <TextBlock Text="{x:Bind Description}" />
                                 </StackPanel>
                             </UserControl>
                         </DataTemplate>

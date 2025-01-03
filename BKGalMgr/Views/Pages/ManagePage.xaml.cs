@@ -665,21 +665,21 @@ public sealed partial class ManagePage : Page
         App.ShowImages(ViewModel.SelectedRepository.SelectedGame.Covers, covers_FlipView.SelectedIndex);
     }
 
-    private void gallery_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
+    private void gallery_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Gallery;
-        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
+        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
     }
 
-    private void screen_capture_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
-    {
-        var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
-        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
-    }
-
-    private void special_ItemContainer_Tapped(object sender, TappedRoutedEventArgs e)
+    private void special_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Special;
-        App.ShowImages(images, images.IndexOf((sender as ItemContainer).DataContext as string));
+        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
+    }
+
+    private void screen_capture_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
+        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
     }
 }

@@ -181,10 +181,8 @@
                                 <StackPanel Width="150">
                                     <Image Height="170"
                                            Margin="8"
-                                           VerticalAlignment="Top">
-                                        <Image.Source>
-                                            <BitmapImage UriSource="{Binding Game.Cover}" />
-                                        </Image.Source>
+                                           VerticalAlignment="Top"
+                                           Source="{Binding Game.Cover}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="1920"
                                                      MaxHeight="1080"

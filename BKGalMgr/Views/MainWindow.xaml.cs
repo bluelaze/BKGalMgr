@@ -95,8 +95,9 @@ public sealed partial class MainWindow : Window
 
     public void ShowImages(IEnumerable<string> images, int selectedIndex)
     {
-        Images = new(images);
-        ImageSelectedIndex = selectedIndex;
+        // x:Bind不能是null对象，否则会崩溃
+        Images = new(images.Where(t => !t.IsNullOrEmpty()));
+        ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
         image_viewer_Grid.Visibility = Visibility.Visible;
     }
 
