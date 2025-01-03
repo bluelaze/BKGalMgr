@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
@@ -93,12 +94,15 @@ public sealed partial class MainWindow : Window
         loading_contentpresenter.Visibility = Visibility.Collapsed;
     }
 
-    public void ShowImages(IEnumerable<string> images, int selectedIndex)
+    public async void ShowImages(IEnumerable<string> images, int selectedIndex)
     {
         // x:Bind不能是null对象，否则会崩溃
         Images = new(images.Where(t => !t.IsNullOrEmpty()));
-        ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
         image_viewer_Grid.Visibility = Visibility.Visible;
+        // 延迟赋值，否者点击同一张图片，source变了，index没变，导致选择出错
+        await Task.Delay(33);
+        ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
+        OnPropertyChanged(nameof(ImageSelectedIndex));
     }
 
     [RelayCommand]
