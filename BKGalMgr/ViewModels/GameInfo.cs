@@ -375,7 +375,7 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public void AddPlayedPeriod(PlayedPeriodInfo playedPeriodInfo)
+    public void AddPlayedPeriodToFirst(PlayedPeriodInfo playedPeriodInfo)
     {
         PlayedPeriods.Insert(0, playedPeriodInfo);
         // notify for chart to update

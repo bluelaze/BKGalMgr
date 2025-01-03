@@ -234,15 +234,18 @@ public sealed partial class GamePlayPage : Page
         targetInfo.SaveJsonFile();
 
         gameInfo.LastPlayDate = targetInfo.LastPlayDate;
+        gameInfo.AddPlayedPeriodToFirst(new(gameInfo.LastPlayDate, DateTime.Now, TimeSpan.Zero));
         gameInfo.SaveJsonFile();
 
-        TimeSpan pauseTime = TimeSpan.Zero;
+        var playedPeriod = gameInfo.PlayedPeriods.First();
         var savePlayedTime = () =>
         {
             var timeCost = TimeSpan.FromSeconds(1);
 
             if (gameInfo.PlayStatus == PlayStatus.Pause)
-                pauseTime += timeCost;
+                playedPeriod.PauseTime += timeCost;
+
+            playedPeriod.EndTime = DateTime.Now;
 
             if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
                 return;
@@ -296,7 +299,7 @@ public sealed partial class GamePlayPage : Page
         gameInfo.PlayStatus = PlayStatus.Stop;
         targetInfo.PlayStatus = PlayStatus.Stop;
 
-        gameInfo.AddPlayedPeriod(new(gameInfo.LastPlayDate, DateTime.Now, pauseTime));
+        playedPeriod.EndTime = DateTime.Now;
         gameInfo.SaveJsonFile();
 
         // Auto backup
