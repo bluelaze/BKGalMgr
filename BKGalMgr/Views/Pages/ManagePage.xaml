@@ -19,7 +19,7 @@
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
 
-        <x:Double x:Key="HeaderedControlMaxWidth">1080</x:Double>
+        <x:Double x:Key="HeaderedControlMaxWidth">1200</x:Double>
 
         <Style x:Key="HeaderedControlHeaderTextBlockStyle"
                BasedOn="{StaticResource TitleTextBlockStyle}"
@@ -37,6 +37,14 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderBrush" Value="{x:Null}" />
             </Style.Setters>
+        </Style>
+
+        <Style x:Key="ImageGridViewItemStyle"
+               BasedOn="{StaticResource DefaultGridViewItemStyle}"
+               TargetType="GridViewItem">
+            <Setter Property="Margin" Value="0,0,10,10" />
+            <Setter Property="Width" Value="224" />
+            <Setter Property="Height" Value="126" />
         </Style>
     </Page.Resources>
     <Grid Margin="0,16">
@@ -454,31 +462,20 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsView x:Name="gallery_ItemsView"
-                               Margin="12,0,0,0"
-                               CornerRadius="0"
-                               IsItemInvokedEnabled="True"
-                               ItemInvoked="gallery_ItemsView_ItemInvoked"
-                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
-                               SelectionMode="None">
-                        <ItemsView.Layout>
-                            <LinedFlowLayout ItemsStretch="Fill"
-                                             LineHeight="158"
-                                             LineSpacing="10"
-                                             MinItemSpacing="8" />
-                        </ItemsView.Layout>
-                        <ItemsView.ItemTemplate>
+                    <!--  ItemsView有布局崩溃，图片多了快速滚动容易触发，看1.7预览版本有修复，改用gridview  -->
+                    <GridView x:Name="gallery_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="gallery_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <ItemContainer CornerRadius="0">
-                                    <Image MinWidth="64"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="{x:Bind}"
-                                           Stretch="UniformToFill" />
-                                </ItemContainer>
+                                <Image Source="{x:Bind}" />
                             </DataTemplate>
-                        </ItemsView.ItemTemplate>
-                    </ItemsView>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </mcontrols:HeaderedContentControl>
                 <!--  Special  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
@@ -490,31 +487,19 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsView x:Name="special_ItemsView"
-                               Margin="12,0,0,0"
-                               CornerRadius="0"
-                               IsItemInvokedEnabled="True"
-                               ItemInvoked="special_ItemsView_ItemInvoked"
-                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
-                               SelectionMode="None">
-                        <ItemsView.Layout>
-                            <LinedFlowLayout ItemsStretch="Fill"
-                                             LineHeight="158"
-                                             LineSpacing="10"
-                                             MinItemSpacing="8" />
-                        </ItemsView.Layout>
-                        <ItemsView.ItemTemplate>
+                    <GridView x:Name="special_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="special_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <ItemContainer CornerRadius="0">
-                                    <Image MinWidth="64"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="{x:Bind}"
-                                           Stretch="UniformToFill" />
-                                </ItemContainer>
+                                <Image Source="{x:Bind}" />
                             </DataTemplate>
-                        </ItemsView.ItemTemplate>
-                    </ItemsView>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </mcontrols:HeaderedContentControl>
                 <!--  screen captures  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
@@ -526,31 +511,19 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsView x:Name="screen_capture_ItemsView"
-                               Margin="12,0,0,0"
-                               CornerRadius="0"
-                               IsItemInvokedEnabled="True"
-                               ItemInvoked="screen_capture_ItemsView_ItemInvoked"
-                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.ScreenCaptures, Mode=OneWay}"
-                               SelectionMode="None">
-                        <ItemsView.Layout>
-                            <LinedFlowLayout ItemsStretch="Fill"
-                                             LineHeight="158"
-                                             LineSpacing="10"
-                                             MinItemSpacing="8" />
-                        </ItemsView.Layout>
-                        <ItemsView.ItemTemplate>
+                    <GridView x:Name="screenshot_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="screenshot_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.ScreenCaptures, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <ItemContainer CornerRadius="0">
-                                    <Image MinWidth="64"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Source="{x:Bind}"
-                                           Stretch="UniformToFill" />
-                                </ItemContainer>
+                                <Image Source="{x:Bind}" />
                             </DataTemplate>
-                        </ItemsView.ItemTemplate>
-                    </ItemsView>
+                        </GridView.ItemTemplate>
+                    </GridView>
                 </mcontrols:HeaderedContentControl>
                 <!--  story  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
@@ -596,10 +569,11 @@
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CHARACTER" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
-                    <ItemsControl Margin="12,0,0,0"
-                                  Padding="0"
-                                  ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Characters, Mode=OneWay}">
-                        <ItemsControl.ItemTemplate>
+                    <ListView Margin="-4,0,0,0"
+                              Padding="0"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Characters, Mode=OneWay}"
+                              SelectionMode="None">
+                        <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:CharacterInfo">
                                 <UserControl>
                                     <UserControl.ContextFlyout>
@@ -703,8 +677,8 @@
                                     </Grid>
                                 </UserControl>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </mcontrols:HeaderedContentControl>
             </StackPanel>
         </ScrollViewer>

@@ -665,21 +665,22 @@ public sealed partial class ManagePage : Page
         App.ShowImages(ViewModel.SelectedRepository.SelectedGame.Covers, covers_FlipView.SelectedIndex);
     }
 
-    private void gallery_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    private void gallery_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Gallery;
-        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
 
-    private void special_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    private void special_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Special;
-        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+
     }
 
-    private void screen_capture_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    private void screenshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
-        App.ShowImages(images, images.IndexOf(args.InvokedItem as string));
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
 }
