@@ -409,6 +409,31 @@
                         Click="library_Button_Click"
                         Content="{mui:FontIcon Glyph=&#xE8F1;}"
                         Style="{StaticResource BottomButtonStyle}" />
+                <Button x:Name="more_Button"
+                        Content="{mui:FontIcon Glyph=&#xE712;}"
+                        Style="{StaticResource BottomButtonStyle}">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                            Command="{x:Bind ViewModel.Game.OpenJsonFolderCommand, Mode=OneWay}"
+                                            Icon="{mui:FontIcon Glyph=&#xE838;}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                            Click="bangumi_MenuFlyoutItem_Click"
+                                            IsEnabled="{x:Bind ViewModel.Game.BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                <MenuFlyoutItem.Icon>
+                                    <ImageIcon Source="{ThemeResource BangumiIcon}" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
+                                            Click="t2dfan_MenuFlyoutItem_Click"
+                                            IsEnabled="{x:Bind ViewModel.Game.T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                <MenuFlyoutItem.Icon>
+                                    <ImageIcon Source="{ThemeResource T2DFanIcon}" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

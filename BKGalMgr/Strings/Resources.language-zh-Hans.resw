@@ -262,6 +262,12 @@
   <data name="Commom_MenuItem_Move_Down.Text" xml:space="preserve">
     <value>下移</value>
   </data>
+  <data name="Commom_MenuItem_Open_In_Bangumi.Text" xml:space="preserve">
+    <value>从Bangumi打开</value>
+  </data>
+  <data name="Commom_MenuItem_Open_In_2DFan.Text" xml:space="preserve">
+    <value>从2DFan打开</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
   </data>
@@ -466,13 +472,13 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="Bangumi_Pull_Game_Title" xml:space="preserve">
-    <value>从Bangumi拉取游戏信息</value>
+  <data name="Bangumi_Edit_Game_Info" xml:space="preserve">
+    <value>编辑Bangumi游戏信息</value>
   </data>
-  <data name="Bangumi_Pull_Game_Access_Token.PlaceholderText" xml:space="preserve">
+  <data name="Bangumi_Game_Access_Token.PlaceholderText" xml:space="preserve">
     <value>在设置页面配置Access Token</value>
   </data>
-  <data name="Bangumi_Pull_Game_Subject_Url.Header" xml:space="preserve">
+  <data name="Bangumi_Game_Subject_Url.Header" xml:space="preserve">
     <value>条目Url</value>
   </data>
   <data name="Bangumi_Pull_Game_Eorr" xml:space="preserve">
@@ -484,6 +490,18 @@
   </data>
   <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
     <value>更新当前游戏</value>
+  </data>
+  <data name="Bangumi_Edit_Game.Text" xml:space="preserve">
+    <value>编辑游戏信息</value>
+  </data>
+  <data name="T2DFan_Edit_Game_Info" xml:space="preserve">
+    <value>编辑2DFan游戏信息</value>
+  </data>
+  <data name="T2DFan_Game_Subject_Url.Header" xml:space="preserve">
+    <value>条目Url</value>
+  </data>
+  <data name="T2DFan_Edit_Game.Text" xml:space="preserve">
+    <value>编辑游戏信息</value>
   </data>
   <data name="Main_Nav_Home.Content" xml:space="preserve">
     <value>主页</value>

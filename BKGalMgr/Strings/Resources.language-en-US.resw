@@ -262,6 +262,12 @@
   <data name="Commom_MenuItem_Move_Down.Text" xml:space="preserve">
     <value>Move Down</value>
   </data>
+  <data name="Commom_MenuItem_Open_In_Bangumi.Text" xml:space="preserve">
+    <value>Open in Bangumi</value>
+  </data>
+  <data name="Commom_MenuItem_Open_In_2DFan.Text" xml:space="preserve">
+    <value>Open in 2DFan</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>
@@ -466,13 +472,13 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="Bangumi_Pull_Game_Title" xml:space="preserve">
-    <value>Pull Game Info from Bangumi</value>
+  <data name="Bangumi_Edit_Game_Info" xml:space="preserve">
+    <value>Edit Bangumi Game Info</value>
   </data>
-  <data name="Bangumi_Pull_Game_Access_Token.PlaceholderText" xml:space="preserve">
+  <data name="Bangumi_Game_Access_Token.PlaceholderText" xml:space="preserve">
     <value>Config Access Token in Settings Page</value>
   </data>
-  <data name="Bangumi_Pull_Game_Subject_Url.Header" xml:space="preserve">
+  <data name="Bangumi_Game_Subject_Url.Header" xml:space="preserve">
     <value>Subject Url</value>
   </data>
   <data name="Bangumi_Pull_Game_Eorr" xml:space="preserve">
@@ -484,6 +490,18 @@
   </data>
   <data name="Bangumi_Pull_Game_Update.Text" xml:space="preserve">
     <value>Update Current Game</value>
+  </data>
+  <data name="Bangumi_Edit_Game.Text" xml:space="preserve">
+    <value>Edit Game Info</value>
+  </data>
+  <data name="T2DFan_Edit_Game_Info" xml:space="preserve">
+    <value>Edit 2DFan Game Info</value>
+  </data>
+  <data name="T2DFan_Game_Subject_Url.Header" xml:space="preserve">
+    <value>Subject Url</value>
+  </data>
+  <data name="T2DFan_Edit_Game.Text" xml:space="preserve">
+    <value>Edit Game Info</value>
   </data>
   <data name="Main_Nav_Home.Content" xml:space="preserve">
     <value>Home</value>

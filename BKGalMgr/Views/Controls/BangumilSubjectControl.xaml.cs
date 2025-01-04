@@ -20,7 +20,7 @@ using Windows.Foundation.Collections;
 
 namespace BKGalMgr.Views.Controls;
 
-public sealed partial class BangumiPullSubjectControl : UserControl
+public sealed partial class BangumiSubjectControl : UserControl
 {
     public string AccessToken
     {
@@ -30,7 +30,7 @@ public sealed partial class BangumiPullSubjectControl : UserControl
     public static readonly DependencyProperty AccessTokenProperty = DependencyProperty.Register(
         "AccessToken",
         typeof(string),
-        typeof(BangumiPullSubjectControl),
+        typeof(BangumiSubjectControl),
         new PropertyMetadata(default(string))
     );
 
@@ -42,18 +42,11 @@ public sealed partial class BangumiPullSubjectControl : UserControl
     public static readonly DependencyProperty SubjectUrlProperty = DependencyProperty.Register(
         "SubjectUrl",
         typeof(string),
-        typeof(BangumiPullSubjectControl),
+        typeof(BangumiSubjectControl),
         new PropertyMetadata(default(string))
     );
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public BangumiPullSubjectControl()
+    public BangumiSubjectControl()
     {
         this.InitializeComponent();
     }

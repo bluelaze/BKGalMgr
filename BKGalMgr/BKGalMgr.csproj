@@ -24,7 +24,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Views\Controls\BangumiPullSubjectControl.xaml" />
+        <None Remove="Views\Controls\BangumiSubjectControl.xaml" />
         <None Remove="Views\Controls\CharacterInfoControl.xaml" />
         <None Remove="Views\Controls\ContributorInfoControl.xaml" />
         <None Remove="Views\Controls\GameInfoControl.xaml" />
@@ -37,6 +37,7 @@
         <None Remove="Views\Controls\SaveDataInfoControl.xaml" />
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
+        <None Remove="Views\Controls\T2DFanSubjectControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
         <None Remove="Views\Pages\BrowserPage.xaml" />
         <None Remove="Views\Pages\GamePlayPage.xaml" />
@@ -100,13 +101,19 @@
         <Content Update="Assets\bangumi_light.svg">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Update="Assets\2dfan_dark.svg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Assets\2dfan_light.svg">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
         <Content Include="Assets\LocalEmulator\*.*">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="Views\Controls\BangumiPullSubjectControl.xaml">
+        <Page Update="Views\Controls\BangumilSubjectControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\CharacterInfoControl.xaml">
@@ -140,6 +147,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\SourceInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\T2DFanSubjectControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\TargetInfoControl.xaml">

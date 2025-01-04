@@ -57,9 +57,9 @@ public sealed partial class ManagePage : Page
         ViewModel.AddNewGame();
     }
 
-    private async Task<GameInfo> PullBangumiGameInfo(string bangumiSubjectId)
+    private async Task<(ContentDialogResult result, string subjectUrl)> EditBangumiGameInfo(string bangumiSubjectId)
     {
-        BangumiPullSubjectControl bangumiPullSubjectControl = new BangumiPullSubjectControl()
+        BangumiSubjectControl bangumiSubjectControl = new BangumiSubjectControl()
         {
             Width = 720,
             AccessToken = ViewModel.BangumiAccessToken,
@@ -67,23 +67,28 @@ public sealed partial class ManagePage : Page
         };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
-        dialog.Title = LanguageHelper.GetString("Bangumi_Pull_Game_Title");
-        dialog.Content = bangumiPullSubjectControl;
+        dialog.Title = LanguageHelper.GetString("Bangumi_Edit_Game_Info");
+        dialog.Content = bangumiSubjectControl;
         dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
         {
             args.Cancel =
-                bangumiPullSubjectControl.AccessToken.IsNullOrEmpty()
-                || bangumiPullSubjectControl.SubjectUrl.IsNullOrEmpty();
+                bangumiSubjectControl.AccessToken.IsNullOrEmpty() || bangumiSubjectControl.SubjectUrl.IsNullOrEmpty();
         };
 
-        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        var result = await dialog.ShowAsync();
+
+        return (result, bangumiSubjectControl.SubjectUrl);
+    }
+
+    private async Task<GameInfo> PullBangumiGameInfo(string bangumiSubjectId)
+    {
+        (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo(bangumiSubjectId);
+
+        if (result == ContentDialogResult.Primary)
         {
             App.ShowLoading();
 
-            var response = await ViewModel.PullGameFromBangumi(
-                bangumiPullSubjectControl.AccessToken,
-                bangumiPullSubjectControl.SubjectUrl
-            );
+            var response = await ViewModel.PullGameFromBangumi(ViewModel.BangumiAccessToken, subjectUrl);
 
             if (!response.ErrorMessage.IsNullOrEmpty())
                 App.ShowErrorMessage(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage));
@@ -116,6 +121,65 @@ public sealed partial class ManagePage : Page
             if (!errMsg.IsNullOrEmpty())
                 App.ShowErrorMessage(errMsg);
         }
+    }
+
+    private async void edit_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo(
+            ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId
+        );
+        if (result == ContentDialogResult.Primary)
+            ViewModel.UpdateBangumiSubjectId(subjectUrl);
+    }
+
+    private async void open_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId.IsNullOrEmpty())
+        {
+            (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo("");
+            if (result != ContentDialogResult.Primary)
+                return;
+            ViewModel.UpdateBangumiSubjectId(subjectUrl);
+        }
+        ViewModel.OpenBangumiGame(ViewModel.SelectedRepository.SelectedGame);
+    }
+
+    private async Task<(ContentDialogResult result, string subjectUrl)> Edit2DFanGameInfo(string t2dfanSubjectId)
+    {
+        var t2dfanSubjectControl = new T2DFanSubjectControl() { Width = 720, SubjectUrl = t2dfanSubjectId };
+
+        var dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("T2DFan_Edit_Game_Info");
+        dialog.Content = t2dfanSubjectControl;
+        dialog.PrimaryButtonClick += (ContentDialog sender, ContentDialogButtonClickEventArgs args) =>
+        {
+            args.Cancel = t2dfanSubjectControl.SubjectUrl.IsNullOrEmpty();
+        };
+
+        var result = await dialog.ShowAsync();
+
+        return (result, t2dfanSubjectControl.SubjectUrl);
+    }
+
+    private async void edit_t2dfan_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        (ContentDialogResult result, string subjectUrl) = await Edit2DFanGameInfo(
+            ViewModel.SelectedRepository.SelectedGame.T2DFanSubjectId
+        );
+        if (result == ContentDialogResult.Primary)
+            ViewModel.Update2DFanSubjectId(subjectUrl);
+    }
+
+    private async void open_t2dfan_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.T2DFanSubjectId.IsNullOrEmpty())
+        {
+            (ContentDialogResult result, string subjectUrl) = await Edit2DFanGameInfo("");
+            if (result != ContentDialogResult.Primary)
+                return;
+            ViewModel.Update2DFanSubjectId(subjectUrl);
+        }
+        ViewModel.Open2dfanGame(ViewModel.SelectedRepository.SelectedGame);
     }
 
     private void play_game_Button_Click(object sender, RoutedEventArgs e)
@@ -675,7 +739,6 @@ public sealed partial class ManagePage : Page
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Special;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
-
     }
 
     private void screenshot_GridView_ItemClick(object sender, ItemClickEventArgs e)

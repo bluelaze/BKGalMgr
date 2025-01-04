@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Extensions;
 using BKGalMgr.Helpers;
+using BKGalMgr.Services;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using CommunityToolkit.WinUI.Controls;
@@ -425,5 +426,15 @@ public sealed partial class GamePlayPage : Page
     private void targets_Button_Click(object sender, RoutedEventArgs e)
     {
         App.MainWindow.SelecteTarget(ViewModel.Game);
+    }
+
+    private void bangumi_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        BangumiService.OpenSubjectPage(ViewModel.Game.BangumiSubjectId);
+    }
+
+    private void t2dfan_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        T2DFanService.OpenSubjectPage(ViewModel.Game.T2DFanSubjectId);
     }
 }

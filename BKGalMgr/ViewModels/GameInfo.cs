@@ -100,6 +100,9 @@ public partial class GameInfo : ObservableObject
     private string _bangumiSubjectId;
 
     [ObservableProperty]
+    private string _t2DFanSubjectId;
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private ObservableCollection<string> _covers = new();
 

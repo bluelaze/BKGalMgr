@@ -128,6 +128,26 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         return await App.GetRequiredService<BangumiService>().PullGameCharacterInfoAsync(gameInfo);
     }
 
+    public void UpdateBangumiSubjectId(string subjectUrl)
+    {
+        SelectedRepository.SelectedGame.BangumiSubjectId = subjectUrl.Split('/').LastOrDefault();
+    }
+
+    public void OpenBangumiGame(GameInfo game)
+    {
+        BangumiService.OpenSubjectPage(game.BangumiSubjectId);
+    }
+
+    public void Update2DFanSubjectId(string subjectUrl)
+    {
+        SelectedRepository.SelectedGame.T2DFanSubjectId = subjectUrl.Split('/').LastOrDefault();
+    }
+
+    public void Open2dfanGame(GameInfo game)
+    {
+        T2DFanService.OpenSubjectPage(game.T2DFanSubjectId);
+    }
+
     public void UpdateSource(SourceInfo source)
     {
         source.SaveJsonFile();

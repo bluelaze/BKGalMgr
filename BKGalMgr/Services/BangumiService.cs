@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ public class BangumiService
         }
     }
 
+    private static string _bangumiWebsit = "https://bgm.tv";
+
     private RestClient _client;
 
     private readonly SettingsDto _settings;
@@ -37,6 +40,11 @@ public class BangumiService
             options.UserAgent = "bluelaze/BKGalMgr (https://github.com/bluelaze/BKGalMgr)";
             options.Interceptors = [new HeaderInterceptor(_settings)];
         });
+    }
+
+    public static void OpenSubjectPage(string subjectId)
+    {
+        Process.Start("explorer.exe", $"{_bangumiWebsit}/subject/{subjectId}");
     }
 
     public async Task<RestResponse<Subject>> GetSubjectAsync(string subjectId)
@@ -172,7 +180,7 @@ public class BangumiService
                         Illustration = character.images.large,
                         CV = character.actors.FirstOrDefault()?.name,
                         BangumiCharacterId = character.id.ToString(),
-                        GameFolderPath = gameInfo.FolderPath
+                        GameFolderPath = gameInfo.FolderPath,
                     }
                 );
                 foreach (var cv in character.actors)

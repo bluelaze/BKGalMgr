@@ -171,11 +171,33 @@
                             <UserControl>
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                                        Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}"
+                                                        Icon="{mui:FontIcon Glyph=&#xE838;}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                                        Click="bangumi_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ImageIcon Source="{ThemeResource BangumiIcon}" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
+                                                        Click="t2dfan_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ImageIcon Source="{ThemeResource T2DFanIcon}" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click" Text="GALLERY" />
-                                        <MenuFlyoutItem Click="special_MenuFlyoutItem_Click" Text="SPECIAL" />
-                                        <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click" Text="SCREENSHOT" />
+                                        <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xE8B9;}"
+                                                        Text="GALLERY" />
+                                        <MenuFlyoutItem Click="special_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xECA5;}"
+                                                        Text="SPECIAL" />
+                                        <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xF408;}"
+                                                        Text="SCREENSHOT" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <SplitView x:Name="gameinfo_SplitView"

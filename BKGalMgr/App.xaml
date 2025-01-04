@@ -15,10 +15,12 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_dark.svg</ImageSource>
+                    <ImageSource x:Key="T2DFanIcon">ms-appx:///Assets/2dfan_dark.svg</ImageSource>
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Dark">
                     <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_light.svg</ImageSource>
+                    <ImageSource x:Key="T2DFanIcon">ms-appx:///Assets/2dfan_light.svg</ImageSource>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <!--  Other app resources here  -->
@@ -47,6 +49,8 @@
                    BasedOn="{StaticResource DefaultButtonStyle}"
                    TargetType="Button">
                 <Setter Property="Width" Value="40" />
+                <Setter Property="Height" Value="32" />
+                <Setter Property="Padding" Value="0" />
             </Style>
 
             <x:Double x:Key="TitleBarHeight">40</x:Double>
