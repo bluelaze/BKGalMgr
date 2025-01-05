@@ -11,6 +11,7 @@
                 <ControlTemplate TargetType="controls:MetadataControl">
                     <TextBlock x:Name="TextContainer"
                                AutomationProperties.AccessibilityView="{TemplateBinding AutomationProperties.AccessibilityView}"
+                               IsTextSelectionEnabled="True"
                                Style="{TemplateBinding TextBlockStyle}" />
                 </ControlTemplate>
             </Setter.Value>

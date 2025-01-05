@@ -119,13 +119,15 @@
                        Source="{Binding ViewModel.Game.Cover, Mode=OneWay}" />
             </Grid>
             <!--  right  -->
-            <Grid Grid.Column="2" Padding="0,40,20,0">
+            <Grid Grid.Column="2" Padding="0,40,36,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel Spacing="20">
-                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.Game.Name, Mode=OneWay}" />
+                    <TextBlock IsTextSelectionEnabled="True"
+                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                               Text="{x:Bind ViewModel.Game.Name, Mode=OneWay}" />
                     <StackPanel Orientation="Horizontal" Spacing="20">
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock">
@@ -185,6 +187,7 @@
                             <TextBlock HorizontalAlignment="Stretch"
                                        VerticalAlignment="Stretch"
                                        Foreground="LightGray"
+                                       IsTextSelectionEnabled="True"
                                        Text="{x:Bind ViewModel.Game.Story, Mode=OneWay}"
                                        TextWrapping="Wrap" />
                         </mcontrols:Case>
@@ -215,6 +218,7 @@
                                                 <Grid.Resources>
                                                     <Style TargetType="TextBlock">
                                                         <Setter Property="Foreground" Value="DarkGray" />
+                                                        <Setter Property="IsTextSelectionEnabled" Value="True" />
                                                     </Style>
                                                 </Grid.Resources>
                                                 <Grid.ColumnDefinitions>
@@ -230,8 +234,17 @@
                                                 <StackPanel Grid.Column="1"
                                                             Padding="30,50,4,0"
                                                             Spacing="6">
+                                                    <StackPanel.Resources>
+                                                        <Style x:Key="BodyStrongTextBlockStyle"
+                                                               BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+                                                               TargetType="TextBlock">
+                                                            <Setter Property="IsTextSelectionEnabled" Value="True" />
+                                                        </Style>
+                                                    </StackPanel.Resources>
                                                     <StackPanel Orientation="Horizontal" Spacing="0">
-                                                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
+                                                        <TextBlock IsTextSelectionEnabled="True"
+                                                                   Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                   Text="{x:Bind Name, Mode=OneWay}" />
                                                         <TextBlock VerticalAlignment="Bottom"
                                                                    Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
                                                                    Visibility="{x:Bind CV, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
