@@ -461,6 +461,11 @@
                           Margin="12,0,0,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
                           SelectionMode="Single">
+                    <GridView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="0,0,8,8" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid HorizontalAlignment="Center"
@@ -470,16 +475,29 @@
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
-                            <GridViewItem Width="260"
-                                          Height="480"
-                                          Margin="4"
-                                          Background="{ThemeResource CardBackgroundFillColorDefault}">
-                                <GridViewItem.ContextFlyout>
+                            <UserControl Width="260" Height="486">
+                                <UserControl.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
                                     </MenuFlyout>
-                                </GridViewItem.ContextFlyout>
-                                <StackPanel>
+                                </UserControl.ContextFlyout>
+                                <Grid Width="260" Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <interactions:EventTriggerBehavior EventName="PointerEntered">
+                                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                               TargetObject="{Binding ElementName=play_Button}"
+                                                                               Value="Visible" />
+                                        </interactions:EventTriggerBehavior>
+                                        <interactions:EventTriggerBehavior EventName="PointerExited">
+                                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                               TargetObject="{Binding ElementName=play_Button}"
+                                                                               Value="Collapsed" />
+                                        </interactions:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
                                     <Image Height="350"
                                            Margin="8"
                                            VerticalAlignment="Top"
@@ -494,7 +512,9 @@
                                             </ToolTip>
                                         </ToolTipService.ToolTip>
                                     </Image>
-                                    <StackPanel Padding="8" Spacing="2">
+                                    <StackPanel Grid.Row="1"
+                                                Padding="8"
+                                                Spacing="2">
                                         <StackPanel.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="12" />
@@ -512,9 +532,13 @@
                                         <HyperlinkButton Padding="0"
                                                          HorizontalContentAlignment="Left"
                                                          Click="gamename_linkbutton_Click"
-                                                         Content="{x:Bind Name, Mode=OneWay}"
-                                                         FontSize="14"
-                                                         FontWeight="Bold" />
+                                                         FontWeight="Bold">
+                                            <HyperlinkButton.Content>
+                                                <TextBlock FontSize="14"
+                                                           Text="{x:Bind Name, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </HyperlinkButton.Content>
+                                        </HyperlinkButton>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <SelectorBarItem Padding="0"
                                                              Icon="{mui:FontIcon Glyph='&#xE768;'}"
@@ -546,8 +570,21 @@
                                                                       Separator=" • " />
                                         </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                            </GridViewItem>
+                                    <Button x:Name="play_Button"
+                                            Grid.RowSpan="2"
+                                            Width="40"
+                                            Height="40"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Background="Transparent"
+                                            BorderBrush="{x:Null}"
+                                            Click="play_Button_Click"
+                                            Content="{mui:FontIcon FontSize=16,
+                                                                   Glyph=&#xE736;}"
+                                            Opacity="0.6"
+                                            Visibility="Collapsed" />
+                                </Grid>
+                            </UserControl>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
