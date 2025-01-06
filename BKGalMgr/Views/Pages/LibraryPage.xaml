@@ -57,55 +57,55 @@
                                    VerticalAlignment="Top"
                                    IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
                     <ToggleSplitButton.Flyout>
-                        <Flyout Placement="Bottom">
+                        <!--  这里只能手动通过Flyout的关闭和开启，主动刷新ItemsRepeater的ItemsSource，绑定的话，WrapLayout刷新会出问题，而LineFlowLayout则是布局计算有问题  -->
+                        <Flyout x:Name="repository_groups_Flyout"
+                                Closed="repository_groups_Flyout_Closed"
+                                Opened="repository_groups_Flyout_Opened"
+                                Placement="Bottom">
                             <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
-                            <ItemsView Width="{ThemeResource GroupDialogMaxWidth}"
-                                       ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
-                                       SelectionMode="None">
-                                <ItemsView.Layout>
+                            <ItemsRepeater x:Name="repository_groups_ItemsRepeater" Width="{ThemeResource GroupDialogMaxWidth}">
+                                <ItemsRepeater.Layout>
                                     <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
-                                </ItemsView.Layout>
-                                <ItemsView.ItemTemplate>
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
                                     <DataTemplate x:DataType="vm:GroupInfo">
-                                        <ItemContainer>
-                                            <Grid>
-                                                <ToggleButton x:Name="group_togglebutton"
-                                                              Checked="group_togglebutton_IsCheckedChanged"
-                                                              Content="{x:Bind Name, Mode=OneWay}"
-                                                              FontSize="12"
-                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
-                                                              Unchecked="group_togglebutton_IsCheckedChanged"
-                                                              Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
-                                                    <ToggleButton.ContextFlyout>
-                                                        <MenuFlyout>
-                                                            <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
-                                                                            x:Uid="Commom_MenuItem_Edit"
-                                                                            Click="edit_group_menuflyoutitem_Click" />
-                                                            <MenuFlyoutSeparator />
-                                                            <MenuFlyoutItem x:Name="delete_group_menuflyoutitem"
-                                                                            x:Uid="Commom_MenuItem_Delete"
-                                                                            Click="delete_group_menuflyoutitem_Click">
-                                                                <MenuFlyoutItem.Resources>
-                                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                                                </MenuFlyoutItem.Resources>
-                                                            </MenuFlyoutItem>
-                                                        </MenuFlyout>
-                                                    </ToggleButton.ContextFlyout>
-                                                </ToggleButton>
-                                                <Button x:Name="add_group_button"
-                                                        Padding="6"
-                                                        BorderBrush="{x:Null}"
-                                                        Click="add_group_button_Click"
-                                                        Content="{mui:FontIcon FontSize=16,
-                                                                               Glyph=&#xE948;}"
-                                                        Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
-                                            </Grid>
-                                        </ItemContainer>
+                                        <Grid>
+                                            <ToggleButton x:Name="group_togglebutton"
+                                                          Checked="group_togglebutton_IsCheckedChanged"
+                                                          Content="{Binding Name, Mode=OneWay}"
+                                                          FontSize="12"
+                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                          Unchecked="group_togglebutton_IsCheckedChanged"
+                                                          Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                <ToggleButton.ContextFlyout>
+                                                    <MenuFlyout>
+                                                        <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
+                                                                        x:Uid="Commom_MenuItem_Edit"
+                                                                        Click="edit_group_menuflyoutitem_Click" />
+                                                        <MenuFlyoutSeparator />
+                                                        <MenuFlyoutItem x:Name="delete_group_menuflyoutitem"
+                                                                        x:Uid="Commom_MenuItem_Delete"
+                                                                        Click="delete_group_menuflyoutitem_Click">
+                                                            <MenuFlyoutItem.Resources>
+                                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                            </MenuFlyoutItem.Resources>
+                                                        </MenuFlyoutItem>
+                                                    </MenuFlyout>
+                                                </ToggleButton.ContextFlyout>
+                                            </ToggleButton>
+                                            <Button x:Name="add_group_button"
+                                                    Padding="6"
+                                                    BorderBrush="{x:Null}"
+                                                    Click="add_group_button_Click"
+                                                    Content="{mui:FontIcon FontSize=16,
+                                                                           Glyph=&#xE948;}"
+                                                    Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                        </Grid>
                                     </DataTemplate>
-                                </ItemsView.ItemTemplate>
-                            </ItemsView>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
                         </Flyout>
                     </ToggleSplitButton.Flyout>
                 </ToggleSplitButton>
