@@ -88,6 +88,12 @@ public sealed partial class BrowserPage : Page
         App.MainWindow.NavigateToGamePlayPage(gameInfo);
     }
 
+    private void blog_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;
+        App.MainWindow.ShowBlog(gameInfo);
+    }
+
     private void refresh_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.Refresh();

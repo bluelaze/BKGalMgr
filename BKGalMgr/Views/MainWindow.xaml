@@ -55,7 +55,7 @@
                 <interactivity:Interaction.Behaviors>
                     <interactions:EventTriggerBehavior EventName="Tapped">
                         <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                           TargetObject="{Binding ElementName=image_viewer_Grid}"
+                                                           TargetObject="{x:Bind image_viewer_Grid}"
                                                            Value="Collapsed" />
                     </interactions:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
@@ -103,11 +103,55 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="{x:Null}"
-                    Command="{x:Bind HideImagesCommand}"
                     Content="{mui:FontIcon FontSize=16,
                                            Glyph=&#xE711;}"
                     CornerRadius="0"
-                    Style="{StaticResource IconButtonStyle}" />
+                    Style="{StaticResource IconButtonStyle}">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                           TargetObject="{x:Bind image_viewer_Grid}"
+                                                           Value="Collapsed" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
+        </Grid>
+        <Grid x:Name="blog_viewer_Grid"
+              Grid.Row="1"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              Background="{ThemeResource SystemControlTransientBackgroundBrush}"
+              Visibility="Collapsed">
+            <ScrollViewer MaxWidth="1000"
+                          MaxHeight="1500"
+                          Margin="0,24"
+                          Padding="24"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                          CornerRadius="{ThemeResource ControlCornerRadius}">
+                <TextBlock FontSize="16"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind SelectedGame.Blog, Mode=OneWay}"
+                           TextWrapping="Wrap" />
+            </ScrollViewer>
+            <Button Height="40"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE711;}"
+                    CornerRadius="0"
+                    Style="{StaticResource IconButtonStyle}">
+                <interactivity:Interaction.Behaviors>
+                    <interactions:EventTriggerBehavior EventName="Click">
+                        <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                           TargetObject="{x:Bind blog_viewer_Grid}"
+                                                           Value="Collapsed" />
+                    </interactions:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Button>
         </Grid>
         <Grid x:Name="target_selecte_Grid"
               Grid.Row="1"
@@ -116,7 +160,7 @@
             <interactivity:Interaction.Behaviors>
                 <interactions:EventTriggerBehavior EventName="Tapped">
                     <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                       TargetObject="{Binding ElementName=target_selecte_Grid}"
+                                                       TargetObject="{x:Bind target_selecte_Grid}"
                                                        Value="Collapsed" />
                 </interactions:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>

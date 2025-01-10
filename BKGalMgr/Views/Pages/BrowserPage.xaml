@@ -5,6 +5,8 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
@@ -19,12 +21,83 @@
     <Page.Resources>
         <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
         <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
+
+        <ItemsPanelTemplate x:Key="BlogStaggeredPanel">
+            <mcontrols:StaggeredPanel MaxWidth="1800"
+                                      HorizontalAlignment="Center"
+                                      ColumnSpacing="0"
+                                      DesiredColumnWidth="280"
+                                      RowSpacing="0" />
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="BlogDataTemplate" x:DataType="vm:GameInfo">
+            <UserControl>
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefault}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="PointerEntered">
+                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                               TargetObject="{Binding ElementName=blog_Button}"
+                                                               Value="Visible" />
+                        </interactions:EventTriggerBehavior>
+                        <interactions:EventTriggerBehavior EventName="PointerExited">
+                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                               TargetObject="{Binding ElementName=blog_Button}"
+                                                               Value="Collapsed" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                    <Image Source="{Binding Cover, Mode=OneWay}" />
+                    <StackPanel Grid.Row="1"
+                                Padding="{StaticResource TextControlThemePadding}"
+                                Spacing="4">
+                        <TextBlock Height="46"
+                                   FontSize="15"
+                                   Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                   Text="{x:Bind Name, Mode=OneWay}"
+                                   TextWrapping="Wrap" />
+                        <TextBlock MaxHeight="300"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind Blog, Mode=OneWay}"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                    <Button x:Name="blog_Button"
+                            Grid.RowSpan="2"
+                            Width="40"
+                            Height="40"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Background="Transparent"
+                            BorderBrush="{x:Null}"
+                            Click="blog_Button_Click"
+                            Content="{mui:FontIcon FontSize=16,
+                                                   Glyph=&#xE736;}"
+                            Visibility="Collapsed" />
+                </Grid>
+            </UserControl>
+        </DataTemplate>
     </Page.Resources>
-    <Grid>
+    <Grid x:Name="root_Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="Blog">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=blog_ToggleButton, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="games_GridView.ItemsPanel" Value="{StaticResource BlogStaggeredPanel}" />
+                        <Setter Target="games_GridView.ItemTemplate" Value="{StaticResource BlogDataTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid Margin="0,24">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -116,6 +189,7 @@
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
+                <ToggleButton x:Name="blog_ToggleButton" Content="Blog" />
             </StackPanel>
         </Grid>
 

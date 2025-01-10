@@ -105,10 +105,10 @@ public sealed partial class MainWindow : Window
         OnPropertyChanged(nameof(ImageSelectedIndex));
     }
 
-    [RelayCommand]
-    public void HideImages()
+    public void ShowBlog(GameInfo game)
     {
-        image_viewer_Grid.Visibility = Visibility.Collapsed;
+        SelectedGame = game;
+        blog_viewer_Grid.Visibility = Visibility.Visible;
     }
 
     public void ShowNotification(NotificationInfo notification)
