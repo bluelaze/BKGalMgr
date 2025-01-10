@@ -57,17 +57,21 @@
                                    VerticalAlignment="Top"
                                    IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
                     <ToggleSplitButton.Flyout>
-                        <!--  这里只能手动通过Flyout的关闭和开启，主动刷新ItemsRepeater的ItemsSource，绑定的话，WrapLayout刷新会出问题，而LineFlowLayout则是布局计算有问题  -->
-                        <Flyout x:Name="repository_groups_Flyout"
-                                Closed="repository_groups_Flyout_Closed"
-                                Opened="repository_groups_Flyout_Opened"
-                                Placement="Bottom">
-                            <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
-                            <ItemsRepeater x:Name="repository_groups_ItemsRepeater" Width="{ThemeResource GroupDialogMaxWidth}">
-                                <ItemsRepeater.Layout>
-                                    <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
-                                </ItemsRepeater.Layout>
-                                <ItemsRepeater.ItemTemplate>
+                        <Flyout x:Name="repository_groups_Flyout" Placement="Bottom">
+                            <GridView Width="{ThemeResource GroupDialogMaxWidth}"
+                                      ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
+                                      SelectionMode="None">
+                                <GridView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                        <Setter Property="Margin" Value="0" />
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                                <GridView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <mcontrols:WrapPanel HorizontalSpacing="8" />
+                                    </ItemsPanelTemplate>
+                                </GridView.ItemsPanel>
+                                <GridView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:GroupInfo">
                                         <Grid>
                                             <ToggleButton x:Name="group_togglebutton"
@@ -104,8 +108,8 @@
                                                     Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
                                         </Grid>
                                     </DataTemplate>
-                                </ItemsRepeater.ItemTemplate>
-                            </ItemsRepeater>
+                                </GridView.ItemTemplate>
+                            </GridView>
                         </Flyout>
                     </ToggleSplitButton.Flyout>
                 </ToggleSplitButton>

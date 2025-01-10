@@ -131,16 +131,6 @@ public sealed partial class LibraryPage : Page
         return await dialog.ShowAsync();
     }
 
-    private void repository_groups_Flyout_Closed(object sender, object e)
-    {
-        repository_groups_ItemsRepeater.ItemsSource = null;
-    }
-
-    private void repository_groups_Flyout_Opened(object sender, object e)
-    {
-        repository_groups_ItemsRepeater.ItemsSource = ViewModel.SelectedRepository.Groups;
-    }
-
     private async void add_group_button_Click(object sender, RoutedEventArgs e)
     {
         App.ShowLoading();
