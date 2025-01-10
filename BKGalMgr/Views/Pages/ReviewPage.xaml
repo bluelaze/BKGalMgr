@@ -55,7 +55,7 @@
                     <SplitView.Pane>
                         <ListView Padding="0,8"
                                   Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-                                  CornerRadius="8"
+                                  CornerRadius="{ThemeResource ControlCornerRadius}"
                                   ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository}"
                                   SelectionMode="None">
                             <ListView.ItemTemplate>
@@ -85,7 +85,7 @@
                     <StackPanel Padding="16,16,16,0"
                                 Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
-                                CornerRadius="8">
+                                CornerRadius="{ThemeResource ControlCornerRadius}">
                         <TextBlock HorizontalTextAlignment="Right"
                                    Style="{ThemeResource TitleLargeTextBlockStyle}"
                                    Text="{x:Bind ViewModel.StorageUsage, Mode=OneWay, Converter={StaticResource FileSizeToFriendlyStringConverter}}" />
@@ -105,7 +105,7 @@
                             Padding="16,16,16,0"
                             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
                             BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}"
-                            CornerRadius="8">
+                            CornerRadius="{ThemeResource ControlCornerRadius}">
                     <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind ViewModel.PlayedTime.TotalHours, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.0} H'}" />
                     <TextBlock x:Uid="Review_Played_Time" Style="{ThemeResource BodyStrongTextBlockStyle}" />
 

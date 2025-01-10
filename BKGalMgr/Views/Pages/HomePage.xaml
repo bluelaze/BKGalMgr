@@ -56,7 +56,7 @@
                     <StackPanel>
                         <ContentPresenter Height="196" />
                         <StackPanel Height="144"
-                                    Padding="8,6,8,0"
+                                    Padding="{ThemeResource TextControlThemePadding}"
                                     Background="{ThemeResource SystemControlTransientBackgroundBrush}"
                                     Spacing="4">
                             <StackPanel.RenderTransform>
@@ -158,7 +158,7 @@
                           MinWidth="230"
                           MaxWidth="480"
                           Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                          CornerRadius="{ThemeResource GridViewItemCornerRadius}">
+                          CornerRadius="{ThemeResource ControlCornerRadius}">
                         <Grid Margin="14">
                             <TextBlock x:Name="greeting_TextBlock"
                                        FontWeight="Bold"
@@ -246,7 +246,7 @@
                     <Grid Width="230"
                           Height="180"
                           Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                          CornerRadius="{ThemeResource GridViewItemCornerRadius}">
+                          CornerRadius="{ThemeResource ControlCornerRadius}">
                         <Grid Margin="14">
                             <TextBlock x:Name="time_period_TextBlock"
                                        FontWeight="Bold"

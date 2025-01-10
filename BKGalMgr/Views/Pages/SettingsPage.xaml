@@ -116,9 +116,7 @@
                                         Header="BKGalMgr"
                                         HeaderIcon="{mui:BitmapIcon Source='/BKGalMgr.ico'}"
                                         IsExpanded="True">
-                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                           IsTextSelectionEnabled="True"
-                           Text="{x:Bind ViewModel.BKGalMgrVersion}" />
+                <TextBlock Text="{x:Bind ViewModel.BKGalMgrVersion}" />
                 <mcontrols:SettingsExpander.Items>
                     <mcontrols:SettingsCard x:Uid="Settings_About_Update">
                         <Button x:Name="check_for_updates_Button"
