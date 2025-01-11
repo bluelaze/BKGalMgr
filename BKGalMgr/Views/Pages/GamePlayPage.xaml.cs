@@ -241,15 +241,19 @@ public sealed partial class GamePlayPage : Page
         var playedPeriod = gameInfo.PlayedPeriods.First();
         var savePlayedTime = () =>
         {
-            var timeCost = TimeSpan.FromSeconds(1);
+            if (gameInfo.PlayStatus == PlayStatus.Stop)
+                return;
 
-            if (gameInfo.PlayStatus == PlayStatus.Pause)
-                playedPeriod.PauseTime += timeCost;
+            var timeCost = TimeSpan.FromSeconds(1);
 
             playedPeriod.EndTime = DateTime.Now;
 
-            if (gameInfo.PlayStatus == PlayStatus.Stop || gameInfo.PlayStatus == PlayStatus.Pause)
+            if (gameInfo.PlayStatus == PlayStatus.Pause)
+            {
+                playedPeriod.PauseTime += timeCost;
+                gameInfo.SaveJsonFile();
                 return;
+            }
 
             targetInfo.PlayedTime += timeCost;
             targetInfo.SaveJsonFile();
