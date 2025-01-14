@@ -343,12 +343,15 @@
                                            Style="{ThemeResource SubtitleTextBlockStyle}"
                                            Text="{x:Bind Name, Mode=OneWay}" />
                                 <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，布局好些  -->
-                                <GridView IsItemClickEnabled="True"
+                                <GridView x:Name="group_GridView"
+                                          IsItemClickEnabled="True"
                                           ItemClick="game_group_GridView_ItemClick"
                                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
                                           ItemsSource="{x:Bind Games, Mode=OneWay}"
+                                          PointerEntered="group_GridView_PointerEntered"
+                                          PointerExited="group_GridView_PointerExited"
                                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                          ScrollViewer.HorizontalScrollMode="Enabled"
+                                          ScrollViewer.HorizontalScrollMode="Disabled"
                                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                           ScrollViewer.VerticalScrollMode="Disabled"
                                           SelectionMode="None">

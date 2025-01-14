@@ -746,4 +746,30 @@ public sealed partial class ManagePage : Page
         var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
+
+    private bool coversHovered = false;
+
+    private async void covers_StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        coversHovered = true;
+        await Task.Delay(1000);
+        if (coversHovered)
+        {
+            covers_FlipView.IsEnabled = true;
+            if (covers_ListView.FindDescendant<ScrollViewer>() is ScrollViewer s)
+            {
+                s.HorizontalScrollMode = ScrollMode.Enabled;
+            }
+        }
+    }
+
+    private void covers_StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        coversHovered = false;
+        covers_FlipView.IsEnabled = false;
+        if (covers_ListView.FindDescendant<ScrollViewer>() is ScrollViewer s)
+        {
+            s.HorizontalScrollMode = ScrollMode.Disabled;
+        }
+    }
 }
