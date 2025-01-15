@@ -87,7 +87,7 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal" />
-                <VisualState x:Name="Blog">
+                <VisualState x:Name="BlogChecked">
                     <VisualState.StateTriggers>
                         <mtriggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=blog_ToggleButton, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>

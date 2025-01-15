@@ -109,8 +109,6 @@ public sealed partial class HomePage : Page
                 greeting_TextBlock.Text = LanguageHelper.GetString("Home_Greeting_Late_Night");
                 time_period_TextBlock.Text = LanguageHelper.GetString("Home_Time_Period_Late_Night");
                 break;
-            default:
-                break;
         }
     }
 

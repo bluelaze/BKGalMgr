@@ -198,11 +198,11 @@
                                                          Padding="0"
                                                          HorizontalContentAlignment="Left"
                                                          Click="group_game_name_HyperlinkButton_Click"
-                                                         Content="{x:Bind Game.Name, Mode=OneWay}"
+                                                         Content="{x:Bind Game.Name}"
                                                          FontSize="12"
                                                          FontWeight="Bold" />
                                         <TextBlock FontSize="11"
-                                                   Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                                   Text="{x:Bind PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
                                                    TextAlignment="Right" />
                                     </StackPanel>
                                 </StackPanel>

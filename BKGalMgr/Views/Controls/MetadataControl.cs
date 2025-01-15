@@ -63,7 +63,7 @@ public sealed partial class MetadataControl : Control
 
     private const string TextContainerPart = "TextContainer";
 
-    private TextBlock? _textContainer;
+    private TextBlock _textContainer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MetadataControl"/> class.
