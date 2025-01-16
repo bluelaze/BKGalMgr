@@ -34,7 +34,7 @@ namespace BKGalMgr.Views;
 public sealed partial class MainWindow : Window
 {
     [ObservableProperty]
-    private ObservableCollection<string> _images;
+    private ObservableCollection<string> _images = new();
 
     [ObservableProperty]
     private int _imageSelectedIndex = -1;
@@ -98,10 +98,10 @@ public sealed partial class MainWindow : Window
     {
         // x:Bind不能是null对象，否则会崩溃
         Images = new(images.Where(t => !t.IsNullOrEmpty()));
-        image_viewer_Grid.Visibility = Visibility.Visible;
-        // 延迟赋值，否者点击同一张图片，source变了，index没变，导致选择出错
-        await Task.Delay(33);
         ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
+        image_viewer_Grid.Visibility = Visibility.Visible;
+        // 延迟通知，否者点击同一张图片，source变了，index没变，会渲染不出来
+        await Task.Delay(33);
         OnPropertyChanged(nameof(ImageSelectedIndex));
     }
 
