@@ -113,7 +113,7 @@
                                          ItemsSource="{Binding ViewModel.SearchToken, Mode=TwoWay}"
                                          QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
                                                                         FontSize=12}"
-                                         SuggestedItemsSource="{x:Bind ViewModel.SearchSuggestedTags, Mode=OneWay}"
+                                         SuggestedItemsSource="{x:Bind ViewModel.SearchSuggestedTags, Mode=OneTime}"
                                          Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}" />
 
             <StackPanel Grid.Column="2"
@@ -127,7 +127,7 @@
                         <Flyout Placement="Bottom">
                             <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
                             <ItemsView Width="{ThemeResource GroupDialogMaxWidth}"
-                                       ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}"
+                                       ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}"
                                        SelectionMode="None">
                                 <ItemsView.Layout>
                                     <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />

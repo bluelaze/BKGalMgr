@@ -163,7 +163,7 @@
                             <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                             <SelectorBarItem Padding="0"
                                              Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                             Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                             Text="{x:Bind CreateDate, Mode=OneTime}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -220,7 +220,7 @@
                                             <MenuFlyoutItem x:Name="edit_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_source_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Delete"
@@ -236,7 +236,7 @@
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -265,7 +265,7 @@
                                             <MenuFlyoutItem x:Name="edit_localization_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_localization_menuflyoutitem_Click" />
-                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Delete"
@@ -281,7 +281,7 @@
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -324,7 +324,7 @@
                                                 <MenuFlyoutItem x:Name="edit_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Edit"
                                                                 Click="edit_target_menuflyoutitem_Click" />
-                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                                 <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
                                                                 x:Uid="Commom_MenuItem_Export_As_Source"
                                                                 Click="export_target_menuflyoutitem_Click" />
@@ -372,7 +372,7 @@
                                         </SelectorBarItem>
                                         <SelectorBarItem Padding="0"
                                                          Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                         Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                         Text="{x:Bind CreateDate, Mode=OneTime}" />
                                         <SelectorBarItem Padding="0"
                                                          Text="Local Emulator"
                                                          Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
@@ -418,7 +418,7 @@
                                             <MenuFlyoutItem x:Name="restore_savedata_MenuFlyoutItem"
                                                             x:Uid="Commom_MenuItem_Restore"
                                                             Click="restore_savedata_MenuFlyoutItem_Click" />
-                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{Binding OpenJsonFolderCommand}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="delete_savedata_MenuFlyoutItem"
                                                             x:Uid="Commom_MenuItem_Delete"
@@ -434,7 +434,7 @@
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <SelectorBarItem Padding="0"
                                                      Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>

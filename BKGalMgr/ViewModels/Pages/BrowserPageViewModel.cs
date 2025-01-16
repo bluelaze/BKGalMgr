@@ -82,8 +82,9 @@ public partial class BrowserPageViewModel : ObservableObject
             Games.Remove(g);
         }
         Games.MergeRange(allGames);
+
         Groups.Clear();
-        Groups = new(allGroups);
+        Groups.AddRange(allGroups);
 
         _allTags.Clear();
         foreach (var item in Games)

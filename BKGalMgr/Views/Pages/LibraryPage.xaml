@@ -76,11 +76,11 @@
                                         <Grid>
                                             <ToggleButton x:Name="group_togglebutton"
                                                           Checked="group_togglebutton_IsCheckedChanged"
-                                                          Content="{Binding Name, Mode=OneWay}"
+                                                          Content="{x:Bind Name, Mode=OneWay}"
                                                           FontSize="12"
-                                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
                                                           Unchecked="group_togglebutton_IsCheckedChanged"
-                                                          Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                          Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
                                                 <ToggleButton.ContextFlyout>
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
@@ -105,7 +105,7 @@
                                                     Click="add_group_button_Click"
                                                     Content="{mui:FontIcon FontSize=16,
                                                                            Glyph=&#xE948;}"
-                                                    Visibility="{Binding Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                                    Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
                                         </Grid>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
@@ -176,7 +176,7 @@
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
-                                                        Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}"
+                                                        Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
                                                         Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
                                                         Click="bangumi_MenuFlyoutItem_Click"
@@ -290,25 +290,25 @@
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Artist" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Artist, Mode=OneWay}"
+                                                                          ItemsSource="{x:Bind Artist, Mode=OneTime}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Scenario" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Scenario, Mode=OneWay}"
+                                                                          ItemsSource="{x:Bind Scenario, Mode=OneTime}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_TAG" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Tag, Mode=OneWay}"
+                                                                          ItemsSource="{x:Bind Tag, Mode=OneTime}"
                                                                           Separator=" • " />
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Group" />
                                                 <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Group, Mode=OneWay}"
+                                                                          ItemsSource="{x:Bind Group, Mode=OneTime}"
                                                                           Separator=" • " />
                                                 <Button Padding="4"
                                                         Background="Transparent"
@@ -363,14 +363,14 @@
                                             <ComboBox x:Uid="Library_GameInfo_Pick_Target"
                                                       MinWidth="200"
                                                       VerticalAlignment="Center"
-                                                      ItemsSource="{x:Bind Targets, Mode=OneWay}"
+                                                      ItemsSource="{x:Bind Targets, Mode=OneTime}"
                                                       SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate x:DataType="vm:TargetInfo">
                                                         <UserControl>
                                                             <UserControl.ContextFlyout>
                                                                 <MenuFlyout>
-                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                                                 </MenuFlyout>
                                                             </UserControl.ContextFlyout>
                                                             <StackPanel Background="Transparent">
@@ -413,7 +413,7 @@
                                                                 </SelectorBarItem>
                                                                 <SelectorBarItem Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                                 Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                                                 Text="{x:Bind CreateDate, Mode=OneTime}" />
                                                                 <SelectorBarItem Padding="0"
                                                                                  Icon="{mui:FontIcon Glyph='&#xE768;'}"
                                                                                  Text="{x:Bind LastPlayDate, Mode=OneWay}" />
@@ -482,7 +482,7 @@
                             <UserControl Width="260" Height="486">
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <Grid Width="260" Background="{ThemeResource CardBackgroundFillColorDefault}">
@@ -564,13 +564,13 @@
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Artist" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      ItemsSource="{x:Bind Artist, Mode=OneWay}"
+                                                                      ItemsSource="{x:Bind Artist, Mode=OneTime}"
                                                                       Separator=" • " />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Group" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      ItemsSource="{x:Bind Group, Mode=OneWay}"
+                                                                      ItemsSource="{x:Bind Group, Mode=OneTime}"
                                                                       Separator=" • " />
                                         </StackPanel>
                                     </StackPanel>

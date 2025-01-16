@@ -159,7 +159,7 @@
                                     <HyperlinkButton x:Name="group_header_HyperlinkButton"
                                                      Padding="0"
                                                      Click="group_header_HyperlinkButton_Click"
-                                                     Content="{x:Bind Label, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}"
+                                                     Content="{x:Bind Label, Mode=OneTime, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}"
                                                      FontSize="20"
                                                      FontWeight="Bold"
                                                      Foreground="{ThemeResource ButtonForegroundThemeBrush}" />
@@ -175,7 +175,7 @@
                                           Background="{ThemeResource CardBackgroundFillColorDefault}">
                                 <GridViewItem.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind Game.OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind Game.OpenJsonFolderCommand, Mode=OneTime}" />
                                     </MenuFlyout>
                                 </GridViewItem.ContextFlyout>
                                 <StackPanel Width="150">
@@ -198,11 +198,11 @@
                                                          Padding="0"
                                                          HorizontalContentAlignment="Left"
                                                          Click="group_game_name_HyperlinkButton_Click"
-                                                         Content="{x:Bind Game.Name}"
+                                                         Content="{x:Bind Game.Name, Mode=OneTime}"
                                                          FontSize="12"
                                                          FontWeight="Bold" />
                                         <TextBlock FontSize="11"
-                                                   Text="{x:Bind PlayedTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                                   Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
                                                    TextAlignment="Right" />
                                     </StackPanel>
                                 </StackPanel>

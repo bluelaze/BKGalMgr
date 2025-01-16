@@ -61,7 +61,7 @@
 
             <NavigationView.PaneFooter>
                 <ListView x:Name="reporitory_ListView"
-                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
                           SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
                     <ListView.Header>
                         <StackPanel>
@@ -90,7 +90,7 @@
                                         <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Edit"
                                                         Click="edit_repository_Menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Remove"
@@ -104,7 +104,7 @@
                                     </MenuFlyout>
                                 </StackPanel.ContextFlyout>
                                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Text="{x:Bind FolderPath, Mode=OneWay}" />
+                                <TextBlock Text="{x:Bind FolderPath, Mode=OneTime}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

@@ -98,7 +98,7 @@
                                   Width="480"
                                   Height="180"
                                   Background="Transparent"
-                                  ItemsSource="{x:Bind ViewModel.Banners, Mode=OneWay}"
+                                  ItemsSource="{x:Bind ViewModel.Banners, Mode=OneTime}"
                                   Loaded="banner_FlipView_Loaded">
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
@@ -168,7 +168,7 @@
                                       VerticalAlignment="Bottom"
                                       IsItemClickEnabled="True"
                                       ItemClick="repository_GridView_ItemClick"
-                                      ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneWay}"
+                                      ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneTime}"
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                       ScrollViewer.HorizontalScrollMode="Enabled"
                                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -281,7 +281,7 @@
                 <GridView IsItemClickEnabled="True"
                           ItemClick="game_group_GridView_ItemClick"
                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                          ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneTime}"
                           SelectionMode="None">
                     <GridView.Header>
                         <TextBlock x:Uid="Home_Recently_Played"
@@ -306,7 +306,7 @@
                 <GridView IsItemClickEnabled="True"
                           ItemClick="game_group_GridView_ItemClick"
                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                          ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneTime}"
                           SelectionMode="None">
                     <GridView.Header>
                         <TextBlock x:Uid="Home_Recently_Created"
@@ -328,7 +328,7 @@
                 </GridView>
 
                 <!--  游戏分组  -->
-                <ListView ItemsSource="{x:Bind ViewModel.Groups}" SelectionMode="None">
+                <ListView ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}" SelectionMode="None">
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
@@ -341,13 +341,13 @@
                                            Padding="0"
                                            FontWeight="Bold"
                                            Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Text="{x:Bind Name, Mode=OneWay}" />
+                                           Text="{x:Bind Name, Mode=OneTime}" />
                                 <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，布局好些  -->
                                 <GridView x:Name="group_GridView"
                                           IsItemClickEnabled="True"
                                           ItemClick="game_group_GridView_ItemClick"
                                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                                          ItemsSource="{x:Bind Games, Mode=OneWay}"
+                                          ItemsSource="{x:Bind Games, Mode=OneTime}"
                                           PointerEntered="group_GridView_PointerEntered"
                                           PointerExited="group_GridView_PointerExited"
                                           ScrollViewer.HorizontalScrollBarVisibility="Hidden"

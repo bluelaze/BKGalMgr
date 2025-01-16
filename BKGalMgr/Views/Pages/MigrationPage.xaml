@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneWay}" />
+                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
                 <Image Margin="8" Source="{Binding Cover}">
@@ -49,40 +49,40 @@
                     <HyperlinkButton x:Name="game_name_HyperlinkButton"
                                      Padding="0"
                                      Click="game_name_HyperlinkButton_Click"
-                                     Content="{x:Bind Name, Mode=OneWay}"
+                                     Content="{x:Bind Name, Mode=OneTime}"
                                      FontSize="16"
                                      FontWeight="Bold" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                         Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                         Text="{x:Bind CreateDate, Mode=OneTime}" />
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                         Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                         Text="{x:Bind LastPlayDate, Mode=OneTime}" />
                         <SelectorBarItem Padding="0"
                                          Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                         Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                         Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Company" />
                         <HyperlinkButton Margin="0,-1,0,0"
                                          Padding="0"
-                                         Content="{x:Bind Company, Mode=OneWay}"
+                                         Content="{x:Bind Company, Mode=OneTime}"
                                          NavigateUri="{Binding Website}" />
                         <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                        <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                        <TextBlock Text="{x:Bind PublishDate, Mode=OneTime, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Artist" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Artist, Mode=OneWay}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Artist, Mode=OneTime}" Separator=" • " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Scenario, Mode=OneWay}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Scenario, Mode=OneTime}" Separator=" • " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Group" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneWay}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneTime}" Separator=" • " />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -142,7 +142,7 @@
                           x:Uid="Library_Repository"
                           MinWidth="{ThemeResource ContentDialogButtonMaxWidth}"
                           MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}"
-                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
                           SelectedItem="{x:Bind ViewModel.LeftRepository, Mode=TwoWay}">
                     <ComboBox.ContextFlyout>
                         <MenuFlyout>
@@ -239,7 +239,7 @@
                           x:Uid="Library_Repository"
                           MinWidth="{ThemeResource ContentDialogButtonMaxWidth}"
                           MaxWidth="{ThemeResource ContentDialogButtonMaxWidth}"
-                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneWay}"
+                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
                           SelectedItem="{x:Bind ViewModel.RightRepository, Mode=TwoWay}">
                     <ComboBox.ContextFlyout>
                         <MenuFlyout>
