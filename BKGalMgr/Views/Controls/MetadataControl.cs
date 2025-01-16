@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Documents;
 
 namespace BKGalMgr.Views.Controls;
@@ -71,7 +72,7 @@ public sealed partial class MetadataControl : Control
     public MetadataControl()
     {
         DefaultStyleKey = typeof(MetadataControl);
-        ActualThemeChanged += OnActualThemeChanged;
+        //ActualThemeChanged += OnActualThemeChanged;
     }
 
     /// <summary>
@@ -174,7 +175,7 @@ public sealed partial class MetadataControl : Control
     private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) =>
         ((MetadataControl)d).Update();
 
-    private void OnActualThemeChanged(FrameworkElement sender, object args) => Update();
+    //private void OnActualThemeChanged(FrameworkElement sender, object args) => Update();
 
     private void Update()
     {
@@ -206,15 +207,17 @@ public sealed partial class MetadataControl : Control
                 accessibleString.Append(AccessibleSeparator ?? Separator);
             }
 
-            unitToAppend = new Run { Text = unit.Label, };
+            unitToAppend = new Run { Text = unit.Label };
 
             if (unit.Command != null || ItemClick != null)
             {
-                var hyperLink = new Hyperlink
-                {
-                    UnderlineStyle = UnderlineStyle.None,
-                    Foreground = _textContainer.Foreground,
-                };
+                var hyperLink = new Hyperlink { UnderlineStyle = UnderlineStyle.None };
+                Binding binding = new Binding();
+                binding.Source = this;
+                binding.Path = new PropertyPath("Foreground");
+                binding.Mode = BindingMode.OneWay;
+                BindingOperations.SetBinding(hyperLink, Hyperlink.ForegroundProperty, binding);
+
                 hyperLink.Inlines.Add(unitToAppend);
 
                 void OnHyperlinkClicked(Hyperlink sender, HyperlinkClickEventArgs args)
