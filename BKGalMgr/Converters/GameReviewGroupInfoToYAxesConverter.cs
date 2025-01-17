@@ -28,8 +28,8 @@ public class GameReviewGroupInfoToYAxesConverter : IValueConverter
                 {
                     var t = value.AsTimeSpan();
                     return string.Format("{0:00}:{1:mm}:{1:ss}", (int)t.TotalHours, t);
-                }
-            }
+                },
+            },
         };
     }
 

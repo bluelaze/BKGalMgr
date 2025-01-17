@@ -40,7 +40,7 @@ public class DialogHelper
         dialog.Title = new FontIcon()
         {
             Foreground = (SolidColorBrush)App.Current.Resources["SystemFillColorCriticalBrush"],
-            Glyph = "\uE783"
+            Glyph = "\uE783",
         };
 
         await dialog.ShowAsync();
@@ -53,7 +53,7 @@ public class DialogHelper
         dialog.Title = new FontIcon()
         {
             Foreground = (SolidColorBrush)App.Current.Resources["SystemFillColorCautionBrush"],
-            Glyph = "\uE7BA"
+            Glyph = "\uE7BA",
         };
         dialog.Content = confirmMsg;
 

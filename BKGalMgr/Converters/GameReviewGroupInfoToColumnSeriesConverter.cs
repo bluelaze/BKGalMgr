@@ -21,7 +21,7 @@ public class GameReviewGroupInfoToColumnSeriesConverter : IValueConverter
 
         return new ISeries[]
         {
-            new ColumnSeries<long>() { Values = pp.Select(t => t.PlayedTime.Ticks ).Reverse().ToList() }
+            new ColumnSeries<long>() { Values = pp.Select(t => t.PlayedTime.Ticks).Reverse().ToList() },
         };
     }
 

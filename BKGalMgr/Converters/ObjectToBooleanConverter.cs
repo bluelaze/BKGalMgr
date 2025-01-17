@@ -115,7 +115,7 @@ public class ObjectToBooleanConverter : DependencyObject, IValueConverter
             string str => Enum.TryParse(enumType, str, out var e) ? e : null,
 
             int or uint or byte or sbyte or long or ulong or short or ushort => Enum.ToObject(enumType, value),
-            _ => null
+            _ => null,
         };
     }
 

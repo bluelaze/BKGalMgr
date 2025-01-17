@@ -35,22 +35,21 @@ public class HotkeyHelper
     // W,E,R
     // Z,X,C
     // F,R,V
-    private static List<HotKeyInfo> _keys =
-        new()
-        {
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.A}", Key.A, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.S}", Key.S, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.D}", Key.D, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.Q}", Key.Q, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.W}", Key.W, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.E}", Key.E, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.Z}", Key.Z, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.X}", Key.X, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.C}", Key.C, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.F}", Key.F, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.R}", Key.R, _modifierKey1 | _modifiersKey2, false),
-            new($"{_modifierKey1}+{_modifiersKey2}+{Key.V}", Key.V, _modifierKey1 | _modifiersKey2, false),
-        };
+    private static List<HotKeyInfo> _keys = new()
+    {
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.A}", Key.A, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.S}", Key.S, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.D}", Key.D, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.Q}", Key.Q, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.W}", Key.W, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.E}", Key.E, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.Z}", Key.Z, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.X}", Key.X, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.C}", Key.C, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.F}", Key.F, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.R}", Key.R, _modifierKey1 | _modifiersKey2, false),
+        new($"{_modifierKey1}+{_modifiersKey2}+{Key.V}", Key.V, _modifierKey1 | _modifiersKey2, false),
+    };
 
     public static HotKeyInfo GetUnusedKey()
     {

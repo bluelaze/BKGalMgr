@@ -27,8 +27,8 @@ public class GameReviewGroupInfoToXAxesConverter : IValueConverter
                 TextSize = 14,
                 MaxLimit = pp.Count(),
                 MinLimit = pp.Count() - 30 < 0 ? 0 : pp.Count() - 30,
-                Labels = pp.Select(t => t.Label.ToString("d", CultureInfo.CurrentUICulture)).Reverse().ToList()
-            }
+                Labels = pp.Select(t => t.Label.ToString("d", CultureInfo.CurrentUICulture)).Reverse().ToList(),
+            },
         };
     }
 

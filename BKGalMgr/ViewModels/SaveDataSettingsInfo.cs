@@ -57,11 +57,7 @@ public partial class SaveDataSettingsInfo : ObservableObject
 
     public void SetGamePath(string dirPath)
     {
-        JsonPath = Path.Combine(
-            dirPath,
-            GlobalInfo.SaveDatasFolderName,
-            GlobalInfo.SaveDataSettingsJsonName
-        );
+        JsonPath = Path.Combine(dirPath, GlobalInfo.SaveDatasFolderName, GlobalInfo.SaveDataSettingsJsonName);
     }
 
     public void SaveJsonFile()

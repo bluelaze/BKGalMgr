@@ -56,7 +56,7 @@ public partial class HomePageViewModel : ObservableObject
         int count = Math.Min(allGames.Count, 12);
 
         Banners.Clear();
-        Banners.AddRange(allGames.Where(t=>!t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
+        Banners.AddRange(allGames.Where(t => !t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
         BannersCount = Banners.Count();
 
         allGames = allGames.OrderByDescending(t => t.LastPlayDate).ToList();

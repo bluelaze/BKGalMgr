@@ -26,8 +26,8 @@ public class PlayedPeriodToXAxesConverter : IValueConverter
             new Axis()
             {
                 TextSize = 14,
-                Labels = pp.Select(t => t.Coordinate.SecondaryValue.AsDate().ToString()).Reverse().ToList()
-            }
+                Labels = pp.Select(t => t.Coordinate.SecondaryValue.AsDate().ToString()).Reverse().ToList(),
+            },
         };
     }
 

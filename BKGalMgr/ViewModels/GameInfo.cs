@@ -25,7 +25,7 @@ public enum PlayStatus
 {
     Stop,
     Playing,
-    Pause
+    Pause,
 }
 
 [Serializable]

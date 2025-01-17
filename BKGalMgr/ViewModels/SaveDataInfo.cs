@@ -110,7 +110,7 @@ public partial class SaveDataInfo : ObservableObject
                 // backup savedata
                 var backupFolder = Path.Combine(
                     Path.GetDirectoryName(savedataFolderPath),
-                    Path.GetFileName(savedataFolderPath)+"_backup"
+                    Path.GetFileName(savedataFolderPath) + "_backup"
                 );
                 if (Directory.Exists(backupFolder))
                     Directory.Delete(backupFolder, true);

@@ -78,7 +78,7 @@ public class LocaleEmulatorHelper
             var profiles = pros.Select(p => new LEProfileInfo()
                 {
                     Name = p.Attribute("Name").Value,
-                    Guid = p.Attribute("Guid").Value
+                    Guid = p.Attribute("Guid").Value,
                 })
                 .ToList();
             // csharpier-ignore-start

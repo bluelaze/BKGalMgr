@@ -22,7 +22,7 @@ public class PlayedPeriodToColumnSeriesConverter : IValueConverter
 
         return new ISeries[]
         {
-            new ColumnSeries<double>() { Values = pp.Select(t => t.Coordinate.PrimaryValue).Reverse().ToList() }
+            new ColumnSeries<double>() { Values = pp.Select(t => t.Coordinate.PrimaryValue).Reverse().ToList() },
         };
     }
 

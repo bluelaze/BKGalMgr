@@ -21,15 +21,12 @@ internal class JsonMisc
     {
         if (charsetEncoder == null)
             charsetEncoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-        JsonSerializerOptions options =
-            new()
-            {
-                DefaultIgnoreCondition = ignoreNullValues
-                    ? JsonIgnoreCondition.WhenWritingNull
-                    : JsonIgnoreCondition.Never,
-                WriteIndented = writeIndented,
-                Encoder = charsetEncoder
-            };
+        JsonSerializerOptions options = new()
+        {
+            DefaultIgnoreCondition = ignoreNullValues ? JsonIgnoreCondition.WhenWritingNull : JsonIgnoreCondition.Never,
+            WriteIndented = writeIndented,
+            Encoder = charsetEncoder,
+        };
         return JsonSerializer.Serialize<T>(obj, options);
     }
 

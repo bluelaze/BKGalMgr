@@ -43,7 +43,7 @@ public sealed partial class CharacterInfoControl : UserControl
 
     private void remove_birthday_Button_Click(object sender, RoutedEventArgs e)
     {
-        if(this.DataContext is CharacterInfo c)
+        if (this.DataContext is CharacterInfo c)
         {
             c.Birthday = new();
         }
