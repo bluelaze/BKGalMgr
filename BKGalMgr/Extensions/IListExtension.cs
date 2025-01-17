@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -76,7 +76,7 @@ public static class IListExtension
     }
 
     private static readonly Random rnd = new Random();
-    // Ëæ»úÑ¡ÔñÖ¸¶¨ÊıÁ¿µÄÔªËØ
+    // éšæœºé€‰æ‹©æŒ‡å®šæ•°é‡çš„å…ƒç´ 
     public static IEnumerable<T> TakeRandom<T>(this IList<T> source, int count)
     {
         if (source == null || source.Count == 0)
@@ -86,7 +86,7 @@ public static class IListExtension
         if (count > source.Count)
             count = source.Count;
 
-        // Fisher-YatesÏ´ÅÆËã·¨
+        // Fisher-Yatesæ´—ç‰Œç®—æ³•
         var indices = Enumerable.Range(0, source.Count).ToList();
         for (int i = 0; i < count; i++)
         {

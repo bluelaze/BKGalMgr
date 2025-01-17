@@ -96,11 +96,11 @@ public sealed partial class MainWindow : Window
 
     public async void ShowImages(IEnumerable<string> images, int selectedIndex)
     {
-        // x:Bind²»ÄÜÊÇnull¶ÔÏó£¬·ñÔò»á±ÀÀ£
+        // x:Bindä¸èƒ½æ˜¯nullå¯¹è±¡ï¼Œå¦åˆ™ä¼šå´©æºƒ
         Images = new(images.Where(t => !t.IsNullOrEmpty()));
         ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
         image_viewer_Grid.Visibility = Visibility.Visible;
-        // ÑÓ³ÙÍ¨Öª£¬·ñÕßµã»÷Í¬Ò»ÕÅÍ¼Æ¬£¬source±äÁË£¬indexÃ»±ä£¬»áäÖÈ¾²»³öÀ´
+        // å»¶è¿Ÿé€šçŸ¥ï¼Œå¦è€…ç‚¹å‡»åŒä¸€å¼ å›¾ç‰‡ï¼Œsourceå˜äº†ï¼Œindexæ²¡å˜ï¼Œä¼šæ¸²æŸ“ä¸å‡ºæ¥
         await Task.Delay(33);
         OnPropertyChanged(nameof(ImageSelectedIndex));
     }
