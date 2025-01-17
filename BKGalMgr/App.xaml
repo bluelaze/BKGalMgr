@@ -10,7 +10,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
-                <ResourceDictionary Source="Resources/Palette.xaml" />
+                <ResourceDictionary Source="ms-appx:///Resources/Palette.xaml" />
+                <ResourceDictionary Source="ms-appx:///Views/Controls/ScrollableFlipView.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">

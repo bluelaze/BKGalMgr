@@ -397,7 +397,7 @@ public sealed partial class ManagePage : Page
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
         var editTargetInfo = TargetInfo.Open(targetInfo.FolderPath);
         editTargetInfo.Game = ViewModel.SelectedRepository.SelectedGame;
-        // Ô­±¾µÄÔ´ºÍ±¾µØ»¯¿ÉÄÜ±»É¾³ıÁË
+        // åŸæœ¬çš„æºå’Œæœ¬åœ°åŒ–å¯èƒ½è¢«åˆ é™¤äº†
         editTargetInfo.Localization =
             ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization)
             ?? targetInfo.Localization;
@@ -428,7 +428,7 @@ public sealed partial class ManagePage : Page
                 App.HideLoading();
             }
 
-            // ÊÖ¶¯Ë¢ĞÂÊôĞÔ£¬ÓÃAdapt»á¿¨ËÀ£¬Ò²²»ºÏÊÊ
+            // æ‰‹åŠ¨åˆ·æ–°å±æ€§ï¼Œç”¨Adaptä¼šå¡æ­»ï¼Œä¹Ÿä¸åˆé€‚
             targetInfo.Name = editTargetInfo.Name;
             targetInfo.StartupName = editTargetInfo.StartupName;
             targetInfo.Description = editTargetInfo.Description;
@@ -745,31 +745,5 @@ public sealed partial class ManagePage : Page
     {
         var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
-    }
-
-    private bool coversHovered = false;
-
-    private async void covers_StackPanel_PointerEntered(object sender, PointerRoutedEventArgs e)
-    {
-        coversHovered = true;
-        await Task.Delay(1000);
-        if (coversHovered)
-        {
-            covers_FlipView.IsEnabled = true;
-            if (covers_ListView.FindDescendant<ScrollViewer>() is ScrollViewer s)
-            {
-                s.HorizontalScrollMode = ScrollMode.Enabled;
-            }
-        }
-    }
-
-    private void covers_StackPanel_PointerExited(object sender, PointerRoutedEventArgs e)
-    {
-        coversHovered = false;
-        covers_FlipView.IsEnabled = false;
-        if (covers_ListView.FindDescendant<ScrollViewer>() is ScrollViewer s)
-        {
-            s.HorizontalScrollMode = ScrollMode.Disabled;
-        }
     }
 }

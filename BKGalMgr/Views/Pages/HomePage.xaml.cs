@@ -213,27 +213,4 @@ public sealed partial class HomePage : Page
         var image = sender as Image;
         StartPlayGame(image.DataContext as GameInfo);
     }
-
-    private GridView hoveredGroupGridView;
-
-    private async void group_GridView_PointerEntered(object sender, PointerRoutedEventArgs e)
-    {
-        hoveredGroupGridView = sender as GridView;
-        await Task.Delay(500);
-        if (hoveredGroupGridView == (GridView)sender && hoveredGroupGridView.FindDescendant<ScrollViewer>() is ScrollViewer s)
-        {
-            s.HorizontalScrollMode = ScrollMode.Enabled;
-            s.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
-        }
-    }
-
-    private void group_GridView_PointerExited(object sender, PointerRoutedEventArgs e)
-    {
-        if (hoveredGroupGridView != null && hoveredGroupGridView.FindDescendant<ScrollViewer>() is ScrollViewer s)
-        {
-            s.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            s.HorizontalScrollMode = ScrollMode.Disabled;
-            hoveredGroupGridView = null;
-        }
-    }
 }

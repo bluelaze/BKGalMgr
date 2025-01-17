@@ -442,50 +442,44 @@
                     </ListView>
                 </Grid>
                 <!--  covers  -->
-                <StackPanel x:Name="covers_StackPanel"
-                            Background="Transparent"
-                            PointerEntered="covers_StackPanel_PointerEntered"
-                            PointerExited="covers_StackPanel_PointerExited">
-                    <StackPanel.ContextFlyout>
+                <controls:ScrollableFlipView x:Name="covers_FlipView"
+                                             MaxHeight="480"
+                                             Background="Transparent"
+                                             ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}">
+                    <FlipView.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCoversFolderCommand, Mode=OneWay}" />
                         </MenuFlyout>
-                    </StackPanel.ContextFlyout>
-                    <FlipView x:Name="covers_FlipView"
-                              MaxHeight="480"
-                              Background="Transparent"
-                              IsEnabled="False"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}">
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image x:Name="cover_Image"
-                                       DoubleTapped="cover_Image_DoubleTapped"
-                                       Source="{x:Bind}"
-                                       Stretch="Uniform" />
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
-                    <ListView x:Name="covers_ListView"
-                              Height="64"
-                              HorizontalAlignment="Center"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}"
-                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.HorizontalScrollMode="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollMode="Disabled"
-                              SelectedIndex="{x:Bind covers_FlipView.SelectedIndex, Mode=TwoWay}">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" Stretch="Uniform" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
+                    </FlipView.ContextFlyout>
+                    <FlipView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Image x:Name="cover_Image"
+                                   DoubleTapped="cover_Image_DoubleTapped"
+                                   Source="{x:Bind}"
+                                   Stretch="Uniform" />
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </controls:ScrollableFlipView>
+                <ListView x:Name="covers_ListView"
+                          Height="64"
+                          HorizontalAlignment="Center"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          ScrollViewer.HorizontalScrollMode="Enabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.VerticalScrollMode="Disabled"
+                          SelectedIndex="{x:Bind covers_FlipView.SelectedIndex, Mode=TwoWay}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Image Source="{x:Bind}" Stretch="Uniform" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <!--  Gallery  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="BKGalMgr.Views.Controls.ScrollableGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mui="using:CommunityToolkit.WinUI"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="ScrollButtonStyle"
+               BasedOn="{StaticResource DefaultButtonStyle}"
+               TargetType="Button">
+            <Setter Property="Width" Value="28" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter Content="{x:Bind Header, Mode=OneWay}" />
+            <StackPanel HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <Button x:Name="left_scroll_Button"
+                        Click="left_scroll_Button_Click"
+                        Content="{mui:FontIcon FontSize=12,
+                                               Glyph=&#xE76B;}"
+                        Style="{StaticResource ScrollButtonStyle}" />
+                <Button x:Name="right_scroll_Button"
+                        Click="right_scroll_Button_Click"
+                        Content="{mui:FontIcon FontSize=12,
+                                               Glyph=&#xE76C;}"
+                        Style="{StaticResource ScrollButtonStyle}" />
+            </StackPanel>
+        </Grid>
+        <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，效果好些  -->
+        <GridView x:Name="scrollable_GridView"
+                  IsItemClickEnabled="True"
+                  ItemClick="scrollable_GridView_ItemClick"
+                  ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
+                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+                  Loaded="scrollable_GridView_Loaded"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  ScrollViewer.HorizontalScrollMode="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  ScrollViewer.VerticalScrollMode="Disabled"
+                  SelectionMode="None">
+            <GridView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="0,0,20,0" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+    </StackPanel>
+</UserControl>

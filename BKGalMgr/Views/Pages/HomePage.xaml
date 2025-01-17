@@ -336,38 +336,18 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameReviewGroupInfo">
-                            <StackPanel Margin="0,0,0,38">
-                                <TextBlock Margin="0,0,0,10"
-                                           Padding="0"
-                                           FontWeight="Bold"
-                                           Style="{ThemeResource SubtitleTextBlockStyle}"
-                                           Text="{x:Bind Name, Mode=OneTime}" />
-                                <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，布局好些  -->
-                                <GridView x:Name="group_GridView"
-                                          IsItemClickEnabled="True"
-                                          ItemClick="game_group_GridView_ItemClick"
-                                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                                          ItemsSource="{x:Bind Games, Mode=OneTime}"
-                                          PointerEntered="group_GridView_PointerEntered"
-                                          PointerExited="group_GridView_PointerExited"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                          ScrollViewer.HorizontalScrollMode="Disabled"
-                                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                          ScrollViewer.VerticalScrollMode="Disabled"
-                                          SelectionMode="None">
-                                    <GridView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                            <Setter Property="Margin" Value="0,0,20,0" />
-                                            <Setter Property="Padding" Value="0" />
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                    <GridView.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                                        </ItemsPanelTemplate>
-                                    </GridView.ItemsPanel>
-                                </GridView>
-                            </StackPanel>
+                            <controls:ScrollableGridView x:Name="group_GridView"
+                                                         ItemClick="game_group_GridView_ItemClick"
+                                                         ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                                                         ItemsSource="{x:Bind Games, Mode=OneTime}">
+                                <controls:ScrollableGridView.Header>
+                                    <TextBlock Margin="0,0,0,10"
+                                               Padding="0"
+                                               FontWeight="Bold"
+                                               Style="{ThemeResource SubtitleTextBlockStyle}"
+                                               Text="{x:Bind Name, Mode=OneTime}" />
+                                </controls:ScrollableGridView.Header>
+                            </controls:ScrollableGridView>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
