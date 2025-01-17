@@ -201,6 +201,10 @@
                   ItemClick="games_GridView_ItemClick"
                   ItemsSource="{x:Bind ViewModel.GamesView, Mode=OneWay}"
                   SelectionMode="None">
+            <GridView.Resources>
+                <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
+                <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+            </GridView.Resources>
             <GridView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
                     <Setter Property="Margin" Value="0,0,20,20" />

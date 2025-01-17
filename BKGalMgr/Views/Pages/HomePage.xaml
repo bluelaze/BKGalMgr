@@ -98,6 +98,7 @@
                                   Width="480"
                                   Height="180"
                                   Background="Transparent"
+                                  CornerRadius="{ThemeResource OverlayCornerRadius}"
                                   ItemsSource="{x:Bind ViewModel.Banners, Mode=OneTime}"
                                   Loaded="banner_FlipView_Loaded">
                             <FlipView.ItemTemplate>
@@ -157,123 +158,121 @@
                     <Grid Height="180"
                           MinWidth="230"
                           MaxWidth="480"
+                          Padding="14"
                           Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                          CornerRadius="{ThemeResource ControlCornerRadius}">
-                        <Grid Margin="14">
-                            <TextBlock x:Name="greeting_TextBlock"
-                                       FontWeight="Bold"
-                                       Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <GridView x:Name="repository_GridView"
-                                      Height="105"
-                                      VerticalAlignment="Bottom"
-                                      IsItemClickEnabled="True"
-                                      ItemClick="repository_GridView_ItemClick"
-                                      ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneTime}"
-                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                                      ScrollViewer.HorizontalScrollMode="Enabled"
-                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                      ScrollViewer.VerticalScrollMode="Disabled"
-                                      SelectionMode="None">
-                                <GridView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                        <Setter Property="Margin" Value="0,0,12,0" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:GameInfo">
-                                        <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
-                                            <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
-                                            <Grid Width="104">
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualState x:Name="Normal">
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                                 Storyboard.TargetProperty="ScaleX"
-                                                                                 To="1"
-                                                                                 Duration="0:0:0.2" />
-                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                                 Storyboard.TargetProperty="ScaleY"
-                                                                                 To="1"
-                                                                                 Duration="0:0:0.2" />
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                        <VisualState x:Name="PointerOver">
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                                 Storyboard.TargetProperty="ScaleX"
-                                                                                 To="1.1"
-                                                                                 Duration="0:0:0.2" />
-                                                                <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                                 Storyboard.TargetProperty="ScaleY"
-                                                                                 To="1.1"
-                                                                                 Duration="0:0:0.2" />
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                                <Grid Height="104">
-                                                    <Grid.RenderTransform>
-                                                        <ScaleTransform x:Name="grid_ScaleTransform" CenterX="52" CenterY="52" />
-                                                    </Grid.RenderTransform>
-                                                    <Image HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           Source="{Binding Cover, Mode=OneWay}"
-                                                           Stretch="UniformToFill">
-                                                        <Image.RenderTransform>
-                                                            <ScaleTransform x:Name="scale" CenterX="52" CenterY="104" />
-                                                        </Image.RenderTransform>
-                                                    </Image>
-                                                </Grid>
-                                                <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
-                                                    <TextBlock Margin="4,2"
-                                                               FontSize="12"
-                                                               Text="{x:Bind Repository.Name, Mode=OneWay}"
-                                                               TextWrapping="Wrap" />
-                                                </ContentPresenter>
+                          CornerRadius="{ThemeResource OverlayCornerRadius}">
+                        <TextBlock x:Name="greeting_TextBlock"
+                                   FontWeight="Bold"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <GridView x:Name="repository_GridView"
+                                  Height="105"
+                                  VerticalAlignment="Bottom"
+                                  IsItemClickEnabled="True"
+                                  ItemClick="repository_GridView_ItemClick"
+                                  ItemsSource="{x:Bind ViewModel.RepositoryCovers, Mode=OneTime}"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ScrollViewer.HorizontalScrollMode="Enabled"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  ScrollViewer.VerticalScrollMode="Disabled"
+                                  SelectionMode="None">
+                            <GridView.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                    <Setter Property="Margin" Value="0,0,12,0" />
+                                </Style>
+                            </GridView.ItemContainerStyle>
+                            <GridView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </GridView.ItemsPanel>
+                            <GridView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:GameInfo">
+                                    <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
+                                        <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
+                                        <Grid Width="104">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleX"
+                                                                             To="1"
+                                                                             Duration="0:0:0.2" />
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleY"
+                                                                             To="1"
+                                                                             Duration="0:0:0.2" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleX"
+                                                                             To="1.1"
+                                                                             Duration="0:0:0.2" />
+                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
+                                                                             Storyboard.TargetProperty="ScaleY"
+                                                                             To="1.1"
+                                                                             Duration="0:0:0.2" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Grid Height="104">
+                                                <Grid.RenderTransform>
+                                                    <ScaleTransform x:Name="grid_ScaleTransform" CenterX="52" CenterY="52" />
+                                                </Grid.RenderTransform>
+                                                <Image HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Source="{Binding Cover, Mode=OneWay}"
+                                                       Stretch="UniformToFill">
+                                                    <Image.RenderTransform>
+                                                        <ScaleTransform x:Name="scale" CenterX="52" CenterY="104" />
+                                                    </Image.RenderTransform>
+                                                </Image>
                                             </Grid>
-                                        </UserControl>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </Grid>
+                                            <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
+                                                <TextBlock Margin="4,2"
+                                                           FontSize="12"
+                                                           Text="{x:Bind Repository.Name, Mode=OneWay}"
+                                                           TextWrapping="Wrap" />
+                                            </ContentPresenter>
+                                        </Grid>
+                                    </UserControl>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
                     </Grid>
                     <Grid Width="230"
                           Height="180"
+                          Padding="14"
                           Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
-                          CornerRadius="{ThemeResource ControlCornerRadius}">
-                        <Grid Margin="14">
-                            <TextBlock x:Name="time_period_TextBlock"
-                                       FontWeight="Bold"
-                                       Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <DropDownButton x:Uid="Home_Theme"
-                                            Padding="8,4,6,6"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="Transparent"
-                                            CornerRadius="12"
-                                            FontSize="12">
-                                <DropDownButton.Flyout>
-                                    <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem x:Uid="Home_Theme_Dark"
-                                                        Click="theme_MenuFlyoutItem_Click"
-                                                        Tag="Dark" />
-                                        <MenuFlyoutItem x:Uid="Home_Theme_Light"
-                                                        Click="theme_MenuFlyoutItem_Click"
-                                                        Tag="Light" />
-                                    </MenuFlyout>
-                                </DropDownButton.Flyout>
-                            </DropDownButton>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Style="{ThemeResource TitleLargeTextBlockStyle}"
-                                       Text="{x:Bind ViewModel.CurrentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='t'}" />
-                        </Grid>
+                          CornerRadius="{ThemeResource OverlayCornerRadius}">
+                        <TextBlock x:Name="time_period_TextBlock"
+                                   FontWeight="Bold"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <DropDownButton x:Uid="Home_Theme"
+                                        Padding="8,4,6,6"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Background="Transparent"
+                                        CornerRadius="13"
+                                        FontSize="12">
+                            <DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem x:Uid="Home_Theme_Dark"
+                                                    Click="theme_MenuFlyoutItem_Click"
+                                                    Tag="Dark" />
+                                    <MenuFlyoutItem x:Uid="Home_Theme_Light"
+                                                    Click="theme_MenuFlyoutItem_Click"
+                                                    Tag="Light" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Style="{ThemeResource TitleLargeTextBlockStyle}"
+                                   Text="{x:Bind ViewModel.CurrentDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='t'}" />
                     </Grid>
                 </StackPanel>
 
@@ -283,6 +282,10 @@
                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
                           ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneTime}"
                           SelectionMode="None">
+                    <GridView.Resources>
+                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
+                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+                    </GridView.Resources>
                     <GridView.Header>
                         <TextBlock x:Uid="Home_Recently_Played"
                                    Margin="0,20,0,10"
@@ -308,6 +311,10 @@
                           ItemTemplate="{StaticResource GameGroupDataTemplate}"
                           ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneTime}"
                           SelectionMode="None">
+                    <GridView.Resources>
+                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
+                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+                    </GridView.Resources>
                     <GridView.Header>
                         <TextBlock x:Uid="Home_Recently_Created"
                                    Margin="0,0,0,10"
@@ -329,9 +336,14 @@
 
                 <!--  游戏分组  -->
                 <ListView ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}" SelectionMode="None">
+                    <ListView.Resources>
+                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
+                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
+                    </ListView.Resources>
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,0,0,36" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
