@@ -241,7 +241,7 @@
                                                        VerticalAlignment="Top"
                                                        DoubleTapped="character_illustration_Image_DoubleTapped"
                                                        Source="{Binding Illustration}" />
-                                                <Grid Grid.Column="1" Padding="30,50,6,0">
+                                                <Grid Grid.Column="1" Padding="30,40,0,0">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto" />
                                                         <RowDefinition Height="*" />

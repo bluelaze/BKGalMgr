@@ -603,8 +603,8 @@
                               SelectionMode="None">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:CharacterInfo">
-                                <UserControl>
-                                    <UserControl.ContextFlyout>
+                                <Grid Style="{StaticResource ListViewGridItemStyle}">
+                                    <Grid.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem x:Name="edit_character_MenuFlyoutItem"
                                                             x:Uid="Commom_MenuItem_Edit"
@@ -626,84 +626,83 @@
                                                 </MenuFlyoutItem.Resources>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
-                                    </UserControl.ContextFlyout>
-                                    <Grid Style="{StaticResource ListViewGridItemStyle}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="250" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                                    </Grid.ContextFlyout>
 
-                                        <Image Margin="8"
-                                               VerticalAlignment="Top"
-                                               Source="{Binding Illustration}" />
-                                        <Button x:Name="add_illustration_Button"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Background="Transparent"
-                                                BorderBrush="{x:Null}"
-                                                Click="add_illustration_Button_Click"
-                                                CornerRadius="0" />
-                                        <StackPanel Grid.Column="1"
-                                                    Padding="4"
-                                                    Spacing="6">
-                                            <StackPanel Orientation="Horizontal" Spacing="0">
-                                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
-                                                <TextBlock VerticalAlignment="Bottom"
-                                                           Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
-                                                           Visibility="{x:Bind CV, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
-                                            </StackPanel>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                            <StackPanel Padding="10,0"
-                                                        Orientation="Horizontal"
-                                                        Spacing="8">
-                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                           Text="{x:Bind Birthday, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:MM/dd}'}"
-                                                           Visibility="{x:Bind Birthday.Ticks, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                           Text="{x:Bind Age, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}y'}"
-                                                           Visibility="{x:Bind Age, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                           Text="{x:Bind BloodType, Mode=OneWay}"
-                                                           Visibility="{x:Bind BloodType, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
-                                            </StackPanel>
-                                            <StackPanel Padding="10,0"
-                                                        Orientation="Horizontal"
-                                                        Spacing="8">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                               Text="{x:Bind Bust, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='B{0}'}"
-                                                               Visibility="{x:Bind Bust, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                               Text="{x:Bind Cup, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
-                                                               Visibility="{x:Bind Cup, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
-                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                               Text="{x:Bind Waist, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/W{0}'}"
-                                                               Visibility="{x:Bind Waist, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                    <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                               Text="{x:Bind Hips, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/H{0}'}"
-                                                               Visibility="{x:Bind Hips, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                </StackPanel>
-
-                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                           Text="{x:Bind Height, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}cm'}"
-                                                           Visibility="{x:Bind Height, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
-                                                           Text="{x:Bind Weight, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}kg'}"
-                                                           Visibility="{x:Bind Weight, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
-                                            </StackPanel>
-
-                                            <TextBox MaxHeight="720"
-                                                     Margin="0,10,0,0"
-                                                     HorizontalAlignment="Stretch"
-                                                     AcceptsReturn="True"
-                                                     Background="Transparent"
-                                                     BorderBrush="Transparent"
-                                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                                     Text="{x:Bind Description, Mode=TwoWay}"
-                                                     TextWrapping="Wrap" />
+                                    <Image Margin="8"
+                                           VerticalAlignment="Top"
+                                           Source="{Binding Illustration}" />
+                                    <Button x:Name="add_illustration_Button"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            BorderBrush="{x:Null}"
+                                            Click="add_illustration_Button_Click"
+                                            CornerRadius="0" />
+                                    <StackPanel Grid.Column="1"
+                                                Padding="12,40,4,4"
+                                                Spacing="6">
+                                        <StackPanel Orientation="Horizontal" Spacing="0">
+                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
+                                            <TextBlock VerticalAlignment="Bottom"
+                                                       Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
+                                                       Visibility="{x:Bind CV, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
                                         </StackPanel>
-                                    </Grid>
-                                </UserControl>
+
+                                        <StackPanel Padding="10,0"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8">
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                       Text="{x:Bind Birthday, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:MM/dd}'}"
+                                                       Visibility="{x:Bind Birthday.Ticks, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                       Text="{x:Bind Age, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}y'}"
+                                                       Visibility="{x:Bind Age, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                       Text="{x:Bind BloodType, Mode=OneWay}"
+                                                       Visibility="{x:Bind BloodType, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                        </StackPanel>
+                                        <StackPanel Padding="10,0"
+                                                    Orientation="Horizontal"
+                                                    Spacing="8">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{x:Bind Bust, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='B{0}'}"
+                                                           Visibility="{x:Bind Bust, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{x:Bind Cup, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
+                                                           Visibility="{x:Bind Cup, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{x:Bind Waist, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/W{0}'}"
+                                                           Visibility="{x:Bind Waist, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                           Text="{x:Bind Hips, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='/H{0}'}"
+                                                           Visibility="{x:Bind Hips, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            </StackPanel>
+
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                       Text="{x:Bind Height, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}cm'}"
+                                                       Visibility="{x:Bind Height, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                       Text="{x:Bind Weight, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}kg'}"
+                                                       Visibility="{x:Bind Weight, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                                        </StackPanel>
+
+                                        <TextBox MaxHeight="720"
+                                                 Margin="0,10,0,0"
+                                                 HorizontalAlignment="Stretch"
+                                                 AcceptsReturn="True"
+                                                 Background="Transparent"
+                                                 BorderBrush="Transparent"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                 Text="{x:Bind Description, Mode=TwoWay}"
+                                                 TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
