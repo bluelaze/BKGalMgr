@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Microsoft.UI.Xaml.Automation;
@@ -112,6 +113,18 @@ public sealed partial class MetadataControl : Control
         set => SetValue(TextBlockStyleProperty, value);
     }
 
+    public int MaxCount
+    {
+        get { return (int)GetValue(MaxCountProperty); }
+        set { SetValue(MaxCountProperty, value); }
+    }
+    public static readonly DependencyProperty MaxCountProperty = DependencyProperty.Register(
+        nameof(MaxCount),
+        typeof(int),
+        typeof(MetadataControl),
+        new PropertyMetadata(-1, OnPropertyChanged)
+    );
+
     //
     // Summary:
     //     Provides event data for the ItemClick event.
@@ -193,6 +206,9 @@ public sealed partial class MetadataControl : Control
             NotifyLiveRegionChanged();
             return;
         }
+
+        if (MaxCount > 0 && items.Count() > MaxCount)
+            items = items.Take(MaxCount);
 
         Inline unitToAppend;
         var accessibleString = new StringBuilder();

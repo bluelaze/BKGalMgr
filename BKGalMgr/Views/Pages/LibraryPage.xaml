@@ -562,10 +562,15 @@
                                                              NavigateUri="{Binding Website}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock x:Uid="Library_GameInfo_Artist" />
+                                            <TextBlock x:Uid="Library_GameInfo_Scenario" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      ItemsSource="{x:Bind Scenario, Mode=OneTime}"
+                                                                      MaxCount="1" />
+
+                                            <TextBlock x:Uid="Library_GameInfo_Artist" Padding="8,0,0,0" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
                                                                       ItemsSource="{x:Bind Artist, Mode=OneTime}"
-                                                                      Separator=" • " />
+                                                                      MaxCount="1"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Group" />
