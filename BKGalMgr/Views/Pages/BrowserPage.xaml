@@ -289,26 +289,33 @@
             </GridView.ItemTemplate>
         </GridView>
 
-        <Button x:Name="refresh_Button"
-                Grid.RowSpan="2"
-                Height="40"
-                Margin="0,0,10,60"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Click="refresh_Button_Click"
-                Content="{mui:FontIcon FontSize=16,
-                                       Glyph=&#xE72C;}"
-                Style="{StaticResource IconButtonStyle}" />
+        <!--  右下角按钮  -->
+        <StackPanel Grid.RowSpan="2"
+                    Margin="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Spacing="10">
+            <Button Height="40"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    Content="{x:Bind ViewModel.GamesView.Count, Mode=OneWay}"
+                    Style="{StaticResource IconButtonStyle}" />
 
-        <Button x:Name="goto_top_Button"
-                Grid.RowSpan="2"
-                Height="40"
-                Margin="10"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Click="goto_top_Button_Click"
-                Content="{mui:FontIcon FontSize=16,
-                                       Glyph=&#xE74A;}"
-                Style="{StaticResource IconButtonStyle}" />
+            <Button x:Name="refresh_Button"
+                    Height="40"
+                    Click="refresh_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE72C;}"
+                    Style="{StaticResource IconButtonStyle}" />
+
+            <Button x:Name="goto_top_Button"
+                    Grid.RowSpan="2"
+                    Height="40"
+                    Click="goto_top_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE74A;}"
+                    Style="{StaticResource IconButtonStyle}" />
+        </StackPanel>
+
     </Grid>
 </Page>

@@ -3,6 +3,8 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mui="using:CommunityToolkit.WinUI"
@@ -84,8 +86,12 @@
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
-                            <StackPanel Padding="0,8">
-                                <StackPanel.ContextFlyout>
+                            <Grid Padding="0,8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Edit"
@@ -102,10 +108,29 @@
                                             </MenuFlyoutItem.Resources>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
-                                </StackPanel.ContextFlyout>
+                                </Grid.ContextFlyout>
+                                <interactivity:Interaction.Behaviors>
+                                    <interactions:EventTriggerBehavior EventName="PointerEntered">
+                                        <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                           TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                           Value="Visible" />
+                                    </interactions:EventTriggerBehavior>
+                                    <interactions:EventTriggerBehavior EventName="PointerExited">
+                                        <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                           TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                           Value="Collapsed" />
+                                    </interactions:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
                                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock Text="{x:Bind FolderPath, Mode=OneTime}" />
-                            </StackPanel>
+                                <TextBlock x:Name="games_count_TextBlock"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Style="{ThemeResource CaptionTextBlockStyle}"
+                                           Text="{x:Bind Games.Count, Mode=OneWay}"
+                                           Visibility="Collapsed" />
+                                <TextBlock Grid.Row="1" Text="{x:Bind FolderPath, Mode=OneTime}" />
+                            </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
