@@ -595,15 +595,14 @@
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
 
-        <mcontrols:SwitchPresenter Grid.Row="1"
-                                   Margin="0,-10,16,0"
+        <mcontrols:SwitchPresenter Grid.Row="0"
+                                   Margin="0,0,10,-16"
                                    HorizontalAlignment="Right"
-                                   VerticalAlignment="Top"
+                                   VerticalAlignment="Bottom"
                                    TargetType="x:Boolean"
                                    Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
             <mcontrols:Case Value="True">
                 <Button x:Name="switch_to_gridview_button"
-                        Padding="4"
                         Background="Transparent"
                         BorderBrush="{x:Null}"
                         Click="switch_gameview_button_Click"
@@ -613,7 +612,6 @@
             </mcontrols:Case>
             <mcontrols:Case Value="False">
                 <Button x:Name="switch_to_listview_button"
-                        Padding="4"
                         Background="Transparent"
                         BorderBrush="{x:Null}"
                         Click="switch_gameview_button_Click"
