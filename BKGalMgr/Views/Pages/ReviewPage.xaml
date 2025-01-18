@@ -34,7 +34,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Padding="16,32" Spacing="16">
-            <StackPanel HorizontalAlignment="Center"
+            <StackPanel x:Name="card_StackPanel"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Top"
                         Orientation="Horizontal"
                         Spacing="16">
@@ -217,6 +218,7 @@
                                 DetailLabelRequested="time_axis_AnnotatedScrollBar_DetailLabelRequested"
                                 Labels="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToScrollLabelsConverter}}" />
         </Grid>
+
         <Button x:Name="review_refresh_Button"
                 Grid.RowSpan="2"
                 Height="40"
@@ -227,5 +229,42 @@
                 Content="{mui:FontIcon FontSize=16,
                                        Glyph=&#xE72C;}"
                 Style="{StaticResource IconButtonStyle}" />
+
+        <mcontrols:SwitchPresenter Grid.RowSpan="2"
+                                   Height="40"
+                                   Margin="10,60,10,10"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   TargetType="Visibility"
+                                   Value="{x:Bind card_StackPanel.Visibility, Mode=OneWay}">
+            <mcontrols:Case Value="Visible">
+                <Button Height="40"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xECC9;}"
+                        Style="{StaticResource IconButtonStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                               TargetObject="{x:Bind card_StackPanel}"
+                                                               Value="Collapsed" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </Button>
+            </mcontrols:Case>
+            <mcontrols:Case Value="Collapsed">
+                <Button Height="40"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xE890;}"
+                        Style="{StaticResource IconButtonStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <interactions:EventTriggerBehavior EventName="Click">
+                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                               TargetObject="{x:Bind card_StackPanel}"
+                                                               Value="Visible" />
+                        </interactions:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </Button>
+            </mcontrols:Case>
+        </mcontrols:SwitchPresenter>
     </Grid>
 </Page>
