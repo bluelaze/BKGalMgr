@@ -20,7 +20,7 @@
         <WindowsAppSdkSelfContained Condition="'$(Configuration)' == 'Release'">true</WindowsAppSdkSelfContained>
         <EnableMsixTooling>true</EnableMsixTooling>
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-        <NoWarn>NU1701;NU1702;CS0657</NoWarn>
+        <NoWarn>NU1701;NU1702;</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
