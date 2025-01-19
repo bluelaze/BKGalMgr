@@ -67,7 +67,7 @@
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc5.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
         <PackageReference Include="Octokit" Version="14.0.0" />
