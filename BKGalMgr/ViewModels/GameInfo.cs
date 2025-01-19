@@ -375,7 +375,10 @@ public partial class GameInfo : ObservableObject
                         oldCharacter.BloodType = newCharacter.BloodType;
                 }
             }
+            oldCharacter.GameFolderPath = FolderPath;
         }
+        if (BangumiSubjectId != newGame.BangumiSubjectId && !newGame.BangumiSubjectId.IsNullOrEmpty())
+            BangumiSubjectId = newGame.BangumiSubjectId;
     }
 
     public void AddPlayedPeriodToFirst(PlayedPeriodInfo playedPeriodInfo)
