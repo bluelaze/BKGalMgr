@@ -229,7 +229,7 @@ public sealed partial class MetadataControl : Control
             {
                 var hyperLink = new Hyperlink { UnderlineStyle = UnderlineStyle.None };
                 Binding binding = new Binding();
-                binding.Source = this;
+                binding.Source = _textContainer;
                 binding.Path = new PropertyPath("Foreground");
                 binding.Mode = BindingMode.OneWay;
                 BindingOperations.SetBinding(hyperLink, Hyperlink.ForegroundProperty, binding);
