@@ -66,18 +66,15 @@
                                        Text="{x:Bind Game.Name, Mode=OneWay}"
                                        TextWrapping="Wrap" />
                             <ContentPresenter Height="6" />
-                            <SelectorBarItem Padding="0"
-                                             FontSize="14"
-                                             Icon="{mui:FontIcon Glyph=&#xE768;}"
-                                             Text="{x:Bind Game.LastPlayDate, Mode=OneWay}" />
-                            <SelectorBarItem Padding="0"
-                                             FontSize="14"
-                                             Icon="{mui:FontIcon Glyph=&#xEC06;}"
-                                             Text="{x:Bind Game.Company, Mode=OneWay}" />
-                            <SelectorBarItem Padding="0"
-                                             FontSize="14"
-                                             Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                             Text="{x:Bind Game.Repository.Name, Mode=OneWay}" />
+                            <controls:IconTextBlock FontSize="14"
+                                                    Icon="{mui:FontIcon Glyph=&#xE768;}"
+                                                    Text="{x:Bind Game.LastPlayDate, Mode=OneWay}" />
+                            <controls:IconTextBlock FontSize="14"
+                                                    Icon="{mui:FontIcon Glyph=&#xEC06;}"
+                                                    Text="{x:Bind Game.Company, Mode=OneWay}" />
+                            <controls:IconTextBlock FontSize="14"
+                                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                                    Text="{x:Bind Game.Repository.Name, Mode=OneWay}" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>

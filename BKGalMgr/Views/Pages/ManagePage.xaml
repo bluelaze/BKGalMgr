@@ -161,9 +161,7 @@
                     <DataTemplate x:DataType="vm:GameInfo">
                         <StackPanel>
                             <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                            <SelectorBarItem Padding="0"
-                                             Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                             Text="{x:Bind CreateDate, Mode=OneTime}" />
+                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -234,9 +232,7 @@
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                    <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -279,9 +275,7 @@
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                    <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -365,21 +359,17 @@
                                                 </VisualState>
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
-                                        <SelectorBarItem Padding="0" Text="{x:Bind Name, Mode=OneWay}">
-                                            <SelectorBarItem.Icon>
+                                        <controls:IconTextBlock Text="{x:Bind Name, Mode=OneWay}">
+                                            <controls:IconTextBlock.Icon>
                                                 <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                            </SelectorBarItem.Icon>
-                                        </SelectorBarItem>
-                                        <SelectorBarItem Padding="0"
-                                                         Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                         Text="{x:Bind CreateDate, Mode=OneTime}" />
-                                        <SelectorBarItem Padding="0"
-                                                         Text="Local Emulator"
-                                                         Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
-                                            <SelectorBarItem.Icon>
+                                            </controls:IconTextBlock.Icon>
+                                        </controls:IconTextBlock>
+                                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                        <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                            <controls:IconTextBlock.Icon>
                                                 <FontIcon Margin="0,-6,0,0" Glyph="LE" />
-                                            </SelectorBarItem.Icon>
-                                        </SelectorBarItem>
+                                            </controls:IconTextBlock.Icon>
+                                        </controls:IconTextBlock>
                                         <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                     </StackPanel>
                                 </UserControl>
@@ -432,9 +422,7 @@
                                         </MenuFlyout>
                                     </StackPanel.ContextFlyout>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                    <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>

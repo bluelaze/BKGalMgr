@@ -217,7 +217,7 @@
                                                     <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
-                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                    <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                             <VisualState x:Name="PauseState">
@@ -225,7 +225,7 @@
                                                     <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
-                                                    <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                    <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
                                                 </VisualState.Setters>
                                             </VisualState>
                                         </VisualStateGroup>
@@ -234,6 +234,7 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="150" />
                                             <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
@@ -258,16 +259,11 @@
                                                              FontSize="16"
                                                              FontWeight="Bold" />
                                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <SelectorBarItem Padding="0"
-                                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                 Text="{x:Bind CreateDate, Mode=OneWay}" />
-                                                <SelectorBarItem Padding="0"
-                                                                 Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                 Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                                <SelectorBarItem x:Name="playedtime_selectorbaritem"
-                                                                 Padding="0"
-                                                                 Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                 Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
+                                                <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                                <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
+                                                                        Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                        Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
                                                     <interactivity:Interaction.Behaviors>
                                                         <interactions:EventTriggerBehavior EventName="Tapped">
                                                             <interactions:ChangePropertyAction PropertyName="IsPaneOpen"
@@ -275,7 +271,7 @@
                                                                                                Value="True" />
                                                         </interactions:EventTriggerBehavior>
                                                     </interactivity:Interaction.Behaviors>
-                                                </SelectorBarItem>
+                                                </controls:IconTextBlock>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock x:Uid="Library_GameInfo_Company" />
@@ -357,101 +353,89 @@
                                             </StackPanel>
 
                                         </StackPanel>
-                                        <StackPanel Grid.Column="2"
-                                                    Orientation="Horizontal"
-                                                    Spacing="16">
-                                            <ComboBox x:Uid="Library_GameInfo_Pick_Target"
-                                                      MinWidth="200"
-                                                      VerticalAlignment="Center"
-                                                      ItemsSource="{x:Bind Targets, Mode=OneTime}"
-                                                      SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
-                                                <ComboBox.ItemTemplate>
-                                                    <DataTemplate x:DataType="vm:TargetInfo">
-                                                        <UserControl>
-                                                            <UserControl.ContextFlyout>
-                                                                <MenuFlyout>
-                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
-                                                                </MenuFlyout>
-                                                            </UserControl.ContextFlyout>
-                                                            <StackPanel Background="Transparent">
-                                                                <VisualStateManager.VisualStateGroups>
-                                                                    <VisualStateGroup>
-                                                                        <VisualState x:Name="PlayingState">
-                                                                            <VisualState.StateTriggers>
-                                                                                <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
-                                                                            </VisualState.StateTriggers>
-                                                                            <VisualState.Setters>
-                                                                                <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                                <Setter Target="capture_hotkey_button.IsEnabled" Value="True" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="PauseState">
-                                                                            <VisualState.StateTriggers>
-                                                                                <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
-                                                                            </VisualState.StateTriggers>
-                                                                            <VisualState.Setters>
-                                                                                <Setter Target="playedtime_selectorbaritem.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                                                                <Setter Target="playedtime_selectorbaritem.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
-                                                                                <Setter Target="capture_hotkey_button.IsEnabled" Value="True" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                        <VisualState x:Name="ArchiveState">
-                                                                            <VisualState.StateTriggers>
-                                                                                <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
-                                                                            </VisualState.StateTriggers>
-                                                                            <VisualState.Setters>
-                                                                                <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
-                                                                                <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                            </VisualState.Setters>
-                                                                        </VisualState>
-                                                                    </VisualStateGroup>
-                                                                </VisualStateManager.VisualStateGroups>
-                                                                <SelectorBarItem Padding="0" Text="{x:Bind Name, Mode=OneWay}">
-                                                                    <SelectorBarItem.Icon>
-                                                                        <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                                                    </SelectorBarItem.Icon>
-                                                                </SelectorBarItem>
-                                                                <SelectorBarItem Padding="0"
-                                                                                 Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                                                 Text="{x:Bind CreateDate, Mode=OneTime}" />
-                                                                <SelectorBarItem Padding="0"
-                                                                                 Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                                 Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                                                <SelectorBarItem x:Name="playedtime_selectorbaritem"
-                                                                                 Padding="0"
-                                                                                 Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                                 Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
-                                                                <SelectorBarItem Padding="0"
-                                                                                 Text="Local Emulator"
-                                                                                 Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
-                                                                    <SelectorBarItem.Icon>
-                                                                        <FontIcon Margin="0,-6,0,0" Glyph="LE" />
-                                                                    </SelectorBarItem.Icon>
-                                                                </SelectorBarItem>
-                                                                <HyperlinkButton x:Name="capture_hotkey_button"
-                                                                                 Margin="0"
-                                                                                 Padding="0"
-                                                                                 Click="capture_hotkey_button_Click"
-                                                                                 IsEnabled="False">
-                                                                    <SelectorBarItem Padding="0"
-                                                                                     Icon="{mui:FontIcon Glyph='&#xF406;'}"
-                                                                                     Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}" />
-                                                                </HyperlinkButton>
-                                                            </StackPanel>
-                                                        </UserControl>
-                                                    </DataTemplate>
-                                                </ComboBox.ItemTemplate>
-                                            </ComboBox>
-                                            <Button x:Name="play_Button"
-                                                    Width="60"
-                                                    Padding="0"
-                                                    VerticalAlignment="Stretch"
-                                                    Background="Transparent"
-                                                    BorderBrush="{x:Null}"
-                                                    Click="play_Button_Click"
-                                                    Content="{mui:FontIcon Glyph=&#xE76C;}"
-                                                    CornerRadius="0" />
-                                        </StackPanel>
+                                        <ComboBox x:Uid="Library_GameInfo_Pick_Target"
+                                                  Grid.Column="2"
+                                                  MinWidth="200"
+                                                  Margin="16,0"
+                                                  VerticalAlignment="Center"
+                                                  ItemsSource="{x:Bind Targets, Mode=OneTime}"
+                                                  SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:TargetInfo">
+                                                    <UserControl>
+                                                        <UserControl.ContextFlyout>
+                                                            <MenuFlyout>
+                                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                                            </MenuFlyout>
+                                                        </UserControl.ContextFlyout>
+                                                        <StackPanel Background="Transparent">
+                                                            <VisualStateManager.VisualStateGroups>
+                                                                <VisualStateGroup>
+                                                                    <VisualState x:Name="PlayingState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                            <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                    <VisualState x:Name="PauseState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                                            <Setter Target="playedtime_IconTextBlock.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                                                                            <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                    <VisualState x:Name="ArchiveState">
+                                                                        <VisualState.StateTriggers>
+                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                                        </VisualState.StateTriggers>
+                                                                        <VisualState.Setters>
+                                                                            <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                                            <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                        </VisualState.Setters>
+                                                                    </VisualState>
+                                                                </VisualStateGroup>
+                                                            </VisualStateManager.VisualStateGroups>
+                                                            <controls:IconTextBlock Text="{x:Bind Name, Mode=OneWay}">
+                                                                <controls:IconTextBlock.Icon>
+                                                                    <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
+                                                                </controls:IconTextBlock.Icon>
+                                                            </controls:IconTextBlock>
+                                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                                            <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
+                                                                                    Padding="0"
+                                                                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                                    Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                                            <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                                                <controls:IconTextBlock.Icon>
+                                                                    <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                                                </controls:IconTextBlock.Icon>
+                                                            </controls:IconTextBlock>
+                                                            <controls:IconTextBlock x:Name="capture_hotkey_IconTextBlock"
+                                                                                    Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                                                    Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}"
+                                                                                    Visibility="Collapsed" />
+                                                        </StackPanel>
+                                                    </UserControl>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button x:Name="play_Button"
+                                                Grid.Column="3"
+                                                Width="60"
+                                                Padding="0"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                BorderBrush="{x:Null}"
+                                                Click="play_Button_Click"
+                                                Content="{mui:FontIcon Glyph=&#xE76C;}"
+                                                CornerRadius="0" />
                                     </Grid>
                                 </SplitView>
                             </UserControl>
@@ -523,7 +507,7 @@
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="FontSize" Value="12" />
                                             </Style>
-                                            <Style TargetType="SelectorBarItem">
+                                            <Style TargetType="controls:IconTextBlock">
                                                 <Setter Property="FontSize" Value="14" />
                                             </Style>
                                             <Style TargetType="HyperlinkButton">
@@ -544,13 +528,10 @@
                                             </HyperlinkButton.Content>
                                         </HyperlinkButton>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <SelectorBarItem Padding="0"
-                                                             Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                             Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                            <SelectorBarItem Padding="0"
-                                                             VerticalContentAlignment="Center"
-                                                             Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                             Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                            <controls:IconTextBlock VerticalContentAlignment="Center"
+                                                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                    Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_PublishDate" />
@@ -570,7 +551,7 @@
                                             <TextBlock x:Uid="Library_GameInfo_Artist" Padding="8,0,0,0" />
                                             <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
                                                                       ItemsSource="{x:Bind Artist, Mode=OneTime}"
-                                                                      MaxCount="1"/>
+                                                                      MaxCount="1" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock x:Uid="Library_GameInfo_Group" />

@@ -53,15 +53,9 @@
                                      FontSize="16"
                                      FontWeight="Bold" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <SelectorBarItem Padding="0"
-                                         Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                         Text="{x:Bind CreateDate, Mode=OneTime}" />
-                        <SelectorBarItem Padding="0"
-                                         Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                         Text="{x:Bind LastPlayDate, Mode=OneTime}" />
-                        <SelectorBarItem Padding="0"
-                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                         Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneTime}" />
+                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE7FC;'}" Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Company" />

@@ -79,21 +79,6 @@ public sealed partial class LibraryPage : Page
         }
     }
 
-    private void capture_hotkey_button_Click(object sender, RoutedEventArgs e)
-    {
-        var targetInfo = (sender as FrameworkElement).DataContext as TargetInfo;
-        App.MainWindow.Hide();
-        Task.Delay(225)
-            .ContinueWith(
-                t =>
-                {
-                    targetInfo.DoScreenCapture();
-                    App.MainWindow.ShowWindow();
-                },
-                TaskScheduler.FromCurrentSynchronizationContext()
-            );
-    }
-
     private void play_Button_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;

@@ -2,6 +2,7 @@
 <Window x:Class="BKGalMgr.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:BKGalMgr.Views.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -195,21 +196,17 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <SelectorBarItem Padding="0" Text="{x:Bind Name}">
-                                        <SelectorBarItem.Icon>
+                                    <controls:IconTextBlock Text="{x:Bind Name}">
+                                        <controls:IconTextBlock.Icon>
                                             <FontIcon x:Name="target_FontIcon" Glyph="&#xE736;" />
-                                        </SelectorBarItem.Icon>
-                                    </SelectorBarItem>
-                                    <SelectorBarItem Padding="0"
-                                                     Icon="{mui:FontIcon Glyph='&#xEC92;'}"
-                                                     Text="{x:Bind CreateDate}" />
-                                    <SelectorBarItem Padding="0"
-                                                     Text="Local Emulator"
-                                                     Visibility="{x:Bind EnableLocalEmulator}">
-                                        <SelectorBarItem.Icon>
+                                        </controls:IconTextBlock.Icon>
+                                    </controls:IconTextBlock>
+                                    <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate}" />
+                                    <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator}">
+                                        <controls:IconTextBlock.Icon>
                                             <FontIcon Margin="0,-6,0,0" Glyph="LE" />
-                                        </SelectorBarItem.Icon>
-                                    </SelectorBarItem>
+                                        </controls:IconTextBlock.Icon>
+                                    </controls:IconTextBlock>
                                     <TextBlock Text="{x:Bind Description}" />
                                 </StackPanel>
                             </UserControl>

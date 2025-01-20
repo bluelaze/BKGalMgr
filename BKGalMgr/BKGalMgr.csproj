@@ -31,6 +31,7 @@
         <None Remove="Views\Controls\GamePlayedPeriodChartControl.xaml" />
         <None Remove="Views\Controls\GroupInfoControl.xaml" />
         <None Remove="Views\Controls\HeaderedTextBox.xaml" />
+        <None Remove="Views\Controls\IconTextBlock.xaml" />
         <None Remove="Views\Controls\LocalizationInfoControl.xaml" />
         <None Remove="Views\Controls\MetadataControl.xaml" />
         <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
@@ -133,6 +134,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\HeaderedTextBox.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\IconTextBlock.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\LocalizationInfoControl.xaml">
