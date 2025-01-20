@@ -213,7 +213,9 @@ public class BangumiService
             {
                 // "165cm"
                 var valueString = item.value.ToString().ToUpper();
-                valueString = valueString.Substring(0, valueString.IndexOf('C'));
+                var indexOfCM = valueString.IndexOf('C');
+                if (indexOfCM > 0)
+                    valueString = valueString.Substring(0, valueString.IndexOf('C'));
                 if (double.TryParse(valueString, out double height))
                 {
                     characterInfo.Height = height;
