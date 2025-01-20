@@ -9,6 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mui="using:CommunityToolkit.WinUI"
              xmlns:vm="using:BKGalMgr.ViewModels"
+             Foreground="Gray"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:PlayedPeriodToColumnSeriesConverter x:Key="PlayedPeriodToColumnSeriesConverter" />
@@ -28,6 +29,7 @@
                 Click="Close_Button_Click"
                 Content="{mui:FontIcon FontSize=16,
                                        Glyph=&#xE89F;}"
+                CornerRadius="0"
                 Style="{StaticResource IconButtonStyle}"
                 Visibility="{x:Bind ShowClose, Mode=OneWay}" />
     </Grid>
