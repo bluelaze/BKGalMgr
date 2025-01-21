@@ -470,6 +470,10 @@
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <Grid Width="260" Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
                                     <interactivity:Interaction.Behaviors>
                                         <interactions:EventTriggerBehavior EventName="PointerEntered">
                                             <interactions:ChangePropertyAction PropertyName="Visibility"
@@ -482,10 +486,6 @@
                                                                                Value="Collapsed" />
                                         </interactions:EventTriggerBehavior>
                                     </interactivity:Interaction.Behaviors>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
                                     <Image Height="350"
                                            Margin="8"
                                            VerticalAlignment="Top"

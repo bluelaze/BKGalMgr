@@ -19,31 +19,35 @@
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
     </UserControl.Resources>
-    <StackPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ContentPresenter Content="{x:Bind Header, Mode=OneWay}" />
-            <StackPanel HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="8">
-                <Button x:Name="left_scroll_Button"
-                        Click="left_scroll_Button_Click"
-                        Content="{mui:FontIcon FontSize=12,
-                                               Glyph=&#xE76B;}"
-                        Style="{StaticResource ScrollButtonStyle}" />
-                <Button x:Name="right_scroll_Button"
-                        Click="right_scroll_Button_Click"
-                        Content="{mui:FontIcon FontSize=12,
-                                               Glyph=&#xE76C;}"
-                        Style="{StaticResource ScrollButtonStyle}" />
-            </StackPanel>
-        </Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ContentPresenter Content="{x:Bind Header, Mode=OneWay}" />
+        <StackPanel HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <Button x:Name="left_scroll_Button"
+                    Click="left_scroll_Button_Click"
+                    Content="{mui:FontIcon FontSize=12,
+                                           Glyph=&#xE76B;}"
+                    Style="{StaticResource ScrollButtonStyle}" />
+            <Button x:Name="right_scroll_Button"
+                    Click="right_scroll_Button_Click"
+                    Content="{mui:FontIcon FontSize=12,
+                                           Glyph=&#xE76C;}"
+                    Style="{StaticResource ScrollButtonStyle}" />
+        </StackPanel>
         <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，效果好些  -->
         <GridView x:Name="scrollable_GridView"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2"
                   IsItemClickEnabled="True"
                   ItemClick="scrollable_GridView_ItemClick"
                   ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
@@ -66,5 +70,5 @@
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
         </GridView>
-    </StackPanel>
+    </Grid>
 </UserControl>

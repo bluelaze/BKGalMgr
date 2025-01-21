@@ -66,23 +66,25 @@
                           ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
                           SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
                     <ListView.Header>
-                        <StackPanel>
-                            <Grid>
-                                <NavigationViewItem x:Name="reporitory_navitem"
-                                                    x:Uid="Main_Nav_Library"
-                                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                                    Tapped="reporitory_navitem_Tapped" />
-                                <Button x:Name="add_repository_button"
-                                        Margin="64,0,16,0"
-                                        HorizontalAlignment="Right"
-                                        Background="Transparent"
-                                        BorderBrush="{x:Null}"
-                                        Click="add_repository_Button_Click"
-                                        Content="{mui:FontIcon FontSize=10,
-                                                               Glyph=&#xE948;}" />
-                            </Grid>
-                            <NavigationViewItemSeparator />
-                        </StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <NavigationViewItem x:Name="reporitory_navitem"
+                                                x:Uid="Main_Nav_Library"
+                                                Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                                Tapped="reporitory_navitem_Tapped" />
+                            <Button x:Name="add_repository_button"
+                                    Margin="64,0,16,0"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    BorderBrush="{x:Null}"
+                                    Click="add_repository_Button_Click"
+                                    Content="{mui:FontIcon FontSize=10,
+                                                           Glyph=&#xE948;}" />
+                            <NavigationViewItemSeparator Grid.Row="1" />
+                        </Grid>
                     </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:RepositoryInfo">
