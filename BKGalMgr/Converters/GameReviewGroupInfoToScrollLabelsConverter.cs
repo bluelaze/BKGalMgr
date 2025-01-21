@@ -18,8 +18,8 @@ public class GameReviewGroupInfoToScrollLabelsConverter : IValueConverter
         if (pp == null)
             return new List<AnnotatedScrollBarLabel>();
 
-        var itemHeight = -280;
-        return pp.Select(g => new AnnotatedScrollBarLabel(g.Label.ToString("yyyy/MM"), itemHeight += 270))
+        var itemHeight = -290;
+        return pp.Select(g => new AnnotatedScrollBarLabel(g.Label.ToString("yyyy/MM"), itemHeight += 290))
             .Reverse()
             .DistinctBy(g => g.Content.ToString())
             .Reverse()

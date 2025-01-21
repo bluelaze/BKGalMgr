@@ -168,46 +168,49 @@
                             </GroupStyle.HeaderTemplate>
                         </GroupStyle>
                     </GridView.GroupStyle>
+                    <GridView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="12,0,0,20" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <!--  Item高度：50+220+20=290  -->
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameReviewGroupItem">
-                            <GridViewItem Width="150"
-                                          Height="220"
-                                          Margin="4"
-                                          Background="{ThemeResource CardBackgroundFillColorDefault}">
-                                <GridViewItem.ContextFlyout>
+                            <StackPanel Width="150"
+                                        Height="220"
+                                        Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                <StackPanel.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind Game.OpenJsonFolderCommand, Mode=OneTime}" />
                                     </MenuFlyout>
-                                </GridViewItem.ContextFlyout>
-                                <StackPanel Width="150">
-                                    <Image Height="170"
-                                           Margin="8"
-                                           VerticalAlignment="Top"
-                                           Source="{Binding Game.Cover}">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip MaxWidth="1920"
-                                                     MaxHeight="1080"
-                                                     Placement="Right">
-                                                <ToolTip.Content>
-                                                    <Image Source="{Binding Game.Cover}" Stretch="None" />
-                                                </ToolTip.Content>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Image>
-                                    <StackPanel Padding="8,0" Spacing="1">
-                                        <HyperlinkButton x:Name="group_game_name_HyperlinkButton"
-                                                         Padding="0"
-                                                         HorizontalContentAlignment="Left"
-                                                         Click="group_game_name_HyperlinkButton_Click"
-                                                         Content="{x:Bind Game.Name, Mode=OneTime}"
-                                                         FontSize="12"
-                                                         FontWeight="Bold" />
-                                        <TextBlock FontSize="11"
-                                                   Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
-                                                   TextAlignment="Right" />
-                                    </StackPanel>
+                                </StackPanel.ContextFlyout>
+                                <Image Height="170"
+                                       Margin="4"
+                                       VerticalAlignment="Top"
+                                       Source="{Binding Game.Cover}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="1920"
+                                                 MaxHeight="1080"
+                                                 Placement="Right">
+                                            <ToolTip.Content>
+                                                <Image Source="{Binding Game.Cover}" Stretch="None" />
+                                            </ToolTip.Content>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Image>
+                                <StackPanel Margin="4,0" Spacing="2">
+                                    <HyperlinkButton x:Name="group_game_name_HyperlinkButton"
+                                                     Padding="0"
+                                                     Click="group_game_name_HyperlinkButton_Click"
+                                                     Content="{x:Bind Game.Name, Mode=OneTime}"
+                                                     FontSize="12"
+                                                     FontWeight="Bold" />
+                                    <TextBlock FontSize="11"
+                                               Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                               TextAlignment="Right" />
                                 </StackPanel>
-                            </GridViewItem>
+                            </StackPanel>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>

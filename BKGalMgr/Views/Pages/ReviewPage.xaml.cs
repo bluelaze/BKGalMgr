@@ -53,7 +53,7 @@ public sealed partial class ReviewPage : Page
         AnnotatedScrollBarDetailLabelRequestedEventArgs args
     )
     {
-        var group = ViewModel.Groups?.ElementAtOrDefault((int)args.ScrollOffset / 270);
+        var group = ViewModel.Groups?.ElementAtOrDefault((int)args.ScrollOffset / 290 + 1);
         if (group != null)
             args.Content = group.Label.ToString("d", CultureInfo.CurrentUICulture);
     }
@@ -85,7 +85,7 @@ public sealed partial class ReviewPage : Page
                 {
                     if (ViewModel.Groups[i].PlayedTime.Ticks == ticks)
                     {
-                        time_axis_ScrollView.ScrollTo(0, 270 * i);
+                        time_axis_ScrollView.ScrollTo(0, 290 * i);
                         break;
                     }
                 }
