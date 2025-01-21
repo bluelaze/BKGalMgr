@@ -27,7 +27,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <TextBlock Width="{x:Bind HeaderWidth, Mode=OneWay}"
-                   Margin="0,6"
+                   Margin="0,6,0,0"
                    Text="{x:Bind Header, Mode=OneWay}" />
         <TextBox x:Name="text_textbox"
                  Grid.Column="1"
