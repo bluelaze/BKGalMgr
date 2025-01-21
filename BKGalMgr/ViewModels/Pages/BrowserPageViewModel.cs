@@ -97,7 +97,7 @@ public partial class BrowserPageViewModel : ObservableObject
     void RefreshSuggestedTags()
     {
         SearchSuggestedTags.Clear();
-        SearchSuggestedTags.AddRange(_allTags.Where(t => t != null && t.Contains(SearchText)));
+        SearchSuggestedTags.AddRange(_allTags.Where(t => t != null && t.Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
     }
 
     class StringContainsComparer : IEqualityComparer<string>
@@ -106,7 +106,7 @@ public partial class BrowserPageViewModel : ObservableObject
         {
             if (x == null || y == null)
                 return false;
-            return y.Contains(x);
+            return y.Contains(x, StringComparison.OrdinalIgnoreCase);
         }
 
         public int GetHashCode([DisallowNull] string obj)

@@ -145,7 +145,7 @@ public partial class RepositoryInfo : ObservableObject
         foreach (var item in Games)
             tags = tags.Union(item.GetAllTags()).ToList();
 
-        return tags.Where(t => t != null && t.Contains(SearchText)).ToList();
+        return tags.Where(t => t != null && t.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
     public async Task RefreshStorageUsageAsync()
@@ -173,7 +173,7 @@ public partial class RepositoryInfo : ObservableObject
         {
             if (x == null || y == null)
                 return false;
-            return y.Contains(x);
+            return y.Contains(x, StringComparison.OrdinalIgnoreCase);
         }
 
         public int GetHashCode([DisallowNull] string obj)
