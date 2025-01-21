@@ -182,7 +182,7 @@
     <value>Game running currently, please stop!</value>
   </data>
   <data name="Msg_App_UnhandledException" xml:space="preserve">
-    <value>An exception occurred, Please restart!</value>
+    <value>An unhandled exception occurred, May need to restart!</value>
   </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>Add</value>

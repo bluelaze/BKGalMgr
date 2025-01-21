@@ -36,11 +36,16 @@ public class DialogHelper
         dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
         dialog.DefaultButton = ContentDialogButton.Primary;
 
-        dialog.Content = errorMsg;
         dialog.Title = new FontIcon()
         {
             Foreground = (SolidColorBrush)App.Current.Resources["SystemFillColorCriticalBrush"],
             Glyph = "\uE783",
+        };
+        dialog.Content = new TextBlock()
+        {
+            Text = errorMsg,
+            TextWrapping = TextWrapping.Wrap,
+            IsTextSelectionEnabled = true,
         };
 
         await dialog.ShowAsync();
@@ -55,7 +60,12 @@ public class DialogHelper
             Foreground = (SolidColorBrush)App.Current.Resources["SystemFillColorCautionBrush"],
             Glyph = "\uE7BA",
         };
-        dialog.Content = confirmMsg;
+        dialog.Content = new TextBlock()
+        {
+            Text = confirmMsg,
+            TextWrapping = TextWrapping.Wrap,
+            IsTextSelectionEnabled = true,
+        };
 
         return ContentDialogResult.Primary == await dialog.ShowAsync();
     }
