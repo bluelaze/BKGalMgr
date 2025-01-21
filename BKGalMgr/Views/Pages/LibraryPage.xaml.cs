@@ -245,7 +245,11 @@ public sealed partial class LibraryPage : Page
     private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)
     {
         var gameInfo = sender.DataContext as GameInfo;
-        var playedChart = new GamePlayedPeriodChartControl() { PlayedPeriods = gameInfo.PlayedPeriods };
+        var playedChart = new GamePlayedPeriodChartControl()
+        {
+            RequestedTheme = ActualTheme,
+            PlayedPeriods = gameInfo.PlayedPeriods,
+        };
         playedChart.CloseClick += (_, _) =>
         {
             sender.IsPaneOpen = false;
