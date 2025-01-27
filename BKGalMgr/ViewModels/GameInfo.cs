@@ -269,11 +269,15 @@ public partial class GameInfo : ObservableObject
     {
         Repository = repository;
         if (JsonPath.IsNullOrEmpty())
+        {
             JsonPath = Path.Combine(
                 repository.FolderPath,
                 CreateDate.ToString(GlobalInfo.FolderFormatStr),
                 GlobalInfo.GameJsonName
             );
+        }
+
+        SaveDataSettings.SetGamePath(FolderPath);
     }
 
     public List<string> GetAllTags()
