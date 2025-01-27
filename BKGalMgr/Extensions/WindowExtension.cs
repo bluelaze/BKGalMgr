@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI;
@@ -58,5 +59,28 @@ public static class WindowExtension
                 window.AppWindow.Move(CenteredPosition);
             }
         }
+    }
+
+    public static double GetRasterizationScaleForElement(this Window window, UIElement element)
+    {
+        if (element.XamlRoot != null)
+        {
+            if (element.XamlRoot == window.Content.XamlRoot)
+            {
+                return element.XamlRoot.RasterizationScale;
+            }
+        }
+        return 1;
+    }
+
+    [DllImport("User32.dll")]
+    internal static extern int GetDpiForWindow(IntPtr hwnd);
+
+    public static double GetWindowScale(this Window window)
+    {
+        var dpi = GetDpiForWindow(window.GetWindowHandle());
+        var scalingFactor = (double)dpi / 96;
+
+        return scalingFactor;
     }
 }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Extensions;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
@@ -52,7 +53,8 @@ public sealed partial class MainWindow : Window
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar
         ExtendsContentIntoTitleBar = true;
         //SetTitleBar(app_titlebar_grid);
-        AppWindow.ResizeClient(new(1600, 880));
+        var scale = this.GetWindowScale();
+        AppWindow.ResizeClient(new((int)(1600 * scale), (int)(880 * scale)));
         AppWindow.Changed += AppWindow_Changed;
         AppWindow.Closing += AppWindow_Closing;
         this.CenterToScreen();
