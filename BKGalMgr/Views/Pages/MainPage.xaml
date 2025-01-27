@@ -62,80 +62,86 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <ListView x:Name="reporitory_ListView"
-                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
-                          SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
-                    <ListView.Header>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <NavigationViewItem x:Name="reporitory_navitem"
-                                                x:Uid="Main_Nav_Library"
-                                                Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                                Tapped="reporitory_navitem_Tapped" />
-                            <Button x:Name="add_repository_button"
-                                    Margin="64,0,16,0"
-                                    HorizontalAlignment="Right"
-                                    Background="Transparent"
-                                    BorderBrush="{x:Null}"
-                                    Click="add_repository_Button_Click"
-                                    Content="{mui:FontIcon FontSize=10,
-                                                           Glyph=&#xE948;}" />
-                            <NavigationViewItemSeparator Grid.Row="1" />
-                        </Grid>
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:RepositoryInfo">
-                            <Grid Padding="0,8">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_repository_Menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Remove"
-                                                        Click="remove_repository_Menuflyoutitem_Click">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <interactivity:Interaction.Behaviors>
-                                    <interactions:EventTriggerBehavior EventName="PointerEntered">
-                                        <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                           TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                           Value="Visible" />
-                                    </interactions:EventTriggerBehavior>
-                                    <interactions:EventTriggerBehavior EventName="PointerExited">
-                                        <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                           TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                           Value="Collapsed" />
-                                    </interactions:EventTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
-                                <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-                                <TextBlock x:Name="games_count_TextBlock"
-                                           HorizontalAlignment="Right"
-                                           VerticalAlignment="Center"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Style="{ThemeResource CaptionTextBlockStyle}"
-                                           Text="{x:Bind Games.Count, Mode=OneWay}"
-                                           Visibility="Collapsed" />
-                                <TextBlock Grid.Row="1" Text="{x:Bind FolderPath, Mode=OneTime}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <NavigationViewItem x:Name="reporitory_navitem"
+                                            x:Uid="Main_Nav_Library"
+                                            Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                            Tapped="reporitory_navitem_Tapped" />
+                        <Button x:Name="add_repository_button"
+                                Margin="64,0,16,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderBrush="{x:Null}"
+                                Click="add_repository_Button_Click"
+                                Content="{mui:FontIcon FontSize=10,
+                                                       Glyph=&#xE948;}" />
+                        <NavigationViewItemSeparator Grid.Row="1" />
+                    </Grid>
+                    <ListView x:Name="reporitory_ListView"
+                              MaxHeight="220"
+                              AllowDrop="True"
+                              CanDragItems="True"
+                              CanReorderItems="True"
+                              DragItemsCompleted="reporitory_ListView_DragItemsCompleted"
+                              ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RepositoryInfo">
+                                <Grid Padding="0,8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_repository_Menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Remove"
+                                                            Click="remove_repository_Menuflyoutitem_Click">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
+                                    <interactivity:Interaction.Behaviors>
+                                        <interactions:EventTriggerBehavior EventName="PointerEntered">
+                                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                               TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                               Value="Visible" />
+                                        </interactions:EventTriggerBehavior>
+                                        <interactions:EventTriggerBehavior EventName="PointerExited">
+                                            <interactions:ChangePropertyAction PropertyName="Visibility"
+                                                                               TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                               Value="Collapsed" />
+                                        </interactions:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                    <TextBlock x:Name="games_count_TextBlock"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Style="{ThemeResource CaptionTextBlockStyle}"
+                                               Text="{x:Bind Games.Count, Mode=OneWay}"
+                                               Visibility="Collapsed" />
+                                    <TextBlock Grid.Row="1" Text="{x:Bind FolderPath, Mode=OneTime}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </NavigationView.PaneFooter>
 
             <NavigationView.FooterMenuItems>

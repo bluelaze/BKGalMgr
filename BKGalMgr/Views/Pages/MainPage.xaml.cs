@@ -141,6 +141,11 @@ public sealed partial class MainPage : Page
         }
     }
 
+    private void reporitory_ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+    {
+        ViewModel.LibraryAndManagePageViewModel.SaveRepositoryOrder();
+    }
+
     private async Task<ContentDialogResult> EditRepositoryInfo(RepositoryInfo repositoryInfo)
     {
         ContentDialog dialog = DialogHelper.GetConfirmDialog();

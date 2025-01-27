@@ -78,6 +78,16 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         return true;
     }
 
+    public void SaveRepositoryOrder()
+    {
+        var openedRepositories = Repository.Select(x => x.FolderPath);
+        var notExistRepositories = Settings.RepositoryPath.Except(openedRepositories).ToList();
+        Settings.RepositoryPath.Clear();
+        Settings.RepositoryPath.AddRange(openedRepositories);
+        Settings.RepositoryPath.AddRange(notExistRepositories);
+        Settings.SaveSettings();
+    }
+
     [RelayCommand]
     public void AddNewGame()
     {
