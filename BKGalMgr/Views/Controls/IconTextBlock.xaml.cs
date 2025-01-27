@@ -40,7 +40,7 @@ public sealed partial class IconTextBlock : UserControl
     public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
         nameof(Text),
         typeof(string),
-        typeof(HeaderedTextBox),
+        typeof(IconTextBlock),
         new PropertyMetadata(default(string))
     );
 
