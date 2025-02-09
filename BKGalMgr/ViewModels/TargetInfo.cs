@@ -150,6 +150,9 @@ public partial class TargetInfo : ObservableObject
         Name = Localization.Name;
         if (!Localization.StartupName.IsNullOrEmpty())
             StartupName = Localization.StartupName;
+
+        if (Source != null && !Source.Name.IsNullOrEmpty())
+            Name = Source.Name + "-" + Name;
     }
 
     public async Task DecompressSource()
