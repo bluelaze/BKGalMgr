@@ -227,8 +227,13 @@ public class BangumiService
             }
             else if (item.key == "BWH")
             {
+                var bwh = item.value.ToString().ToUpper();
                 // "B89(E)/W65/H88"
-                var valueStrings = item.value.ToString().ToUpper().Split('/').Select(i => i.Trim()).ToArray();
+                var valueStrings = bwh.Split('/').Select(i => i.Trim()).ToArray();
+                if (valueStrings.Count() != 3)
+                    valueStrings = bwh.Split('•').Select(i => i.Trim()).ToArray();
+                if (valueStrings.Count() != 3)
+                    valueStrings = bwh.Split(' ').Select(i => i.Trim()).ToArray();
                 if (valueStrings.Count() != 3)
                     continue;
 
