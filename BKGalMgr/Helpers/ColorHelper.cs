@@ -46,7 +46,7 @@ public class ColorHelper
             var colorHistogram = new ConcurrentDictionary<int, int>();
 
             // 将图片缩放到较小的尺寸以提高性能
-            int targetWidth = Math.Min(bitmap.Width, 200);
+            int targetWidth = Math.Min(bitmap.Width, 360);
             int targetHeight = (int)((float)bitmap.Height / bitmap.Width * targetWidth);
 
             using (var scaledBitmap = new Bitmap(bitmap, targetWidth, targetHeight))
@@ -113,8 +113,14 @@ public class ColorHelper
 
             var primaryColors = colorHistogram.OrderByDescending(x => x.Value).ToList();
 
-            ColorBucket primaryColorBucket = new();
-            int takeCount = Math.Min(10, primaryColors.Count);
+            ColorBucket primaryColorBucketR = new();
+            ColorBucket primaryColorBucketG = new();
+            ColorBucket primaryColorBucketB = new();
+            int rCount = 0;
+            int gCount = 0;
+            int bCount = 0;
+            int takeCount = Math.Min(300, primaryColors.Count);
+            int maxBucketSize = 10;
             for (int i = 0; i < takeCount; i++)
             {
                 // 转换回RGB值
@@ -122,14 +128,54 @@ public class ColorHelper
                 int g = ((primaryColors[i].Key >> colorBits) & colorMask) << (8 - colorBits);
                 int b = (primaryColors[i].Key & colorMask) << (8 - colorBits);
 
-                primaryColorBucket.RedSum += r * primaryColors[i].Value;
-                primaryColorBucket.GreenSum += g * primaryColors[i].Value;
-                primaryColorBucket.BlueSum += b * primaryColors[i].Value;
-                primaryColorBucket.Count += primaryColors[i].Value;
+                if (r > g && r > b)
+                {
+                    if (rCount < maxBucketSize)
+                    {
+                        primaryColorBucketR.RedSum += r * primaryColors[i].Value;
+                        primaryColorBucketR.GreenSum += g * primaryColors[i].Value;
+                        primaryColorBucketR.BlueSum += b * primaryColors[i].Value;
+                        primaryColorBucketR.Count += primaryColors[i].Value;
+                    }
+                    rCount++;
+                }
+                else if (g > r && g > b)
+                {
+                    if (gCount < maxBucketSize)
+                    {
+                        primaryColorBucketG.RedSum += r * primaryColors[i].Value;
+                        primaryColorBucketG.GreenSum += g * primaryColors[i].Value;
+                        primaryColorBucketG.BlueSum += b * primaryColors[i].Value;
+                        primaryColorBucketG.Count += primaryColors[i].Value;
+                    }
+                    gCount++;
+                }
+                else
+                {
+                    if (bCount < maxBucketSize)
+                    {
+                        primaryColorBucketB.RedSum += r * primaryColors[i].Value;
+                        primaryColorBucketB.GreenSum += g * primaryColors[i].Value;
+                        primaryColorBucketB.BlueSum += b * primaryColors[i].Value;
+                        primaryColorBucketB.Count += primaryColors[i].Value;
+                    }
+                    bCount++;
+                }
             }
-
+            Color color = new();
+            if (rCount > gCount && rCount > bCount)
+            {
+                color = primaryColorBucketR.GetAverageColor();
+            }
+            else if (gCount > rCount && gCount > bCount)
+            {
+                color = primaryColorBucketG.GetAverageColor();
+            }
+            else
+            {
+                color = primaryColorBucketB.GetAverageColor();
+            }
             // 平均颜色，且调暗
-            var color = primaryColorBucket.GetAverageColor();
             while (!IsDarkColor(color))
                 color = GenerateLighterOrDarkerColor(color, false);
             return color;
