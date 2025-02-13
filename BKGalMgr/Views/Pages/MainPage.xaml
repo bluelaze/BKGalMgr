@@ -3,7 +3,6 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -117,16 +116,16 @@
                                         </MenuFlyout>
                                     </Grid.ContextFlyout>
                                     <interactivity:Interaction.Behaviors>
-                                        <interactions:EventTriggerBehavior EventName="PointerEntered">
-                                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                               TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                               Value="Visible" />
-                                        </interactions:EventTriggerBehavior>
-                                        <interactions:EventTriggerBehavior EventName="PointerExited">
-                                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                               TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                               Value="Collapsed" />
-                                        </interactions:EventTriggerBehavior>
+                                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                Value="Visible" />
+                                        </interactivity:EventTriggerBehavior>
+                                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                Value="Collapsed" />
+                                        </interactivity:EventTriggerBehavior>
                                     </interactivity:Interaction.Behaviors>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <TextBlock x:Name="games_count_TextBlock"

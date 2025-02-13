@@ -4,7 +4,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:BKGalMgr.Views.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:BKGalMgr"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -54,11 +53,11 @@
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
                       SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}">
                 <interactivity:Interaction.Behaviors>
-                    <interactions:EventTriggerBehavior EventName="Tapped">
-                        <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                           TargetObject="{x:Bind image_viewer_Grid}"
-                                                           Value="Collapsed" />
-                    </interactions:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="Tapped">
+                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                            TargetObject="{x:Bind image_viewer_Grid}"
+                                                            Value="Collapsed" />
+                    </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
@@ -109,11 +108,11 @@
                     CornerRadius="0"
                     Style="{StaticResource IconButtonStyle}">
                 <interactivity:Interaction.Behaviors>
-                    <interactions:EventTriggerBehavior EventName="Click">
-                        <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                           TargetObject="{x:Bind image_viewer_Grid}"
-                                                           Value="Collapsed" />
-                    </interactions:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="Click">
+                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                            TargetObject="{x:Bind image_viewer_Grid}"
+                                                            Value="Collapsed" />
+                    </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>
         </Grid>
@@ -146,11 +145,11 @@
                     CornerRadius="0"
                     Style="{StaticResource IconButtonStyle}">
                 <interactivity:Interaction.Behaviors>
-                    <interactions:EventTriggerBehavior EventName="Click">
-                        <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                           TargetObject="{x:Bind blog_viewer_Grid}"
-                                                           Value="Collapsed" />
-                    </interactions:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="Click">
+                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                            TargetObject="{x:Bind blog_viewer_Grid}"
+                                                            Value="Collapsed" />
+                    </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Button>
         </Grid>
@@ -159,11 +158,11 @@
               Background="Transparent"
               Visibility="Collapsed">
             <interactivity:Interaction.Behaviors>
-                <interactions:EventTriggerBehavior EventName="Tapped">
-                    <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                       TargetObject="{x:Bind target_selecte_Grid}"
-                                                       Value="Collapsed" />
-                </interactions:EventTriggerBehavior>
+                <interactivity:EventTriggerBehavior EventName="Tapped">
+                    <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                        TargetObject="{x:Bind target_selecte_Grid}"
+                                                        Value="Collapsed" />
+                </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
             <StackPanel Padding="24"
                         HorizontalAlignment="Center"

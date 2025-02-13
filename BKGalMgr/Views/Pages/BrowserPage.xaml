@@ -5,7 +5,6 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -37,16 +36,16 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <interactivity:Interaction.Behaviors>
-                        <interactions:EventTriggerBehavior EventName="PointerEntered">
-                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                               TargetObject="{Binding ElementName=blog_Button}"
-                                                               Value="Visible" />
-                        </interactions:EventTriggerBehavior>
-                        <interactions:EventTriggerBehavior EventName="PointerExited">
-                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                               TargetObject="{Binding ElementName=blog_Button}"
-                                                               Value="Collapsed" />
-                        </interactions:EventTriggerBehavior>
+                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                TargetObject="{Binding ElementName=blog_Button}"
+                                                                Value="Visible" />
+                        </interactivity:EventTriggerBehavior>
+                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                TargetObject="{Binding ElementName=blog_Button}"
+                                                                Value="Collapsed" />
+                        </interactivity:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
                     <Image Source="{Binding Cover, Mode=OneWay}" />
                     <StackPanel Grid.Row="1"

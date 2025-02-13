@@ -5,7 +5,6 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -265,11 +264,11 @@
                                                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
                                                                         Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
                                                     <interactivity:Interaction.Behaviors>
-                                                        <interactions:EventTriggerBehavior EventName="Tapped">
-                                                            <interactions:ChangePropertyAction PropertyName="IsPaneOpen"
-                                                                                               TargetObject="{Binding ElementName=gameinfo_SplitView}"
-                                                                                               Value="True" />
-                                                        </interactions:EventTriggerBehavior>
+                                                        <interactivity:EventTriggerBehavior EventName="Tapped">
+                                                            <interactivity:ChangePropertyAction PropertyName="IsPaneOpen"
+                                                                                                TargetObject="{Binding ElementName=gameinfo_SplitView}"
+                                                                                                Value="True" />
+                                                        </interactivity:EventTriggerBehavior>
                                                     </interactivity:Interaction.Behaviors>
                                                 </controls:IconTextBlock>
                                             </StackPanel>
@@ -475,16 +474,16 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <interactivity:Interaction.Behaviors>
-                                        <interactions:EventTriggerBehavior EventName="PointerEntered">
-                                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                               TargetObject="{Binding ElementName=play_Button}"
-                                                                               Value="Visible" />
-                                        </interactions:EventTriggerBehavior>
-                                        <interactions:EventTriggerBehavior EventName="PointerExited">
-                                            <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                               TargetObject="{Binding ElementName=play_Button}"
-                                                                               Value="Collapsed" />
-                                        </interactions:EventTriggerBehavior>
+                                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=play_Button}"
+                                                                                Value="Visible" />
+                                        </interactivity:EventTriggerBehavior>
+                                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=play_Button}"
+                                                                                Value="Collapsed" />
+                                        </interactivity:EventTriggerBehavior>
                                     </interactivity:Interaction.Behaviors>
                                     <Image Height="350"
                                            Margin="8"

@@ -4,7 +4,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
@@ -46,12 +45,12 @@
                            PaneBackground="Transparent"
                            PanePlacement="Right">
                     <interactivity:Interaction.Behaviors>
-                        <interactions:EventTriggerBehavior EventName="PointerEntered">
-                            <interactions:ChangePropertyAction PropertyName="IsPaneOpen" Value="True" />
-                        </interactions:EventTriggerBehavior>
-                        <interactions:EventTriggerBehavior EventName="PointerExited">
-                            <interactions:ChangePropertyAction PropertyName="IsPaneOpen" Value="False" />
-                        </interactions:EventTriggerBehavior>
+                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                            <interactivity:ChangePropertyAction PropertyName="IsPaneOpen" Value="True" />
+                        </interactivity:EventTriggerBehavior>
+                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                            <interactivity:ChangePropertyAction PropertyName="IsPaneOpen" Value="False" />
+                        </interactivity:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
                     <SplitView.Pane>
                         <ListView Padding="0,8"
@@ -244,11 +243,11 @@
                                                    Glyph=&#xECC9;}"
                             Style="{StaticResource IconButtonStyle}">
                         <interactivity:Interaction.Behaviors>
-                            <interactions:EventTriggerBehavior EventName="Click">
-                                <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                   TargetObject="{x:Bind card_StackPanel}"
-                                                                   Value="Collapsed" />
-                            </interactions:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="Click">
+                                <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                    TargetObject="{x:Bind card_StackPanel}"
+                                                                    Value="Collapsed" />
+                            </interactivity:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Button>
                 </mcontrols:Case>
@@ -258,11 +257,11 @@
                                                    Glyph=&#xE890;}"
                             Style="{StaticResource IconButtonStyle}">
                         <interactivity:Interaction.Behaviors>
-                            <interactions:EventTriggerBehavior EventName="Click">
-                                <interactions:ChangePropertyAction PropertyName="Visibility"
-                                                                   TargetObject="{x:Bind card_StackPanel}"
-                                                                   Value="Visible" />
-                            </interactions:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="Click">
+                                <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                    TargetObject="{x:Bind card_StackPanel}"
+                                                                    Value="Visible" />
+                            </interactivity:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </Button>
                 </mcontrols:Case>

@@ -4,7 +4,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:helpers="using:BKGalMgr.Helpers"
-      xmlns:interactions="using:Microsoft.Xaml.Interactions.Core"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mbehaviors="using:CommunityToolkit.WinUI.Behaviors"
@@ -89,9 +88,9 @@
                                     ActionIcon="{x:Null}"
                                     IsClickEnabled="True">
                 <interactivity:Interaction.Behaviors>
-                    <interactions:EventTriggerBehavior EventName="Click">
-                        <interactions:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorEditGlobalCommand}" />
-                    </interactions:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="Click">
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorEditGlobalCommand}" />
+                    </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <mcontrols:SettingsCard.HeaderIcon>
                     <ImageIcon Source="{StaticResource LocalEmulatorBlue}" />
@@ -101,9 +100,9 @@
                                     ActionIcon="{x:Null}"
                                     IsClickEnabled="True">
                 <interactivity:Interaction.Behaviors>
-                    <interactions:EventTriggerBehavior EventName="Click">
-                        <interactions:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorLoadProfilesCommand}" />
-                    </interactions:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="Click">
+                        <interactivity:InvokeCommandAction Command="{x:Bind ViewModel.LocalEmulatorLoadProfilesCommand}" />
+                    </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <mcontrols:SettingsCard.HeaderIcon>
                     <ImageIcon Source="{StaticResource LocalEmulatorBlue}" />
@@ -133,27 +132,27 @@
                                             ActionIcon="{mui:FontIcon Glyph=&#xEBE8;}"
                                             IsClickEnabled="True">
                         <interactivity:Interaction.Behaviors>
-                            <interactions:EventTriggerBehavior EventName="Click">
+                            <interactivity:EventTriggerBehavior EventName="Click">
                                 <mbehaviors:NavigateToUriAction NavigateUri="https://github.com/bluelaze/BKGalMgr/issues/new?labels=bug&amp;template=01_bug.yaml" />
-                            </interactions:EventTriggerBehavior>
+                            </interactivity:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </mcontrols:SettingsCard>
                     <mcontrols:SettingsCard x:Uid="Settings_About_Suggest"
                                             ActionIcon="{mui:FontIcon Glyph=&#xEA80;}"
                                             IsClickEnabled="True">
                         <interactivity:Interaction.Behaviors>
-                            <interactions:EventTriggerBehavior EventName="Click">
+                            <interactivity:EventTriggerBehavior EventName="Click">
                                 <mbehaviors:NavigateToUriAction NavigateUri="https://github.com/bluelaze/BKGalMgr/issues/new?labels=enhancement&amp;template=02_request.yaml" />
-                            </interactions:EventTriggerBehavior>
+                            </interactivity:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </mcontrols:SettingsCard>
                     <mcontrols:SettingsCard x:Uid="Settings_About_Discussions"
                                             ActionIcon="{mui:FontIcon Glyph=&#xE8F2;}"
                                             IsClickEnabled="True">
                         <interactivity:Interaction.Behaviors>
-                            <interactions:EventTriggerBehavior EventName="Click">
+                            <interactivity:EventTriggerBehavior EventName="Click">
                                 <mbehaviors:NavigateToUriAction NavigateUri="https://github.com/bluelaze/BKGalMgr/discussions" />
-                            </interactions:EventTriggerBehavior>
+                            </interactivity:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </mcontrols:SettingsCard>
                 </mcontrols:SettingsExpander.Items>
