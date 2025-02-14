@@ -186,18 +186,6 @@ public sealed partial class HomePage : Page
         root_ScrollViewer.ChangeView(0, 0, null);
     }
 
-    private void UserControl_PointerEntered(object sender, PointerRoutedEventArgs e)
-    {
-        var control = sender as UserControl;
-        VisualStateManager.GoToState(control, "PointerOver", false);
-    }
-
-    private void UserControl_PointerExited(object sender, PointerRoutedEventArgs e)
-    {
-        var control = sender as UserControl;
-        VisualStateManager.GoToState(control, "Normal", false);
-    }
-
     private void banner_FlipView_Loaded(object sender, RoutedEventArgs e)
     {
         var preButton = banner_FlipView.FindDescendant("PreviousButtonHorizontal");

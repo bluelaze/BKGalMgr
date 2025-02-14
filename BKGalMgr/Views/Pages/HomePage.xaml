@@ -2,10 +2,14 @@
 <Page x:Class="BKGalMgr.Views.Pages.HomePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:BKGalMgr.Animations"
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
+      xmlns:mbehaviors="using:CommunityToolkit.WinUI.Behaviors"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mtriggers="using:CommunityToolkit.WinUI"
       xmlns:mui="using:CommunityToolkit.WinUI"
@@ -16,70 +20,54 @@
 
     <Page.Resources>
         <DataTemplate x:Key="GameGroupDataTemplate" x:DataType="vm:GameReviewGroupItem">
-            <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
-                <Grid Width="196"
-                      Height="248"
-                      HorizontalAlignment="Stretch"
-                      Background="{ThemeResource CardBackgroundFillColorDefault}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
-                                                     Storyboard.TargetProperty="X"
-                                                     To="0"
-                                                     Duration="0:0:0.2" />
-                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
-                                                     Storyboard.TargetProperty="Y"
-                                                     To="0"
-                                                     Duration="0:0:0.2" />
-                                </Storyboard>
-                            </VisualState>
-                            <VisualState x:Name="PointerOver">
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
-                                                     Storyboard.TargetProperty="X"
-                                                     To="0"
-                                                     Duration="0:0:0.2" />
-                                    <DoubleAnimation Storyboard.TargetName="translateTransform"
-                                                     Storyboard.TargetProperty="Y"
-                                                     To="-88"
-                                                     Duration="0:0:0.2" />
-                                </Storyboard>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-                    <Image HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Source="{Binding Game.Cover, Mode=OneWay}"
-                           Stretch="UniformToFill" />
-                    <StackPanel>
-                        <ContentPresenter Height="196" />
-                        <StackPanel Height="144"
-                                    Padding="{ThemeResource TextControlThemePadding}"
-                                    Background="{ThemeResource SystemControlTransientBackgroundBrush}"
-                                    Spacing="4">
-                            <StackPanel.RenderTransform>
-                                <TranslateTransform x:Name="translateTransform" />
-                            </StackPanel.RenderTransform>
-                            <TextBlock Height="36"
-                                       Text="{x:Bind Game.Name, Mode=OneWay}"
-                                       TextWrapping="Wrap" />
-                            <ContentPresenter Height="6" />
-                            <controls:IconTextBlock FontSize="14"
-                                                    Icon="{mui:FontIcon Glyph=&#xE768;}"
-                                                    Text="{x:Bind Game.LastPlayDate, Mode=OneWay}" />
-                            <controls:IconTextBlock FontSize="14"
-                                                    Icon="{mui:FontIcon Glyph=&#xEC06;}"
-                                                    Text="{x:Bind Game.Company, Mode=OneWay}" />
-                            <controls:IconTextBlock FontSize="14"
-                                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                                    Text="{x:Bind Game.Repository.Name, Mode=OneWay}" />
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </UserControl>
+            <Grid Width="196"
+                  Height="248"
+                  HorizontalAlignment="Stretch"
+                  Background="{ThemeResource CardBackgroundFillColorDefault}">
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                        <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
+                    </interactivity:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="PointerExited">
+                        <animations:StartAnimationActionWrapper Animation="{Binding ElementName=Normal_AnimationSet}" />
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
 
+                <Image HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Source="{Binding Game.Cover, Mode=OneWay}"
+                       Stretch="UniformToFill" />
+                <StackPanel>
+                    <ContentPresenter Height="196" />
+                    <StackPanel Height="144"
+                                Padding="{ThemeResource TextControlThemePadding}"
+                                Background="{ThemeResource SystemControlTransientBackgroundBrush}"
+                                Spacing="4">
+                        <manimations:Explicit.Animations>
+                            <manimations:AnimationSet x:Name="PointerOver_AnimationSet">
+                                <manimations:TranslationAnimation To="0,-88,0" Duration="0:0:0.3" />
+                            </manimations:AnimationSet>
+                            <manimations:AnimationSet x:Name="Normal_AnimationSet">
+                                <manimations:TranslationAnimation To="0" Duration="0:0:0.3" />
+                            </manimations:AnimationSet>
+                        </manimations:Explicit.Animations>
+
+                        <TextBlock Height="36"
+                                   Text="{x:Bind Game.Name, Mode=OneWay}"
+                                   TextWrapping="Wrap" />
+                        <ContentPresenter Height="6" />
+                        <controls:IconTextBlock FontSize="14"
+                                                Icon="{mui:FontIcon Glyph=&#xE768;}"
+                                                Text="{x:Bind Game.LastPlayDate, Mode=OneWay}" />
+                        <controls:IconTextBlock FontSize="14"
+                                                Icon="{mui:FontIcon Glyph=&#xEC06;}"
+                                                Text="{x:Bind Game.Company, Mode=OneWay}" />
+                        <controls:IconTextBlock FontSize="14"
+                                                Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                                Text="{x:Bind Game.Repository.Name, Mode=OneWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
 
@@ -100,47 +88,31 @@
                                   Loaded="banner_FlipView_Loaded">
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
-                                    <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
-                                        <Grid Width="480">
-                                            <Grid.RenderTransform>
-                                                <ScaleTransform x:Name="grid_ScaleTransform" CenterX="245" CenterY="90" />
-                                            </Grid.RenderTransform>
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup x:Name="CommonStates">
-                                                    <VisualState x:Name="Normal">
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleX"
-                                                                             To="1"
-                                                                             Duration="0:0:0.2" />
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleY"
-                                                                             To="1"
-                                                                             Duration="0:0:0.2" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                    <VisualState x:Name="PointerOver">
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleX"
-                                                                             To="1.1"
-                                                                             Duration="0:0:0.2" />
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleY"
-                                                                             To="1.1"
-                                                                             Duration="0:0:0.2" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
-                                            <Image x:Name="banner_image"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Source="{x:Bind Cover, Mode=OneWay}"
-                                                   Stretch="UniformToFill"
-                                                   Tapped="banner_image_Tapped" />
-                                        </Grid>
-                                    </UserControl>
+                                    <Grid Width="480" mui:VisualExtensions.NormalizedCenterPoint="0.5">
+                                        <interactivity:Interaction.Behaviors>
+                                            <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
+                                            </interactivity:EventTriggerBehavior>
+                                            <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=Normal_AnimationSet}" />
+                                            </interactivity:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                        <manimations:Explicit.Animations>
+                                            <manimations:AnimationSet x:Name="PointerOver_AnimationSet">
+                                                <manimations:ScaleAnimation To="1.1" Duration="0:0:0.2" />
+                                            </manimations:AnimationSet>
+                                            <manimations:AnimationSet x:Name="Normal_AnimationSet">
+                                                <manimations:ScaleAnimation To="1" Duration="0:0:0.2" />
+                                            </manimations:AnimationSet>
+                                        </manimations:Explicit.Animations>
+
+                                        <Image x:Name="banner_image"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Source="{x:Bind Cover, Mode=OneWay}"
+                                               Stretch="UniformToFill"
+                                               Tapped="banner_image_Tapped" />
+                                    </Grid>
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
                         </FlipView>
@@ -184,58 +156,37 @@
                             </GridView.ItemsPanel>
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
-                                    <UserControl PointerEntered="UserControl_PointerEntered" PointerExited="UserControl_PointerExited">
-                                        <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
-                                        <Grid Width="104">
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup x:Name="CommonStates">
-                                                    <VisualState x:Name="Normal">
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleX"
-                                                                             To="1"
-                                                                             Duration="0:0:0.2" />
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleY"
-                                                                             To="1"
-                                                                             Duration="0:0:0.2" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                    <VisualState x:Name="PointerOver">
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleX"
-                                                                             To="1.1"
-                                                                             Duration="0:0:0.2" />
-                                                            <DoubleAnimation Storyboard.TargetName="grid_ScaleTransform"
-                                                                             Storyboard.TargetProperty="ScaleY"
-                                                                             To="1.1"
-                                                                             Duration="0:0:0.2" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
-                                            <Grid Height="104">
-                                                <Grid.RenderTransform>
-                                                    <ScaleTransform x:Name="grid_ScaleTransform" CenterX="52" CenterY="52" />
-                                                </Grid.RenderTransform>
-                                                <Image HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       Source="{Binding Cover, Mode=OneWay}"
-                                                       Stretch="UniformToFill">
-                                                    <Image.RenderTransform>
-                                                        <ScaleTransform x:Name="scale" CenterX="52" CenterY="104" />
-                                                    </Image.RenderTransform>
-                                                </Image>
-                                            </Grid>
-                                            <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
-                                                <TextBlock Margin="4,2"
-                                                           FontSize="12"
-                                                           Text="{x:Bind Repository.Name, Mode=OneWay}"
-                                                           TextWrapping="Wrap" />
-                                            </ContentPresenter>
-                                        </Grid>
-                                    </UserControl>
+                                    <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
+                                    <Grid Width="104">
+                                        <interactivity:Interaction.Behaviors>
+                                            <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
+                                            </interactivity:EventTriggerBehavior>
+                                            <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=Normal_AnimationSet}" />
+                                            </interactivity:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                        <Border mui:VisualExtensions.NormalizedCenterPoint="0.5">
+                                            <manimations:Explicit.Animations>
+                                                <manimations:AnimationSet x:Name="PointerOver_AnimationSet">
+                                                    <manimations:ScaleAnimation To="1.1" Duration="0:0:0.2" />
+                                                </manimations:AnimationSet>
+                                                <manimations:AnimationSet x:Name="Normal_AnimationSet">
+                                                    <manimations:ScaleAnimation To="1" Duration="0:0:0.2" />
+                                                </manimations:AnimationSet>
+                                            </manimations:Explicit.Animations>
+                                            <Image HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Source="{Binding Cover, Mode=OneWay}"
+                                                   Stretch="UniformToFill" />
+                                        </Border>
+                                        <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
+                                            <TextBlock Margin="4,2"
+                                                       FontSize="12"
+                                                       Text="{x:Bind Repository.Name, Mode=OneWay}"
+                                                       TextWrapping="Wrap" />
+                                        </ContentPresenter>
+                                    </Grid>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
