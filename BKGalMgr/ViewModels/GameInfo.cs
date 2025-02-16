@@ -811,7 +811,7 @@ public partial class GameInfo : ObservableObject
         var covers = new List<string>();
         var coversPath = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
         if (Directory.Exists(coversPath))
-            covers = Directory.GetFiles(coversPath).ToList();
+            covers = Directory.GetFiles(coversPath).OrderBy(f => Path.GetFileNameWithoutExtension(f)).ToList();
 
         if (!Cover.IsNullOrEmpty())
             covers.Insert(0, Cover);
@@ -825,7 +825,7 @@ public partial class GameInfo : ObservableObject
         var galleryPath = Path.Combine(FolderPath, GlobalInfo.GameGalleryFolderName);
         if (Directory.Exists(galleryPath))
         {
-            Gallery.MergeRange(Directory.GetFiles(galleryPath));
+            Gallery.MergeRange(Directory.GetFiles(galleryPath).OrderBy(f => Path.GetFileNameWithoutExtension(f)));
             Gallery.RemoveIf(t => !File.Exists(t));
         }
     }
@@ -835,7 +835,7 @@ public partial class GameInfo : ObservableObject
         var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
         if (Directory.Exists(specialPath))
         {
-            Special.MergeRange(Directory.GetFiles(specialPath));
+            Special.MergeRange(Directory.GetFiles(specialPath).OrderBy(f => Path.GetFileNameWithoutExtension(f)));
             Special.RemoveIf(t => !File.Exists(t));
         }
     }
@@ -845,7 +845,9 @@ public partial class GameInfo : ObservableObject
         var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
         if (Directory.Exists(capturePath))
         {
-            ScreenCaptures.MergeRange(Directory.GetFiles(capturePath));
+            ScreenCaptures.MergeRange(
+                Directory.GetFiles(capturePath).OrderBy(f => Path.GetFileNameWithoutExtension(f))
+            );
             ScreenCaptures.RemoveIf(t => !File.Exists(t));
         }
     }
