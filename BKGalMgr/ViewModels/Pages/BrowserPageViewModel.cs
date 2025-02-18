@@ -76,7 +76,7 @@ public partial class BrowserPageViewModel : ObservableObject
                 .ToList();
         }
         // 移除没有的，合入有的
-        var exceptGame = Games.Except(allGames);
+        var exceptGame = Games.Except(allGames).ToList();
         foreach (var g in exceptGame)
         {
             Games.Remove(g);
