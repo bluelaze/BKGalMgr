@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
 
 namespace BKGalMgr.Common;
 
-internal class FileSystemMisc
+public class FileSystemMisc
 {
     public static async Task<StorageFile> PickFile(List<string> fileTypeFilter)
     {
@@ -123,5 +122,12 @@ internal class FileSystemMisc
             );
         }
         return size;
+    }
+
+    public static List<string> GetDirectoryFiles(string path)
+    {
+        if (path.IsNullOrEmpty() || !Directory.Exists(path))
+            return null;
+        return Directory.GetFiles(path).ToList().SortByName();
     }
 }

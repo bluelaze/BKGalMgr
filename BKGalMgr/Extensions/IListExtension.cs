@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace BKGalMgr.Extensions;
 
@@ -76,6 +73,7 @@ public static class IListExtension
     }
 
     private static readonly Random rnd = new Random();
+
     // 随机选择指定数量的元素
     public static IEnumerable<T> TakeRandom<T>(this IList<T> source, int count)
     {
@@ -95,5 +93,26 @@ public static class IListExtension
         }
 
         return indices.Take(count).Select(i => source[i]);
+    }
+
+    //https://stackoverflow.com/questions/3099581/sorting-an-array-of-folder-names-like-windows-explorer-numerically-and-alphabet
+    public class StrCmpLogicalComparer : IComparer<string>
+    {
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        static extern int StrCmpLogicalW(String x, String y);
+
+        public int Compare(string x, string y)
+        {
+            return StrCmpLogicalW(x, y);
+        }
+    }
+
+    public static List<string> SortByName(this List<string> source)
+    {
+        if (source == null)
+            return null;
+
+        source.Sort(new StrCmpLogicalComparer());
+        return source;
     }
 }
