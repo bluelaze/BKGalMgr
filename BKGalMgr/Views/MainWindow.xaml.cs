@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using BKGalMgr.Extensions;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
@@ -18,8 +17,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using ShareX.HelpersLib;
-using SkiaSharp;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -94,6 +91,11 @@ public sealed partial class MainWindow : Window
     public void HideLoading()
     {
         loading_contentpresenter.Visibility = Visibility.Collapsed;
+    }
+
+    public static string GetImageFileName(object imagePath)
+    {
+        return imagePath == null ? null : Path.GetFileName(imagePath.ToString());
     }
 
     public async void ShowImages(IEnumerable<string> images, int selectedIndex)

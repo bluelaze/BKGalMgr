@@ -463,7 +463,7 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Image Source="{x:Bind}" Stretch="Uniform" />
+                            <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -487,7 +487,7 @@
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" />
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
@@ -511,7 +511,7 @@
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" />
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
@@ -535,7 +535,7 @@
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" />
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>

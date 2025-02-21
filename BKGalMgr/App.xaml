@@ -68,6 +68,8 @@
             <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />
             <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
             <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
+            <converters:GetFileNameConverter x:Key="GetFileNameConverter" />
+
             <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
                                                       EmptyValue="Collapsed"

@@ -5,7 +5,7 @@
         xmlns:controls="using:BKGalMgr.Views.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-        xmlns:local="using:BKGalMgr"
+        xmlns:local="using:BKGalMgr.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:mtriggers="using:CommunityToolkit.WinUI"
@@ -29,6 +29,12 @@
                 </TransitionCollection>
             </Frame.ContentTransitions>
         </Frame>
+
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Text="{x:Bind local:MainWindow.GetImageFileName(image_viewer_FlipView.SelectedItem), Mode=OneWay}"
+                   Visibility="{x:Bind image_viewer_Grid.Visibility, Mode=OneWay}" />
+
         <ContentPresenter x:Name="loading_contentpresenter"
                           Grid.Row="1"
                           Background="Transparent"
@@ -38,6 +44,7 @@
                          IsIndeterminate="True"
                          ShowPaused="False" />
         </ContentPresenter>
+
         <Grid x:Name="image_viewer_Grid"
               Grid.Row="1"
               HorizontalAlignment="Stretch"
@@ -94,7 +101,9 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
-                        <Image Source="{x:Bind}" Stretch="Uniform" />
+                        <Image Source="{x:Bind}"
+                               Stretch="Uniform"
+                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName((x:String))}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
@@ -116,6 +125,7 @@
                 </interactivity:Interaction.Behaviors>
             </Button>
         </Grid>
+
         <Grid x:Name="blog_viewer_Grid"
               Grid.Row="1"
               HorizontalAlignment="Stretch"
@@ -153,6 +163,7 @@
                 </interactivity:Interaction.Behaviors>
             </Button>
         </Grid>
+
         <Grid x:Name="target_selecte_Grid"
               Grid.Row="1"
               Background="Transparent"
@@ -235,6 +246,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
         <tb:TaskbarIcon x:Name="taskbaricon"
                         ContextMenuMode="SecondWindow"
                         IconSource="ms-appx:///BKGalMgr.ico"
