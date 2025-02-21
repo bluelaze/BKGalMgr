@@ -58,7 +58,8 @@
             <FlipView x:Name="image_viewer_FlipView"
                       Background="Transparent"
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
-                      SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}">
+                      SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}"
+                      UseTouchAnimationsForAllNavigation="False">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="Tapped">
                         <interactivity:ChangePropertyAction PropertyName="Visibility"
