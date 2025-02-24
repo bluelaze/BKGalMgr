@@ -2,6 +2,7 @@
 <Window x:Class="BKGalMgr.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behaviors="using:BKGalMgr.Behaviors"
         xmlns:controls="using:BKGalMgr.Views.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -61,11 +62,11 @@
                       SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}"
                       UseTouchAnimationsForAllNavigation="False">
                 <interactivity:Interaction.Behaviors>
-                    <interactivity:EventTriggerBehavior EventName="Tapped">
+                    <behaviors:CickedTriggerBehavior>
                         <interactivity:ChangePropertyAction PropertyName="Visibility"
                                                             TargetObject="{x:Bind image_viewer_Grid}"
                                                             Value="Collapsed" />
-                    </interactivity:EventTriggerBehavior>
+                    </behaviors:CickedTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
