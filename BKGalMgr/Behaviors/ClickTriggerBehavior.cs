@@ -10,7 +10,7 @@ using Microsoft.Xaml.Interactivity;
 namespace BKGalMgr.Behaviors;
 
 [TypeConstraint(typeof(FrameworkElement))]
-public class CickedTriggerBehavior : Trigger<FrameworkElement>
+public class ClickTriggerBehavior : Trigger<FrameworkElement>
 {
     private bool _pointerPressed = false;
 
@@ -19,14 +19,18 @@ public class CickedTriggerBehavior : Trigger<FrameworkElement>
         // 其他事件（而不是 PointerReleased）可能会在操作结束时触发，例如 PointerCanceled 或 PointerCaptureLost。
         AssociatedObject.PointerPressed += AssociatedObject_PointerPressed;
         AssociatedObject.PointerReleased += AssociatedObject_PointerReleased;
-        AssociatedObject.PointerExited += AssociatedObject_PointerExited;
+        AssociatedObject.PointerExited += AssociatedObject_PointerLost;
+        AssociatedObject.PointerCanceled += AssociatedObject_PointerLost;
+        AssociatedObject.PointerCaptureLost += AssociatedObject_PointerLost;
     }
 
     protected override void OnDetaching()
     {
         AssociatedObject.PointerPressed -= AssociatedObject_PointerPressed;
         AssociatedObject.PointerReleased -= AssociatedObject_PointerReleased;
-        AssociatedObject.PointerExited -= AssociatedObject_PointerExited;
+        AssociatedObject.PointerExited -= AssociatedObject_PointerLost;
+        AssociatedObject.PointerCanceled -= AssociatedObject_PointerLost;
+        AssociatedObject.PointerCaptureLost -= AssociatedObject_PointerLost;
     }
 
     private void AssociatedObject_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -36,8 +40,8 @@ public class CickedTriggerBehavior : Trigger<FrameworkElement>
             && e.GetCurrentPoint(AssociatedObject).Properties.IsLeftButtonPressed
         )
         {
-            _pointerPressed = true;
-            AssociatedObject.CapturePointer(e.Pointer);
+            e.Handled = true;
+            _pointerPressed = AssociatedObject.CapturePointer(e.Pointer);
         }
     }
 
@@ -46,13 +50,13 @@ public class CickedTriggerBehavior : Trigger<FrameworkElement>
         if (_pointerPressed)
         {
             e.Handled = true;
-            Interaction.ExecuteActions(sender, Actions, e);
             AssociatedObject.ReleasePointerCapture(e.Pointer);
+            Interaction.ExecuteActions(sender, Actions, e);
         }
         _pointerPressed = false;
     }
 
-    private void AssociatedObject_PointerExited(object sender, PointerRoutedEventArgs e)
+    private void AssociatedObject_PointerLost(object sender, PointerRoutedEventArgs e)
     {
         if (_pointerPressed)
         {

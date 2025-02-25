@@ -62,11 +62,11 @@
                       SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}"
                       UseTouchAnimationsForAllNavigation="False">
                 <interactivity:Interaction.Behaviors>
-                    <behaviors:CickedTriggerBehavior>
+                    <behaviors:ClickTriggerBehavior>
                         <interactivity:ChangePropertyAction PropertyName="Visibility"
                                                             TargetObject="{x:Bind image_viewer_Grid}"
                                                             Value="Collapsed" />
-                    </behaviors:CickedTriggerBehavior>
+                    </behaviors:ClickTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
