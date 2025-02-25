@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -32,7 +32,9 @@ public static class ColorHelper
 
     public static Color ToColor(this HslColor hslColor)
     {
-        return CommunityToolkit.WinUI.Helpers.ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A).ToColor();
+        return CommunityToolkit
+            .WinUI.Helpers.ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A)
+            .ToColor();
     }
 
     private class ColorBucket
@@ -236,7 +238,7 @@ public static class ColorHelper
         double lightnessLowerThreshold;
 
         // 根据色相确定基础阈值
-        if (IsInRange(h, 0, 30) || IsInRange(h, 300, 359)) // 红色系
+        if (IsInRange(h, 0, 30) || IsInRange(h, 300, 360)) // 红色系
         {
             saturationThreshold = 55;
             lightnessUpperThreshold = 85;
@@ -244,15 +246,15 @@ public static class ColorHelper
         }
         else if (IsInRange(h, 30, 80)) // 黄色系
         {
-            saturationThreshold = 50;
+            saturationThreshold = 40;
             lightnessUpperThreshold = 88;
-            lightnessLowerThreshold = 25;
+            lightnessLowerThreshold = 30;
         }
-        else if (IsInRange(h, 120, 140)) // 绿色系
+        else if (IsInRange(h, 110, 140)) // 绿色系
         {
             saturationThreshold = 45;
             lightnessUpperThreshold = 82;
-            lightnessLowerThreshold = 22;
+            lightnessLowerThreshold = 30;
         }
         else if (IsInRange(h, 160, 170)) // 蓝绿色系
         {
@@ -266,18 +268,18 @@ public static class ColorHelper
             lightnessUpperThreshold = 85;
             lightnessLowerThreshold = 20;
         }
-        else if (IsInRange(h, 210, 290)) // 蓝紫色系
+        else if (IsInRange(h, 215, 290)) // 蓝紫色系
         {
             saturationThreshold = 45;
             lightnessUpperThreshold = 80;
-            lightnessLowerThreshold = 20;
+            lightnessLowerThreshold = 15;
         }
         else // 其他色相
         {
             // 这里是不是不用判断了，直接return false
             saturationThreshold = 70;
             lightnessUpperThreshold = 80;
-            lightnessLowerThreshold = 15;
+            lightnessLowerThreshold = 10;
         }
 
         // 根据亮度调整饱和度阈值
@@ -298,10 +300,12 @@ public static class ColorHelper
         bool isLightnessTooLow = l < lightnessLowerThreshold;
 
         // 特殊组合判断
-        bool isHighSaturationWithExtremeL =
-            s > (saturationThreshold - 10) && (l > lightnessUpperThreshold - 5 || l < lightnessLowerThreshold + 5);
+        //bool isHighSaturationWithExtremeL =
+        //    s > (saturationThreshold - 10) && (l > lightnessUpperThreshold - 5 || l < lightnessLowerThreshold + 5);
 
-        return (isSaturationTooHigh || isHighSaturationWithExtremeL) && (isLightnessTooHigh || isLightnessTooLow);
+        return (
+                isSaturationTooHigh /*|| isHighSaturationWithExtremeL*/
+            ) && (isLightnessTooHigh || isLightnessTooLow);
     }
 
     public static Color GenerateLessHarshColor(Color baseColor)
@@ -383,7 +387,7 @@ public static class ColorHelper
         }
 
         // 处理特殊色相
-        if (IsInRange(H, 0, 30) || IsInRange(H, 300, 359))
+        if (IsInRange(H, 0, 30) || IsInRange(H, 300, 360))
         {
             // 红色系
             S = Math.Min(S, baseSaturationLimit - 5);
@@ -405,7 +409,7 @@ public static class ColorHelper
                 L = Math.Min(L, 85);
             }
         }
-        else if (IsInRange(H, 120, 140))
+        else if (IsInRange(H, 110, 140))
         {
             // 荧光绿
             S = Math.Min(S, baseSaturationLimit - 15);
