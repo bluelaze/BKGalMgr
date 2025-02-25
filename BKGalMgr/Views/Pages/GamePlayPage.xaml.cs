@@ -52,11 +52,15 @@ public sealed partial class GamePlayPage : Page
             var colors = await Task.Run(() =>
             {
                 var primaryColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover);
+                // 调暗
+                while (!ColorHelper.IsDarkColor(primaryColor))
+                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor, false);
+
                 var secondColor = primaryColor;
                 if (ColorHelper.IsHarshColor(primaryColor))
                 {
                     secondColor = ColorHelper.GenerateLessHarshColor(primaryColor);
-                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 20);
+                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 0.2);
                 }
                 else
                 {
@@ -64,8 +68,8 @@ public sealed partial class GamePlayPage : Page
                 }
 
                 return (
-                    ColorHelper.ConvertToWindowsColor(primaryColor),
-                    ColorHelper.ConvertToWindowsColor(secondColor)
+                    ColorHelper.ToWindowsUIColor(primaryColor),
+                    ColorHelper.ToWindowsUIColor(secondColor)
                 );
             });
             var brush = new LinearGradientBrush

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,18 +9,33 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace BKGalMgr.Helpers;
 
-public class ColorHelper
+public static class ColorHelper
 {
-    public static Windows.UI.Color ConvertToWindowsColor(Color color)
+    public static Windows.UI.Color ToWindowsUIColor(this Color color)
     {
         return Windows.UI.Color.FromArgb(color.A, color.R, color.G, color.B);
     }
 
-    internal class ColorBucket
+    public static Color ToColor(this Windows.UI.Color color)
+    {
+        return Color.FromArgb(color.A, color.R, color.G, color.B);
+    }
+
+    public static HslColor ToHsl(this Color color)
+    {
+        return color.ToWindowsUIColor().ToHsl();
+    }
+
+    public static Color ToColor(this HslColor hslColor)
+    {
+        return CommunityToolkit.WinUI.Helpers.ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A).ToColor();
+    }
+
+    private class ColorBucket
     {
         public long Count { get; set; }
         public long RedSum { get; set; }
@@ -46,8 +61,13 @@ public class ColorHelper
             var colorHistogram = new ConcurrentDictionary<int, int>();
 
             // 将图片缩放到较小的尺寸以提高性能
-            int targetWidth = Math.Min(bitmap.Width, 360);
-            int targetHeight = (int)((float)bitmap.Height / bitmap.Width * targetWidth);
+            int targetWidth = bitmap.Width;
+            int targetHeight = bitmap.Height;
+            if (targetWidth > 360)
+            {
+                targetWidth = 360;
+                targetHeight = (int)((float)bitmap.Height / bitmap.Width * targetWidth);
+            }
 
             using (var scaledBitmap = new Bitmap(bitmap, targetWidth, targetHeight))
             {
@@ -175,148 +195,40 @@ public class ColorHelper
             {
                 color = primaryColorBucketB.GetAverageColor();
             }
-            // 平均颜色，且调暗
-            while (!IsDarkColor(color))
-                color = GenerateLighterOrDarkerColor(color, false);
             return color;
         }
     }
 
-    public static bool IsDarkColor(Color color, double luminanceThreshold = 30)
+    public static bool IsDarkColor(Color color, double luminanceThreshold = 0.3)
     {
-        var hslColor = new HSLColor(color);
+        var hslColor = color.ToHsl();
         return hslColor.L < luminanceThreshold;
     }
 
     public static Color GenerateLighterOrDarkerColor(
         Color baseColor,
         bool isLighter = true,
-        double luminanceIncrement = 20
+        double luminanceIncrement = 0.2
     )
     {
-        var hslColor = new HSLColor(baseColor);
+        var hslColor = baseColor.ToHsl();
 
         // 调整亮度
-
         hslColor.L = isLighter
-            ? Math.Min(hslColor.L + luminanceIncrement, 100)
+            ? Math.Min(hslColor.L + luminanceIncrement, 1)
             : Math.Max(hslColor.L - luminanceIncrement, 0.0);
 
         // 转换回RGB
         return hslColor.ToColor();
     }
 
-    public class HSLColor
-    {
-        public double H { get; set; } // 色相 0-360
-        public double S { get; set; } // 饱和度 0-100
-        public double L { get; set; } // 亮度 0-100
-
-        public HSLColor(double h, double s, double l)
-        {
-            H = h % 360;
-            S = s;
-            L = l;
-        }
-
-        public HSLColor(Color color)
-        {
-            (double h, double s, double l) = FromColor(color);
-            H = h * 360;
-            S = s * 100;
-            L = l * 100;
-        }
-
-        private (double h, double s, double l) FromColor(Color color)
-        {
-            // 将RGB转换为HSL
-            double r = color.R / 255.0;
-            double g = color.G / 255.0;
-            double b = color.B / 255.0;
-
-            double max = Math.Max(r, Math.Max(g, b));
-            double min = Math.Min(r, Math.Min(g, b));
-
-            double h,
-                s,
-                l;
-
-            l = (max + min) / 2;
-
-            if (max == min)
-            {
-                // 灰度颜色，没有色相
-                h = 0;
-                s = 0;
-            }
-            else
-            {
-                double d = max - min;
-                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-                if (max == r)
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                else if (max == g)
-                    h = (b - r) / d + 2;
-                else
-                    h = (r - g) / d + 4;
-
-                h /= 6;
-            }
-
-            return (h, s, l);
-        }
-
-        public Color ToColor()
-        {
-            var h = H / 360;
-            var s = S / 100;
-            var l = L / 100;
-
-            double r,
-                g,
-                b;
-
-            if (Math.Abs(s) < 0.00001)
-            {
-                r = g = b = l;
-            }
-            else
-            {
-                double q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                double p = 2 * l - q;
-
-                r = HueToRgb(p, q, h + 1.0 / 3.0);
-                g = HueToRgb(p, q, h);
-                b = HueToRgb(p, q, h - 1.0 / 3.0);
-            }
-
-            return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
-        }
-
-        private double HueToRgb(double p, double q, double t)
-        {
-            if (t < 0)
-                t += 1;
-            if (t > 1)
-                t -= 1;
-            if (t < 1.0 / 6.0)
-                return p + (q - p) * 6 * t;
-            if (t < 1.0 / 2.0)
-                return q;
-            if (t < 2.0 / 3.0)
-                return p + (q - p) * (2.0 / 3.0 - t) * 6;
-            return p;
-        }
-    }
-
     public static bool IsHarshColor(Color color)
     {
         // 转换为HSL色彩空间
-        var hslColor = new HSLColor(color);
+        var hslColor = color.ToHsl();
         double h = hslColor.H;
-        double s = hslColor.S;
-        double l = hslColor.L;
+        double s = hslColor.S * 100;
+        double l = hslColor.L * 100;
 
         // 基础判断阈值
         double saturationThreshold;
@@ -394,11 +306,10 @@ public class ColorHelper
 
     public static Color GenerateLessHarshColor(Color baseColor)
     {
-        var hslColor = new HSLColor(baseColor);
-
+        var hslColor = baseColor.ToHsl();
         double h = hslColor.H;
-        double s = hslColor.S;
-        double l = hslColor.L;
+        double s = hslColor.S * 100;
+        double l = hslColor.L * 100;
 
         // 如果不刺眼就直接返回
         //if (!ColorChecker.IsEyeStraining(h, s, l))
@@ -407,26 +318,27 @@ public class ColorHelper
         //}
 
         // 首先处理特殊色相
-        AdjustSpecialHues(hslColor);
+        AdjustSpecialHues(ref h, ref s, ref l);
 
         // 然后根据亮度区间进行额外调整
-        if (l < 30)
+        double l2 = hslColor.L * 100;
+        if (l2 < 30)
         {
             // 低亮度：提高亮度，额外降低饱和度
-            hslColor.L = Math.Min(l + 20, 45);
-            hslColor.S = Math.Min(hslColor.S - 10, 60); // 额外降低饱和度
+            l = Math.Min(l2 + 20, 45);
+            s = Math.Min(s - 10, 60); // 额外降低饱和度
         }
-        else if (l < 70)
+        else if (l2 < 70)
         {
             // 中等亮度：适当调整
-            hslColor.L = Math.Max(l, 45);
-            hslColor.S = Math.Min(hslColor.S, 65);
+            l = Math.Max(l2, 45);
+            s = Math.Min(s, 65);
         }
         else
         {
             // 高亮度：降低亮度和饱和度
-            hslColor.L = Math.Min(l, 85);
-            hslColor.S = Math.Min(hslColor.S - 5, 60); // 额外降低饱和度
+            l = Math.Min(l2, 85);
+            s = Math.Min(s - 5, 60); // 额外降低饱和度
         }
 
         // 最后检查是否仍然刺眼
@@ -434,8 +346,17 @@ public class ColorHelper
         //{
         //    color.S -= 5;
         //}
-
-        return hslColor.ToColor();
+        s /= 100;
+        l /= 100;
+        return (
+            new HslColor()
+            {
+                H = h,
+                S = s,
+                L = l,
+                A = 1,
+            }
+        ).ToColor();
     }
 
     private static bool IsInRange(double value, double start, double end)
@@ -444,15 +365,15 @@ public class ColorHelper
         return value >= start && value <= end;
     }
 
-    private static void AdjustSpecialHues(HSLColor color)
+    private static void AdjustSpecialHues(ref double H, ref double S, ref double L)
     {
         // 基础饱和度限制
         double baseSaturationLimit;
-        if (color.L < 30)
+        if (L < 30)
         {
             baseSaturationLimit = 45; // 低亮度时更严格的饱和度限制
         }
-        else if (color.L > 70)
+        else if (L > 70)
         {
             baseSaturationLimit = 50; // 高亮度时的饱和度限制
         }
@@ -462,62 +383,62 @@ public class ColorHelper
         }
 
         // 处理特殊色相
-        if (IsInRange(color.H, 0, 30) || IsInRange(color.H, 300, 359))
+        if (IsInRange(H, 0, 30) || IsInRange(H, 300, 359))
         {
             // 红色系
-            color.S = Math.Min(color.S, baseSaturationLimit - 5);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 5);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 15, 35), 45);
+                L = Math.Min(Math.Max(L + 15, 35), 45);
             }
         }
-        else if (IsInRange(color.H, 30, 80))
+        else if (IsInRange(H, 30, 80))
         {
             // 荧光黄
-            color.S = Math.Min(color.S, baseSaturationLimit - 10);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 10);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 20, 40), 50);
+                L = Math.Min(Math.Max(L + 20, 40), 50);
             }
-            else if (color.L > 70)
+            else if (L > 70)
             {
-                color.L = Math.Min(color.L, 85);
+                L = Math.Min(L, 85);
             }
         }
-        else if (IsInRange(color.H, 120, 140))
+        else if (IsInRange(H, 120, 140))
         {
             // 荧光绿
-            color.S = Math.Min(color.S, baseSaturationLimit - 15);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 15);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 15, 35), 45);
+                L = Math.Min(Math.Max(L + 15, 35), 45);
             }
         }
-        else if (IsInRange(color.H, 160, 170))
+        else if (IsInRange(H, 160, 170))
         {
             // 荧光蓝绿
-            color.S = Math.Min(color.S, baseSaturationLimit - 18);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 18);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 15, 35), 45);
+                L = Math.Min(Math.Max(L + 15, 35), 45);
             }
         }
-        else if (IsInRange(color.H, 180, 190))
+        else if (IsInRange(H, 180, 190))
         {
             // 荧光青
-            color.S = Math.Min(color.S, baseSaturationLimit - 20);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 20);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 15, 35), 45);
+                L = Math.Min(Math.Max(L + 15, 35), 45);
             }
         }
-        else if (IsInRange(color.H, 210, 290))
+        else if (IsInRange(H, 210, 290))
         {
             // 蓝紫色系
-            color.S = Math.Min(color.S, baseSaturationLimit - 5);
-            if (color.L < 30)
+            S = Math.Min(S, baseSaturationLimit - 5);
+            if (L < 30)
             {
-                color.L = Math.Min(Math.Max(color.L + 15, 35), 45);
+                L = Math.Min(Math.Max(L + 15, 35), 45);
             }
         }
     }
