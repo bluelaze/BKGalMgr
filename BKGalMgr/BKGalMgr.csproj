@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
@@ -64,7 +64,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Controls.TokenizingTextBox" Version="8.1.240916" />
         <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.1.240916" />
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.1.240916" />
-        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.2.0" />
+        <PackageReference Include="H.NotifyIcon.WinUI" Version="2.3.0" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0-rc5.1" />
         <PackageReference Include="Mapster" Version="7.4.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
