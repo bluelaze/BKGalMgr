@@ -78,6 +78,8 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
                             TextSize = 14,
                             SeparatorsPaint = new SolidColorPaint(SKColors.Gray.WithAlpha(100)),
                             Labeler = value => value.AsTimeSpan().Format("hhmmss"),
+                            //MaxLimit = TimeSpan.FromHours(1).Ticks,
+                            MinLimit = 0,
                         },
                     };
                 }
