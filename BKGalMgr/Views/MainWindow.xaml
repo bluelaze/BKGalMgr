@@ -177,55 +177,56 @@
                                                         Value="Collapsed" />
                 </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
-            <StackPanel Padding="24"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                        CornerRadius="{ThemeResource ControlCornerRadius}">
-                <ListView x:Name="target_selecte_ListView"
-                          ItemsSource="{x:Bind SelectedGame.Targets, Mode=OneWay}"
-                          SelectedItem="{x:Bind SelectedGame.SelectedTarget, Mode=TwoWay}">
-                    <ListView.Header>
-                        <TextBlock x:Uid="Game_Play_Selecte_Target"
-                                   Padding="16,0,0,12"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    </ListView.Header>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:TargetInfo">
-                            <UserControl>
-                                <StackPanel Style="{StaticResource ListViewStackItemStyle}">
-                                    <VisualStateManager.VisualStateGroups>
-                                        <VisualStateGroup>
-                                            <VisualState x:Name="Normal" />
-                                            <VisualState x:Name="ArchiveState">
-                                                <VisualState.StateTriggers>
-                                                    <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
-                                                </VisualState.StateTriggers>
-                                                <VisualState.Setters>
-                                                    <Setter Target="target_FontIcon.Glyph" Value="&#xE82D;" />
-                                                    <Setter Target="target_FontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                </VisualState.Setters>
-                                            </VisualState>
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-                                    <controls:IconTextBlock Text="{x:Bind Name}">
-                                        <controls:IconTextBlock.Icon>
-                                            <FontIcon x:Name="target_FontIcon" Glyph="&#xE736;" />
-                                        </controls:IconTextBlock.Icon>
-                                    </controls:IconTextBlock>
-                                    <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate}" />
-                                    <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator}">
-                                        <controls:IconTextBlock.Icon>
-                                            <FontIcon Margin="0,-6,0,0" Glyph="LE" />
-                                        </controls:IconTextBlock.Icon>
-                                    </controls:IconTextBlock>
-                                    <TextBlock Text="{x:Bind Description}" />
-                                </StackPanel>
-                            </UserControl>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+
+            <ListView x:Name="target_selecte_ListView"
+                      Padding="24"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                      CornerRadius="{ThemeResource ControlCornerRadius}"
+                      ItemsSource="{x:Bind SelectedGame.Targets, Mode=OneWay}"
+                      SelectedItem="{x:Bind SelectedGame.SelectedTarget, Mode=TwoWay}">
+                <ListView.Header>
+                    <TextBlock x:Uid="Game_Play_Selecte_Target"
+                               Padding="16,0,0,12"
+                               Style="{ThemeResource SubtitleTextBlockStyle}" />
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TargetInfo">
+                        <UserControl>
+                            <StackPanel Style="{StaticResource ListViewStackItemStyle}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup>
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="ArchiveState">
+                                            <VisualState.StateTriggers>
+                                                <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                            </VisualState.StateTriggers>
+                                            <VisualState.Setters>
+                                                <Setter Target="target_FontIcon.Glyph" Value="&#xE82D;" />
+                                                <Setter Target="target_FontIcon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <controls:IconTextBlock Text="{x:Bind Name}">
+                                    <controls:IconTextBlock.Icon>
+                                        <FontIcon x:Name="target_FontIcon" Glyph="&#xE736;" />
+                                    </controls:IconTextBlock.Icon>
+                                </controls:IconTextBlock>
+                                <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate}" />
+                                <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator}">
+                                    <controls:IconTextBlock.Icon>
+                                        <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                    </controls:IconTextBlock.Icon>
+                                </controls:IconTextBlock>
+                                <TextBlock Text="{x:Bind Description}" />
+                            </StackPanel>
+                        </UserControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </Grid>
 
         <!--  有个bug，window不能用Converter，https://github.com/microsoft/microsoft-ui-xaml/issues/4966  -->
