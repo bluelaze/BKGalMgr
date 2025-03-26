@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media;
 
 namespace BKGalMgr.Helpers;
@@ -221,23 +222,16 @@ public class ThemeHelper
         {
             case Theme.Dark:
                 _window.ApplyTheme(ElementTheme.Dark);
+                _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Dark;
                 break;
             case Theme.Light:
                 _window.ApplyTheme(ElementTheme.Light);
+                _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Light;
                 break;
             default:
                 _window.ApplyTheme(ElementTheme.Default);
+                _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
                 break;
-        }
-        if (_window.ActualTheme() == ElementTheme.Dark)
-        {
-            Application.Current.Resources["WindowCaptionForeground"] = Colors.White;
-            _window.AppWindow.TitleBar.ButtonForegroundColor = Colors.White;
-        }
-        else
-        {
-            Application.Current.Resources["WindowCaptionForeground"] = Colors.Black;
-            _window.AppWindow.TitleBar.ButtonForegroundColor = Colors.Black;
         }
 
         if (_systemBackdrop == null || IsMicaBackdropMaterial(_backdrop) ^ IsMicaBackdropMaterial(backdrop))
