@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -924,7 +925,8 @@ public partial class GameInfo : ObservableObject
             Path.Combine(
                 ScreenCaptureFolderPath,
                 $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
-            )
+            ),
+            ImageFormat.Png
         );
         // also save to Pictures
         var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
@@ -932,7 +934,8 @@ public partial class GameInfo : ObservableObject
             Path.Combine(
                 picturesLibrary.SaveFolder.Path,
                 $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
-            )
+            ),
+            ImageFormat.Png
         );
     }
 }

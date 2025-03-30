@@ -8,8 +8,8 @@ public class ScreenCapture
 {
     public struct DataStruct
     {
-        public Bitmap captureBmp;
-        public RectangleF captureRect;
+        public Bitmap CaptureBitmap;
+        public RectangleF CaptureRect;
     }
 
     public ScreenCapture() { }
@@ -30,12 +30,12 @@ public class ScreenCapture
 
         form.ShowDialog();
 
-        result.captureBmp = form.GetResultImage();
+        result.CaptureBitmap = form.GetResultImage();
 
         if (RegionCaptureForm.LastRegionFillPath != null)
         {
             Rectangle screenRectangle = CaptureHelpers.GetScreenBounds();
-            result.captureRect = RectangleF.Intersect(
+            result.CaptureRect = RectangleF.Intersect(
                 RegionCaptureForm.LastRegionFillPath.GetBounds(),
                 new RectangleF(0, 0, screenRectangle.Width, screenRectangle.Height)
             );

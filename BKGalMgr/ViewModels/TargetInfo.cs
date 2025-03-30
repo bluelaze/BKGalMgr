@@ -319,11 +319,11 @@ public partial class TargetInfo : ObservableObject
     public async void DoScreenCapture()
     {
         var capture = ScreenCapture.CaptureRegion();
-        if (capture.captureBmp != null)
+        if (capture.CaptureBitmap != null)
         {
-            Clipboard.SetImage(capture.captureBmp.ToBitmapImage());
-            await Game.SaveScreenCapture(this, capture.captureBmp);
-            capture.captureBmp.Dispose();
+            Clipboard.SetImage(capture.CaptureBitmap.ToBitmapImage());
+            await Game.SaveScreenCapture(this, capture.CaptureBitmap);
+            capture.CaptureBitmap.Dispose();
         }
     }
 }
