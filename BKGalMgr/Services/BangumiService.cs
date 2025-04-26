@@ -126,7 +126,19 @@ public class BangumiService
         if (!subject.name_cn.IsNullOrEmpty())
             gameInfo.Name = $"{subject.name_cn}（{subject.name}）";
 
-        gameInfo.PublishDate = DateTime.ParseExact(subject.date, "yyyy-MM-dd", CultureInfo.CurrentCulture);
+        if (
+            DateTime.TryParseExact(
+                subject.date,
+                "yyyy-MM-dd",
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var date
+            )
+        )
+        {
+            gameInfo.PublishDate = date;
+        }
+
         gameInfo.Cover = subject.images.large;
         gameInfo.Story = subject.summary;
 
