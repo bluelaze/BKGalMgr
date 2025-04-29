@@ -341,7 +341,7 @@ public sealed partial class ManagePage : Page
                 else
                     await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }
-
+            targetInfo.Description = targetInfo.Source?.Description;
             App.HideLoading();
         }
     }
@@ -368,6 +368,7 @@ public sealed partial class ManagePage : Page
         if (result == ContentDialogResult.Primary)
         {
             targetInfo.SeletedSource();
+            targetInfo.Description = targetInfo.Source.Description;
             await ViewModel.SelectedRepository.SelectedGame.CopyTarget(
                 ViewModel.SelectedRepository.SelectedGame.ShortcutFolderPath,
                 targetInfo
