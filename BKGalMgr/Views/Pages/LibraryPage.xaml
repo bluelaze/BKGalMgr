@@ -278,7 +278,7 @@
                                                 <HyperlinkButton Padding="0,-1,0,0"
                                                                  Click="website_HyperlinkButton_Click"
                                                                  Content="{x:Bind Company, Mode=OneWay}" />
-                                                <TextBlock Margin="-6,0,0,0"
+                                                <TextBlock Margin="-4,1,8,0"
                                                            VerticalAlignment="Center"
                                                            FontSize="12">
                                                     <Hyperlink FontFamily="Segoe MDL2 Assets"
