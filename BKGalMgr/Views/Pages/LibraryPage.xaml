@@ -372,7 +372,9 @@
                                                     <UserControl>
                                                         <UserControl.ContextFlyout>
                                                             <MenuFlyout>
-                                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                                                                Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
+                                                                                Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                                             </MenuFlyout>
                                                         </UserControl.ContextFlyout>
                                                         <StackPanel Background="Transparent">
@@ -473,7 +475,33 @@
                             <UserControl Width="260" Height="486">
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                                        Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
+                                                        Icon="{mui:FontIcon Glyph=&#xE838;}" />
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                                        Click="bangumi_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ImageIcon Source="{ThemeResource BangumiIcon}" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
+                                                        Click="t2dfan_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                            <MenuFlyoutItem.Icon>
+                                                <ImageIcon Source="{ThemeResource T2DFanIcon}" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutSeparator />
+                                        <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xE8B9;}"
+                                                        Text="GALLERY" />
+                                        <MenuFlyoutItem Click="special_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xECA5;}"
+                                                        Text="SPECIAL" />
+                                        <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click"
+                                                        Icon="{mui:FontIcon Glyph=&#xF408;}"
+                                                        Text="SCREENSHOT" />
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <Grid Width="260" Background="{ThemeResource CardBackgroundFillColorDefault}">
