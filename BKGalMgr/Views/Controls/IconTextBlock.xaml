@@ -61,6 +61,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <ContentPresenter x:Name="PART_IconVisual"
+                          Margin="{ThemeResource SelectorBarItemIconVisualMargin}"
                           VerticalAlignment="Center"
                           Content="{x:Bind Icon, Mode=OneWay}"
                           Foreground="{x:Bind Foreground, Mode=OneWay}"
@@ -70,7 +71,6 @@
             </ContentPresenter.RenderTransform>
         </ContentPresenter>
         <TextBlock x:Name="PART_TextVisual"
-                   VerticalAlignment="Center"
                    FontFamily="{x:Bind FontFamily, Mode=OneWay}"
                    FontSize="{x:Bind FontSize, Mode=OneWay}"
                    FontWeight="{x:Bind FontWeight, Mode=OneWay}"

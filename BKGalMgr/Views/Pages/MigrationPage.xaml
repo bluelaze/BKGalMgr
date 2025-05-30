@@ -67,15 +67,15 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Artist" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Artist, Mode=OneTime}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Artist, Mode=OneTime}" Separator="   " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Scenario, Mode=OneTime}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Scenario, Mode=OneTime}" Separator="   " />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock x:Uid="Library_GameInfo_Group" />
-                        <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneTime}" Separator=" • " />
+                        <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneTime}" Separator="   " />
                     </StackPanel>
                 </StackPanel>
             </Grid>
