@@ -70,6 +70,7 @@
             </Grid.ColumnDefinitions>
             <ListView x:Name="sources_listview"
                       x:Uid="TargetInfo_Sources"
+                      MaxHeight="236"
                       ItemsSource="{Binding Game.Sources, Mode=OneWay}"
                       SelectedItem="{Binding Source, Mode=TwoWay}"
                       SelectionChanged="sources_listview_SelectionChanged">
@@ -86,6 +87,7 @@
             <ListView x:Name="localization_listview"
                       x:Uid="TargetInfo_Localization"
                       Grid.Column="1"
+                      MaxHeight="236"
                       ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
                       SelectedItem="{Binding Localization, Mode=TwoWay}"
                       SelectionChanged="localization_listview_SelectionChanged">
