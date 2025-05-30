@@ -150,11 +150,21 @@ public sealed partial class LibraryPage : Page
         }
     }
 
-    private void MetadataControl_ItemClick(object sender, MetadataControl.MetadataItemClickEventArgs e)
+    private void FilterGames(List<string> searchToken)
     {
         ViewModel.SelectedRepository.SearchText = string.Empty;
         ViewModel.SelectedRepository.SearchToken.Clear();
-        ViewModel.SelectedRepository.SearchToken.Add(e.ClickedItem.Label);
+        ViewModel.SelectedRepository.SearchToken.AddRange(searchToken);
+    }
+
+    private void website_HyperlinkButton_Click(object sender, RoutedEventArgs e)
+    {
+        FilterGames([(sender as HyperlinkButton).Content as string]);
+    }
+
+    private void MetadataControl_ItemClick(object sender, MetadataControl.MetadataItemClickEventArgs e)
+    {
+        FilterGames([e.ClickedItem.Label]);
     }
 
     private void games_view_semanticzoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
