@@ -258,7 +258,7 @@
                                                              FontSize="16"
                                                              FontWeight="Bold" />
                                             <StackPanel Orientation="Horizontal" Spacing="12">
-                                                <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneWay}" />
+                                                <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                                 <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
                                                 <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
                                                                         Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
@@ -377,7 +377,7 @@
                                                                                 Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                                             </MenuFlyout>
                                                         </UserControl.ContextFlyout>
-                                                        <StackPanel Background="Transparent">
+                                                        <StackPanel>
                                                             <VisualStateManager.VisualStateGroups>
                                                                 <VisualStateGroup>
                                                                     <VisualState x:Name="PlayingState">
