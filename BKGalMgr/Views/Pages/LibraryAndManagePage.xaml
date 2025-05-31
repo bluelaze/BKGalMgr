@@ -20,16 +20,14 @@
         </Grid.RowDefinitions>
         <SelectorBar x:Name="root_SelectorBar" SelectionChanged="root_SelectorBar_SelectionChanged">
             <SelectorBarItem x:Name="library_SelectorBarItem"
-                             x:Uid="Repository_Nav_Library"
+                             x:Uid="Repository_Nav_Library" 
                              Icon="{mui:FontIcon Glyph=&#xEA37;}" />
             <SelectorBarItem x:Name="manage_SelectorBarItem"
                              x:Uid="Repository_Nav_Manage"
                              Icon="{mui:FontIcon Glyph=&#xE70F;}" />
         </SelectorBar>
 
-        <Frame x:Name="root_Frame"
-               Grid.Row="1"
-               Navigated="root_Frame_Navigated">
+        <Frame x:Name="root_Frame" Grid.Row="1">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <NavigationThemeTransition />

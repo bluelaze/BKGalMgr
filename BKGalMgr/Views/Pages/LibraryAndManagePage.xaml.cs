@@ -40,21 +40,33 @@ public sealed partial class LibraryAndManagePage : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-        if (e.Parameter is Type pageType)
-        {
-            root_Frame.Navigate(pageType);
-        }
-        else if (e.Parameter is GameInfo gameInfo)
-        {
-            root_Frame.Navigate(typeof(LibraryPage), gameInfo);
-        }
         if (root_SelectorBar.SelectedItem == null)
             root_SelectorBar.SelectedItem = library_SelectorBarItem;
     }
 
-    public void NaviagteToManagePage()
+    public async void NavigateTo(Type pageType, object parameter = null)
     {
-        root_SelectorBar.SelectedItem = manage_SelectorBarItem;
+        if (pageType == typeof(LibraryPage))
+        {
+            root_Frame.Navigate(
+                typeof(LibraryPage),
+                parameter,
+                new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }
+            );
+            // 需要延迟，如果直接赋值，会导致按钮选择样式不生效
+            await Task.Delay(67);
+            root_SelectorBar.SelectedItem = library_SelectorBarItem;
+        }
+        else if (pageType == typeof(ManagePage))
+        {
+            root_Frame.Navigate(
+                typeof(ManagePage),
+                parameter,
+                new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight }
+            );
+            await Task.Delay(67);
+            root_SelectorBar.SelectedItem = manage_SelectorBarItem;
+        }
     }
 
     private void root_SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)
@@ -63,29 +75,12 @@ public sealed partial class LibraryAndManagePage : Page
         if (selectedItem == library_SelectorBarItem)
         {
             if (root_Frame.CurrentSourcePageType != typeof(LibraryPage))
-                root_Frame.Navigate(
-                    typeof(LibraryPage),
-                    null,
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }
-                );
+                NavigateTo(typeof(LibraryPage));
         }
         else if (selectedItem == manage_SelectorBarItem)
         {
             if (root_Frame.CurrentSourcePageType != typeof(ManagePage))
-                root_Frame.Navigate(
-                    typeof(ManagePage),
-                    null,
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight }
-                );
+                NavigateTo(typeof(ManagePage));
         }
-    }
-
-    private async void root_Frame_Navigated(object sender, NavigationEventArgs e)
-    {
-        await Task.Delay(67);
-        if (e.SourcePageType == typeof(LibraryPage))
-            root_SelectorBar.SelectedItem = library_SelectorBarItem;
-        else if (e.SourcePageType == typeof(ManagePage))
-            root_SelectorBar.SelectedItem = manage_SelectorBarItem;
     }
 }

@@ -41,8 +41,6 @@
                         Grid.Row="1"
                         IsBackButtonVisible="Collapsed"
                         IsSettingsVisible="False"
-                        IsTabStop="False"
-                        IsTitleBarAutoPaddingEnabled="True"
                         OpenPaneLength="200"
                         SelectionChanged="root_navigationview_SelectionChanged">
             <NavigationView.MenuItems>
@@ -60,27 +58,31 @@
                                     Icon="{mui:FontIcon Glyph=&#xE8F7;}" />
             </NavigationView.MenuItems>
 
-            <NavigationView.PaneFooter>
-                <StackPanel>
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem x:Name="reporitory_navitem" Icon="{mui:FontIcon Glyph=&#xE8F1;}">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <NavigationViewItem x:Name="reporitory_navitem"
-                                            x:Uid="Main_Nav_Library"
-                                            Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                            Tapped="reporitory_navitem_Tapped" />
+                        <TextBlock x:Uid="Main_Nav_Library" />
                         <Button x:Name="add_repository_button"
-                                Margin="64,0,16,0"
                                 HorizontalAlignment="Right"
                                 Background="Transparent"
                                 BorderBrush="{x:Null}"
                                 Click="add_repository_Button_Click"
                                 Content="{mui:FontIcon FontSize=10,
                                                        Glyph=&#xE948;}" />
-                        <NavigationViewItemSeparator Grid.Row="1" />
+
                     </Grid>
+                </NavigationViewItem>
+
+                <NavigationViewItemSeparator />
+                <NavigationViewItem x:Name="repository_listview_navitem"
+                                    IsEnabled="False"
+                                    Loaded="repository_listview_navitem_Loaded">
+                    <NavigationViewItem.Resources>
+                        <x:Double x:Key="NavigationViewCompactPaneLength">0</x:Double>
+                        <Thickness x:Key="NavigationViewItemButtonMargin">0</Thickness>
+                        <Thickness x:Key="NavigationViewItemContentPresenterMargin">0</Thickness>
+                        <StaticResource x:Key="NavigationViewItemBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
+                    </NavigationViewItem.Resources>
                     <ListView x:Name="reporitory_ListView"
                               MaxHeight="220"
                               AllowDrop="True"
@@ -89,7 +91,8 @@
                               DragItemsCompleted="reporitory_ListView_DragItemsCompleted"
                               ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
                               ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}">
+                              SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}"
+                              SizeChanged="reporitory_ListView_SizeChanged">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="vm:RepositoryInfo">
                                 <Grid Padding="0,8">
@@ -140,10 +143,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackPanel>
-            </NavigationView.PaneFooter>
-
-            <NavigationView.FooterMenuItems>
+                </NavigationViewItem>
                 <NavigationViewItemSeparator />
                 <NavigationViewItem x:Name="settings_navitem"
                                     x:Uid="Main_Nav_Settings"

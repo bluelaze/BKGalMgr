@@ -50,6 +50,11 @@ public sealed partial class ManagePage : Page
             await ViewModel.LoadRepository();
             App.HideLoading();
         }
+        if (e.Parameter is GameInfo game)
+        {
+            game.Repository.SelectedGame = game;
+            ViewModel.SelectedRepository = game.Repository;
+        }
     }
 
     private void add_game_button_Click(object sender, RoutedEventArgs e)

@@ -29,6 +29,8 @@ public sealed partial class MainPage : Page
 {
     private static MainPage _mainpage;
 
+    private object _navigateParameter = null;
+
     public MainPageViewModel ViewModel { get; }
 
     public MainPage()
@@ -48,21 +50,36 @@ public sealed partial class MainPage : Page
     public static void NavigateTo(Type pageType, object parameter = null)
     {
         _mainpage.love_and_peace_textblock.Visibility = Visibility.Collapsed;
-
-        if (pageType == typeof(ManagePage))
+        _mainpage._navigateParameter = parameter;
+        if (pageType == typeof(HomePage))
         {
-            if (_mainpage.root_frame.CurrentSourcePageType != typeof(LibraryAndManagePage))
-            {
-                _mainpage.root_frame.Navigate(typeof(LibraryAndManagePage), pageType);
-            }
-            else
-            {
-                (_mainpage.root_frame.Content as LibraryAndManagePage).NaviagteToManagePage();
-            }
+            _mainpage.root_navigationview.SelectedItem = _mainpage.home_navitem;
         }
-        else
+        else if (pageType == typeof(BrowserPage))
         {
-            _mainpage.root_frame.Navigate(pageType, parameter);
+            _mainpage.root_navigationview.SelectedItem = _mainpage.browser_navitem;
+        }
+        else if (pageType == typeof(ReviewPage))
+        {
+            _mainpage.root_navigationview.SelectedItem = _mainpage.review_navitem;
+        }
+        else if (pageType == typeof(MigrationPage))
+        {
+            _mainpage.root_navigationview.SelectedItem = _mainpage.migration_navitem;
+        }
+        else if (pageType == typeof(LibraryAndManagePage))
+        {
+            _mainpage.root_navigationview.SelectedItem = _mainpage.reporitory_navitem;
+            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(LibraryPage), parameter);
+        }
+        else if (pageType == typeof(ManagePage))
+        {
+            _mainpage.root_navigationview.SelectedItem = _mainpage.reporitory_navitem;
+            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(ManagePage), parameter);
+        }
+        else if (pageType == typeof(SettingsPage))
+        {
+            _mainpage.root_navigationview.SelectedItem = _mainpage.settings_navitem;
         }
     }
 
@@ -76,51 +93,76 @@ public sealed partial class MainPage : Page
         if (selectedItem == home_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(HomePage))
-                root_frame.Navigate(typeof(HomePage));
+                root_frame.Navigate(typeof(HomePage), _navigateParameter);
         }
         else if (selectedItem == browser_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(BrowserPage))
-                root_frame.Navigate(typeof(BrowserPage));
+                root_frame.Navigate(typeof(BrowserPage), _navigateParameter);
         }
         else if (selectedItem == review_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(ReviewPage))
-                root_frame.Navigate(typeof(ReviewPage));
+                root_frame.Navigate(typeof(ReviewPage), _navigateParameter);
         }
         else if (selectedItem == migration_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(MigrationPage))
-                root_frame.Navigate(typeof(MigrationPage));
+                root_frame.Navigate(typeof(MigrationPage), _navigateParameter);
+        }
+        else if (selectedItem == reporitory_navitem)
+        {
+            if (root_frame.CurrentSourcePageType != typeof(LibraryAndManagePage))
+                root_frame.Navigate(typeof(LibraryAndManagePage), _navigateParameter);
+        }
+        else if (selectedItem == repository_listview_navitem)
+        {
+            root_navigationview.SelectedItem = reporitory_navitem;
         }
         else if (selectedItem == settings_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(SettingsPage))
-                root_frame.Navigate(typeof(SettingsPage));
+                root_frame.Navigate(typeof(SettingsPage), _navigateParameter);
         }
+        _navigateParameter = null;
     }
 
-    private async void root_frame_Navigated(object sender, NavigationEventArgs e)
-    {
-        if (e.SourcePageType == typeof(LibraryAndManagePage))
-        {
-            await Task.Delay(67);
-            reporitory_navitem.IsSelected = true;
-            root_navigationview.SelectedItem = null;
-        }
-        else
-        {
-            reporitory_navitem.IsSelected = false;
-        }
-    }
+    private void root_frame_Navigated(object sender, NavigationEventArgs e) { }
 
     private void root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 
-    private void reporitory_navitem_Tapped(object sender, TappedRoutedEventArgs e)
+    private void repository_listview_navitem_Loaded(object sender, RoutedEventArgs e)
     {
-        if (root_frame.CurrentSourcePageType == typeof(LibraryAndManagePage))
-            return;
-        NavigateTo(typeof(LibraryAndManagePage));
+        if (repository_listview_navitem.FindDescendant("ContentGrid") is Grid ContentGrid)
+        {
+            ContentGrid.Margin = new(0);
+            if (ContentGrid.Children[0] is Border IconColumn)
+                IconColumn.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private void reporitory_ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (reporitory_ListView.ActualHeight > 50)
+        {
+            if (root_navigationview.FindDescendant("FooterItemsScrollViewer") is ScrollViewer scrollViewer)
+            {
+                double maxHeight = 0;
+                foreach (var item in root_navigationview.FooterMenuItems)
+                {
+                    if (item is UIElement ele)
+                    {
+                        maxHeight += ele.ActualSize.Y;
+                    }
+                }
+                scrollViewer.MaxHeight = maxHeight;
+            }
+            repository_listview_navitem.IsEnabled = true;
+        }
+        else
+        {
+            repository_listview_navitem.IsEnabled = false;
+        }
     }
 
     private async void add_repository_Button_Click(object sender, RoutedEventArgs e)

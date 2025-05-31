@@ -49,10 +49,8 @@ public sealed partial class MigrationPage : Page
 
     private void game_name_HyperlinkButton_Click(object sender, RoutedEventArgs e)
     {
-        var gameItem = (sender as HyperlinkButton).DataContext as GameInfo;
-        gameItem.Repository.SelectedGame = gameItem;
-        ViewModel.LibraryAndManagePageViewModel.SelectedRepository = gameItem.Repository;
-        MainPage.NavigateTo(typeof(ManagePage));
+        var gameInfo = (sender as HyperlinkButton).DataContext as GameInfo;
+        MainPage.NavigateTo(typeof(ManagePage), gameInfo);
     }
 
     private async void move_game_left_to_right_Button_Click(object sender, RoutedEventArgs e)

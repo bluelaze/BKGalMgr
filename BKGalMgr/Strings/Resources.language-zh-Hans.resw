@@ -509,7 +509,7 @@
   <data name="Main_Nav_Browser.Content" xml:space="preserve">
     <value>浏览</value>
   </data>
-  <data name="Main_Nav_Library.Content" xml:space="preserve">
+  <data name="Main_Nav_Library.Text" xml:space="preserve">
     <value>库</value>
   </data>
   <data name="Main_Nav_Review.Content" xml:space="preserve">
