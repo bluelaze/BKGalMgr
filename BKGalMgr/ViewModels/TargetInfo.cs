@@ -160,11 +160,11 @@ public partial class TargetInfo : ObservableObject
         if (Source == null || !File.Exists(Source.ZipPath))
             return;
 
-        await Task.Run(() =>
+        var ret = await FileSystemMisc.ExtractZipFromDirectoryAsync(Source.ZipPath, TargetPath);
+        if (!ret.success)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
-            ZipFile.ExtractToDirectory(Source.ZipPath, TargetPath, true);
-        });
+            App.ShowErrorMessage(ret.message);
+        }
     }
 
     public async Task DecompressLocalization()
@@ -172,81 +172,67 @@ public partial class TargetInfo : ObservableObject
         if (Localization == null || !File.Exists(Localization.ZipPath))
             return;
 
-        await Task.Run(() =>
+        var ret = await FileSystemMisc.ExtractZipFromDirectoryAsync(Localization.ZipPath, TargetPath);
+        if (!ret.success)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(TargetPath));
-            ZipFile.ExtractToDirectory(Localization.ZipPath, TargetPath, true);
-        });
+            App.ShowErrorMessage(ret.message);
+        }
     }
 
     public async Task DecompressSourceAndLocalization()
     {
-        await Task.Run(async () =>
-        {
-            // dezip source
-            await DecompressSource();
+        // dezip source
+        await DecompressSource();
 
-            // dezip target
-            await DecompressLocalization();
+        // dezip target
+        await DecompressLocalization();
 
-            SaveJsonFile();
-        });
+        SaveJsonFile();
     }
 
     public async Task CopyShareToTargetFolder(string shareFolderPath)
     {
-        await Task.Run(() =>
+        // dezip archive target
+        var targetZipPath = Path.Combine(shareFolderPath, GlobalInfo.TargetZipName);
+        if (Directory.Exists(targetZipPath))
         {
-            Directory.CreateDirectory(TargetPath);
+            await FileSystemMisc.ExtractZipFromDirectoryAsync(targetZipPath, TargetPath);
+            return;
+        }
 
-            // dezip archive target
-            var targetZipPath = Path.Combine(shareFolderPath, GlobalInfo.TargetZipName);
-            if (Directory.Exists(targetZipPath))
-            {
-                ZipFile.ExtractToDirectory(targetZipPath, TargetPath, true);
-                return;
-            }
+        // copy target folder
+        var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
+        if (Directory.Exists(targetPath))
+        {
+            await FileSystemMisc.MoveOrCopyDirectoryAsync(targetPath, TargetPath);
+            return;
+        }
 
-            // copy target folder
-            var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
-            if (Directory.Exists(targetPath))
-            {
-                FileSystemMisc.MoveOrCopyDirectory(targetPath, TargetPath);
-                return;
-            }
-
-            // copy current folder as a new target
-            FileSystemMisc.MoveOrCopyDirectory(shareFolderPath, TargetPath);
-        });
+        // copy current folder as a new target
+        await FileSystemMisc.MoveOrCopyDirectoryAsync(shareFolderPath, TargetPath);
     }
 
     public async Task CopyTargetAsSourceToFolder(string targetFolderPath)
     {
-        await Task.Run(() =>
-        {
-            Directory.CreateDirectory(targetFolderPath);
+        SourceInfo newSource = new();
+        newSource.Name = Name;
+        newSource.StartupName = StartupName;
+        newSource.Description = Description;
+        newSource.JsonPath = Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName);
+        if (Source != null && Source.Contributors != null)
+            newSource.Contributors = new(newSource.Contributors.Concat(Source.Contributors));
+        if (Localization != null && Localization.Contributors != null)
+            newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
+        newSource.SaveJsonFile();
 
-            SourceInfo newSource = new();
-            newSource.Name = Name;
-            newSource.StartupName = StartupName;
-            newSource.Description = Description;
-            newSource.JsonPath = Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName);
-            if (Source != null && Source.Contributors != null)
-                newSource.Contributors = new(newSource.Contributors.Concat(Source.Contributors));
-            if (Localization != null && Localization.Contributors != null)
-                newSource.Contributors = new(newSource.Contributors.Concat(Localization.Contributors));
-            newSource.SaveJsonFile();
-
-            if (IsArchive)
-                File.Copy(TargetZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
-            else
-                ZipFile.CreateFromDirectory(
-                    TargetPath,
-                    Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
-                    App.ZipLevel(),
-                    false
-                );
-        });
+        if (IsArchive)
+            await FileSystemMisc.CopyFileAsync(TargetZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
+        else
+            await FileSystemMisc.CreateZipFromDirectoryAsync(
+                TargetPath,
+                Path.Combine(targetFolderPath, GlobalInfo.SourceZipName),
+                App.ZipLevel()
+            );
     }
 
     public bool CheckArchiveStatus()
@@ -260,22 +246,12 @@ public partial class TargetInfo : ObservableObject
 
     public async Task Archive()
     {
-        await Task.Run(() =>
-        {
-            if (File.Exists(TargetZipPath))
-                File.Delete(TargetZipPath);
-            ZipFile.CreateFromDirectory(TargetPath, TargetZipPath, App.ZipLevel(), false);
-        });
+        await FileSystemMisc.CreateZipFromDirectoryAsync(TargetPath, TargetZipPath, App.ZipLevel());
     }
 
     public async Task DeArchive()
     {
-        await Task.Run(() =>
-        {
-            if (!Directory.Exists(TargetPath))
-                Directory.CreateDirectory(TargetPath);
-            ZipFile.ExtractToDirectory(TargetZipPath, TargetPath);
-        });
+        await FileSystemMisc.ExtractZipFromDirectoryAsync(TargetZipPath, TargetPath);
     }
 
     public async Task DeleteFolderOnly()

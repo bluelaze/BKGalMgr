@@ -95,21 +95,18 @@ public partial class LocalizationInfo : ObservableObject
     {
         if (!Directory.Exists(localizationFolderPath))
             return;
-        await Task.Run(() =>
+        var ret = await FileSystemMisc.CreateZipFromDirectoryAsync(localizationFolderPath, ZipPath, App.ZipLevel());
+        if (!ret.success)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(ZipPath));
-            ZipFile.CreateFromDirectory(localizationFolderPath, ZipPath, App.ZipLevel(), false);
-            SaveJsonFile();
-        });
+            App.ShowErrorMessage(ret.message);
+            return;
+        }
+        SaveJsonFile();
     }
 
     public async Task CopyLocalizationToFolder(string targetFolderPath)
     {
-        await Task.Run(() =>
-        {
-            Directory.CreateDirectory(targetFolderPath);
-            File.Copy(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationJsonName), true);
-            File.Copy(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationZipName), true);
-        });
+        await FileSystemMisc.CopyFileAsync(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationJsonName));
+        await FileSystemMisc.CopyFileAsync(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.LocalizationZipName));
     }
 }

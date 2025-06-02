@@ -96,21 +96,19 @@ public partial class SourceInfo : ObservableObject
     {
         if (!Directory.Exists(sourceFolderPath))
             return;
-        await Task.Run(() =>
+
+        var ret = await FileSystemMisc.CreateZipFromDirectoryAsync(sourceFolderPath, ZipPath, App.ZipLevel());
+        if (!ret.success)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(ZipPath));
-            ZipFile.CreateFromDirectory(sourceFolderPath, ZipPath, App.ZipLevel(), false);
-            SaveJsonFile();
-        });
+            App.ShowErrorMessage(ret.message);
+            return;
+        }
+        SaveJsonFile();
     }
 
     public async Task CopySourceToFolder(string targetFolderPath)
     {
-        await Task.Run(() =>
-        {
-            Directory.CreateDirectory(targetFolderPath);
-            File.Copy(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName), true);
-            File.Copy(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName), true);
-        });
+        await FileSystemMisc.CopyFileAsync(JsonPath, Path.Combine(targetFolderPath, GlobalInfo.SourceJsonName));
+        await FileSystemMisc.CopyFileAsync(ZipPath, Path.Combine(targetFolderPath, GlobalInfo.SourceZipName));
     }
 }

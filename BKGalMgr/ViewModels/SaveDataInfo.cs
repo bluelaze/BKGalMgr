@@ -87,42 +87,42 @@ public partial class SaveDataInfo : ObservableObject
     {
         if (!Directory.Exists(savedataFolderPath))
             return false;
-        return await Task.Run(() =>
+
+        var ret = await FileSystemMisc.CreateZipFromDirectoryAsync(savedataFolderPath, ZipPath, App.ZipLevel());
+        if (!ret.success)
         {
-            try
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(ZipPath));
-                ZipFile.CreateFromDirectory(savedataFolderPath, ZipPath, App.ZipLevel(), false);
-                SaveJsonFile();
-                return true;
-            }
-            catch { }
+            App.ShowErrorMessage(ret.message);
             return false;
-        });
+        }
+        SaveJsonFile();
+        return true;
     }
 
     public async Task<bool> RestoreToSaveDataFolder(string savedataFolderPath)
     {
-        return await Task.Run(() =>
+        // backup savedata
+        if (Directory.Exists(savedataFolderPath))
         {
-            try
+            var backupFolder = Path.Combine(
+                Path.GetDirectoryName(savedataFolderPath),
+                Path.GetFileName(savedataFolderPath) + "_backup"
+            );
+            var ret = await FileSystemMisc.MoveOrCopyDirectoryAsync(savedataFolderPath, backupFolder);
+            if (!ret.success)
             {
-                // backup savedata
-                var backupFolder = Path.Combine(
-                    Path.GetDirectoryName(savedataFolderPath),
-                    Path.GetFileName(savedataFolderPath) + "_backup"
-                );
-                FileSystemMisc.DeleteDirectory(backupFolder);
-
-                Directory.Move(savedataFolderPath, backupFolder);
-
-                // overwrite files
-                Directory.CreateDirectory(savedataFolderPath);
-                ZipFile.ExtractToDirectory(ZipPath, savedataFolderPath, true);
-                return true;
+                App.ShowErrorMessage(ret.message);
+                return false;
             }
-            catch { }
+        }
+
+        // overwrite files
+        var ret2 = await FileSystemMisc.ExtractZipFromDirectoryAsync(ZipPath, savedataFolderPath);
+        if (!ret2.success)
+        {
+            App.ShowErrorMessage(ret2.message);
             return false;
-        });
+        }
+
+        return true;
     }
 }

@@ -150,7 +150,7 @@ public partial class RepositoryInfo : ObservableObject
 
     public async Task RefreshStorageUsageAsync()
     {
-        StorageUsage = await Task.Run(() => FileSystemMisc.GetDirectorySize(FolderPath));
+        StorageUsage = await FileSystemMisc.GetDirectorySizeAsync(FolderPath);
     }
 
     public void RestoreAddGroupIndex()
