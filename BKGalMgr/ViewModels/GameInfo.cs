@@ -651,7 +651,7 @@ public partial class GameInfo : ObservableObject
 
     public async Task<bool> RestoreSaveData(SaveDataInfo savedataInfo)
     {
-        if (!SaveDataSettings.IsValid() || !Directory.Exists(SaveDataSettings.SaveDataFolderPath))
+        if (!SaveDataSettings.IsValid())
             return false;
 
         return await savedataInfo.RestoreToSaveDataFolder(SaveDataSettings.SaveDataFolderPath);

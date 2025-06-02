@@ -132,7 +132,12 @@ public partial class App : Application
         MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Informational });
     }
 
-    public static void ShowWarnMessage(string message)
+    public static void ShowSuccessMessage(string message)
+    {
+        MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Success });
+    }
+
+    public static void ShowWarningMessage(string message)
     {
         MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Warning });
     }

@@ -175,6 +175,9 @@
   <data name="Msg_SaveData_Restore_Fail" xml:space="preserve">
     <value>还原失败</value>
   </data>
+  <data name="Msg_SaveData_Restore_Success" xml:space="preserve">
+    <value>还原成功</value>
+  </data>
   <data name="Msg_SaveData_Auto_Backup_Fail" xml:space="preserve">
     <value>自动备份失败，请检查备份设置</value>
   </data>

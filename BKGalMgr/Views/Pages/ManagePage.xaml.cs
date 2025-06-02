@@ -633,7 +633,11 @@ public sealed partial class ManagePage : Page
 
         if (await DialogHelper.ShowConfirm(LanguageHelper.GetString("Msg_SaveData_Restore_Comfirm")))
         {
-            if (await ViewModel.SelectedRepository.SelectedGame.RestoreSaveData(savedataInfo) == false)
+            if (await ViewModel.SelectedRepository.SelectedGame.RestoreSaveData(savedataInfo))
+            {
+                App.ShowSuccessMessage(LanguageHelper.GetString("Msg_SaveData_Restore_Success"));
+            }
+            else
             {
                 App.ShowErrorMessage(LanguageHelper.GetString("Msg_SaveData_Restore_Fail"));
             }
