@@ -16,12 +16,9 @@ public static class IListExtension
             return;
         }
 
-        using (IEnumerator<TSource> en = collection.GetEnumerator())
+        foreach (var item in collection)
         {
-            while (en.MoveNext())
-            {
-                source.Add(en.Current);
-            }
+            source.Add(item);
         }
     }
 
