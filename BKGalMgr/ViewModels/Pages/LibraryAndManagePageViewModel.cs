@@ -194,7 +194,7 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
 
     public async Task DeleteGame(GameInfo game)
     {
-        await SelectedRepository.DeleteGame(game);
+        await SelectedRepository.DeleteGameAsync(game);
     }
 
     public async Task DeleteSource(SourceInfo source)

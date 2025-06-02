@@ -577,7 +577,6 @@ public partial class GameInfo : ObservableObject
                 break;
             if (!Directory.Exists(shareFolderPath))
                 break;
-            // copy to game
 
             await targetInfo.CopyShareToTargetFolder(shareFolderPath);
             targetInfo.SaveJsonFile();

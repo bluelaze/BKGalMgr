@@ -207,19 +207,16 @@ public partial class TargetInfo : ObservableObject
                 return;
             }
 
-            // move need delete target folder
-            FileSystemMisc.DeleteDirectory(TargetPath);
-
             // copy target folder
             var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
             if (Directory.Exists(targetPath))
             {
-                FileSystemMisc.DirectoryMoveOrCopy(targetPath, TargetPath);
+                FileSystemMisc.MoveOrCopyDirectory(targetPath, TargetPath);
                 return;
             }
 
             // copy current folder as a new target
-            FileSystemMisc.DirectoryMoveOrCopy(shareFolderPath, TargetPath);
+            FileSystemMisc.MoveOrCopyDirectory(shareFolderPath, TargetPath);
         });
     }
 

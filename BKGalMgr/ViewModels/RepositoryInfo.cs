@@ -293,7 +293,7 @@ public partial class RepositoryInfo : ObservableObject
         }
     }
 
-    public async Task DeleteGame(GameInfo game)
+    public async Task<bool> DeleteGameAsync(GameInfo game)
     {
         if (Games.Contains(game))
         {
@@ -301,7 +301,7 @@ public partial class RepositoryInfo : ObservableObject
             if (!success)
             {
                 App.ShowErrorMessage(message);
-                return;
+                return false;
             }
             Games.Remove(game);
         }
@@ -310,6 +310,7 @@ public partial class RepositoryInfo : ObservableObject
             _selectedGame = null;
             OnPropertyChanged(nameof(SelectedGame));
         }
+        return true;
     }
 
     public void SaveJsonFile()

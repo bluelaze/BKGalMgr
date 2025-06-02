@@ -38,27 +38,20 @@ public partial class MigratePageViewModel : ObservableObject
             if (fromRepository.Games.Contains(game))
             {
                 var gameNewPath = Path.Combine(toRepository.FolderPath, Path.GetFileName(game.FolderPath));
-                var ret = await Task.Run(() =>
+                var ret = await FileSystemMisc.MoveOrCopyDirectoryAsync(game.FolderPath, gameNewPath);
+                if (ret.success == false)
                 {
-                    try
-                    {
-                        FileSystemMisc.DirectoryMoveOrCopy(game.FolderPath, gameNewPath);
-                        return true;
-                    }
-                    catch
-                    {
-                        return false;
-                    }
-                });
-                if (ret == false)
-                {
+                    App.ShowErrorMessage(ret.message);
                     FileSystemMisc.DeleteDirectory(gameNewPath);
                     return false;
                 }
-
-                await fromRepository.DeleteGame(game);
                 toRepository.AddGame(gameNewPath);
                 toRepository.RestoreAddGroupIndex();
+
+                if (await fromRepository.DeleteGameAsync(game) == false)
+                {
+                    return false;
+                }
             }
         }
         return true;

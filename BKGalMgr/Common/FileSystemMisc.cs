@@ -41,50 +41,66 @@ public class FileSystemMisc
         return await folderPicker.PickSingleFolderAsync();
     }
 
-    public static bool ArePathsOnSameDrive(string path1, string path2)
+    // https://blog.coldwind.top/posts/how-to-copy-folder/
+    public static (bool success, string message) CopyDirectory(string sourceFolderPath, string targetFolderPath)
     {
-        return string.Equals(Path.GetPathRoot(path1), Path.GetPathRoot(path2), StringComparison.OrdinalIgnoreCase);
-    }
-
-    // https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
-    public static void CopyDirectory(string sourceDir, string destinationDir, bool recursive = true)
-    {
-        // Get information about the source directory
-        var dir = new DirectoryInfo(sourceDir);
-
-        // Check if the source directory exists
-        if (!dir.Exists)
-            throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
-
-        // Create the destination directory
-        Directory.CreateDirectory(destinationDir);
-
-        // Get the files in the source directory and copy to the destination directory
-        foreach (FileInfo file in dir.GetFiles())
+        try
         {
-            string targetFilePath = Path.Combine(destinationDir, file.Name);
-            file.CopyTo(targetFilePath);
-        }
+            Directory.CreateDirectory(targetFolderPath);
 
-        // If recursive and copying subdirectories, recursively call this method
-        if (recursive)
-        {
-            // Cache directories before we start copying
-            DirectoryInfo[] dirs = dir.GetDirectories();
-            foreach (DirectoryInfo subDir in dirs)
+            foreach (string filePath in Directory.GetFiles(sourceFolderPath, "*.*", SearchOption.AllDirectories))
             {
-                string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
-                CopyDirectory(subDir.FullName, newDestinationDir, true);
+                var relativePath = Path.GetRelativePath(sourceFolderPath, filePath);
+                var targetFilePath = Path.Combine(targetFolderPath, relativePath);
+                var subTargetFolderPath = Path.GetDirectoryName(targetFilePath);
+                // Path.GetDirectoryName 方法有可能返回空。这一情况通常发生在文件位于根目录的情况（例如 Windows 的 C:\，或 Unix 的 /）。
+                if (subTargetFolderPath != null)
+                    Directory.CreateDirectory(subTargetFolderPath);
+                File.Copy(filePath, targetFilePath, true);
             }
         }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+        return (true, "");
     }
 
-    public static void DirectoryMoveOrCopy(string sourceDirName, string destDirName)
+    public static (bool success, string message) MoveOrCopyDirectory(string sourceDirName, string destDirName)
     {
-        if (ArePathsOnSameDrive(sourceDirName, destDirName))
-            Directory.Move(sourceDirName, destDirName);
-        else
-            CopyDirectory(sourceDirName, destDirName);
+        // move
+        try
+        {
+            if (
+                string.Equals(
+                    Path.GetPathRoot(sourceDirName),
+                    Path.GetPathRoot(destDirName),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            {
+                // move need delete target folder
+                if (Directory.Exists(destDirName))
+                    Directory.Delete(destDirName, true);
+                Directory.Move(sourceDirName, destDirName);
+                return (true, "");
+            }
+        }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+
+        // copy
+        return CopyDirectory(sourceDirName, destDirName);
+    }
+
+    public static async Task<(bool success, string message)> MoveOrCopyDirectoryAsync(
+        string sourceDirName,
+        string destDirName
+    )
+    {
+        return await Task.Run(() => MoveOrCopyDirectory(sourceDirName, destDirName));
     }
 
     // https://stackoverflow.com/questions/2979432/directory-file-size-calculation-how-to-make-it-faster
