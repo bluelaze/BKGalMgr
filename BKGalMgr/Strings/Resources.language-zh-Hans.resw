@@ -185,7 +185,8 @@
     <value>当前正在游玩，请先停止！</value>
   </data>
   <data name="Msg_App_UnhandledException" xml:space="preserve">
-    <value>发生未知异常，可考虑重启软件！</value>
+    <value>发生未知异常，可考虑重启软件！
+详情可看crash_exception.txt</value>
   </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>

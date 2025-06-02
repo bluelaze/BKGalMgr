@@ -82,7 +82,9 @@ public partial class App : Application
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         e.Handled = true;
-        _ = DialogHelper.ShowError($"{LanguageHelper.GetString("Msg_App_UnhandledException")}\n{e.Exception}");
+        File.WriteAllText("crash_exception.txt", $"{DateTime.Now}\n{e.Exception}");
+        ShowErrorMessage(e.Exception.Message);
+        ShowErrorMessage(LanguageHelper.GetString("Msg_App_UnhandledException"));
     }
 
     /// <summary>
