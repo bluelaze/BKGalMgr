@@ -297,12 +297,11 @@ public partial class RepositoryInfo : ObservableObject
     {
         if (Games.Contains(game))
         {
-            if (Directory.Exists(game.FolderPath))
+            var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(game.FolderPath);
+            if (!success)
             {
-                await Task.Run(() =>
-                {
-                    Directory.Delete(game.FolderPath, true);
-                });
+                App.ShowErrorMessage(message);
+                return;
             }
             Games.Remove(game);
         }

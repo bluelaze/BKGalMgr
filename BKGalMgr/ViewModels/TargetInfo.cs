@@ -208,8 +208,7 @@ public partial class TargetInfo : ObservableObject
             }
 
             // move need delete target folder
-            if (Directory.Exists(TargetPath))
-                Directory.Delete(TargetPath, true);
+            FileSystemMisc.DeleteDirectory(TargetPath);
 
             // copy target folder
             var targetPath = Path.Combine(shareFolderPath, GlobalInfo.TargetName);
@@ -285,12 +284,14 @@ public partial class TargetInfo : ObservableObject
     public async Task DeleteFolderOnly()
     {
         CheckArchiveStatus();
-        if (!IsArchive || !Directory.Exists(TargetPath))
+        if (!IsArchive)
             return;
-        await Task.Run(() =>
+        var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(TargetPath);
+        if (!success)
         {
-            Directory.Delete(TargetPath, true);
-        });
+            App.ShowErrorMessage(message);
+            return;
+        }
     }
 
     public void ScreenCaptureActive(bool active)

@@ -130,4 +130,27 @@ public class FileSystemMisc
             return null;
         return Directory.GetFiles(path).ToList().SortByName();
     }
+
+    public static (bool success, string message) DeleteDirectory(string path)
+    {
+        if (!Directory.Exists(path))
+            return (true, "");
+        try
+        {
+            Directory.Delete(path, true);
+        }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+        return (true, "");
+    }
+
+    public static async Task<(bool success, string message)> DeleteDirectoryAsync(string path)
+    {
+        if (!Directory.Exists(path))
+            return (true, "");
+
+        return await Task.Run(() => DeleteDirectory(path));
+    }
 }

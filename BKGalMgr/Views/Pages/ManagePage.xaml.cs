@@ -357,6 +357,7 @@ public sealed partial class ManagePage : Page
         if (file == null)
             return;
 
+        // 创建一个临时文件夹存放快捷方式，作为源来创建本
         if (!ViewModel.SelectedRepository.SelectedGame.CreateShortcut(file.Path))
         {
             App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Create_Shortcut_Fail"));

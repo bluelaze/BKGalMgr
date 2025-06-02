@@ -13,11 +13,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using BKGalMgr.Helpers;
 using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ThirdParty;
-using Windows.Devices.Lights;
 using Windows.Storage;
 
 namespace BKGalMgr.ViewModels;
@@ -464,11 +462,12 @@ public partial class GameInfo : ObservableObject
     {
         if (Sources.Contains(source))
         {
-            if (Directory.Exists(source.FolderPath))
-                await Task.Run(() =>
-                {
-                    Directory.Delete(source.FolderPath, true);
-                });
+            var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(source.FolderPath);
+            if (!success)
+            {
+                App.ShowErrorMessage(message);
+                return;
+            }
             Sources.Remove(source);
         }
     }
@@ -544,11 +543,12 @@ public partial class GameInfo : ObservableObject
     {
         if (Localizations.Contains(localization))
         {
-            if (Directory.Exists(localization.FolderPath))
-                await Task.Run(() =>
-                {
-                    Directory.Delete(localization.FolderPath, true);
-                });
+            var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(localization.FolderPath);
+            if (!success)
+            {
+                App.ShowErrorMessage(message);
+                return;
+            }
             Localizations.Remove(localization);
         }
     }
@@ -604,11 +604,12 @@ public partial class GameInfo : ObservableObject
     {
         if (Targets.Contains(targetInfo))
         {
-            if (Directory.Exists(targetInfo.FolderPath))
-                await Task.Run(() =>
-                {
-                    Directory.Delete(targetInfo.FolderPath, true);
-                });
+            var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(targetInfo.FolderPath);
+            if (!success)
+            {
+                App.ShowErrorMessage(message);
+                return;
+            }
             Targets.Remove(targetInfo);
         }
         if (targetInfo == SelectedTarget)
@@ -661,11 +662,12 @@ public partial class GameInfo : ObservableObject
     {
         if (SaveDatas.Contains(savedata))
         {
-            if (Directory.Exists(savedata.FolderPath))
-                await Task.Run(() =>
-                {
-                    Directory.Delete(savedata.FolderPath, true);
-                });
+            var (success, message) = await FileSystemMisc.DeleteDirectoryAsync(savedata.FolderPath);
+            if (!success)
+            {
+                App.ShowErrorMessage(message);
+                return;
+            }
             SaveDatas.Remove(savedata);
         }
     }
@@ -674,8 +676,7 @@ public partial class GameInfo : ObservableObject
     {
         try
         {
-            if (Directory.Exists(ScreenCaptureFolderPath))
-                Directory.Delete(ShortcutFolderPath, true);
+            FileSystemMisc.DeleteDirectory(ShortcutFolderPath);
             Directory.CreateDirectory(ShortcutFolderPath);
             if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
             {

@@ -52,8 +52,7 @@ public partial class MigratePageViewModel : ObservableObject
                 });
                 if (ret == false)
                 {
-                    if (Directory.Exists(gameNewPath))
-                        Directory.Delete(gameNewPath, true);
+                    FileSystemMisc.DeleteDirectory(gameNewPath);
                     return false;
                 }
 

@@ -112,8 +112,8 @@ public partial class SaveDataInfo : ObservableObject
                     Path.GetDirectoryName(savedataFolderPath),
                     Path.GetFileName(savedataFolderPath) + "_backup"
                 );
-                if (Directory.Exists(backupFolder))
-                    Directory.Delete(backupFolder, true);
+                FileSystemMisc.DeleteDirectory(backupFolder);
+
                 Directory.Move(savedataFolderPath, backupFolder);
 
                 // overwrite files
