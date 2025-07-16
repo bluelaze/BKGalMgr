@@ -329,6 +329,7 @@ public sealed partial class ManagePage : Page
                 var result = await EditSourceInfo(targetInfo.Source);
                 if (result == ContentDialogResult.Primary)
                 {
+                    targetInfo.Description = targetInfo.Source.Description;
                     targetInfo.SeletedSource();
                     await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
                 }
@@ -337,16 +338,21 @@ public sealed partial class ManagePage : Page
             {
                 // dezip to add target
                 if (targetInfo.Localization != null)
+                {
+                    targetInfo.Description = targetInfo.Localization.Description;
                     targetInfo.SeletedLocalization();
+                }
                 else
+                {
+                    targetInfo.Description = targetInfo.Source.Description;
                     targetInfo.SeletedSource();
-
+                }
                 if (!targetInfo.IsValid())
                     App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
                 else
                     await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
             }
-            targetInfo.Description = targetInfo.Source?.Description;
+
             App.HideLoading();
         }
     }
