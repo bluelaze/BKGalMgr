@@ -20,6 +20,9 @@ public partial class CharacterInfo : ObservableObject
     private string _name;
 
     [ObservableProperty]
+    private string _translatedName;
+
+    [ObservableProperty]
     private string _id = Guid.NewGuid().ToString();
 
     [ObservableProperty]

@@ -440,6 +440,9 @@ More in crash_exception.txt</value>
   <data name="CharacterInfo_Name.Header" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="CharacterInfo_TranslatedName.Header" xml:space="preserve">
+    <value>Translated Name</value>
+  </data>
   <data name="CharacterInfo_CV.Header" xml:space="preserve">
     <value>CV</value>
   </data>

@@ -80,6 +80,9 @@
             <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToVisibilityConverter"
                                                       EmptyValue="Collapsed"
                                                       NotEmptyValue="Visible" />
+            <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToCollapsedConverter"
+                                                      EmptyValue="Visible"
+                                                      NotEmptyValue="Collapsed" />
             <mconverters:EmptyStringToObjectConverter x:Key="EmptyStringToBoolConverter"
                                                       EmptyValue="False"
                                                       NotEmptyValue="True" />

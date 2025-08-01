@@ -15,12 +15,13 @@
     <StackPanel Spacing="4">
         <StackPanel.Resources>
             <Style TargetType="local:HeaderedTextBox">
-                <Setter Property="HeaderWidth" Value="98" />
+                <Setter Property="HeaderWidth" Value="110" />
             </Style>
         </StackPanel.Resources>
         <local:HeaderedTextBox x:Uid="CharacterInfo_Name"
                                CanEmpty="False"
                                Text="{Binding Name, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Uid="CharacterInfo_TranslatedName" Text="{Binding TranslatedName, Mode=TwoWay}" />
         <local:HeaderedTextBox x:Uid="CharacterInfo_CV" Text="{Binding CV, Mode=TwoWay}" />
         <Grid>
             <local:HeaderedTextBox x:Name="pick_illustration_HeaderedTextBox"

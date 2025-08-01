@@ -634,9 +634,17 @@
                                                 Padding="12,40,4,4"
                                                 Spacing="6">
                                         <StackPanel Orientation="Horizontal" Spacing="0">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind Name, Mode=OneWay}" />
+                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind TranslatedName, Mode=OneWay}" />
+                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                                                       Text="{x:Bind Name, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='（{0}）'}"
+                                                       TextAlignment="Center"
+                                                       Visibility="{x:Bind TranslatedName, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                            <TextBlock Margin="0,0,8,0"
+                                                       Style="{StaticResource SubtitleTextBlockStyle}"
+                                                       Text="{x:Bind Name, Mode=OneWay}"
+                                                       Visibility="{x:Bind TranslatedName, Mode=OneWay, Converter={StaticResource EmptyStringToCollapsedConverter}}" />
                                             <TextBlock VerticalAlignment="Bottom"
-                                                       Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' (CV：{0})'}"
+                                                       Text="{x:Bind CV, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='CV：{0}'}"
                                                        Visibility="{x:Bind CV, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
                                         </StackPanel>
 

@@ -440,6 +440,9 @@
   <data name="CharacterInfo_Name.Header" xml:space="preserve">
     <value>名字</value>
   </data>
+  <data name="CharacterInfo_TranslatedName.Header" xml:space="preserve">
+    <value>译名</value>
+  </data>
   <data name="CharacterInfo_CV.Header" xml:space="preserve">
     <value>声优</value>
   </data>
