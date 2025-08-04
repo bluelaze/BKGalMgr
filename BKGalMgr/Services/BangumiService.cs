@@ -273,8 +273,18 @@ public class BangumiService
                 if (double.TryParse(waistString, out double waist))
                     characterInfo.Waist = waist;
 
+                // 93/60/88（Hカップ）
                 if (hipsString.StartsWith('H'))
                     hipsString = hipsString.Substring(1);
+
+                var cupIndexBegin = hipsString.IndexOf('(');
+                if (cupIndexBegin == -1)
+                    cupIndexBegin = hipsString.IndexOf('（');
+                if (cupIndexBegin != -1)
+                {
+                    characterInfo.Cup = hipsString.Substring(cupIndexBegin + 1, 1);
+                    hipsString = hipsString.Substring(0, cupIndexBegin);
+                }
                 if (double.TryParse(hipsString, out double hips))
                     characterInfo.Hips = hips;
             }
