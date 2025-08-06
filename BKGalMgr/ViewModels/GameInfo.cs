@@ -102,6 +102,9 @@ public partial class GameInfo : ObservableObject
     private string _t2DFanSubjectId;
 
     [ObservableProperty]
+    private ShoppingSiteInfo _shoppingInfo;
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private ObservableCollection<string> _covers = new();
 

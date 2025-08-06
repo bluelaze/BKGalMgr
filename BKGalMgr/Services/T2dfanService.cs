@@ -13,6 +13,6 @@ public class T2DFanService
 
     public static void OpenSubjectPage(string subjectId)
     {
-        Process.Start("explorer.exe", $"{_2dfanWebsit}/subjects/{subjectId}");
+        UrlMisc.OpenUrl($"{_2dfanWebsit}/subjects/{subjectId}");
     }
 }

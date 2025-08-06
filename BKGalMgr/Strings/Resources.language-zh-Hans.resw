@@ -272,6 +272,9 @@
   <data name="Commom_MenuItem_Open_In_2DFan.Text" xml:space="preserve">
     <value>从2DFan打开</value>
   </data>
+  <data name="Commom_MenuItem_Shopping_Site.Text" xml:space="preserve">
+    <value>购买网站</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
   </data>
@@ -509,6 +512,9 @@
   </data>
   <data name="T2DFan_Edit_Game.Text" xml:space="preserve">
     <value>编辑游戏信息</value>
+  </data>
+  <data name="Shopping_Info_Edit" xml:space="preserve">
+    <value>编辑购买网站信息</value>
   </data>
   <data name="Main_Nav_Home.Content" xml:space="preserve">
     <value>主页</value>

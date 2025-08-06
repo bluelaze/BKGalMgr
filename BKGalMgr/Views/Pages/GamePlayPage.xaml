@@ -472,6 +472,17 @@
                                     <ImageIcon Source="{ThemeResource T2DFanIcon}" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.Game.ShoppingInfo.OpenInGetchuCommand}"
+                                                IsEnabled="{x:Bind ViewModel.Game.ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                Text="Getchu" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.Game.ShoppingInfo.OpenInDMMCommand}"
+                                                IsEnabled="{x:Bind ViewModel.Game.ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                Text="DMM" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.Game.ShoppingInfo.OpenInDLsiteCommand}"
+                                                IsEnabled="{x:Bind ViewModel.Game.ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                Text="DLsite" />
+                            </MenuFlyoutSubItem>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>

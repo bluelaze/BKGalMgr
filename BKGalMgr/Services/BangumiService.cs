@@ -44,7 +44,7 @@ public class BangumiService
 
     public static void OpenSubjectPage(string subjectId)
     {
-        Process.Start("explorer.exe", $"{_bangumiWebsit}/subject/{subjectId}");
+        UrlMisc.OpenUrl($"{_bangumiWebsit}/subject/{subjectId}");
     }
 
     public async Task<RestResponse<Subject>> GetSubjectAsync(string subjectId)

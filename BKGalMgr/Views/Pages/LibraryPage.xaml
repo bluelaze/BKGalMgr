@@ -191,6 +191,17 @@
                                                 <ImageIcon Source="{ThemeResource T2DFanIcon}" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
+                                        <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="Getchu" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="DMM" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="DLsite" />
+                                        </MenuFlyoutSubItem>
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
                                                         Icon="{mui:FontIcon Glyph=&#xE8B9;}"
@@ -492,6 +503,17 @@
                                                 <ImageIcon Source="{ThemeResource T2DFanIcon}" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
+                                        <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="Getchu" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="DMM" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            Text="DLsite" />
+                                        </MenuFlyoutSubItem>
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
                                                         Icon="{mui:FontIcon Glyph=&#xE8B9;}"

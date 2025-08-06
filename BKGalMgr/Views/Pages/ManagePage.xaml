@@ -81,6 +81,10 @@
                             <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
                                 <Button.Flyout>
                                     <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem x:Name="open_bangumi_game_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                                        Click="open_bangumi_game_menuflyoutitem_Click"
+                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
                                         <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
                                                         x:Uid="Bangumi_Pull_Game_Add"
                                                         Click="add_bangumi_game_menuflyoutitem_Click" />
@@ -92,33 +96,52 @@
                                                         x:Uid="Bangumi_Edit_Game"
                                                         Click="edit_bangumi_game_menuflyoutitem_Click"
                                                         IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
-                                        <MenuFlyoutItem x:Name="open_bangumi_game_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Open_In_Bangumi"
-                                                        Click="open_bangumi_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                                 <ImageIcon Width="16"
                                            Height="16"
                                            Source="{ThemeResource BangumiIcon}" />
                             </Button>
-                            <Button x:Name="t2fan_Button" Style="{StaticResource IconButtonStyle}">
+                            <Button x:Name="t2fan_Button"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                    Style="{StaticResource IconButtonStyle}">
                                 <Button.Flyout>
                                     <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem x:Name="edit_t2dfan_game_menuflyoutitem"
-                                                        x:Uid="T2DFan_Edit_Game"
-                                                        Click="edit_t2dfan_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
                                         <MenuFlyoutItem x:Name="open_t2dfan_game_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                                        Click="open_t2dfan_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                                        Click="open_t2dfan_game_menuflyoutitem_Click" />
+                                        <MenuFlyoutItem x:Name="edit_t2dfan_game_menuflyoutitem"
+                                                        x:Uid="T2DFan_Edit_Game"
+                                                        Click="edit_t2dfan_game_menuflyoutitem_Click" />
                                     </MenuFlyout>
                                 </Button.Flyout>
                                 <ImageIcon Width="20"
                                            Height="20"
                                            Margin="0,4,0,0"
                                            Source="{ThemeResource T2DFanIcon}" />
+                            </Button>
+                            <Button x:Name="shoppingsite_Button"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE7BF;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                    Style="{StaticResource IconButtonStyle}">
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem x:Name="open_in_getchu_MenuFlyoutItem"
+                                                        Click="open_in_getchu_MenuFlyoutItem_Click"
+                                                        Text="Getchu" />
+                                        <MenuFlyoutItem x:Name="open_in_dmm_MenuFlyoutItem"
+                                                        Click="open_in_dmm_MenuFlyoutItem_Click"
+                                                        Text="DMM" />
+                                        <MenuFlyoutItem x:Name="open_in_dlsite_MenuFlyoutItem"
+                                                        Click="open_in_dlsite_MenuFlyoutItem_Click"
+                                                        Text="DLsite" />
+                                        <MenuFlyoutItem x:Name="edit_shopping_site_MenuFlyoutItem"
+                                                        x:Uid="Commom_MenuItem_Edit"
+                                                        Click="edit_shopping_site_MenuFlyoutItem_Click"
+                                                        Text="Edit" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
                             </Button>
                             <Button x:Name="play_game_Button"
                                     Click="play_game_Button_Click"

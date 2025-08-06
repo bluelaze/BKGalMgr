@@ -272,6 +272,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Open_In_2DFan.Text" xml:space="preserve">
     <value>Open in 2DFan</value>
   </data>
+  <data name="Commom_MenuItem_Shopping_Site.Text" xml:space="preserve">
+    <value>Shopping Site</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>
@@ -509,6 +512,9 @@ More in crash_exception.txt</value>
   </data>
   <data name="T2DFan_Edit_Game.Text" xml:space="preserve">
     <value>Edit Game Info</value>
+  </data>
+  <data name="Shopping_Info_Edit" xml:space="preserve">
+    <value>Edit Shopping Site Info</value>
   </data>
   <data name="Main_Nav_Home.Content" xml:space="preserve">
     <value>Home</value>

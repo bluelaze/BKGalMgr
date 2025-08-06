@@ -187,6 +187,70 @@ public sealed partial class ManagePage : Page
         ViewModel.Open2dfanGame(ViewModel.SelectedRepository.SelectedGame);
     }
 
+    private async Task<ContentDialogResult> EditShoppingSiteInfo()
+    {
+        var shoppingSiteInfo = new ShoppingSiteInfo();
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo != null)
+            ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.Adapt(shoppingSiteInfo);
+
+        var shoppingSiteInfoControl = new ShoppingSiteInfoControl() { Width = 720, DataContext = shoppingSiteInfo };
+
+        var dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Shopping_Info_Edit");
+        dialog.Content = shoppingSiteInfoControl;
+
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo == null)
+                ViewModel.SelectedRepository.SelectedGame.ShoppingInfo = shoppingSiteInfo;
+            else
+                shoppingSiteInfo.Adapt(ViewModel.SelectedRepository.SelectedGame.ShoppingInfo);
+
+            ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.GetchuUrlToProductId();
+            ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DmmUrlToProductId();
+            ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DLsiteUrlToProductId();
+            ViewModel.SelectedRepository.SelectedGame.SaveJsonFile();
+        }
+
+        return result;
+    }
+
+    private async void open_in_getchu_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.GetchuIsValid() != true)
+            await EditShoppingSiteInfo();
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.GetchuIsValid() != true)
+            return;
+
+        ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.OpenInGetchu();
+    }
+
+    private async void open_in_dmm_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.DMMIsValid() != true)
+            await EditShoppingSiteInfo();
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.DMMIsValid() != true)
+            return;
+
+        ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.OpenInDMM();
+    }
+
+    private async void open_in_dlsite_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.DLsiteIsValid() != true)
+            await EditShoppingSiteInfo();
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.DLsiteIsValid() != true)
+            return;
+
+        ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.OpenInDLsite();
+    }
+
+    private async void edit_shopping_site_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        await EditShoppingSiteInfo();
+    }
+
     private void play_game_Button_Click(object sender, RoutedEventArgs e)
     {
         App.MainWindow.NavigateToGamePlayPage(ViewModel.SelectedRepository.SelectedGame);
