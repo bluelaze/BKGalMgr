@@ -490,6 +490,40 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <!--  story  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="STORY" />
+                    </mcontrols:HeaderedContentControl.Header>
+                    <TextBox MaxHeight="720"
+                             HorizontalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Story, Mode=TwoWay}"
+                             TextWrapping="Wrap" />
+                </mcontrols:HeaderedContentControl>
+                <!--  blog  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="BLOG" />
+                    </mcontrols:HeaderedContentControl.Header>
+                    <TextBox MaxHeight="720"
+                             HorizontalAlignment="Stretch"
+                             AcceptsReturn="True"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Blog, Mode=TwoWay}"
+                             TextWrapping="Wrap" />
+                </mcontrols:HeaderedContentControl>
                 <!--  Gallery  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
@@ -562,40 +596,6 @@
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
-                </mcontrols:HeaderedContentControl>
-                <!--  story  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
-                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="STORY" />
-                    </mcontrols:HeaderedContentControl.Header>
-                    <TextBox MaxHeight="720"
-                             HorizontalAlignment="Stretch"
-                             AcceptsReturn="True"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Story, Mode=TwoWay}"
-                             TextWrapping="Wrap" />
-                </mcontrols:HeaderedContentControl>
-                <!--  blog  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
-                        <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="BLOG" />
-                    </mcontrols:HeaderedContentControl.Header>
-                    <TextBox MaxHeight="720"
-                             HorizontalAlignment="Stretch"
-                             AcceptsReturn="True"
-                             Background="Transparent"
-                             BorderBrush="Transparent"
-                             ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{x:Bind ViewModel.SelectedRepository.SelectedGame.Blog, Mode=TwoWay}"
-                             TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  character  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
