@@ -60,10 +60,10 @@
             <TextBox x:Uid="CharacterInfo_BloodType" Text="{Binding BloodType, Mode=TwoWay}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="8">
-            <TextBox x:Uid="CharacterInfo_Cup" Text="{Binding Cup, Mode=TwoWay}" />
             <NumberBox x:Uid="CharacterInfo_Bust" Value="{Binding Bust, Mode=TwoWay}" />
             <NumberBox x:Uid="CharacterInfo_Waist" Value="{Binding Waist, Mode=TwoWay}" />
             <NumberBox x:Uid="CharacterInfo_Hips" Value="{Binding Hips, Mode=TwoWay}" />
+            <TextBox x:Uid="CharacterInfo_Cup" Text="{Binding Cup, Mode=TwoWay}" />
             <NumberBox x:Uid="CharacterInfo_Height" Value="{Binding Height, Mode=TwoWay}" />
             <NumberBox x:Uid="CharacterInfo_Weight" Value="{Binding Weight, Mode=TwoWay}" />
         </StackPanel>
