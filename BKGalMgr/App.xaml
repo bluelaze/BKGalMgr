@@ -89,6 +89,9 @@
             <mconverters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
             <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
             <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
+            <mconverters:BoolToObjectConverter x:Key="BoolInvertConverter"
+                                               FalseValue="True"
+                                               TrueValue="False" />
 
         </ResourceDictionary>
     </Application.Resources>
