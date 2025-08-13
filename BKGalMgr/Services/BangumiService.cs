@@ -101,7 +101,8 @@ public class BangumiService
 
     public async Task<string> PullGameCharacterInfoAsync(GameInfo gameInfo)
     {
-        foreach (var c in gameInfo.Characters)
+        var characterAsyncBackup = gameInfo.Characters.ToArray();
+        foreach (var c in characterAsyncBackup)
         {
             if (c.BangumiCharacterId.IsNullOrEmpty())
                 continue;
@@ -113,7 +114,7 @@ public class BangumiService
             }
             TransformCharacterToCharacterInfo(gameInfo, c, charactersResponse.Data);
         }
-        foreach (var c in gameInfo.Characters)
+        foreach (var c in characterAsyncBackup)
         {
             await c.SaveIllustration();
         }
