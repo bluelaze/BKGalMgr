@@ -254,13 +254,11 @@ public class BangumiService
                 var hipsString = valueStrings[2];
 
                 var cupIndex = bustString.IndexOf('(');
+                if (cupIndex == -1)
+                    cupIndex = bustString.IndexOf('（');
                 if (cupIndex != -1)
                 {
-                    var cupIndexEnd = bustString.IndexOf(')');
-                    if (cupIndexEnd > cupIndex + 1)
-                        characterInfo.Cup = bustString.Substring(cupIndex + 1, cupIndexEnd - cupIndex - 1);
-                    else
-                        characterInfo.Cup = bustString.Substring(cupIndex + 1);
+                    characterInfo.Cup = bustString.Substring(cupIndex + 1, 1);
                     bustString = bustString.Substring(0, cupIndex);
                 }
                 if (bustString.StartsWith('B'))
