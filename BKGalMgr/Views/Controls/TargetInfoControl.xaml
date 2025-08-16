@@ -69,14 +69,15 @@
             </mcontrols:SettingsExpander>
         </ScrollViewer>
 
-        <Grid Grid.Row="1" Margin="16,8">
+        <Grid Grid.Row="1"
+              MaxHeight="256"
+              Margin="16,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <ListView x:Name="sources_listview"
                       x:Uid="TargetInfo_Sources"
-                      MaxHeight="236"
                       IsItemClickEnabled="True"
                       ItemClick="sources_listview_ItemClick"
                       ItemsSource="{Binding Game.Sources, Mode=OneWay}"
@@ -94,7 +95,6 @@
             <ListView x:Name="localization_listview"
                       x:Uid="TargetInfo_Localization"
                       Grid.Column="1"
-                      MaxHeight="236"
                       IsItemClickEnabled="True"
                       ItemClick="localization_listview_ItemClick"
                       ItemsSource="{Binding Game.Localizations, Mode=OneWay}"

@@ -23,6 +23,7 @@ public class DialogHelper
         dialog.DefaultButton = ContentDialogButton.Primary;
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
+        dialog.Resources["ContentDialogMaxHeight"] = 1080;
 
         return dialog;
     }
