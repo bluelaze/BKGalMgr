@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using BKGalMgr.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -32,21 +33,24 @@ public sealed partial class TargetInfoControl : UserControl
         return target != null && target.IsValid();
     }
 
-    private void sources_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void sources_listview_ItemClick(object sender, ItemClickEventArgs e)
     {
         var target = this.DataContext as TargetInfo;
+        // delay for selection is updated
+        await Task.Delay(33);
         if (target.Source != null)
         {
-            target.SeletedSource();
+            target.SelectedSource();
         }
     }
 
-    private void localization_listview_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void localization_listview_ItemClick(object sender, ItemClickEventArgs e)
     {
         var target = this.DataContext as TargetInfo;
+        await Task.Delay(33);
         if (target.Localization != null)
         {
-            target.SeletedLocalization();
+            target.SelectedLocalization();
         }
     }
 }

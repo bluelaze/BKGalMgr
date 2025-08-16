@@ -34,4 +34,9 @@ public class JsonMisc
     {
         return JsonSerializer.Deserialize<T>(str);
     }
+
+    public static T CloneObject<T>(T obj)
+    {
+        return Deserialize<T>(Serialize(obj));
+    }
 }

@@ -392,6 +392,12 @@ More in crash_exception.txt</value>
   <data name="TargetInfo_StartupName.PlaceholderText" xml:space="preserve">
     <value>Startup program full name(*.exe;*.lnk)</value>
   </data>
+  <data name="TargetInfo_Current_Source_Name.Header" xml:space="preserve">
+    <value>Source Name</value>
+  </data>
+  <data name="TargetInfo_Current_Localization_Name.Header" xml:space="preserve">
+    <value>Localization Name</value>
+  </data>
   <data name="TargetInfo_Description.Header" xml:space="preserve">
     <value>Notes</value>
   </data>

@@ -394,7 +394,7 @@ public sealed partial class ManagePage : Page
                 if (result == ContentDialogResult.Primary)
                 {
                     targetInfo.Description = targetInfo.Source.Description;
-                    targetInfo.SeletedSource();
+                    targetInfo.SelectedSource();
                     await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
                 }
             }
@@ -404,12 +404,12 @@ public sealed partial class ManagePage : Page
                 if (targetInfo.Localization != null)
                 {
                     targetInfo.Description = targetInfo.Localization.Description;
-                    targetInfo.SeletedLocalization();
+                    targetInfo.SelectedLocalization();
                 }
                 else
                 {
                     targetInfo.Description = targetInfo.Source.Description;
-                    targetInfo.SeletedSource();
+                    targetInfo.SelectedSource();
                 }
                 if (!targetInfo.IsValid())
                     App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
@@ -443,7 +443,7 @@ public sealed partial class ManagePage : Page
         var result = await EditSourceInfo(targetInfo.Source);
         if (result == ContentDialogResult.Primary)
         {
-            targetInfo.SeletedSource();
+            targetInfo.SelectedSource();
             targetInfo.Description = targetInfo.Source.Description;
             await ViewModel.SelectedRepository.SelectedGame.CopyTarget(
                 ViewModel.SelectedRepository.SelectedGame.ShortcutFolderPath,
@@ -477,20 +477,28 @@ public sealed partial class ManagePage : Page
         // 原本的源和本地化可能被删除了
         editTargetInfo.Localization =
             ViewModel.SelectedRepository.SelectedGame.FindLocalization(targetInfo.Localization)
-            ?? targetInfo.Localization;
+            ?? JsonMisc.CloneObject(targetInfo.Localization);
         editTargetInfo.Source =
-            ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source) ?? targetInfo.Source;
+            ViewModel.SelectedRepository.SelectedGame.FindSource(targetInfo.Source)
+            ?? JsonMisc.CloneObject(targetInfo.Source);
 
         var result = await EditTargetInfo(editTargetInfo);
         if (result == ContentDialogResult.Primary)
         {
             // replace new source
-            if (editTargetInfo.Source != null && editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
+            if (editTargetInfo.Source != null)
             {
-                App.ShowLoading();
-                targetInfo.Source = editTargetInfo.Source;
-                await editTargetInfo.DecompressSource();
-                App.HideLoading();
+                if (editTargetInfo.Source.CreateDate != targetInfo.Source.CreateDate)
+                {
+                    App.ShowLoading();
+                    targetInfo.Source = editTargetInfo.Source;
+                    await editTargetInfo.DecompressSource();
+                    App.HideLoading();
+                }
+                else
+                {
+                    targetInfo.Source.Name = editTargetInfo.Source.Name;
+                }
             }
 
             // replace new localization

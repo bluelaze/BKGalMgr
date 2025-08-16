@@ -86,6 +86,7 @@ public partial class RepositoryInfo : ObservableObject
         }
     }
 
+    // 。。。yet, also, Selected is correct, but data is save
     public DateTime? SeletedGameCreateDate { get; set; }
 
     [property: JsonIgnore]

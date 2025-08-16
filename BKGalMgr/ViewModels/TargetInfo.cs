@@ -135,7 +135,7 @@ public partial class TargetInfo : ObservableObject
         Process.Start("explorer", FolderPath);
     }
 
-    public void SeletedSource()
+    public void SelectedSource()
     {
         if (Source is null)
             return;
@@ -143,16 +143,18 @@ public partial class TargetInfo : ObservableObject
         StartupName = Source.StartupName;
     }
 
-    public void SeletedLocalization()
+    public void SelectedLocalization()
     {
         if (Localization is null)
             return;
-        Name = Localization.Name;
+
+        if (Source?.Name.IsNullOrEmpty() == false)
+            Name = Source.Name + "-" + Localization.Name;
+        else
+            Name = Localization.Name;
+
         if (!Localization.StartupName.IsNullOrEmpty())
             StartupName = Localization.StartupName;
-
-        if (Source != null && !Source.Name.IsNullOrEmpty())
-            Name = Source.Name + "-" + Name;
     }
 
     public async Task DecompressSource()

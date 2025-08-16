@@ -16,16 +16,22 @@
     <StackPanel>
         <StackPanel.Resources>
             <Style TargetType="local:HeaderedTextBox">
-                <Setter Property="HeaderWidth" Value="98" />
+                <Setter Property="HeaderWidth" Value="120" />
             </Style>
         </StackPanel.Resources>
         <local:HeaderedTextBox x:Uid="TargetInfo_Name"
                                CanEmpty="False"
                                Text="{Binding Name, Mode=TwoWay}" />
-        <local:HeaderedTextBox x:Name="pick_startup_name_headeredtextbox"
-                               x:Uid="TargetInfo_StartupName"
+        <local:HeaderedTextBox x:Uid="TargetInfo_StartupName"
                                CanEmpty="False"
                                Text="{Binding StartupName, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Uid="TargetInfo_Current_Source_Name"
+                               CanEmpty="False"
+                               Text="{Binding Source.Name, Mode=TwoWay}" />
+        <local:HeaderedTextBox x:Uid="TargetInfo_Current_Localization_Name"
+                               CanEmpty="True"
+                               IsReadOnly="True"
+                               Text="{Binding Localization.Name, Mode=TwoWay}" />
         <local:HeaderedTextBox x:Uid="TargetInfo_Description"
                                AcceptsReturn="True"
                                Text="{Binding Description, Mode=TwoWay}"
@@ -71,9 +77,10 @@
             <ListView x:Name="sources_listview"
                       x:Uid="TargetInfo_Sources"
                       MaxHeight="236"
+                      IsItemClickEnabled="True"
+                      ItemClick="sources_listview_ItemClick"
                       ItemsSource="{Binding Game.Sources, Mode=OneWay}"
-                      SelectedItem="{Binding Source, Mode=TwoWay}"
-                      SelectionChanged="sources_listview_SelectionChanged">
+                      SelectedItem="{Binding Source, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:SourceInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
@@ -88,9 +95,10 @@
                       x:Uid="TargetInfo_Localization"
                       Grid.Column="1"
                       MaxHeight="236"
+                      IsItemClickEnabled="True"
+                      ItemClick="localization_listview_ItemClick"
                       ItemsSource="{Binding Game.Localizations, Mode=OneWay}"
-                      SelectedItem="{Binding Localization, Mode=TwoWay}"
-                      SelectionChanged="localization_listview_SelectionChanged">
+                      SelectedItem="{Binding Localization, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="vm:LocalizationInfo">
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
