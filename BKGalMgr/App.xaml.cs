@@ -37,8 +37,6 @@ namespace BKGalMgr;
 /// </summary>
 public partial class App : Application
 {
-    private Mutex _singleInstanceMutex;
-
     private static readonly IHost _host = Host.CreateDefaultBuilder()
         .ConfigureAppConfiguration(c =>
         {
@@ -93,8 +91,16 @@ public partial class App : Application
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        if (ExistLaunchedApp())
-            return;
+        new Thread(() =>
+        {
+            while (Program._mainWindowWakeUpHandle.WaitOne())
+            {
+                PostUITask(() => MainWindow.ShowWindow());
+            }
+        })
+        {
+            IsBackground = true,
+        }.Start();
 
         _host.StartAsync();
         SettingsPageViewModel.ApplyLanguage(GetRequiredService<SettingsDto>());
@@ -150,34 +156,4 @@ public partial class App : Application
     }
 
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
-
-    private bool ExistLaunchedApp()
-    {
-        // https://stackoverflow.com/questions/14506406/wpf-single-instance-best-practices
-        // csharpier-ignore-start
-        string singleName = Directory.GetCurrentDirectory().MD5();
-        EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, singleName.Substring(24));
-
-        _singleInstanceMutex = new Mutex(true, singleName, out bool isOwned);
-        if (isOwned)
-        {
-            GC.KeepAlive(_singleInstanceMutex);
-            var thread = new Thread(() =>
-            {
-                while (eventWaitHandle.WaitOne())
-                {
-                    PostUITask(() => MainWindow.ShowWindow());
-                }
-            });
-
-            thread.IsBackground = true;
-            thread.Start();
-            return false;
-        }
-
-        eventWaitHandle.Set();
-        Exit();
-        return true;
-        // csharpier-ignore-end
-    }
 }
