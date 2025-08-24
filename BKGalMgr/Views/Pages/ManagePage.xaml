@@ -558,30 +558,6 @@
                         </GridView.ItemTemplate>
                     </GridView>
                 </mcontrols:HeaderedContentControl>
-                <!--  Special  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
-                        </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="special_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="special_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
                 <!--  screen captures  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
@@ -606,6 +582,31 @@
                         </GridView.ItemTemplate>
                     </GridView>
                 </mcontrols:HeaderedContentControl>
+                <!--  Special  -->
+                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <GridView x:Name="special_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="special_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </mcontrols:HeaderedContentControl>
+
                 <!--  character  -->
                 <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
