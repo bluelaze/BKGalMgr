@@ -176,6 +176,33 @@
                                     <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                 </Button.Resources>
                             </Button>
+                            <Button Content="{mui:FontIcon FontSize=16, Glyph=&#xE700;}" Style="{StaticResource IconButtonStyle}">
+                                <Button.Flyout>
+                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                        <MenuFlyoutItem x:Name="cover_MenuFlyoutItem"
+                                                        Click="cover_MenuFlyoutItem_Click"
+                                                        Text="COVER" />
+                                        <MenuFlyoutItem x:Name="story_MenuFlyoutItem"
+                                                        Click="story_MenuFlyoutItem_Click"
+                                                        Text="STORY" />
+                                        <MenuFlyoutItem x:Name="blog_MenuFlyoutItem"
+                                                        Click="blog_MenuFlyoutItem_Click"
+                                                        Text="BLOG" />
+                                        <MenuFlyoutItem x:Name="gallery_MenuFlyoutItem"
+                                                        Click="gallery_MenuFlyoutItem_Click"
+                                                        Text="GALLERY" />
+                                        <MenuFlyoutItem x:Name="screenshot_MenuFlyoutItem"
+                                                        Click="screenshot_MenuFlyoutItem_Click"
+                                                        Text="SCREENSHOT" />
+                                        <MenuFlyoutItem x:Name="special_MenuFlyoutItem"
+                                                        Click="special_MenuFlyoutItem_Click"
+                                                        Text="SPECIAL" />
+                                        <MenuFlyoutItem x:Name="character_MenuFlyoutItem"
+                                                        Click="character_MenuFlyoutItem_Click"
+                                                        Text="CHARACTER" />
+                                    </MenuFlyout>
+                                </Button.Flyout>
+                            </Button>
                         </StackPanel>
                     </UserControl>
                 </ComboBox.Header>
@@ -491,7 +518,8 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 <!--  story  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="story_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -517,7 +545,8 @@
                              TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  blog  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="blog_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -534,7 +563,8 @@
                              TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  Gallery  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="gallery_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -559,7 +589,8 @@
                     </GridView>
                 </mcontrols:HeaderedContentControl>
                 <!--  screen captures  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="screenshot_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -583,7 +614,8 @@
                     </GridView>
                 </mcontrols:HeaderedContentControl>
                 <!--  Special  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="special_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -608,7 +640,8 @@
                 </mcontrols:HeaderedContentControl>
 
                 <!--  character  -->
-                <mcontrols:HeaderedContentControl MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                <mcontrols:HeaderedContentControl x:Name="character_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">

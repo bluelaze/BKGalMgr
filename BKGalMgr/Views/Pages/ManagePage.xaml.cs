@@ -607,6 +607,49 @@ public sealed partial class ManagePage : Page
         }
     }
 
+    private void cover_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        covers_FlipView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
+    }
+
+    private void story_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        story_HeaderedContentControl.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
+    }
+
+    private void blog_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        blog_HeaderedContentControl.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
+    }
+
+    private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        gallery_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
+    private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        screenshot_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
+    private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        special_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
+    private void character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        character_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
     private async void delete_target_folder_only_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
