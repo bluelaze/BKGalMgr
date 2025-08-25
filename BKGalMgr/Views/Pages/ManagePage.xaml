@@ -197,6 +197,12 @@
                                         <MenuFlyoutItem x:Name="special_MenuFlyoutItem"
                                                         Click="special_MenuFlyoutItem_Click"
                                                         Text="SPECIAL" />
+                                        <MenuFlyoutItem x:Name="websiteshot_MenuFlyoutItem"
+                                                        Click="websiteshot_MenuFlyoutItem_Click"
+                                                        Text="WEBSITESHOT" />
+                                        <MenuFlyoutItem x:Name="bugbugnews_MenuFlyoutItem"
+                                                        Click="bugbugnews_MenuFlyoutItem_Click"
+                                                        Text="BUGBUGNEWS" />
                                         <MenuFlyoutItem x:Name="character_MenuFlyoutItem"
                                                         Click="character_MenuFlyoutItem_Click"
                                                         Text="CHARACTER" />
@@ -630,6 +636,60 @@
                               ItemClick="special_GridView_ItemClick"
                               ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </mcontrols:HeaderedContentControl>
+
+                <!--  WebsiteShot  -->
+                <mcontrols:HeaderedContentControl x:Name="websiteshot_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenWebsiteShotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="WEBSITESHOT" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <GridView x:Name="websiteshot_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="websiteshot_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </mcontrols:HeaderedContentControl>
+
+                <!--  BugBugNews  -->
+                <mcontrols:HeaderedContentControl x:Name="bugbugnews_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenBugBugNewsFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="BUGBUGNEWS" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <GridView x:Name="bugbugnews_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="bugbugnews_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay}"
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">

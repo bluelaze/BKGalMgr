@@ -122,6 +122,14 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
+    private ObservableCollection<string> _websiteShot = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private ObservableCollection<string> _bugBugNews = new();
+
+    [ObservableProperty]
+    [property: JsonIgnore]
     private bool _isPropertyChanged;
 
     [ObservableProperty]
@@ -800,6 +808,24 @@ public partial class GameInfo : ObservableObject
         Process.Start("explorer", characterPath);
     }
 
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenWebsiteShotFolder()
+    {
+        var websiteShotPath = Path.Combine(FolderPath, GlobalInfo.GameWebsiteShotFolderName);
+        Directory.CreateDirectory(websiteShotPath);
+        Process.Start("explorer", websiteShotPath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenBugBugNewsFolder()
+    {
+        var bugBugNewsShotPath = Path.Combine(FolderPath, GlobalInfo.GameBugBugNewsFolderName);
+        Directory.CreateDirectory(bugBugNewsShotPath);
+        Process.Start("explorer", bugBugNewsShotPath);
+    }
+
     public void LoadCover()
     {
         foreach (var format in GlobalInfo.GameCoverSupportFormats)
@@ -878,6 +904,28 @@ public partial class GameInfo : ObservableObject
         }
     }
 
+    public void LoadWebsiteShot()
+    {
+        var websiteShotPath = Path.Combine(FolderPath, GlobalInfo.GameWebsiteShotFolderName);
+        if (Directory.Exists(websiteShotPath))
+        {
+            WebsiteShot.RemoveIf(t => !File.Exists(t));
+            WebsiteShot.MergeRange(FileSystemMisc.GetDirectoryFiles(websiteShotPath));
+        }
+        OnPropertyChanged(nameof(WebsiteShot));
+    }
+
+    public void LoadBugBugNews()
+    {
+        var bugBugNewsPath = Path.Combine(FolderPath, GlobalInfo.GameBugBugNewsFolderName);
+        if (Directory.Exists(bugBugNewsPath))
+        {
+            BugBugNews.RemoveIf(t => !File.Exists(t));
+            BugBugNews.MergeRange(FileSystemMisc.GetDirectoryFiles(bugBugNewsPath));
+        }
+        OnPropertyChanged(nameof(BugBugNews));
+    }
+
     public void Refresh()
     {
         LoadCover();
@@ -885,6 +933,8 @@ public partial class GameInfo : ObservableObject
         LoadSpecial();
         LoadScreenshot();
         LoadCharacter();
+        LoadWebsiteShot();
+        LoadBugBugNews();
     }
 
     public string TransformCoverPath(string path)

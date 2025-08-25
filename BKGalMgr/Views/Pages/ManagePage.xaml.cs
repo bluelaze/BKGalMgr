@@ -650,6 +650,34 @@ public sealed partial class ManagePage : Page
         );
     }
 
+    private void websiteshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SelectedRepository.SelectedGame.LoadWebsiteShot();
+        if (!ViewModel.SelectedRepository.SelectedGame.WebsiteShot.Any())
+        {
+            ViewModel.SelectedRepository.SelectedGame.OpenWebsiteShotFolder();
+            return;
+        }
+
+        websiteshot_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
+    private void bugbugnews_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SelectedRepository.SelectedGame.LoadBugBugNews();
+        if (!ViewModel.SelectedRepository.SelectedGame.BugBugNews.Any())
+        {
+            ViewModel.SelectedRepository.SelectedGame.OpenBugBugNewsFolder();
+            return;
+        }
+
+        bugbugnews_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
     private async void delete_target_folder_only_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
@@ -876,6 +904,18 @@ public sealed partial class ManagePage : Page
     private void screenshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Screenshot;
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+    }
+
+    private void websiteshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.WebsiteShot;
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+    }
+
+    private void bugbugnews_GridView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.BugBugNews;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
 }
