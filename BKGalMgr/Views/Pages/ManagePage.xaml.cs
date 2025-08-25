@@ -875,7 +875,7 @@ public sealed partial class ManagePage : Page
 
     private void screenshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
-        var images = ViewModel.SelectedRepository.SelectedGame.ScreenCaptures;
+        var images = ViewModel.SelectedRepository.SelectedGame.Screenshot;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
 }

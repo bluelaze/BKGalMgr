@@ -118,7 +118,7 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     [property: JsonIgnore]
-    private ObservableCollection<string> _screenCaptures = new();
+    private ObservableCollection<string> _screenshot = new();
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -179,7 +179,7 @@ public partial class GameInfo : ObservableObject
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
     [property: JsonIgnore]
-    public string ScreenCaptureFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
+    public string ScreenshotFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenshotFolderName);
 
     [property: JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
@@ -784,9 +784,9 @@ public partial class GameInfo : ObservableObject
 
     [RelayCommand]
     [property: JsonIgnore]
-    public void OpenScreenCaptureFolder()
+    public void OpenScreenshotFolder()
     {
-        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
+        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenshotFolderName);
         Directory.CreateDirectory(capturePath);
         Process.Start("explorer", capturePath);
     }
@@ -844,13 +844,28 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public void LoadScreenCapture()
+    public void LoadScreenshot()
     {
-        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenCaptureFolderName);
-        if (Directory.Exists(capturePath))
+        var capturePath = Path.Combine(FolderPath, GlobalInfo.GameScreenshotFolderOldName);
+        var shotPath = Path.Combine(FolderPath, GlobalInfo.GameScreenshotFolderName);
+
+        // 重命名旧的截图文件夹screencaptures为screenshot
+        if (Directory.Exists(capturePath) && !Directory.Exists(shotPath))
         {
-            ScreenCaptures.RemoveIf(t => !File.Exists(t));
-            ScreenCaptures.MergeRange(FileSystemMisc.GetDirectoryFiles(capturePath));
+            try
+            {
+                Directory.Move(capturePath, shotPath);
+            }
+            catch (Exception e)
+            {
+                App.ShowErrorMessage(e.Message);
+            }
+        }
+
+        if (Directory.Exists(shotPath))
+        {
+            Screenshot.RemoveIf(t => !File.Exists(t));
+            Screenshot.MergeRange(FileSystemMisc.GetDirectoryFiles(shotPath));
         }
     }
 
@@ -868,7 +883,7 @@ public partial class GameInfo : ObservableObject
         LoadCover();
         LoadGallery();
         LoadSpecial();
-        LoadScreenCapture();
+        LoadScreenshot();
         LoadCharacter();
     }
 
@@ -921,13 +936,13 @@ public partial class GameInfo : ObservableObject
         }
     }
 
-    public async Task SaveScreenCapture(TargetInfo targetInfo, Bitmap bitmap)
+    public async Task SaveScreenshot(TargetInfo targetInfo, Bitmap bitmap)
     {
-        Directory.CreateDirectory(ScreenCaptureFolderPath);
+        Directory.CreateDirectory(ScreenshotFolderPath);
         bitmap.Save(
             Path.Combine(
-                ScreenCaptureFolderPath,
-                $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
+                ScreenshotFolderPath,
+                $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
             ),
             ImageFormat.Png
         );
@@ -936,7 +951,7 @@ public partial class GameInfo : ObservableObject
         bitmap.Save(
             Path.Combine(
                 picturesLibrary.SaveFolder.Path,
-                $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenCaptureFileFormatStr)}.png"
+                $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
             ),
             ImageFormat.Png
         );

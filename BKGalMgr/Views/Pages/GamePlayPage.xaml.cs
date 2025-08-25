@@ -389,9 +389,9 @@ public sealed partial class GamePlayPage : Page
 
     private void screenshot_Button_Click(object sender, RoutedEventArgs e)
     {
-        ViewModel.Game.LoadScreenCapture();
-        if (ViewModel.Game.ScreenCaptures.Count > 0)
-            App.ShowImages(ViewModel.Game.ScreenCaptures, 0);
+        ViewModel.Game.LoadScreenshot();
+        if (ViewModel.Game.Screenshot.Count > 0)
+            App.ShowImages(ViewModel.Game.Screenshot, 0);
     }
 
     private void screen_capture_Button_Click(object sender, RoutedEventArgs e)

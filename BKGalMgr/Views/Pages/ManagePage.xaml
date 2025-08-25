@@ -595,7 +595,7 @@
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenCaptureFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenshotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
                         </Button>
                     </mcontrols:HeaderedContentControl.Header>
@@ -604,7 +604,7 @@
                               IsItemClickEnabled="True"
                               ItemClick="screenshot_GridView_ItemClick"
                               ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.ScreenCaptures, Mode=OneWay}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Screenshot, Mode=OneWay}"
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">

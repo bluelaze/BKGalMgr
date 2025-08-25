@@ -247,9 +247,9 @@ public sealed partial class LibraryPage : Page
     private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
-        gameInfo.LoadScreenCapture();
-        if (gameInfo.ScreenCaptures.Count > 0)
-            App.ShowImages(gameInfo.ScreenCaptures, 0);
+        gameInfo.LoadScreenshot();
+        if (gameInfo.Screenshot.Count > 0)
+            App.ShowImages(gameInfo.Screenshot, 0);
     }
 
     private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)

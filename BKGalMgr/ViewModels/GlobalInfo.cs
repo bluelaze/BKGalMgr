@@ -57,8 +57,9 @@ public static class GlobalInfo
     public const string GameCoversFolderName = "covers";
     public static readonly string[] GameCoverSupportFormats = [".gif", ".webp", ".png", ".jpg", ".jpeg"];
 
-    public const string GameScreenCaptureFolderName = "screencaptures";
-    public const string GameScreenCaptureFileFormatStr = "yyyy-MM-dd_HH-mm-ss";
+    public const string GameScreenshotFolderOldName = "screencaptures";
+    public const string GameScreenshotFolderName = "screenshot";
+    public const string GameScreenshotFileFormatStr = "yyyy-MM-dd_HH-mm-ss";
 
     public const string GameCharacterFolderName = "characters";
 

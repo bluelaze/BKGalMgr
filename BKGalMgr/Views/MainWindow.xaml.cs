@@ -117,7 +117,7 @@ public sealed partial class MainWindow : Window
 
     public void ShowNotification(NotificationInfo notification)
     {
-        Notifications.Add(notification);
+        DispatcherQueue.TryEnqueue(() => Notifications.Add(notification));
     }
 
     [RelayCommand]

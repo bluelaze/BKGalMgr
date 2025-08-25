@@ -298,7 +298,7 @@ public partial class TargetInfo : ObservableObject
         if (capture.CaptureBitmap != null)
         {
             Clipboard.SetImage(capture.CaptureBitmap.ToBitmapImage());
-            await Game.SaveScreenCapture(this, capture.CaptureBitmap);
+            await Game.SaveScreenshot(this, capture.CaptureBitmap);
             capture.CaptureBitmap.Dispose();
         }
     }
