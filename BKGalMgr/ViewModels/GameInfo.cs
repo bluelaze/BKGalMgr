@@ -311,7 +311,12 @@ public partial class GameInfo : ObservableObject
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName != nameof(IsPropertyChanged) && PlayStatus == PlayStatus.Stop)
+        if (
+            e.PropertyName != nameof(IsPropertyChanged)
+            && e.PropertyName != nameof(WebsiteShot)
+            && e.PropertyName != nameof(BugBugNews)
+            && PlayStatus == PlayStatus.Stop
+        )
             IsPropertyChanged = true;
         if (e.PropertyName == nameof(PinValue))
             SaveJsonFile();
