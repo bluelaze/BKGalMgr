@@ -67,6 +67,7 @@ public static class GlobalInfo
     public const string GameSpecialFolderName = "special";
     public const string GameWebsiteShotFolderName = "websiteshot";
     public const string GameBugBugNewsFolderName = "bugbugnews";
+    public const string GameCampaignFolderName = "campaign";
 
     public const string GameShortcutFolderName = "shortcut";
 

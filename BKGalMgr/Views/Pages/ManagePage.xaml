@@ -197,6 +197,9 @@
                                         <MenuFlyoutItem x:Name="special_MenuFlyoutItem"
                                                         Click="special_MenuFlyoutItem_Click"
                                                         Text="SPECIAL" />
+                                        <MenuFlyoutItem x:Name="campaign_MenuFlyoutItem"
+                                                        Click="campaign_MenuFlyoutItem_Click"
+                                                        Text="CAMPAIGN" />
                                         <MenuFlyoutItem x:Name="websiteshot_MenuFlyoutItem"
                                                         Click="websiteshot_MenuFlyoutItem_Click"
                                                         Text="WEBSITESHOT" />
@@ -636,6 +639,33 @@
                               ItemClick="special_GridView_ItemClick"
                               ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </mcontrols:HeaderedContentControl>
+
+                <!--  Campaign  -->
+                <mcontrols:HeaderedContentControl x:Name="campaign_HeaderedContentControl"
+                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <mcontrols:HeaderedContentControl.Header>
+                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCampaignFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CAMPAIGN" />
+                        </Button>
+                    </mcontrols:HeaderedContentControl.Header>
+                    <GridView x:Name="campaign_GridView"
+                              Margin="12,0,0,0"
+                              IsItemClickEnabled="True"
+                              ItemClick="campaign_GridView_ItemClick"
+                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay}"
                               SelectionMode="None">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">

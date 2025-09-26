@@ -678,6 +678,20 @@ public sealed partial class ManagePage : Page
         );
     }
 
+    private void campaign_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SelectedRepository.SelectedGame.LoadCampaign();
+        if (!ViewModel.SelectedRepository.SelectedGame.Campaign.Any())
+        {
+            ViewModel.SelectedRepository.SelectedGame.OpenCampaignFolder();
+            return;
+        }
+
+        campaign_HeaderedContentControl.StartBringIntoView(
+            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
+        );
+    }
+
     private async void delete_target_folder_only_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
@@ -916,6 +930,12 @@ public sealed partial class ManagePage : Page
     private void bugbugnews_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.BugBugNews;
+        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+    }
+
+    private void campaign_GridView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        var images = ViewModel.SelectedRepository.SelectedGame.Campaign;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
 }
