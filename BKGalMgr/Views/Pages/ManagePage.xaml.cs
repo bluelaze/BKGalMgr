@@ -210,6 +210,7 @@ public sealed partial class ManagePage : Page
             ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.GetchuUrlToProductId();
             ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DmmUrlToProductId();
             ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DLsiteUrlToProductId();
+            ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.MelonbooksUrlToProductId();
             ViewModel.SelectedRepository.SelectedGame.SaveJsonFile();
         }
 
@@ -244,6 +245,16 @@ public sealed partial class ManagePage : Page
             return;
 
         ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.OpenInDLsite();
+    }
+
+    private async void open_in_melonbooks_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.MelonbooksIsValid() != true)
+            await EditShoppingSiteInfo();
+        if (ViewModel.SelectedRepository.SelectedGame.ShoppingInfo?.MelonbooksIsValid() != true)
+            return;
+
+        ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.OpenInMelonbooks();
     }
 
     private async void edit_shopping_site_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)

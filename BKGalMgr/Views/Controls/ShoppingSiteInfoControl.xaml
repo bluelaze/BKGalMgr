@@ -25,6 +25,9 @@
         <local:HeaderedTextBox Header="DLsite"
                                PlaceholderText="https://www.dlsite.com/books/work/=/product_id/BJ184578.html"
                                Text="{Binding DLsiteProductId, Mode=TwoWay}" />
+        <local:HeaderedTextBox Header="Melonbooks"
+                               PlaceholderText="https://www.melonbooks.co.jp/detail/detail.php?product_id=2454388"
+                               Text="{Binding MelonbooksProductId, Mode=TwoWay}" />
 
     </StackPanel>
 </UserControl>

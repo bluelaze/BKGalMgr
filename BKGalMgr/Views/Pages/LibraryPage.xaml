@@ -193,14 +193,17 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="Getchu" />
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="DMM" />
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="DLsite" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInMelonbooksCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                            Text="Melonbooks" />
                                         </MenuFlyoutSubItem>
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
@@ -505,14 +508,17 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="Getchu" />
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="DMM" />
                                             <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                             Text="DLsite" />
+                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInMelonbooksCommand}"
+                                                            IsEnabled="{x:Bind ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                            Text="Melonbooks" />
                                         </MenuFlyoutSubItem>
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"

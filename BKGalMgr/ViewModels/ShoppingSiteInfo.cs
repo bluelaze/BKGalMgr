@@ -26,6 +26,9 @@ public partial class ShoppingSiteInfo : ObservableObject
     private string _DLsiteProductId;
 
     [ObservableProperty]
+    private string _MelonbooksProductId;
+
+    [ObservableProperty]
     private DLsiteProductType _dLsiteType = DLsiteProductType.pro;
 
     private string _GetchuWebsit = "https://www.getchu.com";
@@ -33,6 +36,8 @@ public partial class ShoppingSiteInfo : ObservableObject
     private string _DMMWebsite = "https://dlsoft.dmm.co.jp";
 
     private string _DLsite = "https://www.dlsite.com";
+
+    private string _Melonbooks = "https://www.melonbooks.co.jp";
 
     public bool GetchuIsValid()
     {
@@ -47,6 +52,11 @@ public partial class ShoppingSiteInfo : ObservableObject
     public bool DLsiteIsValid()
     {
         return !DLsiteProductId.IsNullOrEmpty();
+    }
+
+    public bool MelonbooksIsValid()
+    {
+        return !MelonbooksProductId.IsNullOrEmpty();
     }
 
     public void GetchuUrlToProductId()
@@ -82,6 +92,20 @@ public partial class ShoppingSiteInfo : ObservableObject
         DLsiteProductId = DLsiteProductId.Split('.').FirstOrDefault();
     }
 
+    public void MelonbooksUrlToProductId()
+    {
+        // https://www.melonbooks.co.jp/detail/detail.php?product_id=2454388
+        if (MelonbooksProductId?.StartsWith("http") != true)
+            return;
+
+        string idKey = "product_id=";
+        int idIndex = MelonbooksProductId.IndexOf(idKey);
+        if (idIndex != -1)
+        {
+            MelonbooksProductId = MelonbooksProductId.Substring(idIndex + idKey.Length);
+        }
+    }
+
     [RelayCommand]
     [property: JsonIgnore]
     public void OpenInGetchu()
@@ -101,5 +125,12 @@ public partial class ShoppingSiteInfo : ObservableObject
     public void OpenInDLsite()
     {
         UrlMisc.OpenUrl($"{_DLsite}/{DLsiteType}/work/=/product_id/{DLsiteProductId}");
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenInMelonbooks()
+    {
+        UrlMisc.OpenUrl($"{_Melonbooks}/detail/detail.php?product_id={MelonbooksProductId}");
     }
 }

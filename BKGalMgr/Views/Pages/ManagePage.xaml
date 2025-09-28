@@ -129,13 +129,20 @@
                                     <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                         <MenuFlyoutItem x:Name="open_in_getchu_MenuFlyoutItem"
                                                         Click="open_in_getchu_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                         Text="Getchu" />
                                         <MenuFlyoutItem x:Name="open_in_dmm_MenuFlyoutItem"
                                                         Click="open_in_dmm_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                         Text="DMM" />
                                         <MenuFlyoutItem x:Name="open_in_dlsite_MenuFlyoutItem"
                                                         Click="open_in_dlsite_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
                                                         Text="DLsite" />
+                                        <MenuFlyoutItem x:Name="open_in_melonbooks_MenuFlyoutItem"
+                                                        Click="open_in_melonbooks_MenuFlyoutItem_Click"
+                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                        Text="Melonbooks" />
                                         <MenuFlyoutItem x:Name="edit_shopping_site_MenuFlyoutItem"
                                                         x:Uid="Commom_MenuItem_Edit"
                                                         Click="edit_shopping_site_MenuFlyoutItem_Click"
