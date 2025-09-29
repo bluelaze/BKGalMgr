@@ -949,4 +949,18 @@ public sealed partial class ManagePage : Page
         var images = ViewModel.SelectedRepository.SelectedGame.Campaign;
         App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
     }
+
+    private void covers_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        // 不能通过TwoWay的形式绑SelectedIndex，不然封面图增删会导致ListView的数组越界，
+        // 调试时发现即使只有两张图，进行增删就会导致ListView的一个值莫名会被赋值为2，导致数据越界崩溃
+        if (covers_FlipView.SelectedIndex < covers_FlipView.Items.Count)
+            covers_ListView.SelectedIndex = covers_FlipView.SelectedIndex;
+    }
+
+    private void covers_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (covers_ListView.SelectedIndex < covers_ListView.Items.Count)
+            covers_FlipView.SelectedIndex = covers_ListView.SelectedIndex;
+    }
 }

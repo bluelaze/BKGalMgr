@@ -847,26 +847,74 @@ public partial class GameInfo : ObservableObject
 
     public void LoadCover()
     {
+        // 需要支持自定义封面
+        // 封面是需要存储在文件夹内的，但是仓库可能会移动或者重命名
+        // 所以需要提取出封面的相对路径
+        string customCover = string.Empty;
+        if (!Cover.IsNullOrEmpty())
+        {
+            int folderIndex = Cover.IndexOf(Path.GetFileName(FolderPath));
+            if (folderIndex != -1)
+            {
+                customCover = Path.Combine(Path.GetDirectoryName(FolderPath), Cover.Substring(folderIndex));
+            }
+        }
+
+        string defaultCover = string.Empty;
         foreach (var format in GlobalInfo.GameCoverSupportFormats)
         {
             var coverPath = Path.Combine(FolderPath, GlobalInfo.GameCoverName + format);
             if (File.Exists(coverPath))
             {
-                Cover = coverPath;
+                defaultCover = coverPath;
                 break;
             }
         }
 
+        if (File.Exists(customCover))
+        {
+            Cover = customCover;
+        }
+        else if (File.Exists(defaultCover))
+        {
+            Cover = defaultCover;
+        }
+
         var covers = new List<string>();
         var coversPath = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
-        if (Directory.Exists(coversPath))
-            covers = FileSystemMisc.GetDirectoryFiles(coversPath);
+        if (!defaultCover.IsNullOrEmpty())
+            covers.Add(defaultCover);
+        // 优先加载贩卖网站的几个文件夹
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.MelonbooksFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.DLsiteFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.DMMFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.GetchuFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(coversPath));
 
-        if (!Cover.IsNullOrEmpty())
+        var coverIndex = covers.IndexOf(Cover);
+        if (!Cover.IsNullOrEmpty() && coverIndex != 0)
+        {
+            if (coverIndex != -1)
+                covers.RemoveAt(coverIndex);
             covers.Insert(0, Cover);
+        }
 
-        Covers.RemoveIf(t => !File.Exists(t));
-        Covers.MergeRange(covers);
+        if (!Covers.Any())
+        {
+            Covers = new(covers);
+            return;
+        }
+        // Move动效不行，不如这种删除插入的有点动效，性能可能差些
+        Covers.RemoveIf(t => !covers.Contains(t));
+        for (int i = 0; i < covers.Count; i++)
+        {
+            var existIndex = Covers.IndexOf(covers[i]);
+            if (i == existIndex)
+                continue;
+            if (existIndex != -1)
+                Covers.RemoveAt(existIndex);
+            Covers.Insert(i, covers[i]);
+        }
     }
 
     public void LoadGallery()
@@ -874,8 +922,9 @@ public partial class GameInfo : ObservableObject
         var galleryPath = Path.Combine(FolderPath, GlobalInfo.GameGalleryFolderName);
         if (Directory.Exists(galleryPath))
         {
-            Gallery.RemoveIf(t => !File.Exists(t));
-            Gallery.MergeRange(FileSystemMisc.GetDirectoryFiles(galleryPath));
+            var images = FileSystemMisc.GetDirectoryFiles(galleryPath);
+            Gallery.RemoveIf(t => !images.Contains(t));
+            Gallery.MergeRange(images);
         }
     }
 
@@ -884,8 +933,9 @@ public partial class GameInfo : ObservableObject
         var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
         if (Directory.Exists(specialPath))
         {
-            Special.RemoveIf(t => !File.Exists(t));
-            Special.MergeRange(FileSystemMisc.GetDirectoryFiles(specialPath));
+            var images = FileSystemMisc.GetDirectoryFiles(specialPath);
+            Special.RemoveIf(t => !images.Contains(t));
+            Special.MergeRange(images);
         }
     }
 
@@ -909,8 +959,9 @@ public partial class GameInfo : ObservableObject
 
         if (Directory.Exists(shotPath))
         {
-            Screenshot.RemoveIf(t => !File.Exists(t));
-            Screenshot.MergeRange(FileSystemMisc.GetDirectoryFiles(shotPath));
+            var images = FileSystemMisc.GetDirectoryFiles(shotPath);
+            Screenshot.RemoveIf(t => !images.Contains(t));
+            Screenshot.MergeRange(images);
         }
     }
 
@@ -928,8 +979,9 @@ public partial class GameInfo : ObservableObject
         var websiteShotPath = Path.Combine(FolderPath, GlobalInfo.GameWebsiteShotFolderName);
         if (Directory.Exists(websiteShotPath))
         {
-            WebsiteShot.RemoveIf(t => !File.Exists(t));
-            WebsiteShot.MergeRange(FileSystemMisc.GetDirectoryFiles(websiteShotPath));
+            var images = FileSystemMisc.GetDirectoryFiles(websiteShotPath);
+            WebsiteShot.RemoveIf(t => !images.Contains(t));
+            WebsiteShot.MergeRange(images);
         }
         else
         {
@@ -943,8 +995,9 @@ public partial class GameInfo : ObservableObject
         var bugBugNewsPath = Path.Combine(FolderPath, GlobalInfo.GameBugBugNewsFolderName);
         if (Directory.Exists(bugBugNewsPath))
         {
-            BugBugNews.RemoveIf(t => !File.Exists(t));
-            BugBugNews.MergeRange(FileSystemMisc.GetDirectoryFiles(bugBugNewsPath));
+            var images = FileSystemMisc.GetDirectoryFiles(bugBugNewsPath);
+            BugBugNews.RemoveIf(t => !images.Contains(t));
+            BugBugNews.MergeRange(images);
         }
         else
         {
@@ -958,8 +1011,9 @@ public partial class GameInfo : ObservableObject
         var campaignPath = Path.Combine(FolderPath, GlobalInfo.GameCampaignFolderName);
         if (Directory.Exists(campaignPath))
         {
-            Campaign.RemoveIf(t => !File.Exists(t));
-            Campaign.MergeRange(FileSystemMisc.GetDirectoryFiles(campaignPath));
+            var images = FileSystemMisc.GetDirectoryFiles(campaignPath);
+            Campaign.RemoveIf(t => !images.Contains(t));
+            Campaign.MergeRange(images);
         }
         else
         {
@@ -980,7 +1034,7 @@ public partial class GameInfo : ObservableObject
         LoadCampaign();
     }
 
-    public string TransformCoverPath(string path)
+    private string TransformCoverPath(string path)
     {
         string absolutePath = path.StartsWith("http") ? (new Uri(path)).AbsolutePath : path;
         var format = Path.GetExtension(absolutePath).ToLower();
@@ -1003,7 +1057,7 @@ public partial class GameInfo : ObservableObject
             return;
 
         // copy local file
-        if (File.Exists(Cover) && Path.GetDirectoryName(Cover) != FolderPath)
+        if (File.Exists(Cover) && !Path.GetFullPath(Cover).StartsWith(Path.GetFullPath(FolderPath)))
         {
             File.Copy(Cover, coverPath, true);
             Cover = coverPath;
@@ -1027,6 +1081,52 @@ public partial class GameInfo : ObservableObject
             Debug.WriteLine(ex);
             return;
         }
+    }
+
+    [RelayCommand]
+    public void CustomCover()
+    {
+        string coversFolder = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
+        var cover = FileSystemMisc.PickFile(coversFolder, new() { "Image Files|*.*" })?.FirstOrDefault();
+        if (cover == null)
+            return;
+        Cover = cover;
+        _ = SaveCover();
+        SaveJsonFile();
+    }
+
+    [RelayCommand]
+    public void MoveImageToCoverFolder(string folderName)
+    {
+        if (folderName.IsNullOrEmpty())
+            return;
+        string coversFolder = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
+        string siteFolder = "";
+        if (
+            string.Equals(folderName, GlobalInfo.GetchuFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.DMMFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.DLsiteFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.MelonbooksFolderName, StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            siteFolder = Path.Combine(coversFolder, folderName.ToLower());
+        }
+        else if (string.Equals(folderName, GlobalInfo.GameCoversFolderName, StringComparison.OrdinalIgnoreCase))
+        {
+            siteFolder = Path.Combine(FolderPath, folderName.ToLower());
+        }
+        else
+        {
+            return;
+        }
+        var images = FileSystemMisc.PickFile(coversFolder, new() { "Image Files|*.*" });
+        if (images == null)
+            return;
+        foreach (var image in images)
+        {
+            FileSystemMisc.MoveOrCopyFile(image, Path.Combine(siteFolder, Path.GetFileName(image)));
+        }
+        LoadCover();
     }
 
     public async Task SaveScreenshot(TargetInfo targetInfo, Bitmap bitmap)

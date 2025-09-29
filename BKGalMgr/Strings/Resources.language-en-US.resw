@@ -275,6 +275,12 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Shopping_Site.Text" xml:space="preserve">
     <value>Shopping Site</value>
   </data>
+  <data name="Commom_MenuItem_Custom_Cover.Text" xml:space="preserve">
+    <value>Custom Cover</value>
+  </data>
+  <data name="Commom_MenuItem_Move_Image_To.Text" xml:space="preserve">
+    <value>Move Image To</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>

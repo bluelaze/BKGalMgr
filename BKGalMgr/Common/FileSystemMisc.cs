@@ -27,6 +27,21 @@ public class FileSystemMisc
         return await filePicker.PickSingleFileAsync();
     }
 
+    // https://learn.microsoft.com/dotnet/api/system.windows.forms.filedialog
+    /// <summary>
+    /// For each filtering option, the filter string contains a description of the filter, followed by the vertical bar (|) and the filter pattern.<br/>
+    /// The strings for different filtering options are separated by the vertical bar.<br/>
+    /// The following is an example of a filter string:
+    /// <code>Text files(*.txt)|*.txt|All files(*.*)|*.*</code>
+    /// </summary>
+    /// <param name="initialDirectory"></param>
+    /// <param name="fileTypeFilter"></param>
+    /// <returns></returns>
+    public static string[] PickFile(string initialDirectory, List<string> fileTypeFilter)
+    {
+        return ThirdParty.FileSystem.PickFile(initialDirectory, fileTypeFilter);
+    }
+
     public static async Task<StorageFolder> PickFolder(List<string> fileTypeFilter)
     {
         var folderPicker = new Windows.Storage.Pickers.FolderPicker();
@@ -71,6 +86,39 @@ public class FileSystemMisc
     )
     {
         return await Task.Run(() => CopyFile(sourceFileName, destFileName, overwrite));
+    }
+
+    public static (bool success, string message) MoveOrCopyFile(
+        string sourceFileName,
+        string destFileName,
+        bool overwrite = true
+    )
+    {
+        try
+        {
+            var destParentFolderPath = Path.GetDirectoryName(destFileName);
+            if (destParentFolderPath != null)
+                Directory.CreateDirectory(destParentFolderPath);
+
+            if (
+                string.Equals(
+                    Path.GetPathRoot(sourceFileName),
+                    Path.GetPathRoot(destFileName),
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            {
+                File.Move(sourceFileName, destFileName, overwrite);
+                return (true, "");
+            }
+
+            File.Copy(sourceFileName, destFileName, overwrite);
+        }
+        catch (Exception e)
+        {
+            return (false, e.Message);
+        }
+        return (true, "");
     }
 
     // https://blog.coldwind.top/posts/how-to-copy-folder/

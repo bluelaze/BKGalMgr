@@ -55,7 +55,7 @@ public static class GlobalInfo
 
     public const string GameCoverName = "cover";
     public const string GameCoversFolderName = "covers";
-    public static readonly string[] GameCoverSupportFormats = [".gif", ".webp", ".png", ".jpg", ".jpeg"];
+    public static readonly string[] GameCoverSupportFormats = [".jfif", ".gif", ".webp", ".png", ".jpg", ".jpeg"];
 
     public const string GameScreenshotFolderOldName = "screencaptures";
     public const string GameScreenshotFolderName = "screenshot";
@@ -88,4 +88,9 @@ public static class GlobalInfo
     public const string SaveDataSettingsJsonName = "savedatasettingsinfo.json";
     public const string SaveDataJsonName = "savedatainfo.json";
     public const string SaveDataZipName = "savedata.zip";
+
+    public const string GetchuFolderName = "getchu";
+    public const string DMMFolderName = "dmm";
+    public const string DLsiteFolderName = "dlsite";
+    public const string MelonbooksFolderName = "melonbooks";
 }

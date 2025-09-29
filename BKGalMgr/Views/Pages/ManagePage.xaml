@@ -498,10 +498,29 @@
                 <controls:ScrollableFlipView x:Name="covers_FlipView"
                                              MaxHeight="480"
                                              Background="Transparent"
-                                             ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}">
+                                             ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Covers, Mode=OneWay}"
+                                             SelectionChanged="covers_FlipView_SelectionChanged">
                     <FlipView.ContextFlyout>
                         <MenuFlyout>
                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCoversFolderCommand, Mode=OneWay}" />
+                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Custom_Cover" Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.CustomCoverCommand, Mode=OneWay}" />
+                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Move_Image_To">
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Covers"
+                                                Text="Covers" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Melonbooks"
+                                                Text="Melonbooks" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="DLsite"
+                                                Text="DLsite" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="DMM"
+                                                Text="DMM" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Getchu"
+                                                Text="Getchu" />
+                            </MenuFlyoutSubItem>
                         </MenuFlyout>
                     </FlipView.ContextFlyout>
                     <FlipView.ItemTemplate>
@@ -521,7 +540,7 @@
                           ScrollViewer.HorizontalScrollMode="Enabled"
                           ScrollViewer.VerticalScrollBarVisibility="Hidden"
                           ScrollViewer.VerticalScrollMode="Disabled"
-                          SelectedIndex="{x:Bind covers_FlipView.SelectedIndex, Mode=TwoWay}">
+                          SelectionChanged="covers_ListView_SelectionChanged">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
