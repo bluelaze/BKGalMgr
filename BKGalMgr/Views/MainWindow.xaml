@@ -59,7 +59,7 @@
             <FlipView x:Name="image_viewer_FlipView"
                       Background="Transparent"
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
-                      SelectedIndex="{x:Bind ImageSelectedIndex, Mode=OneWay}"
+                      SelectionChanged="image_viewer_FlipView_SelectionChanged"
                       UseTouchAnimationsForAllNavigation="False">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:ClickTriggerBehavior>
@@ -94,7 +94,6 @@
                       ScrollViewer.HorizontalScrollMode="Enabled"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       ScrollViewer.VerticalScrollMode="Disabled"
-                      SelectedIndex="{x:Bind image_viewer_FlipView.SelectedIndex, Mode=TwoWay}"
                       SelectionChanged="image_viewer_ListView_SelectionChanged">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>

@@ -35,9 +35,6 @@ public sealed partial class MainWindow : Window
     private ObservableCollection<string> _images = new();
 
     [ObservableProperty]
-    private int _imageSelectedIndex = -1;
-
-    [ObservableProperty]
     private GameInfo _selectedGame = null;
 
     [ObservableProperty]
@@ -100,13 +97,13 @@ public sealed partial class MainWindow : Window
 
     public async void ShowImages(IEnumerable<string> images, int selectedIndex)
     {
+        // 需要先清理后在显示，否者点击同一张图片，source变了，index没变，会渲染不出来
+        Images.Clear();
+        image_viewer_Grid.Visibility = Visibility.Visible;
         // x:Bind不能是null对象，否则会崩溃
         Images = new(images.Where(t => !t.IsNullOrEmpty()));
-        ImageSelectedIndex = selectedIndex < Images.Count ? selectedIndex : -1;
-        image_viewer_Grid.Visibility = Visibility.Visible;
-        // 延迟通知，否者点击同一张图片，source变了，index没变，会渲染不出来
-        await Task.Delay(33);
-        OnPropertyChanged(nameof(ImageSelectedIndex));
+        if (selectedIndex > -1 && selectedIndex < images.Count())
+            image_viewer_FlipView.SelectedIndex = selectedIndex;
     }
 
     public void ShowBlog(GameInfo game)
@@ -187,7 +184,7 @@ public sealed partial class MainWindow : Window
 
     private void main_root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 
-    private void ImageFitToScreen(ScrollViewer scrollerViwer, Image imagePost)
+    private void ImageFitToScreen(ScrollViewer scrollerViwer, Image imagePost, bool disableAnimation)
     {
         if (scrollerViwer.ActualWidth == 0 || scrollerViwer.ActualHeight == 0)
             return;
@@ -218,25 +215,33 @@ public sealed partial class MainWindow : Window
             zoomFactor = widthCompare;
         }
 
-        scrollerViwer.ChangeView(0, 0, (float)zoomFactor);
+        scrollerViwer.ChangeView(0, 0, (float)zoomFactor, disableAnimation);
     }
 
     private void image_ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var scrollerViwer = sender as ScrollViewer;
-        ImageFitToScreen(sender as ScrollViewer, scrollerViwer.FindName("post_Image") as Image);
+        ImageFitToScreen(sender as ScrollViewer, scrollerViwer.FindName("post_Image") as Image, true);
     }
 
     private void post_Image_ImageOpened(object sender, RoutedEventArgs e)
     {
         var image = sender as Image;
-        ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image);
+        ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image, true);
+    }
+
+    private void image_viewer_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (image_viewer_FlipView.SelectedIndex < image_viewer_FlipView.Items.Count)
+            image_viewer_ListView.SelectedIndex = image_viewer_FlipView.SelectedIndex;
     }
 
     private void image_viewer_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var listView = sender as ListView;
-        listView.ScrollIntoView(listView.SelectedItem);
+        if (image_viewer_ListView.SelectedIndex < image_viewer_ListView.Items.Count)
+            image_viewer_FlipView.SelectedIndex = image_viewer_ListView.SelectedIndex;
+
+        image_viewer_ListView.ScrollIntoView(image_viewer_ListView.SelectedItem);
     }
 
     private void notification_InfoBar_CloseButtonClick(InfoBar sender, object args)
