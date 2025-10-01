@@ -672,6 +672,42 @@
                               ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
                               ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
                               SelectionMode="None">
+                        <GridView.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Move_Image_To">
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Top"
+                                                    Text="Top" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Movie"
+                                                    Text="Movie" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="World"
+                                                    Text="World" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Character"
+                                                    Text="Character" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Trial"
+                                                    Text="Trial" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Bonus"
+                                                    Text="Bonus" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Comic"
+                                                    Text="Comic" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Novel"
+                                                    Text="Novel" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="ASMR"
+                                                    Text="ASMR" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Special"
+                                                    Text="Special" />
+                                </MenuFlyoutSubItem>
+                            </MenuFlyout>
+                        </GridView.ContextFlyout>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />

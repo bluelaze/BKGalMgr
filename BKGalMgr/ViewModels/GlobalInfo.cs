@@ -89,10 +89,20 @@ public static class GlobalInfo
     public const string SaveDataJsonName = "savedatainfo.json";
     public const string SaveDataZipName = "savedata.zip";
 
+    // covers
     public const string GetchuFolderName = "getchu";
     public const string DMMFolderName = "dmm";
     public const string DLsiteFolderName = "dlsite";
     public const string MelonbooksFolderName = "melonbooks";
     public const string MasterUpFolderName = "masterup";
-    public const string characterFolderName = "character";
+    public const string CharacterFolderName = "character";
+    // special
+    public const string TopFolderName = "top";
+    public const string MovieFolderName = "movie";
+    public const string WorldFolderName = "world";
+    public const string TrialFolderName = "trial";
+    public const string BonusFolderName = "bonus";
+    public const string ComicFolderName = "comic";
+    public const string NovelFolderName = "novel";
+    public const string ASMRFolderName = "asmr";
 }

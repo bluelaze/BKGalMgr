@@ -935,9 +935,36 @@ public partial class GameInfo : ObservableObject
         var specialPath = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
         if (Directory.Exists(specialPath))
         {
-            var images = FileSystemMisc.GetDirectoryFiles(specialPath);
+            var images = new List<string>();
+            // 优先加载几个文件夹
+            // csharpier-ignore-start
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.TopFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.MovieFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.WorldFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.CharacterFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.TrialFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.BonusFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.ComicFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.NovelFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(specialPath, GlobalInfo.ASMRFolderName)));
+            images.MergeRange(FileSystemMisc.GetDirectoryFiles(specialPath));
+            // csharpier-ignore-end
+
+            if (!Special.Any())
+            {
+                Special = new(images);
+                return;
+            }
             Special.RemoveIf(t => !images.Contains(t));
-            Special.MergeRange(images);
+            for (int i = 0; i < images.Count; i++)
+            {
+                var existIndex = Special.IndexOf(images[i]);
+                if (i == existIndex)
+                    continue;
+                if (existIndex != -1)
+                    Special.RemoveAt(existIndex);
+                Special.Insert(i, images[i]);
+            }
         }
     }
 
@@ -1110,7 +1137,7 @@ public partial class GameInfo : ObservableObject
             || string.Equals(folderName, GlobalInfo.DLsiteFolderName, StringComparison.OrdinalIgnoreCase)
             || string.Equals(folderName, GlobalInfo.MelonbooksFolderName, StringComparison.OrdinalIgnoreCase)
             || string.Equals(folderName, GlobalInfo.MasterUpFolderName, StringComparison.OrdinalIgnoreCase)
-            || string.Equals(folderName, GlobalInfo.characterFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.CharacterFolderName, StringComparison.OrdinalIgnoreCase)
         )
         {
             siteFolder = Path.Combine(coversFolder, folderName.ToLower());
@@ -1131,6 +1158,45 @@ public partial class GameInfo : ObservableObject
             FileSystemMisc.MoveOrCopyFile(image, Path.Combine(siteFolder, Path.GetFileName(image)));
         }
         LoadCover();
+    }
+
+    [RelayCommand]
+    public void MoveImageToSpecialFolder(string folderName)
+    {
+        if (folderName.IsNullOrEmpty())
+            return;
+        string specialFolder = Path.Combine(FolderPath, GlobalInfo.GameSpecialFolderName);
+        string groupsiteFolder = "";
+        if (
+            string.Equals(folderName, GlobalInfo.TopFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.MovieFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.WorldFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.CharacterFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.TrialFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.BonusFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.ComicFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.NovelFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.ASMRFolderName, StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            groupsiteFolder = Path.Combine(specialFolder, folderName.ToLower());
+        }
+        else if (string.Equals(folderName, GlobalInfo.GameSpecialFolderName, StringComparison.OrdinalIgnoreCase))
+        {
+            groupsiteFolder = Path.Combine(FolderPath, folderName.ToLower());
+        }
+        else
+        {
+            return;
+        }
+        var images = FileSystemMisc.PickFile(specialFolder, new() { "Image Files|*.*" });
+        if (images == null)
+            return;
+        foreach (var image in images)
+        {
+            FileSystemMisc.MoveOrCopyFile(image, Path.Combine(groupsiteFolder, Path.GetFileName(image)));
+        }
+        LoadSpecial();
     }
 
     public async Task SaveScreenshot(TargetInfo targetInfo, Bitmap bitmap)
