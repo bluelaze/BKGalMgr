@@ -889,6 +889,8 @@ public partial class GameInfo : ObservableObject
         covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.DLsiteFolderName)));
         covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.DMMFolderName)));
         covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.GetchuFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.MasterUpFolderName)));
+        covers.MergeRange(FileSystemMisc.GetDirectoryFiles(Path.Combine(coversPath, GlobalInfo.CharacterFolderName)));
         covers.MergeRange(FileSystemMisc.GetDirectoryFiles(coversPath));
 
         var coverIndex = covers.IndexOf(Cover);
@@ -1107,6 +1109,8 @@ public partial class GameInfo : ObservableObject
             || string.Equals(folderName, GlobalInfo.DMMFolderName, StringComparison.OrdinalIgnoreCase)
             || string.Equals(folderName, GlobalInfo.DLsiteFolderName, StringComparison.OrdinalIgnoreCase)
             || string.Equals(folderName, GlobalInfo.MelonbooksFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.MasterUpFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.characterFolderName, StringComparison.OrdinalIgnoreCase)
         )
         {
             siteFolder = Path.Combine(coversFolder, folderName.ToLower());

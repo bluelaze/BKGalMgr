@@ -93,4 +93,6 @@ public static class GlobalInfo
     public const string DMMFolderName = "dmm";
     public const string DLsiteFolderName = "dlsite";
     public const string MelonbooksFolderName = "melonbooks";
+    public const string MasterUpFolderName = "masterup";
+    public const string characterFolderName = "character";
 }

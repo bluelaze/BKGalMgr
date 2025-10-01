@@ -512,14 +512,20 @@
                                                 CommandParameter="Melonbooks"
                                                 Text="Melonbooks" />
                                 <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
-                                                CommandParameter="DLsite"
-                                                Text="DLsite" />
-                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
                                                 CommandParameter="DMM"
                                                 Text="DMM" />
                                 <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
                                                 CommandParameter="Getchu"
                                                 Text="Getchu" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="DLsite"
+                                                Text="DLsite" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="MasterUp"
+                                                Text="MasterUp" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToCoverFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Character"
+                                                Text="Character" />
                             </MenuFlyoutSubItem>
                         </MenuFlyout>
                     </FlipView.ContextFlyout>
