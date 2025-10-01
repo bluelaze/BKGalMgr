@@ -95,15 +95,19 @@ public sealed partial class MainWindow : Window
         return imagePath == null ? null : Path.GetFileName(imagePath.ToString());
     }
 
-    public async void ShowImages(IEnumerable<string> images, int selectedIndex)
+    public void ShowImages(IEnumerable<string> images, int selectedIndex)
     {
-        // 需要先清理后在显示，否者点击同一张图片，source变了，index没变，会渲染不出来
-        Images.Clear();
         image_viewer_Grid.Visibility = Visibility.Visible;
         // x:Bind不能是null对象，否则会崩溃
         Images = new(images.Where(t => !t.IsNullOrEmpty()));
         if (selectedIndex > -1 && selectedIndex < images.Count())
             image_viewer_FlipView.SelectedIndex = selectedIndex;
+    }
+
+    public void HideImages()
+    {
+        image_viewer_Grid.Visibility = Visibility.Collapsed;
+        Images.Clear();
     }
 
     public void ShowBlog(GameInfo game)
@@ -228,6 +232,11 @@ public sealed partial class MainWindow : Window
     {
         var image = sender as Image;
         ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image, true);
+    }
+
+    private void image_viewer_FlipView_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        HideImages();
     }
 
     private void image_viewer_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
