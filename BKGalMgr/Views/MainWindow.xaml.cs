@@ -234,11 +234,6 @@ public sealed partial class MainWindow : Window
         ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image, true);
     }
 
-    private void image_viewer_FlipView_Tapped(object sender, TappedRoutedEventArgs e)
-    {
-        HideImages();
-    }
-
     private void image_viewer_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (image_viewer_FlipView.SelectedIndex < image_viewer_FlipView.Items.Count)

@@ -60,8 +60,12 @@
                       Background="Transparent"
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
                       SelectionChanged="image_viewer_FlipView_SelectionChanged"
-                      Tapped="image_viewer_FlipView_Tapped"
                       UseTouchAnimationsForAllNavigation="False">
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:ClickTriggerBehavior>
+                        <interactivity:CallMethodAction MethodName="HideImages" TargetObject="{x:Bind}" />
+                    </behaviors:ClickTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <ScrollViewer x:Name="image_ScrollViewer"
