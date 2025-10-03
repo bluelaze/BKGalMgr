@@ -265,13 +265,14 @@
                 <!--  GameInfo  -->
                 <controls:GameInfoControl DataContext="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
                 <!--  source, localization, target, savedata  -->
-                <Grid MaxHeight="480">
+                <Grid MaxHeight="360">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
+                    <!--  source  -->
                     <ListView Padding="0" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Sources, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
@@ -315,6 +316,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--  localization  -->
                     <ListView Grid.Column="1" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Localizations, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
@@ -358,6 +360,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--  target  -->
                     <ListView Grid.Column="2" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Targets, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
@@ -453,6 +456,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--  savedata  -->
                     <ListView Grid.Column="3" ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.SaveDatas, Mode=OneWay}">
                         <ListView.Header>
                             <StackPanel Margin="16,0"
