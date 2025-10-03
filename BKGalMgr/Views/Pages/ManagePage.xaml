@@ -7,6 +7,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:mbehaviors="using:CommunityToolkit.WinUI.Behaviors"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
       xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
@@ -182,6 +183,17 @@
                                     <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
                                     <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
                                 </Button.Resources>
+                            </Button>
+                            <Button x:Name="website_button"
+                                    Content="{mui:FontIcon FontSize=16,
+                                                           Glyph=&#xE8A7;}"
+                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                    Style="{StaticResource IconButtonStyle}">
+                                <interactivity:Interaction.Behaviors>
+                                    <interactivity:EventTriggerBehavior EventName="Click">
+                                        <mbehaviors:NavigateToUriAction NavigateUri="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay}" />
+                                    </interactivity:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
                             </Button>
                             <Button Content="{mui:FontIcon FontSize=16, Glyph=&#xE700;}" Style="{StaticResource IconButtonStyle}">
                                 <Button.Flyout>
