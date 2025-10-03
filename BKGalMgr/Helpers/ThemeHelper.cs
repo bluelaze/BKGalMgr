@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BKGalMgr.Helpers;
 
@@ -223,14 +225,26 @@ public class ThemeHelper
             case Theme.Dark:
                 _window.ApplyTheme(ElementTheme.Dark);
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Dark;
+                LiveCharts.Configure(config =>
+                {
+                    config.AddDarkTheme();
+                });
                 break;
             case Theme.Light:
                 _window.ApplyTheme(ElementTheme.Light);
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Light;
+                LiveCharts.Configure(config =>
+                {
+                    config.AddLightTheme();
+                });
                 break;
             default:
                 _window.ApplyTheme(ElementTheme.Default);
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
+                LiveCharts.Configure(config =>
+                {
+                    config.AddDefaultTheme();
+                });
                 break;
         }
 

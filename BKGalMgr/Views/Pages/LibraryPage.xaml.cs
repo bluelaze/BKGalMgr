@@ -257,7 +257,6 @@ public sealed partial class LibraryPage : Page
         var gameInfo = sender.DataContext as GameInfo;
         var playedChart = new GamePlayedPeriodChartControl()
         {
-            RequestedTheme = ActualTheme,
             PlayedPeriods = gameInfo.PlayedPeriods,
         };
         playedChart.CloseClick += (_, _) =>

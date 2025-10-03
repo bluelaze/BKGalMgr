@@ -133,6 +133,7 @@
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                   BorderBrush="{ThemeResource SurfaceStrokeColorFlyoutBrush}">
                 <lvc:CartesianChart x:Name="time_CartesianChart"
+                                    Background="Transparent"
                                     DataPointerDown="time_CartesianChart_DataPointerDown"
                                     Series="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToColumnSeriesConverter}}"
                                     XAxes="{x:Bind ViewModel.Groups, Mode=OneWay, Converter={StaticResource GameReviewGroupInfoToXAxesConverter}}"

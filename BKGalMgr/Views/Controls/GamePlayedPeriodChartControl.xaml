@@ -16,7 +16,9 @@
         <converters:PlayedPeriodToYAxesConverter x:Key="PlayedPeriodToYAxesConverter" />
     </UserControl.Resources>
     <Grid>
-        <lvc:CartesianChart Series="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
+        <lvc:CartesianChart x:Name="lvc_chart"
+                            Background="Transparent"
+                            Series="{x:Bind PlayedPeriods, Mode=OneWay, Converter={StaticResource PlayedPeriodToColumnSeriesConverter}}"
                             XAxes="{x:Bind XAxes, Mode=OneWay}"
                             YAxes="{x:Bind YAxes, Mode=OneWay}"
                             ZoomMode="X" />
