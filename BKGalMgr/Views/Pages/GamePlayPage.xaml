@@ -116,7 +116,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        DoubleTapped="cover_Image_DoubleTapped"
-                       Source="{Binding ViewModel.Game.Cover, Mode=OneWay}" />
+                       Source="{x:Bind ViewModel.Game.CoverImageSource, Mode=OneWay}" />
             </Grid>
             <!--  right  -->
             <Grid Grid.Column="2" Padding="0,0,36,0">
@@ -349,7 +349,9 @@
                             </Grid>
                         </mcontrols:Case>
                         <mcontrols:Case Value="playchart">
-                            <controls:GamePlayedPeriodChartControl ApplyTheme="Dark" PlayedPeriods="{x:Bind ViewModel.Game.PlayedPeriods, Mode=OneWay}" ShowClose="Collapsed" />
+                            <controls:GamePlayedPeriodChartControl ApplyTheme="Dark"
+                                                                   PlayedPeriods="{x:Bind ViewModel.Game.PlayedPeriods, Mode=OneWay}"
+                                                                   ShowClose="Collapsed" />
                         </mcontrols:Case>
                     </mcontrols:SwitchPresenter>
                 </Grid>

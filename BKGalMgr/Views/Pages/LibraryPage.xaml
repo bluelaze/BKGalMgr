@@ -251,7 +251,7 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <Image Margin="8" Source="{Binding Cover, Mode=OneWay}" />
+                                        <Image Margin="8" Source="{x:Bind CoverImageSource, Mode=OneWay}" />
 
                                         <Button x:Name="cover_Button"
                                                 HorizontalAlignment="Stretch"
@@ -552,13 +552,13 @@
                                     <Image Height="350"
                                            Margin="8"
                                            VerticalAlignment="Top"
-                                           Source="{Binding Cover}">
+                                           Source="{x:Bind CoverImageSource, Mode=OneWay}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="1920"
                                                      MaxHeight="1080"
                                                      Placement="Right">
                                                 <ToolTip.Content>
-                                                    <Image Source="{Binding Cover, Mode=OneWay}" Stretch="None" />
+                                                    <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" Stretch="None" />
                                                 </ToolTip.Content>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>

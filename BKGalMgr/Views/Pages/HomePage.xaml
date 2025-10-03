@@ -35,7 +35,7 @@
 
                 <Image HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Source="{Binding Game.Cover, Mode=OneWay}"
+                       Source="{x:Bind Game.CoverImageSource, Mode=OneWay}"
                        Stretch="UniformToFill" />
                 <StackPanel>
                     <ContentPresenter Height="196" />
@@ -177,7 +177,7 @@
                                             </manimations:Explicit.Animations>
                                             <Image HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Source="{Binding Cover, Mode=OneWay}"
+                                                   Source="{x:Bind CoverImageSource, Mode=OneWay}"
                                                    Stretch="UniformToFill" />
                                         </Border>
                                         <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">

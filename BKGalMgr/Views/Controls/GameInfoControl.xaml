@@ -44,7 +44,7 @@
                          MaxHeight="1080"
                          Placement="Right">
                     <ToolTip.Content>
-                        <Image Source="{Binding Cover}" Stretch="None" />
+                        <Image Source="{Binding CoverImageSource}" Stretch="None" />
                     </ToolTip.Content>
                 </ToolTip>
             </ToolTipService.ToolTip>

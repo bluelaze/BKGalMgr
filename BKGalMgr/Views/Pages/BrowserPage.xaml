@@ -50,7 +50,7 @@
                                                                 Value="Collapsed" />
                         </interactivity:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
-                    <Image Source="{Binding Cover, Mode=OneWay}" />
+                    <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" />
                     <StackPanel Grid.Row="1"
                                 Padding="{StaticResource TextControlThemePadding}"
                                 Spacing="4">
@@ -236,7 +236,7 @@
 
                         <Image HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Source="{Binding Cover, Mode=OneWay}"
+                               Source="{x:Bind CoverImageSource, Mode=OneWay}"
                                Stretch="UniformToFill" />
 
                         <StackPanel>

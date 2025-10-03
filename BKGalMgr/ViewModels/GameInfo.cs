@@ -53,6 +53,29 @@ public partial class GameInfo : ObservableObject
     [ObservableProperty]
     private string _cover;
 
+    partial void OnCoverChanged(string value)
+    {
+        if (value.IsNullOrEmpty())
+            CoverImageSource = null;
+        else
+        {
+            // https://github.com/microsoft/microsoft-ui-xaml/issues/2289
+            // 需要在主线程处理，否则抛COM异常
+            App.PostUITask(() =>
+            {
+                CoverImageSource = (Microsoft.UI.Xaml.Media.ImageSource)
+                    Microsoft.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(
+                        typeof(Microsoft.UI.Xaml.Media.ImageSource),
+                        value
+                    );
+            });
+        }
+    }
+
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private Microsoft.UI.Xaml.Media.ImageSource _coverImageSource;
+
     [ObservableProperty]
     private string _company;
 
@@ -320,6 +343,7 @@ public partial class GameInfo : ObservableObject
             && e.PropertyName != nameof(WebsiteShot)
             && e.PropertyName != nameof(BugBugNews)
             && e.PropertyName != nameof(Campaign)
+            && e.PropertyName != nameof(CoverImageSource)
             && PlayStatus == PlayStatus.Stop
         )
             IsPropertyChanged = true;

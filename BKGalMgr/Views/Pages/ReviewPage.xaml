@@ -188,13 +188,13 @@
                                 <Image Height="170"
                                        Margin="4"
                                        VerticalAlignment="Top"
-                                       Source="{Binding Game.Cover}">
+                                       Source="{x:Bind Game.CoverImageSource}">
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="1920"
                                                  MaxHeight="1080"
                                                  Placement="Right">
                                             <ToolTip.Content>
-                                                <Image Source="{Binding Game.Cover}" Stretch="None" />
+                                                <Image Source="{x:Bind Game.CoverImageSource}" Stretch="None" />
                                             </ToolTip.Content>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
