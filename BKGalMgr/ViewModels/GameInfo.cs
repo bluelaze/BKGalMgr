@@ -1181,7 +1181,11 @@ public partial class GameInfo : ObservableObject
         {
             groupsiteFolder = Path.Combine(specialFolder, folderName.ToLower());
         }
-        else if (string.Equals(folderName, GlobalInfo.GameSpecialFolderName, StringComparison.OrdinalIgnoreCase))
+        else if (
+            string.Equals(folderName, GlobalInfo.GameSpecialFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.GameCampaignFolderName, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(folderName, GlobalInfo.GameWebsiteShotFolderName, StringComparison.OrdinalIgnoreCase)
+        )
         {
             groupsiteFolder = Path.Combine(FolderPath, folderName.ToLower());
         }

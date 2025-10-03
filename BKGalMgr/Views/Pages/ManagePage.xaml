@@ -705,6 +705,12 @@
                                     <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
                                                     CommandParameter="Special"
                                                     Text="Special" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Campaign"
+                                                    Text="Campaign" />
+                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                    CommandParameter="Websiteshot"
+                                                    Text="Websiteshot" />
                                 </MenuFlyoutSubItem>
                             </MenuFlyout>
                         </GridView.ContextFlyout>
