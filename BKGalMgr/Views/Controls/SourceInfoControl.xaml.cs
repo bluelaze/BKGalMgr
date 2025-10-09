@@ -21,6 +21,8 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class SourceInfoControl : UserControl
 {
+    public string PickFilePath { get; set; }
+
     public SourceInfoControl()
     {
         this.InitializeComponent();
@@ -32,12 +34,12 @@ public sealed partial class SourceInfoControl : UserControl
         return source != null && source.IsValid();
     }
 
-    private async void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
+    private void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
-        if (file != null)
+        var files = FileSystemMisc.PickFile(PickFilePath, ["Executable file|*.exe", "Shortcut|*.lnk"]);
+        if (files?.Any() == true)
         {
-            pick_startup_name_headeredtextbox.Text = file.Name;
+            pick_startup_name_headeredtextbox.Text = Path.GetFileName(files.First());
         }
     }
 

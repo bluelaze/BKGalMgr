@@ -278,7 +278,7 @@ public sealed partial class ManagePage : Page
             if (!existSource)
             {
                 SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
-                var result = await EditSourceInfo(sourceInfo);
+                var result = await EditSourceInfo(sourceInfo, folder.Path);
                 if (result == ContentDialogResult.Primary)
                 {
                     await ViewModel.SelectedRepository.SelectedGame.AddSource(folder.Path, sourceInfo);
@@ -289,9 +289,14 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async Task<ContentDialogResult> EditSourceInfo(SourceInfo sourceInfo)
+    private async Task<ContentDialogResult> EditSourceInfo(SourceInfo sourceInfo, string pickFilePath)
     {
-        SourceInfoControl sourceInfoControl = new() { Width = 720, DataContext = sourceInfo };
+        SourceInfoControl sourceInfoControl = new()
+        {
+            Width = 720,
+            DataContext = sourceInfo,
+            PickFilePath = pickFilePath,
+        };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
         dialog.Title = LanguageHelper.GetString("Dlg_Source_Edit");
@@ -308,7 +313,7 @@ public sealed partial class ManagePage : Page
     {
         SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
         var editSourceInfo = SourceInfo.Open(sourceInfo.FolderPath);
-        var result = await EditSourceInfo(editSourceInfo);
+        var result = await EditSourceInfo(editSourceInfo, editSourceInfo.FolderPath);
         if (result == ContentDialogResult.Primary)
         {
             ViewModel.UpdateSource(editSourceInfo);
@@ -325,7 +330,7 @@ public sealed partial class ManagePage : Page
             if (!existLocalization)
             {
                 LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
-                var result = await EditLocalizationInfo(localizationInfo);
+                var result = await EditLocalizationInfo(localizationInfo, folder.Path);
                 if (result == ContentDialogResult.Primary)
                 {
                     await ViewModel.SelectedRepository.SelectedGame.AddLocalization(folder.Path, localizationInfo);
@@ -335,9 +340,14 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async Task<ContentDialogResult> EditLocalizationInfo(LocalizationInfo localizationInfo)
+    private async Task<ContentDialogResult> EditLocalizationInfo(LocalizationInfo localizationInfo, string pickFilePath)
     {
-        LocalizationInfoControl localizationInfoControl = new() { Width = 720, DataContext = localizationInfo };
+        LocalizationInfoControl localizationInfoControl = new()
+        {
+            Width = 720,
+            DataContext = localizationInfo,
+            PickFilePath = pickFilePath,
+        };
 
         ContentDialog dialog = DialogHelper.GetConfirmDialog();
         dialog.Title = LanguageHelper.GetString("Dlg_Localization_Edit");
@@ -354,7 +364,7 @@ public sealed partial class ManagePage : Page
     {
         LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
         var editLocalizationInfo = LocalizationInfo.Open(localizationInfo.FolderPath);
-        var result = await EditLocalizationInfo(editLocalizationInfo);
+        var result = await EditLocalizationInfo(editLocalizationInfo, editLocalizationInfo.FolderPath);
         if (result == ContentDialogResult.Primary)
         {
             ViewModel.UpdateLocalization(editLocalizationInfo);
@@ -401,7 +411,7 @@ public sealed partial class ManagePage : Page
             {
                 // don't both exist, create as new source to add target
                 targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
-                var result = await EditSourceInfo(targetInfo.Source);
+                var result = await EditSourceInfo(targetInfo.Source, folder.Path);
                 if (result == ContentDialogResult.Primary)
                 {
                     targetInfo.Description = targetInfo.Source.Description;
@@ -451,7 +461,7 @@ public sealed partial class ManagePage : Page
         var targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
         targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
         targetInfo.Source.StartupName = Path.GetFileName(ShortcutHelpers.GetShortcutPath(file.Path));
-        var result = await EditSourceInfo(targetInfo.Source);
+        var result = await EditSourceInfo(targetInfo.Source, Path.GetDirectoryName(file.Path));
         if (result == ContentDialogResult.Primary)
         {
             targetInfo.SelectedSource();

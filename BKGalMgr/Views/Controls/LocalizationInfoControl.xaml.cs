@@ -21,6 +21,8 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class LocalizationInfoControl : UserControl
 {
+    public string PickFilePath { get; set; }
+
     public LocalizationInfoControl()
     {
         this.InitializeComponent();
@@ -32,12 +34,12 @@ public sealed partial class LocalizationInfoControl : UserControl
         return vm != null && vm.IsValid();
     }
 
-    private async void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
+    private void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
-        if (file != null)
+        var files = FileSystemMisc.PickFile(PickFilePath, ["Executable file|*.exe", "Shortcut|*.lnk"]);
+        if (files?.Any() == true)
         {
-            pick_startup_name_headeredtextbox.Text = file.Name;
+            pick_startup_name_headeredtextbox.Text = Path.GetFileName(files.First());
         }
     }
 
