@@ -126,15 +126,14 @@
                     </Grid>
                     <Grid Height="180"
                           MinWidth="230"
-                          MaxWidth="480"
-                          Padding="14"
+                          MaxWidth="482"
+                          Padding="14,14,0,8"
                           Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
                           CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <TextBlock x:Name="greeting_TextBlock"
                                    FontWeight="Bold"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <GridView x:Name="repository_GridView"
-                                  Height="105"
                                   VerticalAlignment="Bottom"
                                   IsItemClickEnabled="True"
                                   ItemClick="repository_GridView_ItemClick"
@@ -157,7 +156,7 @@
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
                                     <!--  这里只能用Binding，但是上面FlipView又可以x:Bind，DataType不一致好像不行  -->
-                                    <Grid Width="104">
+                                    <Grid Width="105" Height="105">
                                         <interactivity:Interaction.Behaviors>
                                             <interactivity:EventTriggerBehavior EventName="PointerEntered">
                                                 <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
