@@ -45,8 +45,9 @@ public partial class HomePageViewModel : ObservableObject
         List<GameInfo> allGames = new();
         foreach (var repo in LibraryAndManagePageViewModel.Repository)
         {
-            if (!repo.Games.Any())
+            if (!repo.Games.Any() || repo.Ignore)
                 continue;
+
             allGames.AddRange(repo.Games);
             RepositoryCovers.Add(repo.Games.OrderByDescending(t => t.LastPlayDate).First());
         }

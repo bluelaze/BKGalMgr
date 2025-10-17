@@ -69,6 +69,9 @@ public partial class BrowserPageViewModel : ObservableObject
         List<GroupInfo> allGroups = new();
         foreach (var repo in LibraryAndManagePageViewModel.Repository)
         {
+            if (repo.Ignore)
+                continue;
+
             allGames.AddRange(repo.Games);
             allGroups = allGroups
                 .UnionBy(repo.Groups.Where(t => t.Name != GlobalInfo.GroupItemCase_Add), t => t.Name)
@@ -97,7 +100,9 @@ public partial class BrowserPageViewModel : ObservableObject
     void RefreshSuggestedTags()
     {
         SearchSuggestedTags.Clear();
-        SearchSuggestedTags.AddRange(_allTags.Where(t => t != null && t.Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
+        SearchSuggestedTags.AddRange(
+            _allTags.Where(t => t != null && t.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+        );
     }
 
     class StringContainsComparer : IEqualityComparer<string>

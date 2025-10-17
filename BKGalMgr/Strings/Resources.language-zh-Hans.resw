@@ -281,6 +281,9 @@
   <data name="Commom_MenuItem_Move_Image_To.Text" xml:space="preserve">
     <value>移动图片至</value>
   </data>
+  <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
+    <value>忽略</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
   </data>

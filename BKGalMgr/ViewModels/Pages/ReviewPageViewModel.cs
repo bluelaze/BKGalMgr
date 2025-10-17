@@ -41,6 +41,9 @@ public partial class ReviewPageViewModel : ObservableObject
         var groups = new List<GameReviewGroupInfo>();
         foreach (var repo in LibraryAndManagePageViewModel.Repository)
         {
+            if (repo.Ignore)
+                continue;
+
             await repo.RefreshStorageUsageAsync();
             StorageUsage += repo.StorageUsage;
             GamesNumber += repo.Games.Count;

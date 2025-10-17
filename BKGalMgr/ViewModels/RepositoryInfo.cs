@@ -61,6 +61,11 @@ public partial class RepositoryInfo : ObservableObject
     partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
 
     [ObservableProperty]
+    private bool _ignore = false;
+
+    partial void OnIgnoreChanged(bool value) => SaveJsonFile();
+
+    [ObservableProperty]
     [property: JsonIgnore]
     private ObservableCollection<GameInfo> _games = new();
 

@@ -241,7 +241,7 @@
                 <mcontrols:Case Value="Visible">
                     <Button Height="40"
                             Content="{mui:FontIcon FontSize=16,
-                                                   Glyph=&#xECC9;}"
+                                                   Glyph=&#xECE4;}"
                             Style="{StaticResource IconButtonStyle}">
                         <interactivity:Interaction.Behaviors>
                             <interactivity:EventTriggerBehavior EventName="Click">

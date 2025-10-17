@@ -69,12 +69,12 @@ public sealed partial class MainPage : Page
         }
         else if (pageType == typeof(LibraryAndManagePage))
         {
-            _mainpage.root_navigationview.SelectedItem = _mainpage.reporitory_navitem;
+            _mainpage.root_navigationview.SelectedItem = _mainpage.repository_navitem;
             (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(LibraryPage), parameter);
         }
         else if (pageType == typeof(ManagePage))
         {
-            _mainpage.root_navigationview.SelectedItem = _mainpage.reporitory_navitem;
+            _mainpage.root_navigationview.SelectedItem = _mainpage.repository_navitem;
             (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(ManagePage), parameter);
         }
         else if (pageType == typeof(SettingsPage))
@@ -110,14 +110,14 @@ public sealed partial class MainPage : Page
             if (root_frame.CurrentSourcePageType != typeof(MigrationPage))
                 root_frame.Navigate(typeof(MigrationPage), _navigateParameter);
         }
-        else if (selectedItem == reporitory_navitem)
+        else if (selectedItem == repository_navitem)
         {
             if (root_frame.CurrentSourcePageType != typeof(LibraryAndManagePage))
                 root_frame.Navigate(typeof(LibraryAndManagePage), _navigateParameter);
         }
         else if (selectedItem == repository_listview_navitem)
         {
-            root_navigationview.SelectedItem = reporitory_navitem;
+            root_navigationview.SelectedItem = repository_navitem;
         }
         else if (selectedItem == settings_navitem)
         {
@@ -131,6 +131,12 @@ public sealed partial class MainPage : Page
 
     private void root_frame_Navigating(object sender, NavigatingCancelEventArgs e) { }
 
+    private void root_frame_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (repository_gridview_Popup.IsOpen)
+            RefreshRepositoryGridView();
+    }
+
     private void repository_listview_navitem_Loaded(object sender, RoutedEventArgs e)
     {
         if (repository_listview_navitem.FindDescendant("ContentGrid") is Grid ContentGrid)
@@ -141,9 +147,9 @@ public sealed partial class MainPage : Page
         }
     }
 
-    private void reporitory_ListView_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void repository_ListView_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (reporitory_ListView.ActualHeight > 50)
+        if (repository_ListView.ActualHeight > 50)
         {
             if (root_navigationview.FindDescendant("FooterItemsScrollViewer") is ScrollViewer scrollViewer)
             {
@@ -163,6 +169,8 @@ public sealed partial class MainPage : Page
         {
             repository_listview_navitem.IsEnabled = false;
         }
+        if (repository_gridview_Popup.IsOpen)
+            RefreshRepositoryGridView();
     }
 
     private async void add_repository_Button_Click(object sender, RoutedEventArgs e)
@@ -183,7 +191,7 @@ public sealed partial class MainPage : Page
         }
     }
 
-    private void reporitory_ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+    private void repository_ListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
     {
         ViewModel.LibraryAndManagePageViewModel.SaveRepositoryOrder();
     }
@@ -218,5 +226,42 @@ public sealed partial class MainPage : Page
         {
             ViewModel.LibraryAndManagePageViewModel.RemoveRepository(editRepository);
         }
+    }
+
+    private void RefreshRepositoryGridView()
+    {
+        repository_Grid.Width = root_frame.ActualWidth;
+        repository_Grid.Height =
+            +repository_listview_navitem.ActualHeight
+            + repository_NavigationViewItemSeparator.ActualHeight * 2
+            - 1
+            + settings_navitem.ActualHeight;
+    }
+
+    private void repository_gridview_Button_Click(object sender, RoutedEventArgs e)
+    {
+        RefreshRepositoryGridView();
+        repository_gridview_Popup.IsOpen = true;
+    }
+
+    private void repository_gridview_ToggleButton_IsChecked(object sender, RoutedEventArgs e)
+    {
+        if (repository_gridview_ToggleButton.IsChecked == true)
+        {
+            // 需要先关闭再打开，否则属性不生效
+            repository_gridview_Popup.IsLightDismissEnabled = false;
+            repository_gridview_Popup.IsOpen = false;
+            repository_gridview_Popup.IsOpen = true;
+        }
+        else
+        {
+            repository_gridview_Popup.IsLightDismissEnabled = true;
+            repository_gridview_Popup.IsOpen = false;
+        }
+    }
+
+    private void repository_gridview_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        repository_ListView.ScrollIntoView(ViewModel.LibraryAndManagePageViewModel.SelectedRepository);
     }
 }
