@@ -175,17 +175,17 @@
                 </interactivity:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
 
-            <ListView x:Name="target_selecte_ListView"
-                      Padding="24"
+            <ListView Padding="24"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                       CornerRadius="{ThemeResource ControlCornerRadius}"
+                      ItemContainerStyle="{StaticResource CustomListViewItemStyle}"
                       ItemsSource="{x:Bind SelectedGame.Targets, Mode=OneWay}"
                       SelectedItem="{x:Bind SelectedGame.SelectedTarget, Mode=TwoWay}">
                 <ListView.Header>
-                    <TextBlock x:Uid="Game_Play_Selecte_Target"
-                               Padding="16,0,0,12"
+                    <TextBlock x:Uid="Game_Play_Select_Target"
+                               Padding="4,0,0,12"
                                Style="{ThemeResource SubtitleTextBlockStyle}" />
                 </ListView.Header>
                 <ListView.ItemTemplate>

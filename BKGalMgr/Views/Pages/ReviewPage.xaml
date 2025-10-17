@@ -53,9 +53,10 @@
                         </interactivity:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
                     <SplitView.Pane>
-                        <ListView Padding="0,8"
+                        <ListView Padding="8"
                                   Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
                                   CornerRadius="{ThemeResource OverlayCornerRadius}"
+                                  ItemContainerStyle="{StaticResource CustomListViewItemStyle}"
                                   ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository}"
                                   SelectionMode="None">
                             <ListView.ItemTemplate>

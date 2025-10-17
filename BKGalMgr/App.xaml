@@ -26,24 +26,14 @@
             </ResourceDictionary.ThemeDictionaries>
             <!--  Other app resources here  -->
             <!--  style  -->
-            <Style x:Key="GridItemStyle" TargetType="Grid">
-                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
-                <Setter Property="CornerRadius" Value="{ThemeResource ListViewItemCornerRadius}" />
+            <Style x:Key="CustomListViewItemStyle"
+                   BasedOn="{StaticResource DefaultListViewItemStyle}"
+                   TargetType="ListViewItem">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorSecondaryBrush}" />
+                <Setter Property="Margin" Value="0,4" />
             </Style>
-            <Style x:Key="ListViewGridItemStyle"
-                   BasedOn="{StaticResource GridItemStyle}"
-                   TargetType="Grid">
-                <Setter Property="Margin" Value="0,6" />
-            </Style>
-            <Style x:Key="StackItemStyle" TargetType="StackPanel">
-                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefault}" />
-                <Setter Property="CornerRadius" Value="{ThemeResource ListViewItemCornerRadius}" />
-            </Style>
-            <Style x:Key="ListViewStackItemStyle"
-                   BasedOn="{StaticResource StackItemStyle}"
-                   TargetType="StackPanel">
-                <Setter Property="Padding" Value="8" />
-                <Setter Property="Margin" Value="0,6" />
+            <Style x:Key="ListViewStackItemStyle" TargetType="StackPanel">
+                <Setter Property="Padding" Value="0,8" />
                 <Setter Property="Spacing" Value="4" />
             </Style>
             <Style x:Key="IconButtonStyle"

@@ -21,7 +21,7 @@
         <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
 
         <DataTemplate x:Key="GameInfoDataTemplate" x:DataType="vm:GameInfo">
-            <Grid Style="{StaticResource ListViewGridItemStyle}">
+            <Grid Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="*" />
@@ -80,7 +80,7 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid MaxWidth="1920" Margin="0,32,0,24">
+    <Grid MaxWidth="1920" Margin="16,32,16,24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -127,7 +127,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Margin="16,0,0,16"
+            <StackPanel Margin="4,0,0,16"
                         Orientation="Horizontal"
                         Spacing="8">
                 <ComboBox x:Name="left_repository_ComboBox"
@@ -192,11 +192,17 @@
             </StackPanel>
             <ListView x:Name="left_repository_ListView"
                       Grid.Row="1"
+                      Padding="0,0,12,0"
                       ItemTemplate="{StaticResource GameInfoDataTemplate}"
                       ItemsSource="{x:Bind ViewModel.LeftRepository.GamesView, Mode=OneWay}"
-                      SelectionMode="Extended" />
+                      SelectionMode="Extended">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="12,2,4,2" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
-
 
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Center"
@@ -219,12 +225,12 @@
                     Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
 
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2" Margin="12,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Margin="16,0,0,16"
+            <StackPanel Margin="4,0,0,16"
                         Orientation="Horizontal"
                         Spacing="8">
                 <ComboBox x:Name="right_repository_ComboBox"
@@ -290,9 +296,16 @@
 
             <ListView x:Name="right_repository_ListView"
                       Grid.Row="1"
+                      Padding="0,0,12,0"
                       ItemTemplate="{StaticResource GameInfoDataTemplate}"
                       ItemsSource="{x:Bind ViewModel.RightRepository.GamesView, Mode=OneWay}"
-                      SelectionMode="Extended" />
+                      SelectionMode="Extended">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="12,2,4,2" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
     </Grid>
 </Page>

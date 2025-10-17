@@ -627,7 +627,7 @@
   <data name="Game_Play_Artist.Text" xml:space="preserve">
     <value>原画</value>
   </data>
-  <data name="Game_Play_Selecte_Target.Text" xml:space="preserve">
+  <data name="Game_Play_Select_Target.Text" xml:space="preserve">
     <value>选择本</value>
   </data>
   <data name="Repository_Nav_Library.Text" xml:space="preserve">

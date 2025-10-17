@@ -165,8 +165,9 @@
                           Padding="0,0,16,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
                     <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Style BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="MaxWidth" Value="1600" />
+                            <Setter Property="Padding" Value="10,2,4,2" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
@@ -243,7 +244,7 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <Grid x:Name="gameinfo_grid" Style="{StaticResource ListViewGridItemStyle}">
+                                    <Grid x:Name="gameinfo_grid">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="150" />
                                             <ColumnDefinition Width="*" />
