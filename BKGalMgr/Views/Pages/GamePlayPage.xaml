@@ -31,7 +31,7 @@
             <Setter Property="Padding" Value="0" />
             <Setter Property="CornerRadius" Value="18" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="DarkGray" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
 
@@ -132,7 +132,7 @@
                     <StackPanel Orientation="Horizontal" Spacing="20">
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="DarkGray" />
+                                <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
                                 <Setter Property="FontSize" Value="15" />
                             </Style>
                         </StackPanel.Resources>
@@ -140,7 +140,7 @@
                             <TextBlock x:Uid="Game_Play_Company" />
                             <TextBlock Text="：" />
                             <TextBlock>
-                                <Hyperlink Foreground="DarkGray"
+                                <Hyperlink Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                            NavigateUri="{Binding ViewModel.Game.Website, Mode=OneWay}"
                                            UnderlineStyle="None">
                                     <Run Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}" />
@@ -150,14 +150,14 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Uid="Game_Play_Scenario" />
                             <TextBlock Text="：" />
-                            <controls:MetadataControl Foreground="DarkGray"
+                            <controls:MetadataControl Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                                       ItemsSource="{x:Bind ViewModel.Game.Scenario, Mode=OneWay}"
                                                       Separator=" " />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Uid="Game_Play_Artist" />
                             <TextBlock Text="：" />
-                            <controls:MetadataControl Foreground="DarkGray"
+                            <controls:MetadataControl Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                                       ItemsSource="{x:Bind ViewModel.Game.Artist, Mode=OneWay}"
                                                       Separator=" " />
                         </StackPanel>
@@ -191,7 +191,7 @@
                                 <TextBlock HorizontalAlignment="Stretch"
                                            VerticalAlignment="Stretch"
                                            FontSize="15"
-                                           Foreground="LightGray"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                            IsTextSelectionEnabled="True"
                                            Text="{x:Bind ViewModel.Game.Story, Mode=OneWay}"
                                            TextWrapping="Wrap" />
@@ -205,7 +205,7 @@
                                      Background="Transparent"
                                      BorderBrush="Transparent"
                                      FontSize="15"
-                                     Foreground="LightGray"
+                                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                      LostFocus="blog_TextBox_LostFocus"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                                      Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay}"
@@ -226,7 +226,7 @@
                                             <Grid>
                                                 <Grid.Resources>
                                                     <Style TargetType="TextBlock">
-                                                        <Setter Property="Foreground" Value="DarkGray" />
+                                                        <Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
                                                         <Setter Property="IsTextSelectionEnabled" Value="True" />
                                                         <Setter Property="FontSize" Value="15" />
                                                     </Style>
@@ -391,7 +391,7 @@
                         ToolTipService.ToolTip="SCREENSHOT" />
                 <TextBlock x:Name="played_time_TextBlock"
                            VerticalAlignment="Center"
-                           Foreground="DarkGray"
+                           Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                            Text="{x:Bind ViewModel.Game.PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
             </StackPanel>
             <!--  center  -->
@@ -413,7 +413,7 @@
                         Click="play_Button_Click"
                         Content="{mui:FontIcon Glyph=&#xF5B0;}"
                         CornerRadius="20"
-                        Foreground="LightGray" />
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 <Button Content="LE"
                         FontSize="18"
                         IsEnabled="{x:Bind ViewModel.Settings.LocalEmulator.LEProcPath, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"

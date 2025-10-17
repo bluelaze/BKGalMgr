@@ -486,8 +486,14 @@
                     </GridView.ItemsPanel>
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
-                            <UserControl Width="260" Height="486">
-                                <UserControl.ContextFlyout>
+                            <Grid Width="260"
+                                  Height="486"
+                                  Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
                                                         Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
@@ -531,112 +537,106 @@
                                                         Icon="{mui:FontIcon Glyph=&#xF408;}"
                                                         Text="SCREENSHOT" />
                                     </MenuFlyout>
-                                </UserControl.ContextFlyout>
-                                <Grid Width="260" Background="{ThemeResource CardBackgroundFillColorDefault}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <interactivity:Interaction.Behaviors>
-                                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
-                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                                TargetObject="{Binding ElementName=play_Button}"
-                                                                                Value="Visible" />
-                                        </interactivity:EventTriggerBehavior>
-                                        <interactivity:EventTriggerBehavior EventName="PointerExited">
-                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                                TargetObject="{Binding ElementName=play_Button}"
-                                                                                Value="Collapsed" />
-                                        </interactivity:EventTriggerBehavior>
-                                    </interactivity:Interaction.Behaviors>
-                                    <Image Height="350"
-                                           Margin="8"
-                                           VerticalAlignment="Top"
-                                           Source="{x:Bind CoverImageSource, Mode=OneWay}">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip MaxWidth="1920"
-                                                     MaxHeight="1080"
-                                                     Placement="Right">
-                                                <ToolTip.Content>
-                                                    <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" Stretch="None" />
-                                                </ToolTip.Content>
-                                            </ToolTip>
-                                        </ToolTipService.ToolTip>
-                                    </Image>
-                                    <StackPanel Grid.Row="1"
-                                                Padding="8"
-                                                Spacing="2">
-                                        <StackPanel.Resources>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize" Value="12" />
-                                            </Style>
-                                            <Style TargetType="controls:IconTextBlock">
-                                                <Setter Property="FontSize" Value="14" />
-                                            </Style>
-                                            <Style TargetType="HyperlinkButton">
-                                                <Setter Property="FontSize" Value="12" />
-                                            </Style>
-                                            <Style TargetType="controls:MetadataControl">
-                                                <Setter Property="FontSize" Value="12" />
-                                            </Style>
-                                        </StackPanel.Resources>
-                                        <HyperlinkButton Padding="0"
-                                                         HorizontalContentAlignment="Left"
-                                                         Click="gamename_linkbutton_Click"
-                                                         FontWeight="Bold">
-                                            <HyperlinkButton.Content>
-                                                <TextBlock FontSize="14"
-                                                           Text="{x:Bind Name, Mode=OneWay}"
-                                                           TextTrimming="CharacterEllipsis" />
-                                            </HyperlinkButton.Content>
-                                        </HyperlinkButton>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                            <controls:IconTextBlock VerticalContentAlignment="Center"
-                                                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                    Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock x:Uid="Library_GameInfo_PublishDate" />
-                                            <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
-                                            <TextBlock x:Uid="Library_GameInfo_Company" />
-                                            <HyperlinkButton Padding="0,-1,0,0"
-                                                             Click="website_HyperlinkButton_Click"
-                                                             Content="{x:Bind Company, Mode=OneWay}" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      ItemsSource="{x:Bind Scenario, Mode=OneTime}"
-                                                                      MaxCount="1" />
-
-                                            <TextBlock x:Uid="Library_GameInfo_Artist" Padding="8,0,0,0" />
-                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      ItemsSource="{x:Bind Artist, Mode=OneTime}"
-                                                                      MaxCount="1" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal" Spacing="8">
-                                            <TextBlock x:Uid="Library_GameInfo_Group" />
-                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                      ItemsSource="{x:Bind Group, Mode=OneTime}"
-                                                                      Separator="   " />
-                                        </StackPanel>
+                                </Grid.ContextFlyout>
+                                <interactivity:Interaction.Behaviors>
+                                    <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetObject="{Binding ElementName=play_Button}"
+                                                                            Value="Visible" />
+                                    </interactivity:EventTriggerBehavior>
+                                    <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                            TargetObject="{Binding ElementName=play_Button}"
+                                                                            Value="Collapsed" />
+                                    </interactivity:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                                <Image Height="350"
+                                       Margin="8"
+                                       VerticalAlignment="Top"
+                                       Source="{x:Bind CoverImageSource, Mode=OneWay}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip MaxWidth="1920"
+                                                 MaxHeight="1080"
+                                                 Placement="Right">
+                                            <ToolTip.Content>
+                                                <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" Stretch="None" />
+                                            </ToolTip.Content>
+                                        </ToolTip>
+                                    </ToolTipService.ToolTip>
+                                </Image>
+                                <StackPanel Grid.Row="1"
+                                            Padding="8"
+                                            Spacing="2">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="12" />
+                                        </Style>
+                                        <Style TargetType="controls:IconTextBlock">
+                                            <Setter Property="FontSize" Value="14" />
+                                        </Style>
+                                        <Style TargetType="HyperlinkButton">
+                                            <Setter Property="FontSize" Value="12" />
+                                        </Style>
+                                        <Style TargetType="controls:MetadataControl">
+                                            <Setter Property="FontSize" Value="12" />
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <HyperlinkButton Padding="0"
+                                                     HorizontalContentAlignment="Left"
+                                                     Click="gamename_linkbutton_Click"
+                                                     FontWeight="Bold">
+                                        <HyperlinkButton.Content>
+                                            <TextBlock FontSize="14"
+                                                       Text="{x:Bind Name, Mode=OneWay}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </HyperlinkButton.Content>
+                                    </HyperlinkButton>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                        <controls:IconTextBlock VerticalContentAlignment="Center"
+                                                                Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                                     </StackPanel>
-                                    <Button x:Name="play_Button"
-                                            Grid.RowSpan="2"
-                                            Width="40"
-                                            Height="40"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            Background="Transparent"
-                                            BorderBrush="{x:Null}"
-                                            Click="play_Button_Click"
-                                            Content="{mui:FontIcon FontSize=16,
-                                                                   Glyph=&#xE736;}"
-                                            Opacity="0.6"
-                                            Visibility="Collapsed" />
-                                </Grid>
-                            </UserControl>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock x:Uid="Library_GameInfo_PublishDate" />
+                                        <TextBlock Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                                        <TextBlock x:Uid="Library_GameInfo_Company" />
+                                        <HyperlinkButton Padding="0,-1,0,0"
+                                                         Click="website_HyperlinkButton_Click"
+                                                         Content="{x:Bind Company, Mode=OneWay}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock x:Uid="Library_GameInfo_Scenario" />
+                                        <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                  ItemsSource="{x:Bind Scenario, Mode=OneTime}"
+                                                                  MaxCount="1" />
+
+                                        <TextBlock x:Uid="Library_GameInfo_Artist" Padding="8,0,0,0" />
+                                        <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                  ItemsSource="{x:Bind Artist, Mode=OneTime}"
+                                                                  MaxCount="1" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock x:Uid="Library_GameInfo_Group" />
+                                        <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                  ItemsSource="{x:Bind Group, Mode=OneTime}"
+                                                                  Separator="   " />
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button x:Name="play_Button"
+                                        Grid.RowSpan="2"
+                                        Width="40"
+                                        Height="40"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Background="Transparent"
+                                        BorderBrush="{x:Null}"
+                                        Click="play_Button_Click"
+                                        Content="{mui:FontIcon FontSize=16,
+                                                               Glyph=&#xE736;}"
+                                        Opacity="0.6"
+                                        Visibility="Collapsed" />
+                            </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>

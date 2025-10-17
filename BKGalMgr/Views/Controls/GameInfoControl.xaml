@@ -115,7 +115,9 @@
                           HorizontalContentAlignment="Stretch">
                     <Expander.HeaderTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
-                            <TextBlock MaxHeight="36" Text="{Binding Blog, Mode=OneWay}" />
+                            <TextBlock MaxHeight="38"
+                                       Style="{ThemeResource BodyTextBlockStyle}"
+                                       Text="{Binding Blog, Mode=OneWay}" />
                         </DataTemplate>
                     </Expander.HeaderTemplate>
                     <TextBox MaxHeight="360"
@@ -207,7 +209,9 @@
                           HorizontalContentAlignment="Stretch">
                     <Expander.HeaderTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
-                            <TextBlock MaxHeight="36" Text="{Binding Story, Mode=OneWay}" />
+                            <TextBlock MaxHeight="38"
+                                       Style="{ThemeResource BodyTextBlockStyle}"
+                                       Text="{Binding Story, Mode=OneWay}" />
                         </DataTemplate>
                     </Expander.HeaderTemplate>
                     <TextBox MaxHeight="360"

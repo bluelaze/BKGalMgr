@@ -52,9 +52,9 @@
                             </manimations:AnimationSet>
                         </manimations:Explicit.Animations>
 
-                        <TextBlock Height="36"
-                                   Text="{x:Bind Game.Name, Mode=OneWay}"
-                                   TextWrapping="Wrap" />
+                        <TextBlock Height="38"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Game.Name, Mode=OneWay}" />
                         <ContentPresenter Height="6" />
                         <controls:IconTextBlock FontSize="14"
                                                 Icon="{mui:FontIcon Glyph=&#xE768;}"
@@ -181,9 +181,8 @@
                                         </Border>
                                         <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
                                             <TextBlock Margin="4,2"
-                                                       FontSize="12"
-                                                       Text="{x:Bind Repository.Name, Mode=OneWay}"
-                                                       TextWrapping="Wrap" />
+                                                       Style="{ThemeResource CaptionTextBlockStyle}"
+                                                       Text="{x:Bind Repository.Name, Mode=OneWay}" />
                                         </ContentPresenter>
                                     </Grid>
                                 </DataTemplate>

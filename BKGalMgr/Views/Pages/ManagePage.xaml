@@ -52,6 +52,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="GamePropertyChangedState">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="save_game_button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <StackPanel Margin="16,0"
                     Orientation="Horizontal"
                     Spacing="8">
@@ -60,179 +72,165 @@
                       SelectedItem="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=TwoWay}"
                       Visibility="{Binding ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                 <ComboBox.Header>
-                    <UserControl>
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="GamePropertyChangedState">
-                                        <VisualState.StateTriggers>
-                                            <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.SelectedRepository.SelectedGame.IsPropertyChanged}" To="True" />
-                                        </VisualState.StateTriggers>
-                                        <VisualState.Setters>
-                                            <Setter Target="save_game_button.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
-                            <Button Command="{x:Bind ViewModel.AddNewGameCommand, Mode=OneWay}"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE948;}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem x:Name="open_bangumi_game_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Open_In_Bangumi"
-                                                        Click="open_bangumi_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
-                                        <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
-                                                        x:Uid="Bangumi_Pull_Game_Add"
-                                                        Click="add_bangumi_game_menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Name="update_bangumi_game_menuflyoutitem"
-                                                        x:Uid="Bangumi_Pull_Game_Update"
-                                                        Click="update_bangumi_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
-                                        <MenuFlyoutItem x:Name="edit_bangumi_game_menuflyoutitem"
-                                                        x:Uid="Bangumi_Edit_Game"
-                                                        Click="edit_bangumi_game_menuflyoutitem_Click"
-                                                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                                <ImageIcon Width="16"
-                                           Height="16"
-                                           Source="{ThemeResource BangumiIcon}" />
-                            </Button>
-                            <Button x:Name="t2fan_Button"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem x:Name="open_t2dfan_game_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                                        Click="open_t2dfan_game_menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Name="edit_t2dfan_game_menuflyoutitem"
-                                                        x:Uid="T2DFan_Edit_Game"
-                                                        Click="edit_t2dfan_game_menuflyoutitem_Click" />
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                                <ImageIcon Width="20"
-                                           Height="20"
-                                           Margin="0,4,0,0"
-                                           Source="{ThemeResource T2DFanIcon}" />
-                            </Button>
-                            <Button x:Name="shoppingsite_Button"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE7BF;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem x:Name="open_in_getchu_MenuFlyoutItem"
-                                                        Click="open_in_getchu_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                        Text="Getchu" />
-                                        <MenuFlyoutItem x:Name="open_in_dmm_MenuFlyoutItem"
-                                                        Click="open_in_dmm_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                        Text="DMM" />
-                                        <MenuFlyoutItem x:Name="open_in_dlsite_MenuFlyoutItem"
-                                                        Click="open_in_dlsite_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                        Text="DLsite" />
-                                        <MenuFlyoutItem x:Name="open_in_melonbooks_MenuFlyoutItem"
-                                                        Click="open_in_melonbooks_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                        Text="Melonbooks" />
-                                        <MenuFlyoutItem x:Name="edit_shopping_site_MenuFlyoutItem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_shopping_site_MenuFlyoutItem_Click"
-                                                        Text="Edit" />
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>
-                            <Button x:Name="play_game_Button"
-                                    Click="play_game_Button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE736;}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="open_folder_Button"
-                                    Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand, Mode=OneWay}"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE838;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}" />
-                            <Button x:Name="save_game_button"
-                                    Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE74E;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                <Button.Resources>
-                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
-                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
-                                </Button.Resources>
-                            </Button>
-                            <Button x:Name="delete_game_button"
-                                    Click="delete_game_button_Click"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE74D;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                <Button.Resources>
-                                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                </Button.Resources>
-                            </Button>
-                            <Button x:Name="website_button"
-                                    Content="{mui:FontIcon FontSize=16,
-                                                           Glyph=&#xE8A7;}"
-                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                    Style="{StaticResource IconButtonStyle}">
-                                <interactivity:Interaction.Behaviors>
-                                    <interactivity:EventTriggerBehavior EventName="Click">
-                                        <mbehaviors:NavigateToUriAction NavigateUri="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay}" />
-                                    </interactivity:EventTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
-                            </Button>
-                            <Button Content="{mui:FontIcon FontSize=16, Glyph=&#xE700;}" Style="{StaticResource IconButtonStyle}">
-                                <Button.Flyout>
-                                    <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                        <MenuFlyoutItem x:Name="cover_MenuFlyoutItem"
-                                                        Click="cover_MenuFlyoutItem_Click"
-                                                        Text="COVER" />
-                                        <MenuFlyoutItem x:Name="story_MenuFlyoutItem"
-                                                        Click="story_MenuFlyoutItem_Click"
-                                                        Text="STORY" />
-                                        <MenuFlyoutItem x:Name="blog_MenuFlyoutItem"
-                                                        Click="blog_MenuFlyoutItem_Click"
-                                                        Text="BLOG" />
-                                        <MenuFlyoutItem x:Name="gallery_MenuFlyoutItem"
-                                                        Click="gallery_MenuFlyoutItem_Click"
-                                                        Text="GALLERY" />
-                                        <MenuFlyoutItem x:Name="screenshot_MenuFlyoutItem"
-                                                        Click="screenshot_MenuFlyoutItem_Click"
-                                                        Text="SCREENSHOT" />
-                                        <MenuFlyoutItem x:Name="special_MenuFlyoutItem"
-                                                        Click="special_MenuFlyoutItem_Click"
-                                                        Text="SPECIAL" />
-                                        <MenuFlyoutItem x:Name="campaign_MenuFlyoutItem"
-                                                        Click="campaign_MenuFlyoutItem_Click"
-                                                        Text="CAMPAIGN" />
-                                        <MenuFlyoutItem x:Name="websiteshot_MenuFlyoutItem"
-                                                        Click="websiteshot_MenuFlyoutItem_Click"
-                                                        Text="WEBSITESHOT" />
-                                        <MenuFlyoutItem x:Name="bugbugnews_MenuFlyoutItem"
-                                                        Click="bugbugnews_MenuFlyoutItem_Click"
-                                                        Text="BUGBUGNEWS" />
-                                        <MenuFlyoutItem x:Name="character_MenuFlyoutItem"
-                                                        Click="character_MenuFlyoutItem_Click"
-                                                        Text="CHARACTER" />
-                                    </MenuFlyout>
-                                </Button.Flyout>
-                            </Button>
-                        </StackPanel>
-                    </UserControl>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock x:Uid="Manage_Game" VerticalAlignment="Center" />
+                        <Button Command="{x:Bind ViewModel.AddNewGameCommand, Mode=OneWay}"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE948;}"
+                                Style="{StaticResource IconButtonStyle}" />
+                        <Button x:Name="add_bangumi_game_button" Style="{StaticResource IconButtonStyle}">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                    <MenuFlyoutItem x:Name="open_bangumi_game_menuflyoutitem"
+                                                    x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                                    Click="open_bangumi_game_menuflyoutitem_Click"
+                                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                    <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
+                                                    x:Uid="Bangumi_Pull_Game_Add"
+                                                    Click="add_bangumi_game_menuflyoutitem_Click" />
+                                    <MenuFlyoutItem x:Name="update_bangumi_game_menuflyoutitem"
+                                                    x:Uid="Bangumi_Pull_Game_Update"
+                                                    Click="update_bangumi_game_menuflyoutitem_Click"
+                                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                    <MenuFlyoutItem x:Name="edit_bangumi_game_menuflyoutitem"
+                                                    x:Uid="Bangumi_Edit_Game"
+                                                    Click="edit_bangumi_game_menuflyoutitem_Click"
+                                                    IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <ImageIcon Width="16"
+                                       Height="16"
+                                       Source="{ThemeResource BangumiIcon}" />
+                        </Button>
+                        <Button x:Name="t2fan_Button"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                    <MenuFlyoutItem x:Name="open_t2dfan_game_menuflyoutitem"
+                                                    x:Uid="Commom_MenuItem_Open_In_2DFan"
+                                                    Click="open_t2dfan_game_menuflyoutitem_Click" />
+                                    <MenuFlyoutItem x:Name="edit_t2dfan_game_menuflyoutitem"
+                                                    x:Uid="T2DFan_Edit_Game"
+                                                    Click="edit_t2dfan_game_menuflyoutitem_Click" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                            <ImageIcon Width="20"
+                                       Height="20"
+                                       Margin="0,4,0,0"
+                                       Source="{ThemeResource T2DFanIcon}" />
+                        </Button>
+                        <Button x:Name="shoppingsite_Button"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE7BF;}"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                    <MenuFlyoutItem x:Name="open_in_getchu_MenuFlyoutItem"
+                                                    Click="open_in_getchu_MenuFlyoutItem_Click"
+                                                    IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                    Text="Getchu" />
+                                    <MenuFlyoutItem x:Name="open_in_dmm_MenuFlyoutItem"
+                                                    Click="open_in_dmm_MenuFlyoutItem_Click"
+                                                    IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                    Text="DMM" />
+                                    <MenuFlyoutItem x:Name="open_in_dlsite_MenuFlyoutItem"
+                                                    Click="open_in_dlsite_MenuFlyoutItem_Click"
+                                                    IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                    Text="DLsite" />
+                                    <MenuFlyoutItem x:Name="open_in_melonbooks_MenuFlyoutItem"
+                                                    Click="open_in_melonbooks_MenuFlyoutItem_Click"
+                                                    IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                    Text="Melonbooks" />
+                                    <MenuFlyoutItem x:Name="edit_shopping_site_MenuFlyoutItem"
+                                                    x:Uid="Commom_MenuItem_Edit"
+                                                    Click="edit_shopping_site_MenuFlyoutItem_Click"
+                                                    Text="Edit" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                        <Button x:Name="play_game_Button"
+                                Click="play_game_Button_Click"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE736;}"
+                                Style="{StaticResource IconButtonStyle}" />
+                        <Button x:Name="open_folder_Button"
+                                Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenJsonFolderCommand, Mode=OneWay}"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE838;}"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}" />
+                        <Button x:Name="save_game_button"
+                                Command="{Binding ViewModel.SelectedRepository.SelectedGame.SaveGameInfoCommand}"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE74E;}"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}">
+                            <Button.Resources>
+                                <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorSuccessBrush" />
+                                <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorSuccessBrush" />
+                            </Button.Resources>
+                        </Button>
+                        <Button x:Name="delete_game_button"
+                                Click="delete_game_button_Click"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE74D;}"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}">
+                            <Button.Resources>
+                                <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                            </Button.Resources>
+                        </Button>
+                        <Button x:Name="website_button"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE8A7;}"
+                                IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                Style="{StaticResource IconButtonStyle}">
+                            <interactivity:Interaction.Behaviors>
+                                <interactivity:EventTriggerBehavior EventName="Click">
+                                    <mbehaviors:NavigateToUriAction NavigateUri="{Binding ViewModel.SelectedRepository.SelectedGame.Website, Mode=OneWay}" />
+                                </interactivity:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </Button>
+                        <Button Content="{mui:FontIcon FontSize=16, Glyph=&#xE700;}" Style="{StaticResource IconButtonStyle}">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                    <MenuFlyoutItem x:Name="cover_MenuFlyoutItem"
+                                                    Click="cover_MenuFlyoutItem_Click"
+                                                    Text="COVER" />
+                                    <MenuFlyoutItem x:Name="story_MenuFlyoutItem"
+                                                    Click="story_MenuFlyoutItem_Click"
+                                                    Text="STORY" />
+                                    <MenuFlyoutItem x:Name="blog_MenuFlyoutItem"
+                                                    Click="blog_MenuFlyoutItem_Click"
+                                                    Text="BLOG" />
+                                    <MenuFlyoutItem x:Name="gallery_MenuFlyoutItem"
+                                                    Click="gallery_MenuFlyoutItem_Click"
+                                                    Text="GALLERY" />
+                                    <MenuFlyoutItem x:Name="screenshot_MenuFlyoutItem"
+                                                    Click="screenshot_MenuFlyoutItem_Click"
+                                                    Text="SCREENSHOT" />
+                                    <MenuFlyoutItem x:Name="special_MenuFlyoutItem"
+                                                    Click="special_MenuFlyoutItem_Click"
+                                                    Text="SPECIAL" />
+                                    <MenuFlyoutItem x:Name="campaign_MenuFlyoutItem"
+                                                    Click="campaign_MenuFlyoutItem_Click"
+                                                    Text="CAMPAIGN" />
+                                    <MenuFlyoutItem x:Name="websiteshot_MenuFlyoutItem"
+                                                    Click="websiteshot_MenuFlyoutItem_Click"
+                                                    Text="WEBSITESHOT" />
+                                    <MenuFlyoutItem x:Name="bugbugnews_MenuFlyoutItem"
+                                                    Click="bugbugnews_MenuFlyoutItem_Click"
+                                                    Text="BUGBUGNEWS" />
+                                    <MenuFlyoutItem x:Name="character_MenuFlyoutItem"
+                                                    Click="character_MenuFlyoutItem_Click"
+                                                    Text="CHARACTER" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
+                    </StackPanel>
                 </ComboBox.Header>
                 <ComboBox.ItemTemplate>
                     <DataTemplate x:DataType="vm:GameInfo">

@@ -32,53 +32,48 @@
                                       RowSpacing="0" />
         </ItemsPanelTemplate>
         <DataTemplate x:Key="BlogDataTemplate" x:DataType="vm:GameInfo">
-            <UserControl>
-                <Grid Background="{ThemeResource CardBackgroundFillColorDefault}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <interactivity:Interaction.Behaviors>
-                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
-                            <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                TargetObject="{Binding ElementName=blog_Button}"
-                                                                Value="Visible" />
-                        </interactivity:EventTriggerBehavior>
-                        <interactivity:EventTriggerBehavior EventName="PointerExited">
-                            <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                TargetObject="{Binding ElementName=blog_Button}"
-                                                                Value="Collapsed" />
-                        </interactivity:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                    <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" />
-                    <StackPanel Grid.Row="1"
-                                Padding="{StaticResource TextControlThemePadding}"
-                                Spacing="4">
-                        <TextBlock Height="46"
-                                   FontSize="15"
-                                   Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                   Text="{x:Bind Name, Mode=OneWay}"
-                                   TextWrapping="Wrap" />
-                        <TextBlock MaxHeight="300"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind Blog, Mode=OneWay}"
-                                   TextTrimming="CharacterEllipsis"
-                                   TextWrapping="Wrap" />
-                    </StackPanel>
-                    <Button x:Name="blog_Button"
-                            Grid.RowSpan="2"
-                            Width="40"
-                            Height="40"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Background="Transparent"
-                            BorderBrush="{x:Null}"
-                            Click="blog_Button_Click"
-                            Content="{mui:FontIcon FontSize=16,
-                                                   Glyph=&#xE736;}"
-                            Visibility="Collapsed" />
-                </Grid>
-            </UserControl>
+            <Grid Background="{ThemeResource CardBackgroundFillColorDefault}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <interactivity:Interaction.Behaviors>
+                    <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                            TargetObject="{Binding ElementName=blog_Button}"
+                                                            Value="Visible" />
+                    </interactivity:EventTriggerBehavior>
+                    <interactivity:EventTriggerBehavior EventName="PointerExited">
+                        <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                            TargetObject="{Binding ElementName=blog_Button}"
+                                                            Value="Collapsed" />
+                    </interactivity:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" />
+                <StackPanel Grid.Row="1"
+                            Padding="{StaticResource TextControlThemePadding}"
+                            Spacing="4">
+                    <TextBlock Height="46"
+                               Style="{ThemeResource BodyStrongTextBlockStyle}"
+                               Text="{x:Bind Name, Mode=OneWay}" />
+                    <TextBlock MaxHeight="300"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Text="{x:Bind Blog, Mode=OneWay}" />
+                </StackPanel>
+                <Button x:Name="blog_Button"
+                        Grid.RowSpan="2"
+                        Width="40"
+                        Height="40"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        BorderBrush="{x:Null}"
+                        Click="blog_Button_Click"
+                        Content="{mui:FontIcon FontSize=16,
+                                               Glyph=&#xE736;}"
+                        Visibility="Collapsed" />
+            </Grid>
         </DataTemplate>
     </Page.Resources>
     <Grid x:Name="root_Grid">
@@ -254,9 +249,9 @@
                                     </manimations:AnimationSet>
                                 </manimations:Explicit.Animations>
 
-                                <TextBlock Height="36"
-                                           Text="{x:Bind Name, Mode=OneWay}"
-                                           TextWrapping="Wrap" />
+                                <TextBlock Height="38"
+                                           Style="{ThemeResource BodyTextBlockStyle}"
+                                           Text="{x:Bind Name, Mode=OneWay}" />
                                 <ContentPresenter Height="6" />
                                 <controls:IconTextBlock FontSize="14"
                                                         Icon="{mui:FontIcon Glyph=&#xE768;}"
