@@ -89,7 +89,7 @@ public class ObjectToBooleanConverter : DependencyObject, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        throw new NotSupportedException();
+        return DependencyProperty.UnsetValue;
     }
 
     private static bool ConvertTypeEquals(object value1, object value2)

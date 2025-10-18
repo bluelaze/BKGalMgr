@@ -18,6 +18,6 @@ public class SortOrderTypeI18NConverterConverter : IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        throw new NotSupportedException();
+        return DependencyProperty.UnsetValue;
     }
 }
