@@ -45,9 +45,9 @@
             <mcontrols:SettingsExpander x:Uid="TargetInfo_Source_Contributors" ItemsSource="{Binding Source.Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <mcontrols:SettingsCard ContentAlignment="Left">
+                        <mcontrols:SettingsCard Padding="8" ContentAlignment="Left">
                             <mcontrols:SettingsCard.Content>
-                                <local:ContributorInfoControl Width="700" Margin="-56,4,-50,4" />
+                                <local:ContributorInfoControl Width="700" />
                             </mcontrols:SettingsCard.Content>
                         </mcontrols:SettingsCard>
                     </DataTemplate>
@@ -59,9 +59,9 @@
             <mcontrols:SettingsExpander x:Uid="TargetInfo_Localization_Contributors" ItemsSource="{Binding Localization.Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <mcontrols:SettingsCard ContentAlignment="Left">
+                        <mcontrols:SettingsCard Padding="8" ContentAlignment="Left">
                             <mcontrols:SettingsCard.Content>
-                                <local:ContributorInfoControl Width="700" Margin="-56,4,-50,4" />
+                                <local:ContributorInfoControl Width="700" />
                             </mcontrols:SettingsCard.Content>
                         </mcontrols:SettingsCard>
                     </DataTemplate>

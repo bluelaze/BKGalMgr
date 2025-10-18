@@ -49,11 +49,9 @@
                 </mcontrols:SettingsExpander.Content>
                 <mcontrols:SettingsExpander.ItemTemplate>
                     <DataTemplate x:DataType="vm:ContributorInfo">
-                        <mcontrols:SettingsCard ContentAlignment="Left">
+                        <mcontrols:SettingsCard Padding="8" ContentAlignment="Left">
                             <mcontrols:SettingsCard.Content>
-                                <local:ContributorInfoControl Width="700"
-                                                              Margin="-56,4,-50,4"
-                                                              Delete="ContributorInfoControl_Delete" />
+                                <local:ContributorInfoControl Width="700" Delete="ContributorInfoControl_Delete" />
                             </mcontrols:SettingsCard.Content>
                         </mcontrols:SettingsCard>
                     </DataTemplate>
