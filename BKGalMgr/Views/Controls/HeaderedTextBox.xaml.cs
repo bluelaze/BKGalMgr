@@ -20,7 +20,7 @@ using Windows.Foundation.Collections;
 
 namespace BKGalMgr.Views.Controls;
 
-public sealed partial class HeaderedTextBox : UserControl, INotifyPropertyChanged
+public sealed partial class HeaderedTextBox : UserControl
 {
     public string Header
     {
@@ -55,17 +55,7 @@ public sealed partial class HeaderedTextBox : UserControl, INotifyPropertyChange
         "Text",
         typeof(string),
         typeof(HeaderedTextBox),
-        new PropertyMetadata(
-            default(string),
-            (DependencyObject obj, DependencyPropertyChangedEventArgs args) =>
-            {
-                var textBox = obj as HeaderedTextBox;
-                if (textBox != null)
-                {
-                    textBox.NotifyPropertyChanged(nameof(FakeText));
-                }
-            }
-        )
+        new PropertyMetadata(default(string))
     );
 
     public string PlaceholderText
@@ -137,37 +127,8 @@ public sealed partial class HeaderedTextBox : UserControl, INotifyPropertyChange
         "CanEmpty",
         typeof(bool),
         typeof(HeaderedTextBox),
-        new PropertyMetadata(
-            true,
-            (DependencyObject obj, DependencyPropertyChangedEventArgs args) =>
-            {
-                var textBox = obj as HeaderedTextBox;
-                if (textBox != null)
-                {
-                    textBox.NotifyPropertyChanged(nameof(FakeText));
-                }
-            }
-        )
+        new PropertyMetadata(true)
     );
-
-    public string FakeText
-    {
-        get { return CanEmpty ? "FakeText" : (string)GetValue(TextProperty); }
-        set { SetValue(FakeTextProperty, value); }
-    }
-    public static readonly DependencyProperty FakeTextProperty = DependencyProperty.Register(
-        "FakeText",
-        typeof(string),
-        typeof(HeaderedTextBox),
-        new PropertyMetadata(default(string))
-    );
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 
     public HeaderedTextBox()
     {

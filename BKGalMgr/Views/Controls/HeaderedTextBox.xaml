@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:BKGalMgr.Views.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:triggers="using:CommunityToolkit.WinUI"
+             xmlns:mtriggers="using:CommunityToolkit.WinUI"
+             xmlns:triggers="using:BKGalMgr.Triggers"
              mc:Ignorable="d">
 
     <Grid>
@@ -18,7 +19,7 @@
                 <VisualState x:Name="TextBoxNotEmptyState" />
                 <VisualState x:Name="TextBoxEmptyState">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger Value="{x:Bind FakeText, Mode=OneWay}" />
+                        <triggers:IsNullOrEmptyStateTrigger CanTrigger="{x:Bind CanEmpty, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" Value="{x:Bind Text, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="text_textbox.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
