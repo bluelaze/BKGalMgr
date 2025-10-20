@@ -284,6 +284,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>Ignore</value>
   </data>
+  <data name="Commom_Custom_Theme.Text" xml:space="preserve">
+    <value>Custom Theme</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>
@@ -743,6 +746,36 @@ More in crash_exception.txt</value>
   </data>
   <data name="Settings_Generic_App_Backdrop_Material.Header" xml:space="preserve">
     <value>App backdrop material</value>
+  </data>
+  <data name="Settings_Custom_Theme.Header" xml:space="preserve">
+    <value>Custom Theme</value>
+  </data>
+  <data name="Settings_Custom_Theme.Description" xml:space="preserve">
+    <value>Take effect after switching theme type</value>
+  </data>
+  <data name="Settings_Last_Screenshot.Header" xml:space="preserve">
+    <value>Last Screenshot</value>
+  </data>
+  <data name="Settings_Last_Screenshot.Description" xml:space="preserve">
+    <value>Automatically set as background image after taking screenshot</value>
+  </data>
+  <data name="Settings_Background_Image.Header" xml:space="preserve">
+    <value>Background Image</value>
+  </data>
+  <data name="Settings_Background_Image_Opacity.Header" xml:space="preserve">
+    <value>Background Image Opacity</value>
+  </data>
+  <data name="Settings_Linear_Gradient_Colors.Header" xml:space="preserve">
+    <value>Linear Gradient Colors</value>
+  </data>
+  <data name="Settings_Hide_Return.Header" xml:space="preserve">
+    <value>Hide Return</value>
+  </data>
+  <data name="Settings_Hide_Cover.Header" xml:space="preserve">
+    <value>Hide Cover</value>
+  </data>
+  <data name="Settings_Hide_Game_Info.Header" xml:space="preserve">
+    <value>Hide Product Info</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Header" xml:space="preserve">
     <value>Zip level</value>

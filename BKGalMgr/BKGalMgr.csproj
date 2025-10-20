@@ -43,6 +43,7 @@
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
         <None Remove="Views\Controls\T2DFanSubjectControl.xaml" />
         <None Remove="Views\Controls\TargetInfoControl.xaml" />
+        <None Remove="Views\Controls\ThemeInfoControl.xaml" />
         <None Remove="Views\Pages\BrowserPage.xaml" />
         <None Remove="Views\Pages\GamePlayPage.xaml" />
         <None Remove="Views\Pages\HomePage.xaml" />
@@ -60,6 +61,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.250402" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250402" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
@@ -166,6 +168,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\TargetInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\ThemeInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\BrowserPage.xaml">

@@ -14,6 +14,7 @@ using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using CommunityToolkit.WinUI.Controls;
 using H.NotifyIcon;
+using Mapster;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -43,75 +44,51 @@ public sealed partial class GamePlayPage : Page
         this.InitializeComponent();
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
         ViewModel.Game = e.Parameter as GameInfo;
-        if (!ViewModel.Game.Cover.IsNullOrEmpty() && !ViewModel.Game.Cover.EndsWith(".webp"))
+        _ = LoadTheme();
+    }
+
+    private async Task LoadTheme()
+    {
+        var theme = ViewModel.Game.CustomTheme;
+        if (theme.ThemeType == CustomThemeType.Default)
         {
-            var colors = await Task.Run(() =>
+            theme.RequestedTheme = ElementTheme.Dark;
+            // 每次都重新计算主色调
+            if (ViewModel.Game.Cover.IsNullOrEmpty() || ViewModel.Game.Cover.EndsWith(".webp"))
             {
-                var primaryColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover);
-                // 调暗
-                while (!ColorHelper.IsDarkColor(primaryColor))
-                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor, false);
-
-                var secondColor = primaryColor;
-                if (ColorHelper.IsHarshColor(primaryColor))
-                {
-                    secondColor = ColorHelper.GenerateLessHarshColor(primaryColor);
-                    primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 0.2);
-                }
-                else
-                {
-                    secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor);
-                }
-
-                return (
-                    ColorHelper.ToWindowsUIColor(primaryColor),
-                    ColorHelper.ToWindowsUIColor(secondColor)
-                );
-            });
-            var brush = new LinearGradientBrush
+                theme.LinearGradientStartColor = "#FF000000"; // System.Drawing.Color.Black;
+                theme.LinearGradientEndColor = "#FF808080"; // System.Drawing.Color.Gray;
+            }
+            else
             {
-                StartPoint = new Point(0.5, 1),
-                EndPoint = new Point(0.5, 0),
-                GradientStops = new GradientStopCollection
+                var colors = await Task.Run(() =>
                 {
-                    new GradientStop { Color = colors.Item1, Offset = 0.0 },
-                    new GradientStop { Color = colors.Item2, Offset = 1.0 },
-                },
-            };
-            this.Background = brush;
+                    var primaryColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover);
+                    // 调暗
+                    while (!ColorHelper.IsDarkColor(primaryColor))
+                        primaryColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor, false);
+
+                    var secondColor = primaryColor;
+                    if (ColorHelper.IsHarshColor(primaryColor))
+                    {
+                        secondColor = ColorHelper.GenerateLessHarshColor(primaryColor);
+                        primaryColor = ColorHelper.GenerateLighterOrDarkerColor(secondColor, false, 0.2);
+                    }
+                    else
+                    {
+                        secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor);
+                    }
+
+                    return (ColorHelper.ToWindowsUIColor(primaryColor), ColorHelper.ToWindowsUIColor(secondColor));
+                });
+                theme.LinearGradientStartColor = colors.Item2.ToString();
+                theme.LinearGradientEndColor = colors.Item1.ToString();
+            }
         }
-    }
-
-    private void root_Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
-    {
-        if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed)
-        {
-            App.MainWindow.NavigateToMainPage();
-            e.Handled = true;
-        }
-    }
-
-    private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
-    {
-        var segmentedItem = sender as SegmentedItem;
-        if (segmentedItem.FindDescendant("PART_Hover") is Border ele)
-        {
-            ele.CornerRadius = new(12);
-        }
-    }
-
-    private void back_Button_Click(object sender, RoutedEventArgs e)
-    {
-        App.MainWindow.NavigateToMainPage();
-    }
-
-    private void blog_TextBox_LostFocus(object sender, RoutedEventArgs e)
-    {
-        ViewModel.Game.SaveJsonFile();
     }
 
     private async Task PlayGame(GameInfo gameInfo, string leGuid)
@@ -323,6 +300,34 @@ public sealed partial class GamePlayPage : Page
         }
     }
 
+    private void root_Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed)
+        {
+            App.MainWindow.NavigateToMainPage();
+            e.Handled = true;
+        }
+    }
+
+    private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
+    {
+        var segmentedItem = sender as SegmentedItem;
+        if (segmentedItem.FindDescendant("PART_Hover") is Border ele)
+        {
+            ele.CornerRadius = new(12);
+        }
+    }
+
+    private void back_Button_Click(object sender, RoutedEventArgs e)
+    {
+        App.MainWindow.NavigateToMainPage();
+    }
+
+    private void blog_TextBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Game.SaveJsonFile();
+    }
+
     private async void play_Button_Click(object sender, RoutedEventArgs e)
     {
         await PlayGame(ViewModel.Game, "");
@@ -444,5 +449,30 @@ public sealed partial class GamePlayPage : Page
     private void t2dfan_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         T2DFanService.OpenSubjectPage(ViewModel.Game.T2DFanSubjectId);
+    }
+
+    private ThemeInfo _themeOldValue;
+
+    private void custom_theme_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        _themeOldValue = new();
+        ViewModel.Game.CustomTheme.Adapt(_themeOldValue);
+        custom_theme_popup_Grid.Visibility = Visibility.Visible;
+    }
+
+    private void custom_theme_confirm_Button_Click(object sender, RoutedEventArgs e)
+    {
+        custom_theme_popup_Grid.Visibility = Visibility.Collapsed;
+        // 选择Default后，原本的色调不会加载，点击确定后才会重新计算，
+        // 实现上是可以事件通知类型变更的，但是切换上要处理的太多，先这样吧
+        _ = LoadTheme();
+        ViewModel.Game.SaveJsonFile();
+    }
+
+    private void custom_theme_cancel_Button_Click(object sender, RoutedEventArgs e)
+    {
+        _themeOldValue.Adapt(ViewModel.Game.CustomTheme);
+        custom_theme_popup_Grid.Visibility = Visibility.Collapsed;
+        _ = LoadTheme();
     }
 }

@@ -13,7 +13,7 @@ public class Settings
 {
     public List<string> RepositoryPath { get; set; } = new();
     public string SelectedRepositoryPath { get; set; } = string.Empty;
-    public Theme AppTheme { get; set; } = Theme.Light;
+    public ElementTheme AppTheme { get; set; } = ElementTheme.Default;
     public BackdropMaterial AppBackdropMaterial { get; set; } = BackdropMaterial.Mica;
     public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
     public SupportLanguages Language { get; set; } = SupportLanguages.system;
@@ -21,4 +21,6 @@ public class Settings
     public BangumiInfo Bangumi { get; set; } = new();
 
     public LocalEmulatorInfo LocalEmulator { get; set; } = new();
+
+    public ThemeInfo CustomTheme { get; set; } = new();
 }

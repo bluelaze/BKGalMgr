@@ -60,7 +60,7 @@ public partial class GameInfo : ObservableObject
     public Microsoft.UI.Xaml.Media.Imaging.BitmapImage CoverImageSource
     {
         get
-    {
+        {
             if (Cover.IsNullOrEmpty())
                 return null;
             // 看着只不支持svg当封面，目前用bitmap应该都可以
@@ -127,6 +127,9 @@ public partial class GameInfo : ObservableObject
 
     [ObservableProperty]
     private ShoppingSiteInfo _shoppingInfo;
+
+    [ObservableProperty]
+    public ThemeInfo _customTheme = new();
 
     [ObservableProperty]
     [property: JsonIgnore]
@@ -292,6 +295,7 @@ public partial class GameInfo : ObservableObject
         gameInfo.SaveDataSettings.SetGamePath(dirPath);
 
         gameInfo.Refresh();
+        gameInfo.LoadTheme();
         gameInfo.Repository = repo;
         gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
         gameInfo.IsPropertyChanged = false;
@@ -1076,6 +1080,25 @@ public partial class GameInfo : ObservableObject
         OnPropertyChanged(nameof(Campaign));
     }
 
+    public void LoadTheme()
+    {
+        // 如果指定的图片是在游戏文件夹内的，则可能是会发生游戏迁移导致背景实现
+        // 所以根据路径拼接判断下重新设置
+        if (!CustomTheme.BackgroundImage.IsNullOrEmpty())
+        {
+            int folderIndex = CustomTheme.BackgroundImage.IndexOf(Path.GetFileName(FolderPath));
+            if (folderIndex != -1)
+            {
+                string imagePath = Path.Combine(
+                    Path.GetDirectoryName(FolderPath),
+                    CustomTheme.BackgroundImage.Substring(folderIndex)
+                );
+                if (File.Exists(imagePath))
+                    CustomTheme.BackgroundImage = imagePath;
+            }
+        }
+    }
+
     public void Refresh()
     {
         LoadCover();
@@ -1231,13 +1254,15 @@ public partial class GameInfo : ObservableObject
     public async Task SaveScreenshot(TargetInfo targetInfo, Bitmap bitmap)
     {
         Directory.CreateDirectory(ScreenshotFolderPath);
-        bitmap.Save(
-            Path.Combine(
-                ScreenshotFolderPath,
-                $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
-            ),
-            ImageFormat.Png
+        string screenshotPath = Path.Combine(
+            ScreenshotFolderPath,
+            $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
         );
+        bitmap.Save(screenshotPath, ImageFormat.Png);
+
+        if (CustomTheme.LastScreenshotAsBackground)
+            CustomTheme.BackgroundImage = screenshotPath;
+
         // also save to Pictures
         var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
         bitmap.Save(

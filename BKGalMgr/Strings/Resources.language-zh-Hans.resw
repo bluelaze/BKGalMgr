@@ -284,6 +284,9 @@
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>忽略</value>
   </data>
+  <data name="Commom_Custom_Theme.Text" xml:space="preserve">
+    <value>自定义主题</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
   </data>
@@ -743,6 +746,36 @@
   </data>
   <data name="Settings_Generic_App_Backdrop_Material.Header" xml:space="preserve">
     <value>主题背景材料</value>
+  </data>
+  <data name="Settings_Custom_Theme.Header" xml:space="preserve">
+    <value>自定义主题</value>
+  </data>
+  <data name="Settings_Custom_Theme.Description" xml:space="preserve">
+    <value>切换主题类型后生效</value>
+  </data>
+  <data name="Settings_Last_Screenshot.Header" xml:space="preserve">
+    <value>最新截图</value>
+  </data>
+  <data name="Settings_Last_Screenshot.Description" xml:space="preserve">
+    <value>截图后自动设置为背景图</value>
+  </data>
+  <data name="Settings_Background_Image.Header" xml:space="preserve">
+    <value>背景图</value>
+  </data>
+  <data name="Settings_Background_Image_Opacity.Header" xml:space="preserve">
+    <value>背景图透明度</value>
+  </data>
+  <data name="Settings_Linear_Gradient_Colors.Header" xml:space="preserve">
+    <value>渐变色</value>
+  </data>
+  <data name="Settings_Hide_Return.Header" xml:space="preserve">
+    <value>隐藏返回</value>
+  </data>
+  <data name="Settings_Hide_Cover.Header" xml:space="preserve">
+    <value>隐藏封面</value>
+  </data>
+  <data name="Settings_Hide_Game_Info.Header" xml:space="preserve">
+    <value>隐藏作品信息</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Header" xml:space="preserve">
     <value>zip压缩级别</value>

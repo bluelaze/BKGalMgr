@@ -14,8 +14,50 @@
         xmlns:tb="using:H.NotifyIcon"
         xmlns:vm="using:BKGalMgr.ViewModels"
         mc:Ignorable="d">
+    <Grid x:Name="root_Grid">
+        <Grid.Resources>
+            <ImageBrush x:Key="BackgroundImageBrush"
+                        ImageSource="{x:Bind Settings.CustomTheme.BackgroundImageSource, Mode=OneWay}"
+                        Opacity="{x:Bind Settings.CustomTheme.BackgroundImageOpacity, Mode=OneWay}"
+                        Stretch="UniformToFill" />
+            <LinearGradientBrush x:Key="BackgroundLinearGradientBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Offset="0.0" Color="{x:Bind Settings.CustomTheme.LinearGradientStartColor, Mode=OneWay}" />
+                <GradientStop Offset="1.0" Color="{x:Bind Settings.CustomTheme.LinearGradientEndColor, Mode=OneWay}" />
+            </LinearGradientBrush>
+        </Grid.Resources>
+        <Grid.BackgroundTransition>
+            <!--
+                这个只对slidecolorbrush生效，要走动画切背景，测试了下发现因为brush不是uielement，没法用manimations:Explicit.Animations，
+                估计只能额外增加个border元素作为背景和作为动画对象，再通过ShowAnimations，AnimationCompletedTriggerBehavior的组合完成切换效果，
+                详细的后面如果要实现，可以再看下toolkit的Animations，是有组合能实现。
+            -->
+            <BrushTransition />
+        </Grid.BackgroundTransition>
+        <interactivity:Interaction.Behaviors>
+            <!--  DataTriggerBehavior没法对enum比较，window又不能用converter，只好增加个int值中转了  -->
+            <interactivity:DataTriggerBehavior Binding="{x:Bind Settings.CustomTheme.ThemeTypeValue, Mode=OneWay}"
+                                               ComparisonCondition="Equal"
+                                               Value="0">
+                <interactivity:ChangePropertyAction PropertyName="Background"
+                                                    TargetObject="{x:Bind root_Grid}"
+                                                    Value="{x:Null}" />
+            </interactivity:DataTriggerBehavior>
+            <interactivity:DataTriggerBehavior Binding="{x:Bind Settings.CustomTheme.ThemeTypeValue, Mode=OneWay}"
+                                               ComparisonCondition="Equal"
+                                               Value="1">
+                <interactivity:ChangePropertyAction PropertyName="Background"
+                                                    TargetObject="{x:Bind root_Grid}"
+                                                    Value="{StaticResource BackgroundImageBrush}" />
+            </interactivity:DataTriggerBehavior>
+            <interactivity:DataTriggerBehavior Binding="{x:Bind Settings.CustomTheme.ThemeTypeValue, Mode=OneWay}"
+                                               ComparisonCondition="Equal"
+                                               Value="2">
+                <interactivity:ChangePropertyAction PropertyName="Background"
+                                                    TargetObject="{x:Bind root_Grid}"
+                                                    Value="{StaticResource BackgroundLinearGradientBrush}" />
+            </interactivity:DataTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
 
-    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{StaticResource TitleBarGridHeight}" />
             <RowDefinition Height="*" />

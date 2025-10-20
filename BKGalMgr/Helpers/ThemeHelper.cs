@@ -1,4 +1,9 @@
-﻿using LiveChartsCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
@@ -6,31 +11,19 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BKGalMgr.Helpers;
 
 // https://learn.microsoft.com/zh-cn/windows/apps/windows-app-sdk/system-backdrop-controller
 // https://learn.microsoft.com/zh-cn/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.media.systembackdrop
 
-public enum Theme
-{
-    Default,
-    Light,
-    Dark,
-}
-
 public enum BackdropMaterial
 {
     Mica,
-    Mica_Alt,
+    MicaAlt,
     Acrylic,
-    Acrylic_Base,
-    Acrylic_Thin,
+    AcrylicBase,
+    AcrylicThin,
 }
 
 public abstract class ISystemBackdrop : SystemBackdrop
@@ -157,7 +150,7 @@ public class ThemeHelper
 {
     private ISystemBackdrop _systemBackdrop;
     private Window _window;
-    private BackdropMaterial _backdrop = BackdropMaterial.Acrylic_Thin;
+    private BackdropMaterial _backdrop = BackdropMaterial.AcrylicThin;
 
     public ThemeHelper(Window window)
     {
@@ -175,7 +168,7 @@ public class ThemeHelper
         switch (backdrop)
         {
             case BackdropMaterial.Mica:
-            case BackdropMaterial.Mica_Alt:
+            case BackdropMaterial.MicaAlt:
                 return true;
         }
         return false;
@@ -198,7 +191,7 @@ public class ThemeHelper
     {
         switch (backdrop)
         {
-            case BackdropMaterial.Mica_Alt:
+            case BackdropMaterial.MicaAlt:
                 return MicaKind.BaseAlt;
             default:
                 return MicaKind.Base;
@@ -209,29 +202,28 @@ public class ThemeHelper
     {
         switch (backdrop)
         {
-            case BackdropMaterial.Acrylic_Base:
+            case BackdropMaterial.AcrylicBase:
                 return DesktopAcrylicKind.Base;
-            case BackdropMaterial.Acrylic_Thin:
+            case BackdropMaterial.AcrylicThin:
                 return DesktopAcrylicKind.Thin;
             default:
                 return DesktopAcrylicKind.Default;
         }
     }
 
-    public void ApllyTheme(Theme theme, BackdropMaterial backdrop)
+    public void ApllyTheme(ElementTheme theme, BackdropMaterial backdrop)
     {
+        _window.ApplyTheme(theme);
         switch (theme)
         {
-            case Theme.Dark:
-                _window.ApplyTheme(ElementTheme.Dark);
+            case ElementTheme.Dark:
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Dark;
                 LiveCharts.Configure(config =>
                 {
                     config.AddDarkTheme();
                 });
                 break;
-            case Theme.Light:
-                _window.ApplyTheme(ElementTheme.Light);
+            case ElementTheme.Light:
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Light;
                 LiveCharts.Configure(config =>
                 {
@@ -239,7 +231,6 @@ public class ThemeHelper
                 });
                 break;
             default:
-                _window.ApplyTheme(ElementTheme.Default);
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
                 LiveCharts.Configure(config =>
                 {

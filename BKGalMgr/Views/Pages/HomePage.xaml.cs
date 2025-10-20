@@ -147,10 +147,10 @@ public sealed partial class HomePage : Page
         switch ((sender as MenuFlyoutItem).Tag as string)
         {
             case "Dark":
-                App.GetRequiredService<SettingsPageViewModel>().AppTheme = Helpers.Theme.Dark;
+                App.GetRequiredService<SettingsPageViewModel>().AppTheme = ElementTheme.Dark;
                 break;
             case "Light":
-                App.GetRequiredService<SettingsPageViewModel>().AppTheme = Helpers.Theme.Light;
+                App.GetRequiredService<SettingsPageViewModel>().AppTheme = ElementTheme.Light;
                 break;
         }
     }

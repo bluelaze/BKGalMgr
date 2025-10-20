@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Models;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using H.NotifyIcon;
@@ -40,8 +41,12 @@ public sealed partial class MainWindow : Window
     [ObservableProperty]
     private ObservableCollection<NotificationInfo> _notifications = new();
 
+    private SettingsDto Settings { get; }
+
     public MainWindow()
     {
+        Settings = App.GetRequiredService<SettingsDto>();
+
         this.InitializeComponent();
 
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar

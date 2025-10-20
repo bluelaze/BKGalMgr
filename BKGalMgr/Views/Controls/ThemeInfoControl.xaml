@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="BKGalMgr.Views.Controls.ThemeInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:extensions="using:BKGalMgr.Extensions"
+             xmlns:helpers="using:BKGalMgr.Helpers"
+             xmlns:local="using:BKGalMgr.Views.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
+             xmlns:mtriggers="using:CommunityToolkit.WinUI"
+             xmlns:mui="using:CommunityToolkit.WinUI"
+             xmlns:muixaml="using:Microsoft.UI.Xaml"
+             xmlns:triggers="using:BKGalMgr.Triggers"
+             xmlns:vm="using:BKGalMgr.ViewModels"
+             d:DataContext="{d:DesignInstance vm:ThemeInfo}"
+             mc:Ignorable="d">
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="PickBackgroudImageButtonShow">
+                    <VisualState.StateTriggers>
+                        <triggers:FocusTrigger IsReverse="True" TargetElement="{x:Bind pick_background_image_TextBox, Mode=OneTime}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="pick_background_image_TextBox.Padding" Value="10,5,38,6" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="PickBackgroudImageButtonHide">
+                    <VisualState.StateTriggers>
+                        <triggers:FocusTrigger TargetElement="{x:Bind pick_background_image_TextBox, Mode=OneTime}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="pick_background_image_Button.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <mcontrols:SettingsExpander x:Uid="Settings_Custom_Theme"
+                                    HeaderIcon="{mui:FontIcon Glyph=&#xE790;}"
+                                    IsExpanded="True">
+            <ComboBox ItemsSource="{mui:EnumValues Type=vm:CustomThemeType}" SelectedItem="{Binding ThemeType, Mode=TwoWay}" />
+            <mcontrols:SettingsExpander.Items>
+                <mcontrols:SettingsCard x:Uid="Settings_Generic_App_Theme" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ComboBox ItemsSource="{extensions:EnumNames Type=muixaml:ElementTheme}" SelectedItem="{Binding RequestedTheme, Mode=TwoWay, Converter={StaticResource EnumNameConveretr}, ConverterParameter={extensions:EnumType Type=muixaml:ElementTheme}}" />
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Last_Screenshot" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{Binding LastScreenshotAsBackground, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Background_Image">
+                    <Grid>
+                        <TextBox x:Name="pick_background_image_TextBox"
+                                 MinWidth="200"
+                                 Text="{Binding BackgroundImage, Mode=TwoWay}" />
+                        <Button x:Name="pick_background_image_Button"
+                                Width="30"
+                                Margin="{ThemeResource TextBoxInnerButtonMargin}"
+                                Padding="{ThemeResource HelperButtonThemePadding}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Stretch"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                Click="pick_background_image_Button_Click">
+                            <FontIcon FontSize="{ThemeResource TextBoxIconFontSize}" Glyph="&#xE712;" />
+                        </Button>
+                    </Grid>
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Background_Image_Opacity">
+                    <Slider Width="200"
+                            Maximum="1"
+                            Minimum="0"
+                            SmallChange="0.01"
+                            StepFrequency="0.01"
+                            Value="{Binding BackgroundImageOpacity, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Linear_Gradient_Colors">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <mcontrols:ColorPickerButton x:Name="LinearGradientStartColor_ColorPickerButton" SelectedColor="{Binding LinearGradientStartColor, Mode=TwoWay, Converter={StaticResource StringToColorConverter}}" />
+                        <Button x:Name="switch_color_Button"
+                                Background="Transparent"
+                                BorderBrush="{x:Null}"
+                                Click="switch_color_Button_Click"
+                                Content="{mui:FontIcon FontSize=16,
+                                                       Glyph=&#xE8AB;}" />
+                        <mcontrols:ColorPickerButton x:Name="LinearGradientEndColor_ColorPickerButton" SelectedColor="{Binding LinearGradientEndColor, Mode=TwoWay, Converter={StaticResource StringToColorConverter}}" />
+                    </StackPanel>
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Hide_Return" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{Binding HideReturn, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Hide_Cover" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{Binding HideCover, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Hide_Game_Info" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{Binding HideGameInfo, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+            </mcontrols:SettingsExpander.Items>
+        </mcontrols:SettingsExpander>
+    </Grid>
+</UserControl>

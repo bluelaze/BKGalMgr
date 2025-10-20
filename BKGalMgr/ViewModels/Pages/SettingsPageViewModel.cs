@@ -20,7 +20,7 @@ public partial class SettingsPageViewModel : ObservableObject
     public string BKGalMgrVersion => Assembly.GetEntryAssembly().GetName().Version.ToString();
 
     [ObservableProperty]
-    private Theme _appTheme;
+    private ElementTheme _appTheme;
 
     [ObservableProperty]
     private BackdropMaterial _appBackdropMaterial;
@@ -42,6 +42,7 @@ public partial class SettingsPageViewModel : ObservableObject
 
     public BangumiInfo Bangumi => _settings.Bangumi;
     public LocalEmulatorInfo LocalEmulator => _settings.LocalEmulator;
+    public ThemeInfo CustomTheme => _settings.CustomTheme;
 
     private readonly SettingsDto _settings;
     private ThemeHelper _themeHelper;
@@ -101,6 +102,7 @@ public partial class SettingsPageViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
     public void ApplySettings()
     {
         this.Adapt(_settings);

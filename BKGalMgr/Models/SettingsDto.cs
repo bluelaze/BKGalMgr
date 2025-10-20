@@ -16,12 +16,13 @@ public class SettingsDto
     // settings
     public List<string> RepositoryPath { get; set; }
     public string SelectedRepositoryPath { get; set; }
-    public Theme AppTheme { get; set; }
+    public ElementTheme AppTheme { get; set; }
     public BackdropMaterial AppBackdropMaterial { get; set; }
     public CompressionLevel ZipLevel { get; set; }
     public SupportLanguages Language { get; set; }
     public BangumiInfo Bangumi { get; set; }
     public LocalEmulatorInfo LocalEmulator { get; set; }
+    public ThemeInfo CustomTheme { get; set; } = new();
 
     // dto
     private readonly Settings _settings;

@@ -59,6 +59,8 @@
             <converters:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
             <converters:TimeSpanFormatStringConverter x:Key="TimeSpanFormatStringConverter" />
             <converters:GetFileNameConverter x:Key="GetFileNameConverter" />
+            <converters:StringToColorConverter x:Key="StringToColorConverter" />
+            <converters:EnumNameConveretr x:Key="EnumNameConveretr" />
 
             <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"
@@ -82,6 +84,8 @@
             <mconverters:BoolToObjectConverter x:Key="BoolInvertConverter"
                                                FalseValue="True"
                                                TrueValue="False" />
+            <mconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
 
         </ResourceDictionary>
     </Application.Resources>
