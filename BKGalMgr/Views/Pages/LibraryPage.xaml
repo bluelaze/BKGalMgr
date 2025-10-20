@@ -296,7 +296,7 @@
                                                 <TextBlock Margin="-4,1,8,0"
                                                            VerticalAlignment="Center"
                                                            FontSize="12">
-                                                    <Hyperlink FontFamily="Segoe MDL2 Assets"
+                                                    <Hyperlink FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                                NavigateUri="{Binding Website, Mode=OneWay}"
                                                                UnderlineStyle="None">
                                                         &#xE71B;
