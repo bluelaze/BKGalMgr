@@ -163,6 +163,7 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
     {
         Theme defaultTheme = null;
         Theme chartTheme = null;
+        // 缓存当前chart的默认主题，然后获取要设置的主题
         switch (theme)
         {
             case ElementTheme.Default:
@@ -170,7 +171,7 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
                 {
                     defaultTheme = config.GetTheme();
                     if (defaultTheme.RequestedTheme != LvcThemeKind.Unknown)
-                        config.AddDarkTheme();
+                        config.AddDefaultTheme();
                     chartTheme = config.GetTheme();
                 });
                 break;
@@ -190,12 +191,12 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
                 {
                     defaultTheme = config.GetTheme();
                     if (defaultTheme.RequestedTheme != LvcThemeKind.Light)
-                        config.AddDarkTheme();
+                        config.AddLightTheme();
                     chartTheme = config.GetTheme();
                 });
                 break;
         }
-        // 没提供属性设置，只能这样写了
+        // 还原设置的全局默认主题
         if (defaultTheme.RequestedTheme != chartTheme.RequestedTheme)
         {
             switch (defaultTheme?.RequestedTheme)
@@ -221,7 +222,7 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
                     break;
             }
         }
-
+        // 没提供属性设置，也没主题新增接口，只能这样写了
         RequestedTheme = theme;
         lvc_chart.ChartTheme = chartTheme;
     }
