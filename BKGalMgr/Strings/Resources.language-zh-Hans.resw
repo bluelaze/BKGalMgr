@@ -191,10 +191,10 @@
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>
   </data>
-  <data name="Dlg_Confirm" xml:space="preserve">
+  <data name="Dlg_Confirm_Button.Content" xml:space="preserve">
     <value>确定</value>
   </data>
-  <data name="Dlg_Cancel" xml:space="preserve">
+  <data name="Dlg_Cancel_Button.Content" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="Dlg_Repository_New" xml:space="preserve">

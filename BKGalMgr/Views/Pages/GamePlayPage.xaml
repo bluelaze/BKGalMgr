@@ -569,24 +569,22 @@
                 </ContentPresenter>
 
                 <Button x:Name="custom_theme_confirm_Button"
+                        x:Uid="Dlg_Confirm_Button"
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="24,24,4,24"
                         HorizontalAlignment="Stretch"
                         Click="custom_theme_confirm_Button_Click"
-                        Content="OK"
                         ElementSoundMode="FocusOnly"
-                        IsTabStop="False"
                         Style="{ThemeResource AccentButtonStyle}" />
                 <Button x:Name="custom_theme_cancel_Button"
+                        x:Uid="Dlg_Cancel_Button"
                         Grid.Row="1"
                         Grid.Column="1"
                         Margin="4,24,24,24"
                         HorizontalAlignment="Stretch"
                         Click="custom_theme_cancel_Button_Click"
-                        Content="Cancel"
                         ElementSoundMode="FocusOnly"
-                        IsTabStop="False"
                         Style="{ThemeResource DefaultButtonStyle}" />
             </Grid>
         </Grid>

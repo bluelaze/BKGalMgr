@@ -18,8 +18,8 @@ public class DialogHelper
         // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
         dialog.XamlRoot = App.MainWindow.Content.XamlRoot;
         dialog.RequestedTheme = App.MainWindow.RequestedTheme();
-        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm");
-        dialog.CloseButtonText = LanguageHelper.GetString("Dlg_Cancel");
+        dialog.PrimaryButtonText = LanguageHelper.GetString("Dlg_Confirm_Button/Content");
+        dialog.CloseButtonText = LanguageHelper.GetString("Dlg_Cancel_Button/Content");
         dialog.DefaultButton = ContentDialogButton.Primary;
         // https://github.com/microsoft/microsoft-ui-xaml/issues/424
         dialog.Resources["ContentDialogMaxWidth"] = 1080;
