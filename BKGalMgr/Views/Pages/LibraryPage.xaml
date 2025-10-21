@@ -219,6 +219,7 @@
                                     </MenuFlyout>
                                 </UserControl.ContextFlyout>
                                 <SplitView x:Name="gameinfo_SplitView"
+                                           Background="Transparent"
                                            DisplayMode="Inline"
                                            OpenPaneLength="720"
                                            PaneClosed="gameinfo_SplitView_PaneClosed"
@@ -392,7 +393,7 @@
                                                                                 Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                                             </MenuFlyout>
                                                         </UserControl.ContextFlyout>
-                                                        <StackPanel>
+                                                        <StackPanel Background="Transparent">
                                                             <VisualStateManager.VisualStateGroups>
                                                                 <VisualStateGroup>
                                                                     <VisualState x:Name="PlayingState">
