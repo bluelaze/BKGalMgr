@@ -27,7 +27,7 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <ScrollViewer IsTabStop="False"
+        <ScrollViewer IsTabStop="True"
                       UseSystemFocusVisuals="False"
                       VerticalScrollBarVisibility="Auto"
                       VerticalScrollMode="Auto">
