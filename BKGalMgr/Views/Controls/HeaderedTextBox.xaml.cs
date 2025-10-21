@@ -113,7 +113,7 @@ public sealed partial class HeaderedTextBox : UserControl
     }
     public static readonly DependencyProperty TextWrappingProperty = DependencyProperty.Register(
         "TextWrapping",
-        typeof(bool),
+        typeof(TextWrapping),
         typeof(HeaderedTextBox),
         new PropertyMetadata(default(TextWrapping))
     );

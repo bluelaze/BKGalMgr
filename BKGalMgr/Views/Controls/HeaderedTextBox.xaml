@@ -19,7 +19,8 @@
                 <VisualState x:Name="TextBoxNotEmptyState" />
                 <VisualState x:Name="TextBoxEmptyState">
                     <VisualState.StateTriggers>
-                        <triggers:IsNullOrEmptyStateTrigger CanTrigger="{x:Bind CanEmpty, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" Value="{x:Bind Text, Mode=OneWay}" />
+                        <!--  。。。如果value直接绑定Text而不是text_textbox.Text，会导致text_textbox没法在xaml进行绑定换行，只能通过代码后台设置，很奇怪的bug  -->
+                        <triggers:IsNullOrEmptyStateTrigger CanTrigger="{x:Bind CanEmpty, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" Value="{x:Bind text_textbox.Text, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="text_textbox.BorderBrush" Value="{ThemeResource SystemFillColorCriticalBrush}" />
