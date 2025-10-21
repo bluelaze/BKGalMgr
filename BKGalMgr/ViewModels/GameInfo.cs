@@ -1161,6 +1161,7 @@ public partial class GameInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void CustomCover()
     {
         string coversFolder = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
@@ -1173,6 +1174,7 @@ public partial class GameInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void MoveImageToCoverFolder(string folderName)
     {
         if (folderName.IsNullOrEmpty())
@@ -1209,6 +1211,7 @@ public partial class GameInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     public void MoveImageToSpecialFolder(string folderName)
     {
         if (folderName.IsNullOrEmpty())

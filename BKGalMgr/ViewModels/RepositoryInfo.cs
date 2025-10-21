@@ -227,6 +227,7 @@ public partial class RepositoryInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     void SelectSortType(string sortTypeName)
     {
         if (Enum.TryParse(sortTypeName, out SortType result))
@@ -236,6 +237,7 @@ public partial class RepositoryInfo : ObservableObject
     }
 
     [RelayCommand]
+    [property: JsonIgnore]
     void SelectSortOrderType(string sortOrderTypeName)
     {
         if (Enum.TryParse(sortOrderTypeName, out SortDirection result))
