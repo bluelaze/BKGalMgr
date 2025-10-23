@@ -66,6 +66,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />-->
+                        <Setter Target="le_Button.IsEnabled" Value="False" />
                         <Setter Target="stop_Button.IsEnabled" Value="True" />
                         <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
 
@@ -81,6 +82,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />-->
+                        <Setter Target="le_Button.IsEnabled" Value="False" />
                         <Setter Target="stop_Button.IsEnabled" Value="True" />
                         <Setter Target="screen_capture_Button.IsEnabled" Value="True" />
 
@@ -439,22 +441,8 @@
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="10">
-                <Button x:Name="stop_Button"
-                        Click="stop_Button_Click"
-                        Content="{mui:FontIcon Glyph=&#xE71A;}"
-                        IsEnabled="False"
-                        Style="{StaticResource BottomButtonStyle}"
-                        ToolTipService.ToolTip="Stop" />
-                <Button x:Name="play_Button"
-                        Width="40"
-                        Height="40"
-                        Padding="0"
-                        BorderBrush="{x:Null}"
-                        Click="play_Button_Click"
-                        Content="{mui:FontIcon Glyph=&#xF5B0;}"
-                        CornerRadius="20"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                <Button Content="LE"
+                <Button x:Name="le_Button"
+                        Content="LE"
                         FontSize="18"
                         IsEnabled="{x:Bind ViewModel.Settings.LocalEmulator.LEProcPath, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}"
                         Style="{StaticResource BottomButtonStyle}"
@@ -465,6 +453,22 @@
                                     Placement="RightEdgeAlignedTop" />
                     </Button.Flyout>
                 </Button>
+                <Button x:Name="play_Button"
+                        Width="40"
+                        Height="40"
+                        Padding="0"
+                        BorderBrush="{x:Null}"
+                        Click="play_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xF5B0;}"
+                        CornerRadius="20"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <Button x:Name="stop_Button"
+                        Click="stop_Button_Click"
+                        Content="{mui:FontIcon Glyph=&#xE71A;}"
+                        IsEnabled="False"
+                        Style="{StaticResource BottomButtonStyle}"
+                        ToolTipService.ToolTip="Stop" />
+
             </StackPanel>
             <!--  right  -->
             <StackPanel Grid.Column="2"
