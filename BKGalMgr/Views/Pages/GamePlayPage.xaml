@@ -6,6 +6,7 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:diagnostics="using:System.Diagnostics"
       xmlns:extensions="using:BKGalMgr.Extensions"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
@@ -62,7 +63,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="PlayingState">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.Game.PlayStatus}" To="Playing" />
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind ViewModel.Game.PlayStatus, Mode=OneWay}" To="Playing" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />-->
@@ -78,7 +79,7 @@
                 </VisualState>
                 <VisualState x:Name="PauseState">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsEqualStateTrigger Value="{Binding ViewModel.Game.PlayStatus}" To="Pause" />
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind ViewModel.Game.PlayStatus, Mode=OneWay}" To="Pause" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!--<Setter Target="played_time_TextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />-->
@@ -88,6 +89,17 @@
 
                         <Setter Target="play_Button.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
                         <Setter Target="play_Button.Content" Value="{mui:FontIcon Glyph=&#xE768;}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="StopTimingWhenNotActiveCheckState">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind ViewModel.Game.StopTimingWhenNotActive, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  SystemFillColorSuccessBrush，不支持为啥没法用ThemeResource  -->
+                        <Setter Target="toggle_stop_timing_MenuFlyoutItem.Icon" Value="{mui:FontIcon Foreground='#0F7B0F', Glyph=&#xE73E;}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -498,7 +510,7 @@
                         Content="{mui:FontIcon Glyph=&#xE712;}"
                         Style="{StaticResource BottomButtonStyle}">
                     <Button.Flyout>
-                        <MenuFlyout>
+                        <MenuFlyout Placement="RightEdgeAlignedBottom">
                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
                                             Command="{x:Bind ViewModel.Game.OpenJsonFolderCommand, Mode=OneWay}"
                                             Icon="{mui:FontIcon Glyph=&#xE838;}" />
@@ -534,9 +546,17 @@
                             </MenuFlyoutSubItem>
 
                             <MenuFlyoutSeparator />
+                            <MenuFlyoutItem x:Name="toggle_stop_timing_MenuFlyoutItem"
+                                            x:Uid="Commom_MenuItem_Auto_Stop_Timing"
+                                            Click="toggle_stop_timing_MenuFlyoutItem_Click" />
+                            <MenuFlyoutItem x:Name="select_game_process_MenuFlyoutItem"
+                                            x:Uid="Commom_MenuItem_Select_Game_Process"
+                                            Click="select_game_process_MenuFlyoutItem_Click"
+                                            Icon="{mui:FontIcon Glyph=&#xE768;}" />
 
+                            <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Name="custom_theme_MenuFlyoutItem"
-                                            x:Uid="Commom_Custom_Theme"
+                                            x:Uid="Commom_MenuItem_Custom_Theme"
                                             Click="custom_theme_MenuFlyoutItem_Click"
                                             Icon="{mui:FontIcon Glyph=&#xE790;}" />
                         </MenuFlyout>
@@ -588,6 +608,89 @@
                         Margin="4,24,24,24"
                         HorizontalAlignment="Stretch"
                         Click="custom_theme_cancel_Button_Click"
+                        ElementSoundMode="FocusOnly"
+                        Style="{ThemeResource DefaultButtonStyle}" />
+            </Grid>
+        </Grid>
+
+        <!--  select game process  -->
+        <Grid x:Name="select_game_process_Grid"
+              Grid.RowSpan="3"
+              Background="Transparent"
+              IsTabStop="False"
+              Visibility="Collapsed">
+            <Grid MinWidth="360"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Background="{ThemeResource ContentDialogBackground}"
+                  CornerRadius="{ThemeResource OverlayCornerRadius}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ContentPresenter Grid.ColumnSpan="2"
+                                  Padding="{ThemeResource ContentDialogPadding}"
+                                  Background="{ThemeResource ContentDialogTopOverlay}">
+                    <ListView x:Name="select_game_process_ListView"
+                              MaxHeight="720"
+                              ItemContainerStyle="{StaticResource CustomListViewItemStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="diagnostics:Process">
+                                <Grid Padding="8"
+                                      ColumnSpacing="16"
+                                      RowSpacing="4">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.RowSpan="2"
+                                           Width="32"
+                                           Height="32"
+                                           Source="{x:Bind extensions:ProcessExtensions.GetIcon(Id)}" />
+                                    <TextBlock Grid.Column="1"
+                                               Grid.ColumnSpan="2"
+                                               Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                               Text="{x:Bind MainWindowTitle, Mode=OneTime}" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Style="{ThemeResource BodyTextBlockStyle}"
+                                               Text="{x:Bind ProcessName, Mode=OneTime}" />
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="2"
+                                               Style="{ThemeResource BodyTextBlockStyle}"
+                                               Text="{x:Bind Id, Mode=OneTime}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                    </ListView>
+                </ContentPresenter>
+
+                <Button x:Name="select_game_process_confirm_Button"
+                        x:Uid="Dlg_Confirm_Button"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="24,24,4,24"
+                        HorizontalAlignment="Stretch"
+                        Click="select_game_process_confirm_Button_Click"
+                        ElementSoundMode="FocusOnly"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                <Button x:Name="select_game_process_cancel_Button"
+                        x:Uid="Dlg_Cancel_Button"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="4,24,24,24"
+                        HorizontalAlignment="Stretch"
+                        Click="select_game_process_cancel_Button_Click"
                         ElementSoundMode="FocusOnly"
                         Style="{ThemeResource DefaultButtonStyle}" />
             </Grid>

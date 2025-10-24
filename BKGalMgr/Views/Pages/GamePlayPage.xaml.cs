@@ -91,7 +91,7 @@ public sealed partial class GamePlayPage : Page
         }
     }
 
-    private async Task PlayGame(GameInfo gameInfo, string leGuid)
+    private async Task StartGame(GameInfo gameInfo, string leGuid)
     {
         TargetInfo targetInfo = gameInfo.SelectedTarget;
         if (targetInfo == null)
@@ -211,7 +211,17 @@ public sealed partial class GamePlayPage : Page
             App.ShowErrorMessage(LanguageHelper.GetString("Msg_TargetExe_Start_Fail").Format(targetInfo.TargetExePath));
             return;
         }
+        _ = StartTiming(gameInfo, gameProcess);
+    }
 
+    record struct MainWindowProcess(Process process);
+
+    private async Task StartTiming(GameInfo gameInfo, Process gameProcess)
+    {
+        // 尽快获取子进程列表
+        var childProcesses = gameProcess.GetChildProcesses();
+
+        TargetInfo targetInfo = gameInfo.SelectedTarget;
         targetInfo.LastPlayDate = DateTime.Now;
         targetInfo.SaveJsonFile();
 
@@ -219,9 +229,24 @@ public sealed partial class GamePlayPage : Page
         gameInfo.AddPlayedPeriodToFirst(new(gameInfo.LastPlayDate, DateTime.Now, TimeSpan.Zero));
         gameInfo.SaveJsonFile();
 
+        var mainWindowProcess = new MainWindowProcess(gameProcess);
         var playedPeriod = gameInfo.PlayedPeriods.First();
         var savePlayedTime = () =>
         {
+            if (gameInfo.StopTimingWhenNotActive)
+            {
+                if (mainWindowProcess.process?.Id == ProcessExtensions.GetForegroundWindowProcess()?.Id)
+                {
+                    gameInfo.PlayStatus = PlayStatus.Playing;
+                    targetInfo.PlayStatus = PlayStatus.Playing;
+                }
+                else
+                {
+                    gameInfo.PlayStatus = PlayStatus.Pause;
+                    targetInfo.PlayStatus = PlayStatus.Pause;
+                }
+            }
+
             if (gameInfo.PlayStatus == PlayStatus.Stop)
                 return;
 
@@ -257,11 +282,49 @@ public sealed partial class GamePlayPage : Page
                 savePlayedTime();
             });
 
-        // 有可能时启动器之类的，等待所有子线程结束
+        // 有可能用到LE或者启动器之类的，有可能是链式启动的，需要等待所有有窗口的进程结束
         gameInfo.PlayCancelTokenSource = new CancellationTokenSource();
         try
         {
-            await gameProcess.WaitForAllExitAsync(gameInfo.PlayCancelTokenSource.Token);
+            // 稍微等下，避免窗口未创建
+            // 测试如果使用LE启动，有些游戏是容易断链的，找不到最后的游戏窗口进程
+            await Task.Delay(1000);
+            // 有可能中间还有子进程中转
+            if (!gameProcess.IsMainWindowProcess())
+            {
+                foreach (var c in childProcesses)
+                {
+                    if (c.FindMainWindowProcess() is Process p)
+                    {
+                        mainWindowProcess.process = p;
+                        break;
+                    }
+                }
+            }
+            while (mainWindowProcess.process.FindMainWindowProcess() is Process process)
+            {
+                mainWindowProcess.process = process;
+                await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                // 像是LE会拉起游戏后关闭自身，需要先获取子进程，否则如果子进程自身拉起游戏自身退出，迟了就导致找不到拉起的游戏窗口进程
+                var children = mainWindowProcess.process.GetChildProcesses();
+                if (children.Any())
+                    await Task.Delay(1000);
+                foreach (var c in children)
+                {
+                    if (c.FindMainWindowProcess() is Process p)
+                    {
+                        mainWindowProcess.process = p;
+                        await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                    }
+                }
+            }
+            // 再找下是否有其他的
+            while (gameProcess.FindMainWindowProcess() is Process process)
+            {
+                mainWindowProcess.process = process;
+                await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+            }
+            //await mainWindowProcess.process.WaitForAllExitAsync();
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -330,7 +393,12 @@ public sealed partial class GamePlayPage : Page
 
     private async void play_Button_Click(object sender, RoutedEventArgs e)
     {
-        await PlayGame(ViewModel.Game, "");
+        if (ViewModel.Game.PlayStatus != PlayStatus.Stop && ViewModel.Game.StopTimingWhenNotActive)
+        {
+            App.ShowWarningMessage(LanguageHelper.GetString("Msg_Toggle_Off_Auto_Stop_Timing"));
+            ViewModel.Game.StopTimingWhenNotActive = false;
+        }
+        await StartGame(ViewModel.Game, "");
     }
 
     private void stop_Button_Click(object sender, RoutedEventArgs e)
@@ -368,7 +436,7 @@ public sealed partial class GamePlayPage : Page
     private async void local_emulator_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var menuItem = sender as MenuFlyoutItem;
-        await PlayGame(ViewModel.Game, menuItem.Tag as string);
+        await StartGame(ViewModel.Game, menuItem.Tag as string);
     }
 
     private void cover_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -474,5 +542,38 @@ public sealed partial class GamePlayPage : Page
         _themeOldValue.Adapt(ViewModel.Game.CustomTheme);
         custom_theme_popup_Grid.Visibility = Visibility.Collapsed;
         _ = LoadTheme();
+    }
+
+    private void select_game_process_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.Game.SelectedTarget == null)
+        {
+            App.MainWindow.SelecteTarget(ViewModel.Game);
+            return;
+        }
+        select_game_process_ListView.ItemsSource = ProcessExtensions.GetAllWindowProcess();
+        select_game_process_Grid.Visibility = Visibility.Visible;
+    }
+
+    private void select_game_process_confirm_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (select_game_process_ListView.SelectedItem is Process gameProcess)
+            _ = StartTiming(ViewModel.Game, gameProcess);
+        select_game_process_Grid.Visibility = Visibility.Collapsed;
+    }
+
+    private void select_game_process_cancel_Button_Click(object sender, RoutedEventArgs e)
+    {
+        select_game_process_Grid.Visibility = Visibility.Collapsed;
+    }
+
+    private void toggle_stop_timing_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Game.StopTimingWhenNotActive = !ViewModel.Game.StopTimingWhenNotActive;
+        if (!ViewModel.Game.StopTimingWhenNotActive && ViewModel.Game.PlayStatus != PlayStatus.Stop)
+        {
+            ViewModel.Game.PlayStatus = PlayStatus.Playing;
+            ViewModel.Game.SelectedTarget.PlayStatus = PlayStatus.Playing;
+        }
     }
 }

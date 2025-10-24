@@ -188,6 +188,9 @@
     <value>发生未知异常，可考虑重启软件！
 详情可看crash_exception.txt</value>
   </data>
+  <data name="Msg_Toggle_Off_Auto_Stop_Timing" xml:space="preserve">
+    <value>已关闭非前台自动停止计时</value>
+  </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>添加</value>
   </data>
@@ -284,8 +287,14 @@
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>忽略</value>
   </data>
-  <data name="Commom_Custom_Theme.Text" xml:space="preserve">
+  <data name="Commom_MenuItem_Custom_Theme.Text" xml:space="preserve">
     <value>自定义主题</value>
+  </data>
+  <data name="Commom_MenuItem_Auto_Stop_Timing.Text" xml:space="preserve">
+    <value>非前台自动停止计时</value>
+  </data>
+  <data name="Commom_MenuItem_Select_Game_Process.Text" xml:space="preserve">
+    <value>指定游戏进程开始计时</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>

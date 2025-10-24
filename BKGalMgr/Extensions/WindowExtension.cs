@@ -73,8 +73,8 @@ public static class WindowExtension
         return 1;
     }
 
-    [DllImport("User32.dll")]
-    internal static extern int GetDpiForWindow(IntPtr hwnd);
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern int GetDpiForWindow(IntPtr hWnd);
 
     public static double GetWindowScale(this Window window)
     {
@@ -83,4 +83,18 @@ public static class WindowExtension
 
         return scalingFactor;
     }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+
+    public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool IsWindowVisible(IntPtr hWnd);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processId);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern IntPtr GetForegroundWindow();
 }

@@ -188,6 +188,9 @@
     <value>An unhandled exception occurred, May need to restart!
 More in crash_exception.txt</value>
   </data>
+  <data name="Msg_Toggle_Off_Auto_Stop_Timing" xml:space="preserve">
+    <value>Stop timing when not active is closed</value>
+  </data>
   <data name="Dlg_Add" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -284,8 +287,14 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>Ignore</value>
   </data>
-  <data name="Commom_Custom_Theme.Text" xml:space="preserve">
+  <data name="Commom_MenuItem_Custom_Theme.Text" xml:space="preserve">
     <value>Custom Theme</value>
+  </data>
+  <data name="Commom_MenuItem_Auto_Stop_Timing.Text" xml:space="preserve">
+    <value>Stop Timing When Not Active</value>
+  </data>
+  <data name="Commom_MenuItem_Select_Game_Process.Text" xml:space="preserve">
+    <value>Start Timing With Game Process</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
