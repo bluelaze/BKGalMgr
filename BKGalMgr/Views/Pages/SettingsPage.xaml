@@ -72,7 +72,38 @@
                                    Height="16"
                                    Source="{ThemeResource BangumiIcon}" />
                     </mcontrols:SettingsCard.HeaderIcon>
-                    <TextBox Text="{x:Bind ViewModel.Bangumi.AccessToken, Mode=TwoWay}" />
+                    <Grid>
+                        <interactivity:Interaction.Behaviors>
+                            <interactivity:DataTriggerBehavior Binding="{x:Bind bangumi_accesstoken_reveal_ToggleButton.IsChecked, Mode=OneWay}"
+                                                               ComparisonCondition="Equal"
+                                                               Value="True">
+                                <interactivity:ChangePropertyAction PropertyName="PasswordRevealMode"
+                                                                    TargetObject="{Binding ElementName=bangumi_accesstoken_PasswordBox, Mode=OneTime}"
+                                                                    Value="Visible" />
+                            </interactivity:DataTriggerBehavior>
+                            <interactivity:DataTriggerBehavior Binding="{x:Bind bangumi_accesstoken_reveal_ToggleButton.IsChecked, Mode=OneWay}"
+                                                               ComparisonCondition="NotEqual"
+                                                               Value="True">
+                                <interactivity:ChangePropertyAction PropertyName="PasswordRevealMode"
+                                                                    TargetObject="{Binding ElementName=bangumi_accesstoken_PasswordBox, Mode=OneTime}"
+                                                                    Value="Hidden" />
+                            </interactivity:DataTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                        <PasswordBox x:Name="bangumi_accesstoken_PasswordBox"
+                                     Padding="10,5,38,6"
+                                     Password="{x:Bind ViewModel.Bangumi.AccessToken, Mode=TwoWay}"
+                                     PasswordRevealMode="Hidden" />
+                        <ToggleButton x:Name="bangumi_accesstoken_reveal_ToggleButton"
+                                      Width="30"
+                                      Margin="{ThemeResource TextBoxInnerButtonMargin}"
+                                      Padding="{ThemeResource HelperButtonThemePadding}"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Stretch"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent">
+                            <FontIcon FontSize="{ThemeResource TextBoxIconFontSize}" Glyph="&#xF78D;" />
+                        </ToggleButton>
+                    </Grid>
                 </mcontrols:SettingsCard>
 
                 <!--  Local Emulator  -->
