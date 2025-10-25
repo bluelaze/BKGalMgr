@@ -973,4 +973,22 @@ public sealed partial class ManagePage : Page
         if (covers_ListView.SelectedIndex < covers_ListView.Items.Count)
             covers_FlipView.SelectedIndex = covers_ListView.SelectedIndex;
     }
+
+    private async void edit_played_period_Button_Click(object sender, RoutedEventArgs e)
+    {
+        var control = new PlayedPeriodListEditControl()
+        {
+            PlayedPeriods = new(ViewModel.SelectedRepository.SelectedGame.PlayedPeriods),
+        };
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Dlg_Played_Periods_Edit");
+        dialog.Content = control;
+        if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+        {
+            ViewModel.SelectedRepository.SelectedGame.PlayedPeriods = control.PlayedPeriods;
+            ViewModel.SelectedRepository.SelectedGame.SaveJsonFile();
+            if (ViewModel.SelectedRepository.SelectedGame.PlayedPeriods.Any())
+                playedperiods_ComboBox.SelectedIndex = 0;
+        }
+    }
 }

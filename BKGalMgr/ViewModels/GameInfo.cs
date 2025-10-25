@@ -167,11 +167,15 @@ public partial class GameInfo : ObservableObject
     private bool _isPropertyChanged;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsPlaying))]
     [property: JsonIgnore]
     private PlayStatus _playStatus = PlayStatus.Stop;
 
     [JsonIgnore]
     public CancellationTokenSource PlayCancelTokenSource { get; set; }
+
+    [JsonIgnore]
+    public bool IsPlaying => PlayStatus != PlayStatus.Stop;
 
     [ObservableProperty]
     [property: JsonIgnore]

@@ -242,15 +242,34 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <ComboBox ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.PlayedPeriods, Mode=OneWay}"
-                      SelectedIndex="0"
-                      Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource PlayedPeriodStringConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <Grid>
+                <ComboBox x:Name="playedperiods_ComboBox"
+                          ItemsSource="{Binding ViewModel.SelectedRepository.SelectedGame.PlayedPeriods, Mode=OneWay}"
+                          SelectedIndex="0"
+                          Visibility="{Binding ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
+                    <ComboBox.Resources>
+                        <StaticResource x:Key="ComboBoxDropDownGlyphForeground" ResourceKey="ControlFillColorTransparentBrush" />
+                    </ComboBox.Resources>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource PlayedPeriodStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button x:Name="edit_played_period_Button"
+                        Width="30"
+                        MinHeight="24"
+                        Margin="{ThemeResource TextBoxInnerButtonMargin}"
+                        Padding="{ThemeResource HelperButtonThemePadding}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="edit_played_period_Button_Click"
+                        IsEnabled="{Binding ViewModel.SelectedRepository.SelectedGame.IsPlaying, Mode=OneWay, Converter={StaticResource BoolInvertConverter}, FallbackValue=Collapsed}">
+                    <FontIcon FontSize="{ThemeResource TextBoxIconFontSize}" Glyph="&#xE70F;" />
+                </Button>
+            </Grid>
         </StackPanel>
         <!--  游戏信息  -->
         <ScrollViewer x:Name="gameinfo_ScrollViewer"

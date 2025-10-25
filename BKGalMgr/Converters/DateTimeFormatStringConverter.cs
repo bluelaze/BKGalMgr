@@ -14,13 +14,25 @@ public class DateTimeFormatStringConverter : IValueConverter
     {
         if (value is DateTime dt)
         {
-            return dt.ToString(parameter as string, CultureInfo.CurrentUICulture);
+            return dt.ToString(parameter as string);
         }
         return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
+        if (
+            DateTime.TryParseExact(
+                value as string,
+                parameter as string,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out var date
+            )
+        )
+        {
+            return date;
+        }
         return DependencyProperty.UnsetValue;
     }
 }

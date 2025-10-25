@@ -35,6 +35,7 @@
         <None Remove="Views\Controls\IconTextBlock.xaml" />
         <None Remove="Views\Controls\LocalizationInfoControl.xaml" />
         <None Remove="Views\Controls\MetadataControl.xaml" />
+        <None Remove="Views\Controls\PlayedPeriodListEditControl.xaml" />
         <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
         <None Remove="Views\Controls\SaveDataInfoControl.xaml" />
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
@@ -144,6 +145,9 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\LocalizationInfoControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Views\Controls\PlayedPeriodListEditControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Controls\RepositoryInfoControl.xaml">

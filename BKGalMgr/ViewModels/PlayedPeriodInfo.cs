@@ -14,14 +14,17 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
 {
     // 。。。yet, begin is correct, but data is save
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Period))]
     [property: JsonPropertyName("benginTime")]
     private DateTime _benginTime;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Period))]
     [property: JsonPropertyName("endTime")]
     private DateTime _endTime;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Period))]
     private TimeSpan _pauseTime = TimeSpan.Zero;
 
     [JsonIgnore]
@@ -30,6 +33,9 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
     [JsonIgnore]
     public ChartEntityMetaData MetaData { get; set; }
 
+    /// <summary>
+    /// 这个目前好像没啥用处
+    /// </summary>
     [JsonIgnore]
     public Coordinate Coordinate { get; set; } = Coordinate.Empty;
 

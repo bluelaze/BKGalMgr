@@ -17,7 +17,7 @@ public class PlayedPeriodStringConverter : IValueConverter
         if (pp == null)
             return null;
 
-        return pp.Period.Format("hhmmss") + $" {pp.BenginTime} ~ {pp.EndTime}";
+        return pp.Period.Format("hhmmss") + $" {pp.BenginTime.ToString("yyyy-MM-dd HH:mm:ss")} ~ {pp.EndTime.ToString("yyyy-MM-dd HH:mm:ss")}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
