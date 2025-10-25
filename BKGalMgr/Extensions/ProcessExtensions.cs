@@ -82,6 +82,7 @@ public static class ProcessExtensions
     }
 
     // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Diagnostics.Process/src/System/Diagnostics/ProcessManager.Win32.cs
+    // https://github.com/Blinue/Magpie/blob/main/src/Magpie/NewProfileViewModel.cpp
     public static List<Process> GetAllWindowProcess()
     {
         List<Process> list = new List<Process>();
@@ -90,12 +91,13 @@ public static class ProcessExtensions
             {
                 if (
                     WindowExtension.IsWindowVisible(wnd)
-                    && WindowExtension.GetWindowThreadProcessId(wnd, out int processid) != 0
+                    && !WindowExtension.IsWindowCloaked(wnd)
+                    && WindowExtension.GetWindowThreadProcessId(wnd, out int processId) != 0
                 )
                 {
                     try
                     {
-                        list.Add(Process.GetProcessById(processid));
+                        list.Add(Process.GetProcessById(processId));
                     }
                     catch { }
                 }
@@ -115,9 +117,9 @@ public static class ProcessExtensions
 
     public static Process GetProcessByWindow(IntPtr hWnd)
     {
-        if (WindowExtension.GetWindowThreadProcessId(hWnd, out int processid) != 0)
+        if (WindowExtension.GetWindowThreadProcessId(hWnd, out int processId) != 0)
         {
-            return Process.GetProcessById(processid);
+            return Process.GetProcessById(processId);
         }
         return null;
     }
