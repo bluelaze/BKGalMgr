@@ -31,7 +31,8 @@
                       UseSystemFocusVisuals="False"
                       VerticalScrollBarVisibility="Auto"
                       VerticalScrollMode="Auto">
-            <StackPanel MaxWidth="{ThemeResource PageContentMaxWidth}"
+            <StackPanel MinWidth="720"
+                        MaxWidth="{ThemeResource PageContentMaxWidth}"
                         HorizontalAlignment="Center"
                         Spacing="{StaticResource SettingsCardSpacing}">
                 <StackPanel.ChildrenTransitions>
@@ -64,7 +65,7 @@
                     <mcontrols:SettingsCard.Description>
                         <TextBlock>
                             <Run x:Uid="Settings_Bangumi_AccessToken_Description" />
-                            <Hyperlink NavigateUri="https://next.bgm.tv/demo/access-token">https://next.bgm.tv/demo/access-token</Hyperlink>
+                            <Hyperlink NavigateUri="https://next.bgm.tv/demo/access-token">demo</Hyperlink>
                         </TextBlock>
                     </mcontrols:SettingsCard.Description>
                     <mcontrols:SettingsCard.HeaderIcon>
