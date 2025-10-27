@@ -214,12 +214,13 @@ public sealed partial class GamePlayPage : Page
         _ = StartTiming(gameInfo, gameProcess);
     }
 
-    record struct MainWindowProcess(Process process);
+    record struct MainWindowProcess(Process value);
 
     private async Task StartTiming(GameInfo gameInfo, Process gameProcess)
     {
         // 尽快获取子进程列表
         var childProcesses = gameProcess.GetChildProcesses();
+        var mainWindowProcess = new MainWindowProcess();
 
         TargetInfo targetInfo = gameInfo.SelectedTarget;
         targetInfo.LastPlayDate = DateTime.Now;
@@ -229,13 +230,12 @@ public sealed partial class GamePlayPage : Page
         gameInfo.AddPlayedPeriodToFirst(new(gameInfo.LastPlayDate, DateTime.Now, TimeSpan.Zero));
         gameInfo.SaveJsonFile();
 
-        var mainWindowProcess = new MainWindowProcess(gameProcess);
         var playedPeriod = gameInfo.PlayedPeriods.First();
         var savePlayedTime = () =>
         {
             if (gameInfo.StopTimingWhenNotActive)
             {
-                if (mainWindowProcess.process?.Id == ProcessExtensions.GetForegroundWindowProcess()?.Id)
+                if (mainWindowProcess.value?.Id == ProcessExtensions.GetForegroundWindowProcess()?.Id)
                 {
                     gameInfo.PlayStatus = PlayStatus.Playing;
                     targetInfo.PlayStatus = PlayStatus.Playing;
@@ -289,40 +289,51 @@ public sealed partial class GamePlayPage : Page
             // 稍微等下，避免窗口未创建
             // 测试如果使用LE启动，有些游戏是容易断链的，找不到最后的游戏窗口进程
             await Task.Delay(1000);
-            // 有可能中间还有子进程中转
-            if (!gameProcess.IsMainWindowProcess())
+            // 有可能中间还有子进程中转，但如果连续中转两次，那么延迟一秒可能就导致找不到
+            if (gameProcess.IsMainWindowProcess())
+            {
+                mainWindowProcess.value = gameProcess;
+            }
+            else
             {
                 foreach (var c in childProcesses)
                 {
                     if (c.FindMainWindowProcess() is Process p)
                     {
-                        mainWindowProcess.process = p;
+                        mainWindowProcess.value = p;
                         break;
                     }
                 }
             }
-            while (mainWindowProcess.process.FindMainWindowProcess() is Process process)
+            // 如果没找到，就直接等待原始进程结束
+            if (mainWindowProcess.value == null)
             {
-                mainWindowProcess.process = process;
-                await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                mainWindowProcess.value = gameProcess;
+            }
+            await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+            do
+            {
                 // 像是LE会拉起游戏后关闭自身，需要先获取子进程，否则如果子进程自身拉起游戏自身退出，迟了就导致找不到拉起的游戏窗口进程
-                var children = mainWindowProcess.process.GetChildProcesses();
-                if (children.Any())
-                    await Task.Delay(1000);
+                var children = mainWindowProcess.value.GetChildProcesses();
+                if (!children.Any())
+                    break;
+
+                await Task.Delay(1000);
                 foreach (var c in children)
                 {
                     if (c.FindMainWindowProcess() is Process p)
                     {
-                        mainWindowProcess.process = p;
-                        await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                        mainWindowProcess.value = p;
+                        break;
                     }
                 }
-            }
+                await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+            } while (true);
             // 再找下是否有其他的
             while (gameProcess.FindMainWindowProcess() is Process process)
             {
-                mainWindowProcess.process = process;
-                await mainWindowProcess.process.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                mainWindowProcess.value = process;
+                await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
             }
             //await mainWindowProcess.process.WaitForAllExitAsync();
         }
