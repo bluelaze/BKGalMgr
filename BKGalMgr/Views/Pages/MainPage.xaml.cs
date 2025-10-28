@@ -230,12 +230,18 @@ public sealed partial class MainPage : Page
 
     private void RefreshRepositoryGridView()
     {
-        repository_Grid.Width = root_frame.ActualWidth;
-        repository_Grid.Height =
-            +repository_listview_navitem.ActualHeight
-            + repository_NavigationViewItemSeparator.ActualHeight * 2
-            - 1
-            + settings_navitem.ActualHeight;
+        repository_gridview_Popup.HorizontalOffset = repository_NavigationViewItemSeparator.ActualWidth + 1;
+        repository_gridview_root_Grid.Height = root_frame.ActualHeight;
+        repository_gridview_root_Grid.Width = root_frame.ActualWidth;
+        repository_gridview_root_sizer_RowDefinition.Height = new(
+            repository_gridview_root_Grid.Height
+                - repository_NavigationViewItemSeparator
+                    .TransformToVisual(root_navigationview)
+                    .TransformPoint(new Point(0, 0))
+                    .Y
+                - repository_NavigationViewItemSeparator.ActualHeight / 2
+                + 1
+        );
     }
 
     private void repository_gridview_Button_Click(object sender, RoutedEventArgs e)

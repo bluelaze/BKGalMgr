@@ -6,6 +6,7 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
       NavigationCacheMode="Required"
@@ -183,129 +184,142 @@
         </NavigationView>
         <Popup x:Name="repository_gridview_Popup"
                Grid.Row="1"
-               DesiredPlacement="RightEdgeAlignedTop"
-               HorizontalOffset="1"
+               HorizontalOffset="201"
                IsLightDismissEnabled="True"
-               PlacementTarget="{x:Bind repository_NavigationViewItemSeparator}"
                VerticalOffset="1">
-            <Grid x:Name="repository_Grid" Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}">
-                <ListView x:Name="repository_gridview_ListView"
-                          Padding="{ThemeResource ContentDialogPadding}"
-                          AllowDrop="True"
-                          CanDragItems="True"
-                          CanReorderItems="True"
-                          DragItemsCompleted="repository_ListView_DragItemsCompleted"
-                          ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
-                          SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}"
-                          SelectionChanged="repository_gridview_ListView_SelectionChanged">
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0,0,20,0" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:RepositoryInfo">
-                            <Grid Width="286"
-                                  Padding="0,12"
-                                  Background="Transparent">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Edit"
-                                                        Click="edit_repository_Menuflyoutitem_Click" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
-                                        <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Ignore" IsChecked="{x:Bind Ignore, Mode=TwoWay}" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
-                                                        x:Uid="Commom_MenuItem_Remove"
-                                                        Click="remove_repository_Menuflyoutitem_Click">
-                                            <MenuFlyoutItem.Resources>
-                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
-                                            </MenuFlyoutItem.Resources>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <interactivity:Interaction.Behaviors>
-                                    <interactivity:EventTriggerBehavior EventName="PointerEntered">
-                                        <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                            Value="Visible" />
-                                    </interactivity:EventTriggerBehavior>
-                                    <interactivity:EventTriggerBehavior EventName="PointerExited">
-                                        <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                                            TargetObject="{Binding ElementName=games_count_TextBlock}"
-                                                                            Value="Collapsed" />
-                                    </interactivity:EventTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
+            <Grid x:Name="repository_gridview_root_Grid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition x:Name="repository_gridview_root_sizer_RowDefinition" Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid x:Name="repository_gridview_Grid"
+                      Grid.Row="1"
+                      Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
+                    <ListView x:Name="repository_gridview_ListView"
+                              Padding="{ThemeResource ContentDialogPadding}"
+                              AllowDrop="True"
+                              CanDragItems="True"
+                              CanReorderItems="True"
+                              DragItemsCompleted="repository_ListView_DragItemsCompleted"
+                              ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
+                              SelectedItem="{x:Bind ViewModel.LibraryAndManagePageViewModel.SelectedRepository, Mode=TwoWay}"
+                              SelectionChanged="repository_gridview_ListView_SelectionChanged">
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0,0,20,0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:RepositoryInfo">
+                                <Grid Width="286"
+                                      Padding="0,12"
+                                      Background="Transparent">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Edit"
+                                                            Click="edit_repository_Menuflyoutitem_Click" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                            <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Ignore" IsChecked="{x:Bind Ignore, Mode=TwoWay}" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Remove"
+                                                            Click="remove_repository_Menuflyoutitem_Click">
+                                                <MenuFlyoutItem.Resources>
+                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                </MenuFlyoutItem.Resources>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
+                                    <interactivity:Interaction.Behaviors>
+                                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                Value="Visible" />
+                                        </interactivity:EventTriggerBehavior>
+                                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                Value="Collapsed" />
+                                        </interactivity:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
 
-                                <ContentPresenter Width="80"
-                                                  Height="80"
-                                                  CornerRadius="{ThemeResource ControlCornerRadius}">
-                                    <Image Source="{x:Bind SelectedGame.CoverImageSource, Mode=OneWay}" Stretch="UniformToFill" />
-                                </ContentPresenter>
+                                    <ContentPresenter Width="80"
+                                                      Height="80"
+                                                      CornerRadius="{ThemeResource ControlCornerRadius}">
+                                        <Image Source="{x:Bind SelectedGame.CoverImageSource, Mode=OneWay}" Stretch="UniformToFill" />
+                                    </ContentPresenter>
 
-                                <Grid Grid.Column="1"
-                                      Margin="10,0,0,0"
-                                      VerticalAlignment="Center">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock FontSize="16"
-                                               Style="{ThemeResource BodyStrongTextBlockStyle}"
-                                               Text="{x:Bind Name, Mode=OneWay}" />
-                                    <TextBlock x:Name="games_count_TextBlock"
-                                               Margin="8,0"
-                                               HorizontalAlignment="Right"
-                                               VerticalAlignment="Center"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Style="{ThemeResource CaptionTextBlockStyle}"
-                                               Text="{x:Bind Games.Count, Mode=OneWay}"
-                                               Visibility="Collapsed" />
-                                    <TextBlock Grid.Row="1"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind Description, Mode=OneWay}"
-                                               TextWrapping="NoWrap"
-                                               Visibility="{x:Bind Description, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
-                                    <TextBlock Grid.Row="2"
-                                               Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                               Style="{ThemeResource CaptionTextBlockStyle}"
-                                               Text="{x:Bind FolderPath, Mode=OneTime}"
-                                               TextWrapping="NoWrap"
-                                               ToolTipService.ToolTip="{x:Bind FolderPath, Mode=OneTime}" />
+                                    <Grid Grid.Column="1"
+                                          Margin="10,0,0,0"
+                                          VerticalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="16"
+                                                   Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                   Text="{x:Bind Name, Mode=OneWay}" />
+                                        <TextBlock x:Name="games_count_TextBlock"
+                                                   Margin="8,0"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Style="{ThemeResource CaptionTextBlockStyle}"
+                                                   Text="{x:Bind Games.Count, Mode=OneWay}"
+                                                   Visibility="Collapsed" />
+                                        <TextBlock Grid.Row="1"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Text="{x:Bind Description, Mode=OneWay}"
+                                                   TextWrapping="NoWrap"
+                                                   Visibility="{x:Bind Description, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                        <TextBlock Grid.Row="2"
+                                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                   Style="{ThemeResource CaptionTextBlockStyle}"
+                                                   Text="{x:Bind FolderPath, Mode=OneTime}"
+                                                   TextWrapping="NoWrap"
+                                                   ToolTipService.ToolTip="{x:Bind FolderPath, Mode=OneTime}" />
+                                    </Grid>
+                                    <FontIcon Grid.Column="2"
+                                              FontSize="12"
+                                              Glyph="&#xECE4;"
+                                              Visibility="{x:Bind Ignore, Mode=OneWay}" />
                                 </Grid>
-                                <FontIcon Grid.Column="2"
-                                          FontSize="12"
-                                          Glyph="&#xECE4;"
-                                          Visibility="{x:Bind Ignore, Mode=OneWay}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <ToggleButton x:Name="repository_gridview_ToggleButton"
-                              Padding="4"
-                              HorizontalAlignment="Right"
-                              VerticalAlignment="Top"
-                              Background="Transparent"
-                              BorderBrush="{x:Null}"
-                              Checked="repository_gridview_ToggleButton_IsChecked"
-                              Content="{mui:FontIcon FontSize=12,
-                                                     Glyph=&#xE840;}"
-                              CornerRadius="0"
-                              Unchecked="repository_gridview_ToggleButton_IsChecked" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <ToggleButton x:Name="repository_gridview_ToggleButton"
+                                  Padding="4"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Top"
+                                  Background="Transparent"
+                                  BorderBrush="{x:Null}"
+                                  Checked="repository_gridview_ToggleButton_IsChecked"
+                                  Content="{mui:FontIcon FontSize=12,
+                                                         Glyph=&#xE840;}"
+                                  CornerRadius="0"
+                                  Unchecked="repository_gridview_ToggleButton_IsChecked" />
+                </Grid>
+                <mcontrols:GridSplitter Grid.Row="1"
+                                        Height="12"
+                                        VerticalAlignment="Top">
+                    <mcontrols:GridSplitter.RenderTransform>
+                        <TranslateTransform Y="-6" />
+                    </mcontrols:GridSplitter.RenderTransform>
+                </mcontrols:GridSplitter>
             </Grid>
         </Popup>
         <TextBlock x:Name="love_and_peace_textblock"
