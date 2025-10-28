@@ -552,7 +552,8 @@
                             <MenuFlyoutItem x:Name="select_game_process_MenuFlyoutItem"
                                             x:Uid="Commom_MenuItem_Select_Game_Process"
                                             Click="select_game_process_MenuFlyoutItem_Click"
-                                            Icon="{mui:FontIcon Glyph=&#xE768;}" />
+                                            Icon="{mui:FontIcon Glyph=&#xE768;}"
+                                            IsEnabled="{x:Bind ViewModel.Game.IsPlaying, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" />
 
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Name="custom_theme_MenuFlyoutItem"
