@@ -52,6 +52,7 @@ public sealed partial class MainWindow : Window
         //https://learn.microsoft.com/en-us/windows/apps/develop/title-bar
         ExtendsContentIntoTitleBar = true;
         //SetTitleBar(app_titlebar_grid);
+        AppWindow.Title = "BKGalMgr";
         var scale = this.GetWindowScale();
         AppWindow.ResizeClient(new((int)(1600 * scale), (int)(880 * scale)));
         AppWindow.Changed += AppWindow_Changed;
