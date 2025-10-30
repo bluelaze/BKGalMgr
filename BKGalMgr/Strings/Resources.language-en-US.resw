@@ -194,10 +194,10 @@ More in crash_exception.txt</value>
   <data name="Dlg_Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="Dlg_Confirm" xml:space="preserve">
+  <data name="Dlg_Confirm_Button.Content" xml:space="preserve">
     <value>Confirm</value>
   </data>
-  <data name="Dlg_Cancel" xml:space="preserve">
+  <data name="Dlg_Cancel_Button.Content" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="Dlg_Repository_New" xml:space="preserve">
