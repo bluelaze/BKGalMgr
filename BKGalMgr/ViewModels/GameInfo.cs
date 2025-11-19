@@ -1264,23 +1264,27 @@ public partial class GameInfo : ObservableObject
     public async Task SaveScreenshot(TargetInfo targetInfo, Bitmap bitmap)
     {
         Directory.CreateDirectory(ScreenshotFolderPath);
+
         string screenshotPath = Path.Combine(
             ScreenshotFolderPath,
             $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
         );
-        bitmap.Save(screenshotPath, ImageFormat.Png);
+        var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+
+        await Task.Run(() =>
+        {
+            bitmap.Save(screenshotPath, ImageFormat.Png);
+            // also save to Pictures
+            bitmap.Save(
+                Path.Combine(
+                    picturesLibrary.SaveFolder.Path,
+                    $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
+                ),
+                ImageFormat.Png
+            );
+        });
 
         if (CustomTheme.LastScreenshotAsBackground)
             CustomTheme.BackgroundImage = screenshotPath;
-
-        // also save to Pictures
-        var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
-        bitmap.Save(
-            Path.Combine(
-                picturesLibrary.SaveFolder.Path,
-                $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
-            ),
-            ImageFormat.Png
-        );
     }
 }

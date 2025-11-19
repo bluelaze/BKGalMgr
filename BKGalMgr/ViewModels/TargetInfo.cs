@@ -302,7 +302,7 @@ public partial class TargetInfo : ObservableObject
         var capture = ScreenCapture.CaptureRegion();
         if (capture.CaptureBitmap != null)
         {
-            Clipboard.SetImage(capture.CaptureBitmap.ToSystemBitmapImage());
+            //Clipboard.SetImage(capture.CaptureBitmap.ToSystemBitmapImage());
             await Game.SaveScreenshot(this, capture.CaptureBitmap);
             capture.CaptureBitmap.Dispose();
         }
