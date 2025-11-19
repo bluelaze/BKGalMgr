@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
 using BKGalMgr.ThirdParty;
 
@@ -61,13 +60,13 @@ public class HotkeyHelper
         return null;
     }
 
-    public static string AddOrReplace(Hotkey.OnHothey handle)
+    public static string AddOrReplace(Hotkey.OnHothey handler)
     {
         string hotkeyName = "";
 
         for (HotKeyInfo keyInfo = GetUnusedKey(); keyInfo != null; keyInfo = GetUnusedKey())
         {
-            if (Hotkey.AddOrReplace(keyInfo.Name, keyInfo.Key, keyInfo.Modifiers, handle))
+            if (Hotkey.AddOrReplace(keyInfo.Name, keyInfo.Key, keyInfo.Modifiers, handler))
             {
                 keyInfo.Used = true;
                 hotkeyName = keyInfo.Name;
@@ -89,5 +88,15 @@ public class HotkeyHelper
         var keyInfo = _keys.Find((k) => k.Name == name);
         if (keyInfo != null)
             keyInfo.Used = false;
+    }
+
+    public static bool AddGlobalMouseDown(string name, Hotkey.OnHothey handler)
+    {
+        return Hotkey.AddGlobalMouseDown(name, handler);
+    }
+
+    public static void RemoveGlobalMouseDown(string name)
+    {
+        Hotkey.RemoveGlobalMouseDown(name);
     }
 }

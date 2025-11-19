@@ -275,19 +275,24 @@ public partial class TargetInfo : ObservableObject
         {
             if (!ScreenCaptureHotkey.IsNullOrEmpty())
                 return;
+            Hotkey.OnHothey handler = (Hotkey.HotkeyEventArgs e) =>
+            {
+                if (e.IsMouseEvent && e.MiddleButton == false)
+                    return;
+
+                DoScreenCapture();
+                e.Handled = true;
+            };
             // copy latest capture to clipboard, and save to game capture folder,
             // if launch mutil target, hotkey maybe not same each start.
-            ScreenCaptureHotkey = HotkeyHelper.AddOrReplace(
-                (e) =>
-                {
-                    DoScreenCapture();
-                    e.Handled = true;
-                }
-            );
+            ScreenCaptureHotkey = HotkeyHelper.AddOrReplace(handler);
+            // 同样注册鼠标按键作为快捷键
+            HotkeyHelper.AddGlobalMouseDown(ScreenCaptureHotkey, handler);
         }
         else
         {
             HotkeyHelper.Remove(ScreenCaptureHotkey);
+            HotkeyHelper.RemoveGlobalMouseDown(ScreenCaptureHotkey);
             ScreenCaptureHotkey = string.Empty;
         }
     }
