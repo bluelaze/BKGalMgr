@@ -29,7 +29,7 @@ public partial class ThemeInfo : ObservableObject
     private ElementTheme _requestedTheme = ElementTheme.Dark;
 
     [ObservableProperty]
-    private bool _lastScreenshotAsBackground = false;
+    private bool _lastScreenshotAsBackground = true;
 
     [ObservableProperty]
     private bool _hideReturn = false;
