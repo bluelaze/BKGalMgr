@@ -126,7 +126,7 @@ public partial class GameInfo : ObservableObject
     private string _t2DFanSubjectId;
 
     [ObservableProperty]
-    private bool _stopTimingWhenNotActive;
+    private bool _stopTimingWhenNotActive = true;
 
     [ObservableProperty]
     private ShoppingSiteInfo _shoppingInfo;
