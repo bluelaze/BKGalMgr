@@ -66,37 +66,9 @@ public partial class ThemeInfo : ObservableObject
     [ObservableProperty]
     private double _backgroundImageOpacity = 1;
 
+    [ObservableProperty]
     private string _linearGradientStartColor = "#FF575757";
 
-    public string LinearGradientStartColor
-    {
-        get { return _linearGradientStartColor; }
-        set
-        {
-            if (value == "#00FFFFFF")
-            {
-                // toolkit colorpicker的bug，初始值会被重置
-                // OnPropertyChanged当前不会生效
-                App.PostUITask(() => OnPropertyChanged(nameof(LinearGradientStartColor)));
-                return;
-            }
-            SetProperty(ref _linearGradientStartColor, value);
-        }
-    }
-
+    [ObservableProperty]
     private string _linearGradientEndColor = "#FF575757";
-
-    public string LinearGradientEndColor
-    {
-        get { return _linearGradientEndColor; }
-        set
-        {
-            if (value == "#00FFFFFF")
-            {
-                App.PostUITask(() => OnPropertyChanged(nameof(LinearGradientEndColor)));
-                return;
-            }
-            SetProperty(ref _linearGradientEndColor, value);
-        }
-    }
 }
