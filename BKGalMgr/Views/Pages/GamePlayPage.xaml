@@ -196,7 +196,7 @@
                             <TextBlock extensions:CursorExtension.Cursor="Hand" Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:ClickTriggerBehavior>
-                                        <mbehaviors:NavigateToUriAction NavigateUri="{x:Bind ViewModel.Game.Website, Mode=OneWay}" />
+                                        <mbehaviors:NavigateToUriAction NavigateUri="{Binding ViewModel.Game.Website, Mode=OneWay}" />
                                     </behaviors:ClickTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </TextBlock>
