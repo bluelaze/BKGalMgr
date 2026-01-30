@@ -67,6 +67,7 @@ public sealed partial class ManagePage : Page
         BangumiSubjectControl bangumiSubjectControl = new BangumiSubjectControl()
         {
             Width = 720,
+            HideSearch = true,
             AccessToken = ViewModel.BangumiAccessToken,
             SubjectUrl = bangumiSubjectId,
         };
@@ -87,38 +88,59 @@ public sealed partial class ManagePage : Page
 
     private async Task<GameInfo> PullBangumiGameInfo(string bangumiSubjectId)
     {
-        (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo(bangumiSubjectId);
+        App.ShowLoading();
 
-        if (result == ContentDialogResult.Primary)
-        {
-            App.ShowLoading();
+        var response = await ViewModel.PullGameFromBangumi(ViewModel.BangumiAccessToken, bangumiSubjectId);
 
-            var response = await ViewModel.PullGameFromBangumi(ViewModel.BangumiAccessToken, subjectUrl);
+        if (!response.ErrorMessage.IsNullOrEmpty())
+            App.ShowErrorMessage(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage));
 
-            if (!response.ErrorMessage.IsNullOrEmpty())
-                App.ShowErrorMessage(LanguageHelper.GetString("Bangumi_Pull_Game_Eorr").Format(response.ErrorMessage));
-
-            App.HideLoading();
-            return response.Game;
-        }
-        return null;
+        App.HideLoading();
+        return response.Game;
     }
 
     private async void add_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        var gameInfo = await PullBangumiGameInfo("");
-        if (gameInfo != null)
+        BangumiSubjectControl bangumiSubjectControl = new BangumiSubjectControl()
         {
-            ViewModel.AddNewGame(gameInfo);
-            var errMsg = await ViewModel.PullGameCharacterFromBangumi(gameInfo);
-            if (!errMsg.IsNullOrEmpty())
-                App.ShowErrorMessage(errMsg);
-        }
+            Width = 720,
+            AccessToken = ViewModel.BangumiAccessToken,
+        };
+        bangumiSubjectControl.AddSubjectClick += async (
+            BangumiSubjectControl sender,
+            BangumiSubjectControl.AddSubjectClickEventArgs args
+        ) =>
+        {
+            var gameInfo = await PullBangumiGameInfo(args.SubjectId);
+            if (gameInfo != null)
+            {
+                ViewModel.AddNewGame(gameInfo);
+                var errMsg = await ViewModel.PullGameCharacterFromBangumi(gameInfo);
+                if (!errMsg.IsNullOrEmpty())
+                    App.ShowErrorMessage(errMsg);
+            }
+        };
+
+        ContentDialog dialog = DialogHelper.GetConfirmDialog();
+        dialog.Title = LanguageHelper.GetString("Bangumi_Add_New_Game");
+        dialog.Content = bangumiSubjectControl;
+        dialog.PrimaryButtonText = null;
+        dialog.SecondaryButtonText = null;
+        dialog.CloseButtonText = LanguageHelper.GetString("Dlg_Confirm_Button/Content");
+        dialog.DefaultButton = ContentDialogButton.None;
+
+        await dialog.ShowAsync();
     }
 
     private async void update_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        var gameInfo = await PullBangumiGameInfo(ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId);
+        (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo(
+            ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId
+        );
+        if (result != ContentDialogResult.Primary)
+            return;
+
+        var gameInfo = await PullBangumiGameInfo(subjectUrl);
         if (gameInfo != null)
         {
             ViewModel.UpdateGame(gameInfo);

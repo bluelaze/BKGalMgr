@@ -19,4 +19,5 @@ public class Subject
     public int id { get; set; }
     public bool nsfe { get; set; }
     public int type { get; set; }
+    public Rating rating { get; set; }
 }

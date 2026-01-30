@@ -512,14 +512,23 @@
   <data name="Group_Name.Header" xml:space="preserve">
     <value>名称</value>
   </data>
+  <data name="Bangumi_Add_New_Game" xml:space="preserve">
+    <value>从Bangumi添加游戏</value>
+  </data>
   <data name="Bangumi_Edit_Game_Info" xml:space="preserve">
     <value>编辑Bangumi游戏信息</value>
   </data>
-  <data name="Bangumi_Game_Access_Token.PlaceholderText" xml:space="preserve">
+  <data name="Bangumi_Search_Game.PlaceholderText" xml:space="preserve">
+    <value>输入游戏名</value>
+  </data>
+  <data name="Bangumi_Game_Access_Token.Description" xml:space="preserve">
     <value>在设置页面配置Access Token</value>
   </data>
   <data name="Bangumi_Game_Subject_Url.Header" xml:space="preserve">
-    <value>条目Url</value>
+    <value>条目Url或ID</value>
+  </data>
+  <data name="Bangumi_Game_Subject_Url.Description" xml:space="preserve">
+    <value>添加特定游戏</value>
   </data>
   <data name="Bangumi_Pull_Game_Eorr" xml:space="preserve">
     <value>拉取Bangumi的游戏信息出现错误:

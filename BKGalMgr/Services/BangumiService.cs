@@ -32,8 +32,8 @@ public class BangumiService
 
     public BangumiService(SettingsDto settings)
     {
+        //https://bangumi.github.io/api
         _settings = settings;
-        // https://bangumi.github.io/api
         _client = new(options =>
         {
             options.BaseUrl = new("https://api.bgm.tv");
@@ -45,6 +45,24 @@ public class BangumiService
     public static void OpenSubjectPage(string subjectId)
     {
         UrlMisc.OpenUrl($"{_bangumiWebsit}/subject/{subjectId}");
+    }
+
+    public record SearchResponse(int total, int limit, int offset, List<Subject> data);
+
+    public async Task<RestResponse<SearchResponse>> SearchSubjectsAsync(string keyword)
+    {
+        var request = new RestRequest($"/v0/search/subjects", Method.Post);
+        request.AddJsonBody(
+            $@"{{
+                ""keyword"":""{keyword}"",
+                ""filters"":{{
+                    ""type"":[1,2,3,4,6],
+                    ""nsfw"":true
+                }}
+            }}"
+        );
+
+        return await _client.ExecuteAsync<SearchResponse>(request);
     }
 
     public async Task<RestResponse<Subject>> GetSubjectAsync(string subjectId)

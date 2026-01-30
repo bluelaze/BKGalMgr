@@ -512,14 +512,23 @@ More in crash_exception.txt</value>
   <data name="Group_Name.Header" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Bangumi_Add_New_Game" xml:space="preserve">
+    <value>Add Game Form Bangumi</value>
+  </data>
   <data name="Bangumi_Edit_Game_Info" xml:space="preserve">
     <value>Edit Bangumi Game Info</value>
   </data>
-  <data name="Bangumi_Game_Access_Token.PlaceholderText" xml:space="preserve">
+  <data name="Bangumi_Search_Game.PlaceholderText" xml:space="preserve">
+    <value>Type a game name</value>
+  </data>
+  <data name="Bangumi_Game_Access_Token.Description" xml:space="preserve">
     <value>Config Access Token in Settings Page</value>
   </data>
   <data name="Bangumi_Game_Subject_Url.Header" xml:space="preserve">
-    <value>Subject Url</value>
+    <value>Subject Url or ID</value>
+  </data>
+  <data name="Bangumi_Game_Subject_Url.Description" xml:space="preserve">
+    <value>Add Specific Game</value>
   </data>
   <data name="Bangumi_Pull_Game_Eorr" xml:space="preserve">
     <value>Pull Bangumi game info error:
