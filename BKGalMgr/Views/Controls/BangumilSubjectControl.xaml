@@ -94,11 +94,11 @@
                                         Spacing="6">
 
                                 <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <TextBlock Text="{x:Bind name, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind name, Mode=OneTime}" />
                                     <TextBlock VerticalAlignment="Center"
                                                FontSize="10"
                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                               Text="{x:Bind name_cn, Mode=OneWay}" />
+                                               Text="{x:Bind name_cn, Mode=OneTime}" />
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Spacing="0">
@@ -107,9 +107,9 @@
                                                Text="{x:Bind date}" />
                                     <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                               Text="{x:Bind platform, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}/{0}'}"
-                                               Visibility="{x:Bind platform, Mode=OneWay, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
-                                    <mcontrols:SwitchPresenter Value="{x:Bind type, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}'}">
+                                               Text="{x:Bind platform, Mode=OneTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}/{0}'}"
+                                               Visibility="{x:Bind platform, Mode=OneTime, Converter={StaticResource EmptyStringToVisibilityConverter}}" />
+                                    <mcontrols:SwitchPresenter Value="{x:Bind type, Mode=OneTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}'}">
                                         <mcontrols:Case Value="1">
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                                        Style="{StaticResource CaptionTextBlockStyle}"
@@ -149,7 +149,7 @@
                                     <TextBlock VerticalAlignment="Center"
                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                               Text="{x:Bind rating.total, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}人评分'}" />
+                                               Text="{x:Bind rating.total, Mode=OneTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0}人评分'}" />
                                 </StackPanel>
                             </StackPanel>
                             <Grid Grid.Column="2">
@@ -158,7 +158,7 @@
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <TextBlock Style="{StaticResource CaptionTextBlockStyle}"
-                                           Text="{x:Bind rating.rank, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}Rank {0}'}"
+                                           Text="{x:Bind rating.rank, Mode=OneTime, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}Rank {0}'}"
                                            Visibility="{x:Bind rating.rank, Converter={StaticResource DoubleToVisibilityConverter}}" />
                                 <Button x:Name="add_subject_Button"
                                         Grid.RowSpan="2"
