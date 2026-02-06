@@ -219,6 +219,16 @@ public sealed partial class MainPage : Page
         }
     }
 
+    private async void load_repository_Menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        App.ShowLoading();
+
+        RepositoryInfo editRepository = (sender as MenuFlyoutItem).DataContext as RepositoryInfo;
+        await editRepository.Load();
+
+        App.HideLoading();
+    }
+
     private async void remove_repository_Menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         RepositoryInfo editRepository = (sender as MenuFlyoutItem).DataContext as RepositoryInfo;

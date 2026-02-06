@@ -51,7 +51,7 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         if (repository.FolderPath.IsNullOrEmpty())
             return false;
 
-        repository = await Task.Run(() => RepositoryInfo.Open(repository.FolderPath, repository));
+        repository = await RepositoryInfo.Open(repository.FolderPath, repository);
         if (repository == null)
             return false;
 

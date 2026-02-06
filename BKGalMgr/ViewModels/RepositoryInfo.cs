@@ -56,9 +56,17 @@ public partial class RepositoryInfo : ObservableObject
     [ObservableProperty]
     private SortDirection _sortOrderType = SortDirection.Descending;
 
-    partial void OnSortTypeChanged(SortType value) => GamesViewSort();
+    partial void OnSortTypeChanged(SortType value)
+    {
+        GamesViewSort();
+        SaveJsonFile();
+    }
 
-    partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
+    partial void OnSortOrderTypeChanged(SortDirection value)
+    {
+        GamesViewSort();
+        SaveJsonFile();
+    }
 
     [ObservableProperty]
     private bool _ignore = false;
@@ -114,7 +122,7 @@ public partial class RepositoryInfo : ObservableObject
         return Path.Exists(Path.Combine(folderPath, GlobalInfo.RepositoryJsonName));
     }
 
-    public static RepositoryInfo Open(string folderPath, RepositoryInfo defaultValue)
+    public static async Task<RepositoryInfo> Open(string folderPath, RepositoryInfo defaultValue)
     {
         if (!Path.Exists(folderPath))
             return null;
@@ -128,16 +136,24 @@ public partial class RepositoryInfo : ObservableObject
 
         repositoryInfo.FolderPath = folderPath;
 
-        var dirs = Directory.GetDirectories(folderPath).ToList();
+        if (repositoryInfo.Ignore)
+            return repositoryInfo;
+
+        await repositoryInfo.Load();
+        return repositoryInfo;
+    }
+
+    public async Task Load()
+    {
+        var dirs = Directory.GetDirectories(FolderPath).ToList();
         dirs.Sort();
         foreach (var dir in dirs)
         {
-            repositoryInfo.AddGame(dir);
+            await AddGame(dir);
         }
 
-        repositoryInfo.RestoreAddGroupIndex();
-        repositoryInfo.GamesViewSort();
-        return repositoryInfo;
+        RestoreAddGroupIndex();
+        GamesViewSort();
     }
 
     public bool IsValid()
@@ -223,7 +239,6 @@ public partial class RepositoryInfo : ObservableObject
         {
             GamesView.SortDescriptions.Add(new(SortType.PublishDate.ToString(), SortDirection.Descending));
         }
-        SaveJsonFile();
     }
 
     [RelayCommand]
@@ -285,19 +300,22 @@ public partial class RepositoryInfo : ObservableObject
         Games.Add(game);
     }
 
-    public void AddGame(string folderPath)
+    public async Task AddGame(string folderPath)
     {
-        var game = GameInfo.Open(folderPath, this);
-        if (game != null)
+        if (Games.Any(t => t.FolderPath == folderPath))
+            return;
+
+        var game = await Task.Run(() => GameInfo.Open(folderPath, this));
+        if (game == null)
+            return;
+
+        Games.Add(game);
+        if (game.CreateDate == SeletedGameCreateDate)
+            SelectedGame = game;
+        // merge game group, maybe copy from other repo
+        foreach (var groupName in game.Group.Except(Groups.Select(g => g.Name)))
         {
-            Games.Add(game);
-            if (game.CreateDate == SeletedGameCreateDate)
-                SelectedGame = game;
-            // merge game group, maybe copy from other repo
-            foreach (var groupName in game.Group.Except(Groups.Select(g => g.Name)))
-            {
-                Groups.Add(new() { Name = groupName });
-            }
+            Groups.Add(new() { Name = groupName });
         }
     }
 

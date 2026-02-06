@@ -116,13 +116,17 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.ContextFlyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="edit_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_repository_Menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                             <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Ignore" IsChecked="{x:Bind Ignore, Mode=TwoWay}" />
+                                            <MenuFlyoutItem x:Name="load_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Load"
+                                                            Click="load_repository_Menuflyoutitem_Click"
+                                                            IsEnabled="{x:Bind Ignore, Mode=OneWay}" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="remove_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Remove"
                                                             Click="remove_repository_Menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
@@ -226,13 +230,17 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.ContextFlyout>
                                         <MenuFlyout>
-                                            <MenuFlyoutItem x:Name="edit_repository_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="edit_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_repository_Menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                                             <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Ignore" IsChecked="{x:Bind Ignore, Mode=TwoWay}" />
+                                            <MenuFlyoutItem x:Name="load_repository_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Load"
+                                                            Click="load_repository_Menuflyoutitem_Click"
+                                                            IsEnabled="{x:Bind Ignore, Mode=OneWay}" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem x:Name="remove_repository_menuflyoutitem"
+                                            <MenuFlyoutItem x:Name="remove_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Remove"
                                                             Click="remove_repository_Menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>

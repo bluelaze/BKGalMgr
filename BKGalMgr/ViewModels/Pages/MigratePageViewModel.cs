@@ -45,7 +45,7 @@ public partial class MigratePageViewModel : ObservableObject
                     FileSystemMisc.DeleteDirectory(gameNewPath);
                     return false;
                 }
-                toRepository.AddGame(gameNewPath);
+                await toRepository.AddGame(gameNewPath);
                 toRepository.RestoreAddGroupIndex();
 
                 if (await fromRepository.DeleteGameAsync(game) == false)

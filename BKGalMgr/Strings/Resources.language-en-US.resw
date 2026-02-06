@@ -290,6 +290,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>Ignore</value>
   </data>
+  <data name="Commom_MenuItem_Load.Text" xml:space="preserve">
+    <value>Load</value>
+  </data>
   <data name="Commom_MenuItem_Custom_Theme.Text" xml:space="preserve">
     <value>Custom Theme</value>
   </data>

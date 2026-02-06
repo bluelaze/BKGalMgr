@@ -290,6 +290,9 @@
   <data name="Commom_MenuItem_Ignore.Text" xml:space="preserve">
     <value>忽略</value>
   </data>
+  <data name="Commom_MenuItem_Load.Text" xml:space="preserve">
+    <value>加载</value>
+  </data>
   <data name="Commom_MenuItem_Custom_Theme.Text" xml:space="preserve">
     <value>自定义主题</value>
   </data>
