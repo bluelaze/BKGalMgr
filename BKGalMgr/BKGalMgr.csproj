@@ -236,7 +236,7 @@
     <Target Name="ProgressAfterBuild" AfterTargets="Build">
         <!-- Remove Invalid Language Folders -->
         <ItemGroup>
-            <RemovingFiles Include="$(OutDir)*\*.mui" Exclude="$(OutDir)en-us\*.mui;$(OutDir)zh-CN\*.mui;$(OutDir)zh-Hans\*.mui" />
+            <RemovingFiles Include="$(OutDir)*\*.mui;$(OutDir)*\*.resources.dll" Exclude="$(OutDir)en-us\*;$(OutDir)zh-CN\*;$(OutDir)zh-Hans\*" />
             <RemovingFolders Include="@(RemovingFiles->'%(RootDir)%(Directory)')" />
         </ItemGroup>
         <RemoveDir Directories="@(RemovingFolders)" />
@@ -250,7 +250,7 @@
             <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
         </PropertyGroup>
         <ItemGroup>
-            <RemovingFiles Include="$(PublishDir)*\*.mui" Exclude="$(PublishDir)en-us\*.mui;$(PublishDir)zh-CN\*.mui;$(PublishDir)zh-Hans\*.mui" />
+            <RemovingFiles Include="$(PublishDir)*\*.mui;$(PublishDir)*\*.resources.dll" Exclude="$(PublishDir)en-us\*;$(PublishDir)zh-CN\*;$(PublishDir)zh-Hans\*" />
             <RemovingFolders Include="@(RemovingFiles->'%(RootDir)%(Directory)')" />
         </ItemGroup>
         <RemoveDir Directories="@(RemovingFolders)" />
