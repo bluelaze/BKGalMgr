@@ -48,6 +48,9 @@
                 <mcontrols:SettingsCard x:Uid="Settings_Last_Screenshot" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
                     <ToggleSwitch IsOn="{Binding LastScreenshotAsBackground, Mode=TwoWay}" />
                 </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Auto_Image_Theme" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{Binding AutomaticImageThemeType, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
                 <mcontrols:SettingsCard x:Uid="Settings_Background_Image">
                     <Grid>
                         <TextBox x:Name="pick_background_image_TextBox"

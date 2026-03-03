@@ -32,6 +32,9 @@ public partial class ThemeInfo : ObservableObject
     private bool _lastScreenshotAsBackground = true;
 
     [ObservableProperty]
+    private bool _automaticImageThemeType = true;
+
+    [ObservableProperty]
     private bool _hideReturn = false;
 
     [ObservableProperty]
@@ -43,6 +46,16 @@ public partial class ThemeInfo : ObservableObject
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(BackgroundImageSource))]
     private string _backgroundImage;
+
+    partial void OnBackgroundImageChanged(string value)
+    {
+        if (AutomaticImageThemeType && !BackgroundImage.IsNullOrEmpty())
+        {
+            ThemeType = CustomThemeType.Image;
+            HideReturn = true;
+            HideCover = true;
+        }
+    }
 
     // Resource里不能用Banding
     private Microsoft.UI.Xaml.Media.Imaging.BitmapImage _backgroundImageSource;

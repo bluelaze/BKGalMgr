@@ -795,6 +795,12 @@ More in crash_exception.txt</value>
   <data name="Settings_Last_Screenshot.Description" xml:space="preserve">
     <value>Automatically set as background image after taking screenshot</value>
   </data>
+  <data name="Settings_Auto_Image_Theme.Header" xml:space="preserve">
+    <value>Automatic Image Theme Type</value>
+  </data>
+  <data name="Settings_Auto_Image_Theme.Description" xml:space="preserve">
+    <value>When setting a background image, it is automatically set to the image theme type, and the cover image and back button are hidden</value>
+  </data>
   <data name="Settings_Background_Image.Header" xml:space="preserve">
     <value>Background Image</value>
   </data>
