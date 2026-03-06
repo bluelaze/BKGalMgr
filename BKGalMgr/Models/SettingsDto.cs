@@ -22,7 +22,7 @@ public class SettingsDto
     public SupportLanguages Language { get; set; }
     public BangumiInfo Bangumi { get; set; }
     public LocalEmulatorInfo LocalEmulator { get; set; }
-    public ThemeInfo CustomTheme { get; set; } = new();
+    public ThemeInfo CustomTheme { get; set; }
 
     // dto
     private readonly Settings _settings;
@@ -34,6 +34,8 @@ public class SettingsDto
     {
         _settings = LoadSettings();
         _settings.Adapt(this);
+        if (CustomTheme != null)
+            CustomTheme.AutomaticImageThemeType = false;
     }
 
     private Settings LoadSettings()
