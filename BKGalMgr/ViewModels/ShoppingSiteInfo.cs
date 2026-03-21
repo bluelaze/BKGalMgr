@@ -69,7 +69,12 @@ public partial class ShoppingSiteInfo : ObservableObject
         if (idIndex != -1)
         {
             GetchuProductId = GetchuProductId.Substring(idIndex + 3);
+            return;
         }
+
+        // https://www.getchu.com/item/828103/
+        GetchuProductId = GetchuProductId.Split('?').FirstOrDefault();
+        GetchuProductId = GetchuProductId.Split('/', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
     }
 
     public void DmmUrlToProductId()
@@ -110,7 +115,7 @@ public partial class ShoppingSiteInfo : ObservableObject
     [property: JsonIgnore]
     public void OpenInGetchu()
     {
-        UrlMisc.OpenUrl($"{_GetchuWebsit}/soft.phtml?id={GetchuProductId}");
+        UrlMisc.OpenUrl($"{_GetchuWebsit}/item/{GetchuProductId}");
     }
 
     [RelayCommand]
