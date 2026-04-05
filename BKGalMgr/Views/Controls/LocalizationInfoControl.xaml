@@ -40,6 +40,9 @@
                                AcceptsReturn="True"
                                Text="{Binding Description, Mode=TwoWay}"
                                TextWrapping="Wrap" />
+        <mcontrols:SettingsCard x:Uid="TargetInfo_EnableLocalEmulator">
+            <ToggleSwitch IsOn="{Binding EnableLocalEmulator, Mode=TwoWay}" />
+        </mcontrols:SettingsCard>
         <ScrollViewer MaxHeight="360">
             <mcontrols:SettingsExpander x:Uid="LocalizationInfo_Contributors" ItemsSource="{Binding Contributors, Mode=OneWay}">
                 <mcontrols:SettingsExpander.Content>

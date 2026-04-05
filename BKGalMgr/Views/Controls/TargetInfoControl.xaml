@@ -89,6 +89,11 @@
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
                             <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{Binding CreateDate}" />
+                            <controls:IconTextBlock Text="Local Emulator" Visibility="{Binding EnableLocalEmulator}">
+                                <controls:IconTextBlock.Icon>
+                                    <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                </controls:IconTextBlock.Icon>
+                            </controls:IconTextBlock>
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>
@@ -107,6 +112,11 @@
                         <StackPanel Style="{StaticResource ListViewStackItemStyle}">
                             <TextBlock Text="{Binding Name}" />
                             <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{Binding CreateDate}" />
+                            <controls:IconTextBlock Text="Local Emulator" Visibility="{Binding EnableLocalEmulator}">
+                                <controls:IconTextBlock.Icon>
+                                    <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                </controls:IconTextBlock.Icon>
+                            </controls:IconTextBlock>
                             <TextBlock Text="{Binding Description}" />
                         </StackPanel>
                     </DataTemplate>

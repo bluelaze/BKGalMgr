@@ -141,6 +141,7 @@ public partial class TargetInfo : ObservableObject
             return;
         Name = Source.Name;
         StartupName = Source.StartupName;
+        EnableLocalEmulator = Source.EnableLocalEmulator;
     }
 
     public void SelectedLocalization()
@@ -155,6 +156,8 @@ public partial class TargetInfo : ObservableObject
 
         if (!Localization.StartupName.IsNullOrEmpty())
             StartupName = Localization.StartupName;
+
+        EnableLocalEmulator = Localization.EnableLocalEmulator;
     }
 
     public async Task DecompressSource()

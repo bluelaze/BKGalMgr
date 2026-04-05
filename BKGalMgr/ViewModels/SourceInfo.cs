@@ -33,6 +33,9 @@ public partial class SourceInfo : ObservableObject
     private string _description;
 
     [ObservableProperty]
+    private bool _enableLocalEmulator;
+
+    [ObservableProperty]
     private ObservableCollection<ContributorInfo> _contributors = new();
 
     [property: JsonIgnore]

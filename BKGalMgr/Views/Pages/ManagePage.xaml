@@ -328,6 +328,11 @@
                                     </StackPanel.ContextFlyout>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                    <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                        <controls:IconTextBlock.Icon>
+                                            <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                        </controls:IconTextBlock.Icon>
+                                    </controls:IconTextBlock>
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
@@ -374,6 +379,11 @@
                                     </StackPanel.ContextFlyout>
                                     <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                                     <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                    <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                        <controls:IconTextBlock.Icon>
+                                            <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                        </controls:IconTextBlock.Icon>
+                                    </controls:IconTextBlock>
                                     <TextBlock Text="{x:Bind Description, Mode=OneWay}" />
                                 </StackPanel>
                             </DataTemplate>
