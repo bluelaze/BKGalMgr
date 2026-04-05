@@ -11,7 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="MouseKeyHook" Version="5.7.1" />
-        <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+        <PackageReference Include="NHotkey.Wpf" Version="4.0.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ThirdParty\ShareX\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj" />
