@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DotMake.CommandLine" Version="1.8.8" />
+      <PackageReference Include="DotMake.CommandLine" Version="3.1.0" />
     </ItemGroup>
 
 </Project>

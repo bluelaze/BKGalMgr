@@ -35,10 +35,10 @@ public class Program
             Console.ReadKey();
             return;
         }
-        else if (result.Errors.Any())
+        else if (result.ParseResult.Errors.Any())
         {
             Console.WriteLine("参数错误...(Args error)\n");
-            foreach (var error in result.Errors)
+            foreach (var error in result.ParseResult.Errors)
                 Console.WriteLine(error);
 
             Console.WriteLine("");
