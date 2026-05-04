@@ -51,7 +51,7 @@ public class BangumiService
 
     public async Task<RestResponse<SearchResponse>> SearchSubjectsAsync(string keyword)
     {
-        var request = new RestRequest($"/v0/search/subjects", Method.Post);
+        var request = new RestRequest($"/v0/search/subjects?limit=20", Method.Post);
         request.AddJsonBody(
             $@"{{
                 ""keyword"":""{keyword}"",
