@@ -19,6 +19,7 @@ public class SettingsDto
     public ElementTheme AppTheme { get; set; }
     public BackdropMaterial AppBackdropMaterial { get; set; }
     public CompressionLevel ZipLevel { get; set; }
+    public bool AutoCropScreenshotBlackBorder { get; set; }
     public SupportLanguages Language { get; set; }
     public BangumiInfo Bangumi { get; set; }
     public LocalEmulatorInfo LocalEmulator { get; set; }

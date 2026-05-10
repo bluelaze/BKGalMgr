@@ -16,6 +16,7 @@ public class Settings
     public ElementTheme AppTheme { get; set; } = ElementTheme.Default;
     public BackdropMaterial AppBackdropMaterial { get; set; } = BackdropMaterial.Mica;
     public CompressionLevel ZipLevel { get; set; } = CompressionLevel.NoCompression;
+    public bool AutoCropScreenshotBlackBorder { get; set; } = false;
     public SupportLanguages Language { get; set; } = SupportLanguages.system;
 
     public BangumiInfo Bangumi { get; set; } = new();

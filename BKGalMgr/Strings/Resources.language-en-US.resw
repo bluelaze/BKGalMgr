@@ -825,6 +825,12 @@ More in crash_exception.txt</value>
   <data name="Settings_Generic_Zip_Level.Description" xml:space="preserve">
     <value>Compression level when create zip, NoCompression is optimal</value>
   </data>
+  <data name="Settings_Generic_Screenshot_Crop.Header" xml:space="preserve">
+    <value>Auto Crop Screenshot Black Border</value>
+  </data>
+  <data name="Settings_Generic_Screenshot_Crop.Description" xml:space="preserve">
+    <value>Auto crop screenshot black borders with 16x9 when use Magpie scale</value>
+  </data>
   <data name="Settings_Generic_Language_System" xml:space="preserve">
     <value>System</value>
   </data>

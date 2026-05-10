@@ -53,6 +53,10 @@
                     <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />
                 </mcontrols:SettingsCard>
 
+                <mcontrols:SettingsCard x:Uid="Settings_Generic_Screenshot_Crop" HeaderIcon="{mui:FontIcon Glyph=&#xF406;}">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.AutoCropScreenshotBlackBorder, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
+
                 <mcontrols:SettingsCard x:Uid="Settings_Generic_Language" HeaderIcon="{mui:FontIcon Glyph=&#xE775;}">
                     <ComboBox DisplayMemberPath="Value"
                               ItemsSource="{x:Bind ViewModel.Languages}"

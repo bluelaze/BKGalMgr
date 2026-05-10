@@ -1273,6 +1273,12 @@ public partial class GameInfo : ObservableObject
 
         await Task.Run(() =>
         {
+            Bitmap cropBitmap = null;
+            if (App.AutoCropScreenshotBlackBorder())
+                cropBitmap = bitmap.CropBlackBordersTo16x9();
+            if (cropBitmap != null)
+                bitmap = cropBitmap;
+
             bitmap.Save(screenshotPath, ImageFormat.Png);
             // also save to Pictures
             bitmap.Save(
@@ -1282,6 +1288,8 @@ public partial class GameInfo : ObservableObject
                 ),
                 ImageFormat.Png
             );
+
+            cropBitmap?.Dispose();
         });
 
         if (CustomTheme.LastScreenshotAsBackground)

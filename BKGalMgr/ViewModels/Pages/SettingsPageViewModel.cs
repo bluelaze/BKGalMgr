@@ -29,6 +29,9 @@ public partial class SettingsPageViewModel : ObservableObject
     private CompressionLevel _zipLevel;
 
     [ObservableProperty]
+    public bool _autoCropScreenshotBlackBorder;
+
+    [ObservableProperty]
     private SupportLanguages _language;
 
     [ObservableProperty]

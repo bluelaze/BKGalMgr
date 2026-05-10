@@ -825,6 +825,12 @@
   <data name="Settings_Generic_Zip_Level.Description" xml:space="preserve">
     <value>创建zip时的压缩级别，推荐NoCompression</value>
   </data>
+  <data name="Settings_Generic_Screenshot_Crop.Header" xml:space="preserve">
+    <value>自动裁切截图黑边</value>
+  </data>
+  <data name="Settings_Generic_Screenshot_Crop.Description" xml:space="preserve">
+    <value>按16x9的比例自动裁切截图的黑边，例如使用Magpie缩放后的截图</value>
+  </data>
   <data name="Settings_Generic_Language_System" xml:space="preserve">
     <value>系统</value>
   </data>

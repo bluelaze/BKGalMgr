@@ -156,4 +156,7 @@ public partial class App : Application
     }
 
     public static CompressionLevel ZipLevel() => GetRequiredService<SettingsDto>().ZipLevel;
+
+    public static bool AutoCropScreenshotBlackBorder() =>
+        GetRequiredService<SettingsDto>().AutoCropScreenshotBlackBorder;
 }
