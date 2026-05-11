@@ -302,6 +302,12 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Select_Game_Process.Text" xml:space="preserve">
     <value>Start Timing With Game Process</value>
   </data>
+  <data name="Commom_MenuItem_As_Game_Background.Text" xml:space="preserve">
+    <value>Set As Game Background</value>
+  </data>
+  <data name="Commom_MenuItem_As_App_Background.Text" xml:space="preserve">
+    <value>Set As App Background</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>

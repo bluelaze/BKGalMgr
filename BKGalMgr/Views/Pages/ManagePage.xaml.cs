@@ -878,7 +878,7 @@ public sealed partial class ManagePage : Page
         else
         {
             var images = ViewModel.SelectedRepository.SelectedGame.Characters.Select(c => c.Illustration).ToList();
-            App.ShowImages(images, images.IndexOf(charater.Illustration));
+            App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(charater.Illustration));
         }
     }
 
@@ -943,43 +943,47 @@ public sealed partial class ManagePage : Page
 
     private void cover_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
-        App.ShowImages(ViewModel.SelectedRepository.SelectedGame.Covers, covers_FlipView.SelectedIndex);
+        App.ShowImages(
+            ViewModel.SelectedRepository.SelectedGame,
+            ViewModel.SelectedRepository.SelectedGame.Covers,
+            covers_FlipView.SelectedIndex
+        );
     }
 
     private void gallery_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Gallery;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void special_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Special;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void screenshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Screenshot;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void websiteshot_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.WebsiteShot;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void bugbugnews_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.BugBugNews;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void campaign_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
         var images = ViewModel.SelectedRepository.SelectedGame.Campaign;
-        App.ShowImages(images, images.IndexOf(e.ClickedItem as string));
+        App.ShowImages(ViewModel.SelectedRepository.SelectedGame, images, images.IndexOf(e.ClickedItem as string));
     }
 
     private void covers_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)

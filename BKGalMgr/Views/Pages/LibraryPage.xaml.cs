@@ -225,7 +225,7 @@ public sealed partial class LibraryPage : Page
     private void cover_Button_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as Button).DataContext as GameInfo;
-        App.ShowImages(gameInfo.Covers, 0);
+        App.ShowImages(gameInfo, gameInfo.Covers, 0);
     }
 
     private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -233,7 +233,7 @@ public sealed partial class LibraryPage : Page
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
         gameInfo.LoadGallery();
         if (gameInfo.Gallery.Count > 0)
-            App.ShowImages(gameInfo.Gallery, 0);
+            App.ShowImages(gameInfo, gameInfo.Gallery, 0);
     }
 
     private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -241,7 +241,7 @@ public sealed partial class LibraryPage : Page
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
         gameInfo.LoadSpecial();
         if (gameInfo.Special.Count > 0)
-            App.ShowImages(gameInfo.Special, 0);
+            App.ShowImages(gameInfo, gameInfo.Special, 0);
     }
 
     private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -249,16 +249,13 @@ public sealed partial class LibraryPage : Page
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
         gameInfo.LoadScreenshot();
         if (gameInfo.Screenshot.Count > 0)
-            App.ShowImages(gameInfo.Screenshot, 0);
+            App.ShowImages(gameInfo, gameInfo.Screenshot, 0);
     }
 
     private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)
     {
         var gameInfo = sender.DataContext as GameInfo;
-        var playedChart = new GamePlayedPeriodChartControl()
-        {
-            PlayedPeriods = gameInfo.PlayedPeriods,
-        };
+        var playedChart = new GamePlayedPeriodChartControl() { PlayedPeriods = gameInfo.PlayedPeriods };
         playedChart.CloseClick += (_, _) =>
         {
             sender.IsPaneOpen = false;

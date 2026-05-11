@@ -9,6 +9,7 @@
         xmlns:local="using:BKGalMgr.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
+        xmlns:mgr="using:BKGalMgr"
         xmlns:mtriggers="using:CommunityToolkit.WinUI"
         xmlns:mui="using:CommunityToolkit.WinUI"
         xmlns:tb="using:H.NotifyIcon"
@@ -75,7 +76,7 @@
 
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Text="{x:Bind local:MainWindow.GetImageFileName(image_viewer_FlipView.SelectedItem), Mode=OneWay}"
+                   Text="{x:Bind local:MainWindow.GetImageFileName(((mgr:IImageItem)image_viewer_FlipView.SelectedItem).Image), Mode=OneWay}"
                    Visibility="{x:Bind image_viewer_Grid.Visibility, Mode=OneWay}" />
 
         <ContentPresenter x:Name="loading_contentpresenter"
@@ -109,7 +110,7 @@
                     </behaviors:ClickTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
+                    <DataTemplate x:DataType="mgr:IImageItem">
                         <ScrollViewer x:Name="image_ScrollViewer"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Stretch"
@@ -117,9 +118,23 @@
                                       HorizontalScrollMode="Auto"
                                       SizeChanged="image_ScrollViewer_SizeChanged"
                                       ZoomMode="Enabled">
+                            <ScrollViewer.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_Game_Background" Click="{x:Bind SetAsGameBackground}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background" Click="{x:Bind SetAsAppBackground}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Delete" Click="delete_image_MenuFlyoutItem_Click">
+                                        <MenuFlyoutItem.Resources>
+                                            <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                            <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                            <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                        </MenuFlyoutItem.Resources>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </ScrollViewer.ContextFlyout>
                             <Image x:Name="post_Image"
                                    ImageOpened="post_Image_ImageOpened"
-                                   Source="{x:Bind}"
+                                   Source="{x:Bind Image}"
                                    Stretch="None" />
                         </ScrollViewer>
                     </DataTemplate>
@@ -141,10 +156,10 @@
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <Image Source="{x:Bind}"
+                    <DataTemplate x:DataType="mgr:IImageItem">
+                        <Image Source="{x:Bind Image}"
                                Stretch="Uniform"
-                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName((x:String))}" />
+                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

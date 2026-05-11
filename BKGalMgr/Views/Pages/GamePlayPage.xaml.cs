@@ -454,28 +454,28 @@ public sealed partial class GamePlayPage : Page
     {
         ViewModel.Game.LoadCover();
         if (ViewModel.Game.Covers.Count > 0)
-            App.ShowImages(ViewModel.Game.Covers, 0);
+            App.ShowImages(ViewModel.Game,ViewModel.Game.Covers, 0);
     }
 
     private void gallery_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.Game.LoadGallery();
         if (ViewModel.Game.Gallery.Count > 0)
-            App.ShowImages(ViewModel.Game.Gallery, 0);
+            App.ShowImages(ViewModel.Game, ViewModel.Game.Gallery, 0);
     }
 
     private void special_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.Game.LoadSpecial();
         if (ViewModel.Game.Special.Count > 0)
-            App.ShowImages(ViewModel.Game.Special, 0);
+            App.ShowImages(ViewModel.Game, ViewModel.Game.Special, 0);
     }
 
     private void screenshot_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.Game.LoadScreenshot();
         if (ViewModel.Game.Screenshot.Count > 0)
-            App.ShowImages(ViewModel.Game.Screenshot, 0);
+            App.ShowImages(ViewModel.Game, ViewModel.Game.Screenshot, 0);
     }
 
     private void screen_capture_Button_Click(object sender, RoutedEventArgs e)
@@ -512,7 +512,7 @@ public sealed partial class GamePlayPage : Page
     private void character_illustration_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
     {
         var images = ViewModel.Game.Characters.Select(c => c.Illustration).ToList();
-        App.ShowImages(images, character_FlipView.SelectedIndex);
+        App.ShowImages(ViewModel.Game, images, character_FlipView.SelectedIndex);
     }
 
     private void targets_Button_Click(object sender, RoutedEventArgs e)

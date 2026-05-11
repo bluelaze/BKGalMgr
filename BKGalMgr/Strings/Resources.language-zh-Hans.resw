@@ -302,6 +302,12 @@
   <data name="Commom_MenuItem_Select_Game_Process.Text" xml:space="preserve">
     <value>指定游戏进程开始计时</value>
   </data>
+  <data name="Commom_MenuItem_As_Game_Background.Text" xml:space="preserve">
+    <value>设置为游戏背景</value>
+  </data>
+  <data name="Commom_MenuItem_As_App_Background.Text" xml:space="preserve">
+    <value>设置为应用背景</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>
   </data>

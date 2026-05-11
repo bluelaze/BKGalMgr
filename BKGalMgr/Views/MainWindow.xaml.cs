@@ -33,7 +33,7 @@ namespace BKGalMgr.Views;
 public sealed partial class MainWindow : Window
 {
     [ObservableProperty]
-    private ObservableCollection<string> _images = new();
+    private ObservableCollection<IImageItem> _images = new();
 
     [ObservableProperty]
     private GameInfo _selectedGame = null;
@@ -101,11 +101,11 @@ public sealed partial class MainWindow : Window
         return imagePath == null ? null : Path.GetFileName(imagePath.ToString());
     }
 
-    public void ShowImages(IEnumerable<string> images, int selectedIndex)
+    public void ShowImages(IEnumerable<IImageItem> images, int selectedIndex)
     {
         image_viewer_Grid.Visibility = Visibility.Visible;
         // x:Bind不能是null对象，否则会崩溃
-        Images = new(images.Where(t => !t.IsNullOrEmpty()));
+        Images = new(images.Where(t => !t.Image.IsNullOrEmpty()));
         if (selectedIndex > -1 && selectedIndex < images.Count())
             image_viewer_FlipView.SelectedIndex = selectedIndex;
     }
@@ -114,6 +114,13 @@ public sealed partial class MainWindow : Window
     {
         image_viewer_Grid.Visibility = Visibility.Collapsed;
         Images.Clear();
+    }
+
+    public void DeleteImage()
+    {
+        var image = (IImageItem)image_viewer_FlipView.SelectedItem;
+        Images.Remove(image);
+        image.DeleteImage();
     }
 
     public void ShowBlog(GameInfo game)
@@ -248,10 +255,27 @@ public sealed partial class MainWindow : Window
 
     private void image_viewer_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (image_viewer_ListView.SelectedIndex < image_viewer_ListView.Items.Count)
+        // 删除时，listview不会自动选择下一张图，SelectedIndex会变成-1
+        // 需要特殊处理
+        if (
+            image_viewer_ListView.SelectedIndex == -1
+            && image_viewer_FlipView.SelectedIndex < image_viewer_ListView.Items.Count
+        )
+        {
+            // 会发生循环复制，但值同样后，会终止循环
+            image_viewer_ListView.SelectedIndex = image_viewer_FlipView.SelectedIndex;
+        }
+        else if (image_viewer_ListView.SelectedIndex < image_viewer_ListView.Items.Count)
+        {
             image_viewer_FlipView.SelectedIndex = image_viewer_ListView.SelectedIndex;
+        }
 
         image_viewer_ListView.ScrollIntoView(image_viewer_ListView.SelectedItem);
+    }
+
+    private void delete_image_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        DeleteImage();
     }
 
     private void notification_InfoBar_CloseButtonClick(InfoBar sender, object args)

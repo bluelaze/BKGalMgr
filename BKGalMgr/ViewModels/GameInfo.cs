@@ -28,7 +28,7 @@ public enum PlayStatus
 }
 
 [Serializable]
-public partial class GameInfo : ObservableObject
+public partial class GameInfo : ObservableObject, IImageItem
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
@@ -309,6 +309,7 @@ public partial class GameInfo : ObservableObject
         return gameInfo;
     }
 
+    [property: JsonIgnore]
     public bool IsValid
     {
         get { return !Name.IsNullOrEmpty(); }
@@ -1117,6 +1118,53 @@ public partial class GameInfo : ObservableObject
         LoadBugBugNews();
         LoadCampaign();
     }
+
+    #region IImageItem
+
+    [property: JsonIgnore]
+    public string Image { get; set; }
+
+    public void DeleteImage()
+    {
+        if (Covers.Contains(Image))
+        {
+            Covers.Remove(Image);
+        }
+        else if (Gallery.Contains(Image))
+        {
+            Gallery.Remove(Image);
+        }
+        else if (Special.Contains(Image))
+        {
+            Special.Remove(Image);
+        }
+        else if (Screenshot.Contains(Image))
+        {
+            Screenshot.Remove(Image);
+        }
+        else if (WebsiteShot.Contains(Image))
+        {
+            WebsiteShot.Remove(Image);
+        }
+        else if (BugBugNews.Contains(Image))
+        {
+            BugBugNews.Remove(Image);
+        }
+        else if (Campaign.Contains(Image))
+        {
+            Campaign.Remove(Image);
+        }
+        File.Delete(Image);
+    }
+
+    public void SetAsGameBackground()
+    {
+        CustomTheme.BackgroundImage = Image;
+        SaveJsonFile();
+    }
+
+    public void SetAsAppBackground() { }
+    #endregion IImageItem
 
     private string TransformCoverPath(string path)
     {
