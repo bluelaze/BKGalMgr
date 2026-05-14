@@ -116,10 +116,11 @@ public sealed partial class MainWindow : Window
         Images.Clear();
     }
 
-    public void DeleteImage()
+    public void DeleteImage(bool alsoDeleteSystemPicture)
     {
         var image = (IImageItem)image_viewer_FlipView.SelectedItem;
         Images.Remove(image);
+        image.Args = alsoDeleteSystemPicture;
         image.DeleteImage();
     }
 
@@ -273,13 +274,18 @@ public sealed partial class MainWindow : Window
         image_viewer_ListView.ScrollIntoView(image_viewer_ListView.SelectedItem);
     }
 
-    private void delete_image_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        DeleteImage();
-    }
-
     private void notification_InfoBar_CloseButtonClick(InfoBar sender, object args)
     {
         Notifications.Remove(sender.DataContext as NotificationInfo);
+    }
+
+    private void only_delete_game_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        DeleteImage(false);
+    }
+
+    private void also_delete_system_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        DeleteImage(true);
     }
 }

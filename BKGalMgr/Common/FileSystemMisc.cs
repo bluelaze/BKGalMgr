@@ -121,6 +121,27 @@ public class FileSystemMisc
         return (true, "");
     }
 
+    /// <summary>
+    /// 删除文件
+    /// </summary>
+    /// <param name="path">文件路径</param>
+    /// <returns>文件不存在，或删除成功，返回true</returns>
+    public static bool DeleteFile(string path)
+    {
+        if (File.Exists(path))
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // https://blog.coldwind.top/posts/how-to-copy-folder/
     public static (bool success, string message) CopyDirectory(string sourceFolderPath, string targetFolderPath)
     {

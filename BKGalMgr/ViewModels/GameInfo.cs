@@ -1122,44 +1122,62 @@ public partial class GameInfo : ObservableObject, IImageItem
     #region IImageItem
 
     [property: JsonIgnore]
-    public string Image { get; set; }
+    object IImageItem.Args { get; set; }
+    string IImageItem.Image { get; set; }
 
-    public void DeleteImage()
+    public async void DeleteImage()
     {
-        if (Covers.Contains(Image))
+        var image = ((IImageItem)this).Image;
+        if (Covers.Contains(image))
         {
-            Covers.Remove(Image);
+            Covers.Remove(image);
         }
-        else if (Gallery.Contains(Image))
+        else if (Gallery.Contains(image))
         {
-            Gallery.Remove(Image);
+            Gallery.Remove(image);
         }
-        else if (Special.Contains(Image))
+        else if (Special.Contains(image))
         {
-            Special.Remove(Image);
+            Special.Remove(image);
         }
-        else if (Screenshot.Contains(Image))
+        else if (Screenshot.Contains(image))
         {
-            Screenshot.Remove(Image);
+            Screenshot.Remove(image);
         }
-        else if (WebsiteShot.Contains(Image))
+        else if (WebsiteShot.Contains(image))
         {
-            WebsiteShot.Remove(Image);
+            WebsiteShot.Remove(image);
         }
-        else if (BugBugNews.Contains(Image))
+        else if (BugBugNews.Contains(image))
         {
-            BugBugNews.Remove(Image);
+            BugBugNews.Remove(image);
         }
-        else if (Campaign.Contains(Image))
+        else if (Campaign.Contains(image))
         {
-            Campaign.Remove(Image);
+            Campaign.Remove(image);
         }
-        File.Delete(Image);
+        FileSystemMisc.DeleteFile(image);
+        if (((IImageItem)this).Args is bool alsoDeleteSystemPicture && alsoDeleteSystemPicture is true)
+        {
+            // 只有截图需要同步删除系统图片
+            var imageName = Path.GetFileName(image);
+            var timestampLength = GlobalInfo.GameScreenshotFileFormatStr.Length + (".png").Length;
+            if (imageName.Length < timestampLength)
+                return;
+
+            var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            FileSystemMisc.DeleteFile(
+                Path.Combine(
+                    picturesLibrary.SaveFolder.Path,
+                    $"BKGalMgr_{imageName.Substring(imageName.Length - timestampLength)}"
+                )
+            );
+        }
     }
 
     public void SetAsGameBackground()
     {
-        CustomTheme.BackgroundImage = Image;
+        CustomTheme.BackgroundImage = ((IImageItem)this).Image;
         SaveJsonFile();
     }
 
@@ -1313,9 +1331,10 @@ public partial class GameInfo : ObservableObject, IImageItem
     {
         Directory.CreateDirectory(ScreenshotFolderPath);
 
+        string timestamp = DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr);
         string screenshotPath = Path.Combine(
             ScreenshotFolderPath,
-            $"{targetInfo.Name.ValidFileName("_")}_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
+            $"{targetInfo.Name.ValidFileName("_")}_{timestamp}.png"
         );
         var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
 
@@ -1329,13 +1348,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
             bitmap.Save(screenshotPath, ImageFormat.Png);
             // also save to Pictures
-            bitmap.Save(
-                Path.Combine(
-                    picturesLibrary.SaveFolder.Path,
-                    $"BKGalMgr_{DateTime.Now.ToString(GlobalInfo.GameScreenshotFileFormatStr)}.png"
-                ),
-                ImageFormat.Png
-            );
+            bitmap.Save(Path.Combine(picturesLibrary.SaveFolder.Path, $"BKGalMgr_{timestamp}.png"), ImageFormat.Png);
 
             cropBitmap?.Dispose();
         });

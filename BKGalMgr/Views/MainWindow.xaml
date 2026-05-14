@@ -123,7 +123,14 @@
                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_As_Game_Background" Click="{x:Bind SetAsGameBackground}" />
                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background" Click="{x:Bind SetAsAppBackground}" />
                                     <MenuFlyoutSeparator />
-                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Delete" Click="delete_image_MenuFlyoutItem_Click">
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture" Click="only_delete_game_picture_MenuFlyoutItem_Click">
+                                        <MenuFlyoutItem.Resources>
+                                            <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
+                                            <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
+                                            <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                        </MenuFlyoutItem.Resources>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Also_Delete_System_Picture" Click="also_delete_system_picture_MenuFlyoutItem_Click">
                                         <MenuFlyoutItem.Resources>
                                             <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
                                             <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />

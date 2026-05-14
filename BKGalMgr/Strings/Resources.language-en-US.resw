@@ -308,6 +308,12 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_As_App_Background.Text" xml:space="preserve">
     <value>Set As App Background</value>
   </data>
+  <data name="Commom_MenuItem_Only_Delete_Game_Picture.Text" xml:space="preserve">
+    <value>Only Delete Game Picture</value>
+  </data>
+  <data name="Commom_MenuItem_Also_Delete_System_Picture.Text" xml:space="preserve">
+    <value>Also Delete System Picture</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>

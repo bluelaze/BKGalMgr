@@ -166,7 +166,8 @@ public partial class App : Application
 
 public interface IImageItem
 {
-    public string Image { get; set; }
+    object Args { get; set; }
+    string Image { get; set; }
 
     public void DeleteImage();
 
@@ -185,16 +186,20 @@ public class ImageItemWrapper : IImageItem
     }
 
     public IImageItem ImageOwner { get; set; }
+
+    public object Args { get; set; }
     public string Image { get; set; }
 
     public void DeleteImage()
     {
+        ImageOwner.Args = Args;
         ImageOwner.Image = Image;
         ImageOwner.DeleteImage();
     }
 
     public void SetAsGameBackground()
     {
+        ImageOwner.Args = Args;
         ImageOwner.Image = Image;
         ImageOwner.SetAsGameBackground();
     }
