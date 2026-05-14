@@ -282,6 +282,7 @@ public sealed partial class GamePlayPage : Page
                 savePlayedTime();
             });
 
+        gameInfo.StartSavePathMonitoring();
         // 有可能用到LE或者启动器之类的，有可能是链式启动的，需要等待所有有窗口的进程结束
         gameInfo.PlayCancelTokenSource = new CancellationTokenSource();
         try
@@ -362,7 +363,56 @@ public sealed partial class GamePlayPage : Page
         playedPeriod.EndTime = DateTime.Now;
         gameInfo.SaveJsonFile();
 
-        // Auto backup
+        // 存档备份
+        if (gameInfo.StopSavePathMonitoring() is string savePath && !savePath.IsNullOrEmpty())
+        {
+            string saveFolderPath = Path.GetDirectoryName(savePath);
+
+            ContentDialog dialog = DialogHelper.GetConfirmDialog();
+            // 可重新选择存档文件
+            TextBlock msgTextBlk = new TextBlock()
+            {
+                Text = LanguageHelper.GetString("Msg_SaveData_Path_Detected").Format(saveFolderPath),
+                TextWrapping = TextWrapping.Wrap,
+                IsTextSelectionEnabled = true,
+            };
+            Button pickFolder = new Button()
+            {
+                Style = (Style)App.Current.Resources["IconButtonStyle"],
+                BorderBrush = null,
+                Content = new FontIcon()
+                {
+                    Foreground = (SolidColorBrush)App.Current.Resources["SystemFillColorCautionBrush"],
+                    Glyph = "\uE838",
+                },
+            };
+            pickFolder.Click += (object sender, RoutedEventArgs e) =>
+            {
+                if(FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"]).FirstOrDefault() is string saveFile)
+                {
+                    saveFolderPath = Path.GetDirectoryName(saveFile);
+                    msgTextBlk.Text = LanguageHelper.GetString("Msg_SaveData_Path_Detected").Format(saveFolderPath);
+                }
+            };
+
+            dialog.Title = pickFolder;
+            dialog.Content = msgTextBlk;
+            dialog.PrimaryButtonText = LanguageHelper.GetString("Msg_SaveData_Path_Save_And_AutoBackup");
+            dialog.SecondaryButtonText = LanguageHelper.GetString("Msg_SaveData_Path_Save_Only");
+
+            var ret = await dialog.ShowAsync();
+            if (ret == ContentDialogResult.Primary)
+            {
+                gameInfo.SaveDataSettings.AutoBackup = true;
+                gameInfo.SaveDataSettings.SaveDataFolderPath = saveFolderPath;
+                gameInfo.SaveJsonFile();
+            }
+            else if (ret == ContentDialogResult.Secondary)
+            {
+                gameInfo.SaveDataSettings.SaveDataFolderPath = saveFolderPath;
+                gameInfo.SaveJsonFile();
+            }
+        }
         if (gameInfo.SaveDataSettings.AutoBackup)
         {
             var savedata = gameInfo.NewSaveData();
@@ -454,7 +504,7 @@ public sealed partial class GamePlayPage : Page
     {
         ViewModel.Game.LoadCover();
         if (ViewModel.Game.Covers.Count > 0)
-            App.ShowImages(ViewModel.Game,ViewModel.Game.Covers, 0);
+            App.ShowImages(ViewModel.Game, ViewModel.Game.Covers, 0);
     }
 
     private void gallery_Button_Click(object sender, RoutedEventArgs e)

@@ -181,6 +181,15 @@
   <data name="Msg_SaveData_Auto_Backup_Fail" xml:space="preserve">
     <value>自动备份失败，请检查备份设置</value>
   </data>
+  <data name="Msg_SaveData_Path_Detected" xml:space="preserve">
+    <value>检测到存档路径: {0}</value>
+  </data>
+  <data name="Msg_SaveData_Path_Save_And_AutoBackup" xml:space="preserve">
+    <value>保存并自动备份</value>
+  </data>
+  <data name="Msg_SaveData_Path_Save_Only" xml:space="preserve">
+    <value>仅保存路径</value>
+  </data>
   <data name="Msg_Game_Need_Stop" xml:space="preserve">
     <value>当前正在游玩，请先停止！</value>
   </data>

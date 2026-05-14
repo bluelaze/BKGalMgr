@@ -181,6 +181,15 @@
   <data name="Msg_SaveData_Auto_Backup_Fail" xml:space="preserve">
     <value>Auto backup fail, please check savedata settings</value>
   </data>
+  <data name="Msg_SaveData_Path_Detected" xml:space="preserve">
+    <value>Save path detected: {0}</value>
+  </data>
+  <data name="Msg_SaveData_Path_Save_And_AutoBackup" xml:space="preserve">
+    <value>Save and Auto Backup</value>
+  </data>
+  <data name="Msg_SaveData_Path_Save_Only" xml:space="preserve">
+    <value>Save Path Only</value>
+  </data>
   <data name="Msg_Game_Need_Stop" xml:space="preserve">
     <value>Game running currently, please stop!</value>
   </data>

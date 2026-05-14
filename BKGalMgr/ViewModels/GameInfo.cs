@@ -1356,4 +1356,72 @@ public partial class GameInfo : ObservableObject, IImageItem
         if (CustomTheme.LastScreenshotAsBackground)
             CustomTheme.BackgroundImage = screenshotPath;
     }
+
+    private List<FileSystemWatcher> _savePathWatchers = new List<FileSystemWatcher>();
+    private string _savePathGet = string.Empty;
+
+    public void StartSavePathMonitoring()
+    {
+        // 已有存档路径就不监听
+        if (!SaveDataSettings.SaveDataFolderPath.IsNullOrEmpty())
+            return;
+
+        // 防止多开
+        if (_savePathWatchers.Any())
+            return;
+
+        _savePathGet = string.Empty;
+        // 获取常见的存档根目录
+        var pathsToWatch = new List<string>
+        {
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), // AppData\Local
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), // AppData\Roaming
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), // Documents
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow"), // LocalLow
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games"), // 保存的游戏
+            Path.Combine(FolderPath, GlobalInfo.TargetsFolderName), // 游戏文件夹
+        };
+
+        foreach (var path in pathsToWatch)
+        {
+            if (Directory.Exists(path))
+            {
+                FileSystemWatcher watcher = new FileSystemWatcher
+                {
+                    Path = path,
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.DirectoryName,
+                    IncludeSubdirectories = true, // 关键：监控所有子文件夹
+                };
+
+                // 绑定事件
+                watcher.Created += OnSaveFileChanged;
+                watcher.Changed += OnSaveFileChanged;
+
+                watcher.EnableRaisingEvents = true;
+                _savePathWatchers.Add(watcher);
+            }
+        }
+    }
+
+    private void OnSaveFileChanged(object sender, FileSystemEventArgs e)
+    {
+        if (e.FullPath.Contains("save", StringComparison.OrdinalIgnoreCase))
+        {
+            _savePathGet = e.FullPath;
+        }
+    }
+
+    public string StopSavePathMonitoring()
+    {
+        foreach (var watcher in _savePathWatchers)
+        {
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
+        }
+        _savePathWatchers.Clear();
+
+        string t = _savePathGet;
+        _savePathGet = string.Empty;
+        return t;
+    }
 }
