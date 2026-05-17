@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.Configuration;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
@@ -218,24 +216,12 @@ public class ThemeHelper
         {
             case ElementTheme.Dark:
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Dark;
-                LiveCharts.Configure(config =>
-                {
-                    config.AddDarkTheme();
-                });
                 break;
             case ElementTheme.Light:
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.Light;
-                LiveCharts.Configure(config =>
-                {
-                    config.AddLightTheme();
-                });
                 break;
             default:
                 _window.AppWindow.TitleBar.PreferredTheme = TitleBarTheme.UseDefaultAppMode;
-                LiveCharts.Configure(config =>
-                {
-                    config.AddDefaultTheme();
-                });
                 break;
         }
 

@@ -1,4 +1,4 @@
-using System;
+锘縰sing System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,25 +126,6 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
         new PropertyMetadata(null)
     );
 
-    public ElementTheme ApplyTheme
-    {
-        get { return (ElementTheme)GetValue(ApplyThemeProperty); }
-        set { SetValue(ApplyThemeProperty, value); }
-    }
-    public static readonly DependencyProperty ApplyThemeProperty = DependencyProperty.Register(
-        nameof(ApplyTheme),
-        typeof(ElementTheme),
-        typeof(GamePlayedPeriodChartControl),
-        new PropertyMetadata(
-            ElementTheme.Default,
-            (DependencyObject o, DependencyPropertyChangedEventArgs args) =>
-            {
-                var chart = (GamePlayedPeriodChartControl)o;
-                chart.ChangeTheme(chart.ApplyTheme);
-            }
-        )
-    );
-
     public delegate void CloseClickEventHandler(object sender, RoutedEventArgs e);
 
     public event CloseClickEventHandler CloseClick;
@@ -157,73 +138,5 @@ public sealed partial class GamePlayedPeriodChartControl : UserControl
     private void Close_Button_Click(object sender, RoutedEventArgs e)
     {
         CloseClick?.Invoke(this, e);
-    }
-
-    public void ChangeTheme(ElementTheme theme)
-    {
-        Theme defaultTheme = null;
-        Theme chartTheme = null;
-        // 缓存当前chart的默认主题，然后获取要设置的主题
-        switch (theme)
-        {
-            case ElementTheme.Default:
-                LiveCharts.Configure(config =>
-                {
-                    defaultTheme = config.GetTheme();
-                    if (defaultTheme.RequestedTheme != LvcThemeKind.Unknown)
-                        config.AddDefaultTheme();
-                    chartTheme = config.GetTheme();
-                });
-                break;
-
-            case ElementTheme.Dark:
-                LiveCharts.Configure(config =>
-                {
-                    defaultTheme = config.GetTheme();
-                    if (defaultTheme.RequestedTheme != LvcThemeKind.Dark)
-                        config.AddDarkTheme();
-                    chartTheme = config.GetTheme();
-                });
-                break;
-
-            case ElementTheme.Light:
-                LiveCharts.Configure(config =>
-                {
-                    defaultTheme = config.GetTheme();
-                    if (defaultTheme.RequestedTheme != LvcThemeKind.Light)
-                        config.AddLightTheme();
-                    chartTheme = config.GetTheme();
-                });
-                break;
-        }
-        // 还原设置的全局默认主题
-        if (defaultTheme.RequestedTheme != chartTheme.RequestedTheme)
-        {
-            switch (defaultTheme?.RequestedTheme)
-            {
-                case LvcThemeKind.Unknown:
-
-                    LiveCharts.Configure(config =>
-                    {
-                        config.AddDefaultTheme();
-                    });
-                    break;
-                case LvcThemeKind.Dark:
-                    LiveCharts.Configure(config =>
-                    {
-                        config.AddDarkTheme();
-                    });
-                    break;
-                case LvcThemeKind.Light:
-                    LiveCharts.Configure(config =>
-                    {
-                        config.AddLightTheme();
-                    });
-                    break;
-            }
-        }
-        // 没提供属性设置，也没主题新增接口，只能这样写了
-        RequestedTheme = theme;
-        lvc_chart.ChartTheme = chartTheme;
     }
 }

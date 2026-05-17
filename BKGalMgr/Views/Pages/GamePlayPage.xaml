@@ -403,9 +403,7 @@
                             </Grid>
                         </mcontrols:Case>
                         <mcontrols:Case Value="playchart">
-                            <controls:GamePlayedPeriodChartControl ApplyTheme="{x:Bind ViewModel.Game.CustomTheme.RequestedTheme, Mode=OneWay}"
-                                                                   PlayedPeriods="{x:Bind ViewModel.Game.PlayedPeriods, Mode=OneWay}"
-                                                                   ShowClose="Collapsed" />
+                            <controls:GamePlayedPeriodChartControl PlayedPeriods="{x:Bind ViewModel.Game.PlayedPeriods, Mode=OneWay}" ShowClose="Collapsed" />
                         </mcontrols:Case>
                     </mcontrols:SwitchPresenter>
                 </Grid>
