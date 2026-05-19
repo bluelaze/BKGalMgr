@@ -388,7 +388,7 @@ public sealed partial class GamePlayPage : Page
             };
             pickFolder.Click += (object sender, RoutedEventArgs e) =>
             {
-                if(FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"]).FirstOrDefault() is string saveFile)
+                if(FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"])?.FirstOrDefault() is string saveFile)
                 {
                     saveFolderPath = Path.GetDirectoryName(saveFile);
                     msgTextBlk.Text = LanguageHelper.GetString("Msg_SaveData_Path_Detected").Format(saveFolderPath);
