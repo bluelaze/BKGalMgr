@@ -405,12 +405,12 @@ public sealed partial class GamePlayPage : Page
             {
                 gameInfo.SaveDataSettings.AutoBackup = true;
                 gameInfo.SaveDataSettings.SaveDataFolderPath = saveFolderPath;
-                gameInfo.SaveJsonFile();
+                gameInfo.SaveDataSettings.SaveJsonFile();
             }
             else if (ret == ContentDialogResult.Secondary)
             {
                 gameInfo.SaveDataSettings.SaveDataFolderPath = saveFolderPath;
-                gameInfo.SaveJsonFile();
+                gameInfo.SaveDataSettings.SaveJsonFile();
             }
         }
         if (gameInfo.SaveDataSettings.AutoBackup)
