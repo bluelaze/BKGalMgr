@@ -394,7 +394,13 @@
                                     </ListView.ItemsPanel>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:CharacterInfo">
-                                            <Image Source="{Binding Illustration}" />
+                                            <Image>
+                                                <Image.Source>
+                                                    <BitmapImage DecodePixelHeight="64"
+                                                                 DecodePixelType="Logical"
+                                                                 UriSource="{Binding Illustration}" />
+                                                </Image.Source>
+                                            </Image>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>

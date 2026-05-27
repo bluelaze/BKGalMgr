@@ -46,6 +46,15 @@
             <Setter Property="Width" Value="224" />
             <Setter Property="Height" Value="126" />
         </Style>
+        <DataTemplate x:Key="ImageGridViewItemDataTemplate" x:DataType="x:String">
+            <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}">
+                <Image.Source>
+                    <BitmapImage DecodePixelType="Logical"
+                                 DecodePixelWidth="224"
+                                 UriSource="{x:Bind}" />
+                </Image.Source>
+            </Image>
+        </DataTemplate>
     </Page.Resources>
     <Grid Margin="0,16,0,0">
         <Grid.RowDefinitions>
@@ -594,7 +603,13 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
+                            <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelHeight="64"
+                                                 DecodePixelType="Logical"
+                                                 UriSource="{x:Bind}" />
+                                </Image.Source>
+                            </Image>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -644,205 +659,143 @@
                              TextWrapping="Wrap" />
                 </mcontrols:HeaderedContentControl>
                 <!--  Gallery  -->
-                <mcontrols:HeaderedContentControl x:Name="gallery_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
+                <!--  ItemsView有布局崩溃，图片多了快速滚动容易触发，看1.7预览版本有修复，改用GridView  -->
+                <!--  如果包含在ScrollViewer里，gridview的虚拟化会失效，AI说替换成ItemsRepeater就好些  -->
+                <!--  但ItemsRepeater太难用了，点击事件处理起来很麻烦，而且我记得有些绑定的问题，还是先这样优化下先用着吧  -->
+                <GridView x:Name="gallery_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="gallery_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
+                          SelectionMode="None">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenGalleryFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <!--  ItemsView有布局崩溃，图片多了快速滚动容易触发，看1.7预览版本有修复，改用gridview  -->
-                    <GridView x:Name="gallery_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="gallery_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
+                    </GridView.Header>
+                </GridView>
                 <!--  screen captures  -->
-                <mcontrols:HeaderedContentControl x:Name="screenshot_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
+                <GridView x:Name="screenshot_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="screenshot_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Screenshot, Mode=OneWay}"
+                          SelectionMode="None">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenshotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="screenshot_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="screenshot_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Screenshot, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
+                    </GridView.Header>
+                </GridView>
                 <!--  Special  -->
-                <mcontrols:HeaderedContentControl x:Name="special_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch">
-                    <mcontrols:HeaderedContentControl.Header>
+                <GridView x:Name="special_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="special_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
+                          SelectionMode="None">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="special_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="special_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ContextFlyout>
-                            <MenuFlyout>
-                                <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Move_Image_To">
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Top"
-                                                    Text="Top" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Movie"
-                                                    Text="Movie" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="World"
-                                                    Text="World" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Character"
-                                                    Text="Character" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Trial"
-                                                    Text="Trial" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Bonus"
-                                                    Text="Bonus" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Comic"
-                                                    Text="Comic" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Novel"
-                                                    Text="Novel" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="ASMR"
-                                                    Text="ASMR" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Special"
-                                                    Text="Special" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Campaign"
-                                                    Text="Campaign" />
-                                    <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
-                                                    CommandParameter="Websiteshot"
-                                                    Text="Websiteshot" />
-                                </MenuFlyoutSubItem>
-                            </MenuFlyout>
-                        </GridView.ContextFlyout>
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
-
+                    </GridView.Header>
+                    <GridView.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Move_Image_To">
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Top"
+                                                Text="Top" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Movie"
+                                                Text="Movie" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="World"
+                                                Text="World" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Character"
+                                                Text="Character" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Trial"
+                                                Text="Trial" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Bonus"
+                                                Text="Bonus" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Comic"
+                                                Text="Comic" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Novel"
+                                                Text="Novel" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="ASMR"
+                                                Text="ASMR" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Special"
+                                                Text="Special" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Campaign"
+                                                Text="Campaign" />
+                                <MenuFlyoutItem Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.MoveImageToSpecialFolderCommand, Mode=OneWay}"
+                                                CommandParameter="Websiteshot"
+                                                Text="Websiteshot" />
+                            </MenuFlyoutSubItem>
+                        </MenuFlyout>
+                    </GridView.ContextFlyout>
+                </GridView>
                 <!--  Campaign  -->
-                <mcontrols:HeaderedContentControl x:Name="campaign_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <mcontrols:HeaderedContentControl.Header>
+                <GridView x:Name="campaign_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="campaign_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay}"
+                          SelectionMode="None"
+                          Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCampaignFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CAMPAIGN" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="campaign_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="campaign_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
-
+                    </GridView.Header>
+                </GridView>
                 <!--  WebsiteShot  -->
-                <mcontrols:HeaderedContentControl x:Name="websiteshot_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <mcontrols:HeaderedContentControl.Header>
+                <GridView x:Name="websiteshot_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="websiteshot_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay}"
+                          SelectionMode="None"
+                          Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenWebsiteShotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="WEBSITESHOT" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="websiteshot_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="websiteshot_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
-
+                    </GridView.Header>
+                </GridView>
                 <!--  BugBugNews  -->
-                <mcontrols:HeaderedContentControl x:Name="bugbugnews_HeaderedContentControl"
-                                                  MaxWidth="{StaticResource HeaderedControlMaxWidth}"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  VerticalContentAlignment="Stretch"
-                                                  Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
-                    <mcontrols:HeaderedContentControl.Header>
+                <GridView x:Name="bugbugnews_GridView"
+                          MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          IsItemClickEnabled="True"
+                          ItemClick="bugbugnews_GridView_ItemClick"
+                          ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
+                          ItemTemplate="{StaticResource ImageGridViewItemDataTemplate}"
+                          ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay}"
+                          SelectionMode="None"
+                          Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                    <GridView.Header>
                         <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenBugBugNewsFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
                             <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="BUGBUGNEWS" />
                         </Button>
-                    </mcontrols:HeaderedContentControl.Header>
-                    <GridView x:Name="bugbugnews_GridView"
-                              Margin="12,0,0,0"
-                              IsItemClickEnabled="True"
-                              ItemClick="bugbugnews_GridView_ItemClick"
-                              ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
-                              ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay}"
-                              SelectionMode="None">
-                        <GridView.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <Image Source="{x:Bind}" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </mcontrols:HeaderedContentControl>
-
+                    </GridView.Header>
+                </GridView>
                 <!--  character  -->
                 <mcontrols:HeaderedContentControl x:Name="character_HeaderedContentControl"
                                                   MaxWidth="{StaticResource HeaderedControlMaxWidth}"

@@ -160,9 +160,13 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="mgr:IImageItem">
-                        <Image Source="{x:Bind Image}"
-                               Stretch="Uniform"
-                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}" />
+                        <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}">
+                            <Image.Source>
+                                <BitmapImage DecodePixelHeight="64"
+                                             DecodePixelType="Logical"
+                                             UriSource="{x:Bind Image}" />
+                            </Image.Source>
+                        </Image>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

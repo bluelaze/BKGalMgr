@@ -667,21 +667,17 @@ public sealed partial class ManagePage : Page
 
     private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        gallery_HeaderedContentControl.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        gallery_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        screenshot_HeaderedContentControl.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        screenshot_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        special_HeaderedContentControl.StartBringIntoView(
+        special_GridView.StartBringIntoView(
             new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
         );
     }
@@ -702,7 +698,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        websiteshot_HeaderedContentControl.StartBringIntoView(
+        websiteshot_GridView.StartBringIntoView(
             new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
         );
     }
@@ -716,7 +712,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        bugbugnews_HeaderedContentControl.StartBringIntoView(
+        bugbugnews_GridView.StartBringIntoView(
             new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
         );
     }
@@ -730,7 +726,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        campaign_HeaderedContentControl.StartBringIntoView(
+        campaign_GridView.StartBringIntoView(
             new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
         );
     }
