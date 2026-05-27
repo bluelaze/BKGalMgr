@@ -94,9 +94,7 @@
                                                                         x:Uid="Commom_MenuItem_Delete"
                                                                         Click="delete_group_menuflyoutitem_Click">
                                                             <MenuFlyoutItem.Resources>
-                                                                <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                                <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                                <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                                <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
                                                             </MenuFlyoutItem.Resources>
                                                         </MenuFlyoutItem>
                                                     </MenuFlyout>

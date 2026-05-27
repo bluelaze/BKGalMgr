@@ -52,8 +52,7 @@
                     Content="{mui:FontIcon FontSize=16,
                                            Glyph=&#xE74D;}">
                 <Button.Resources>
-                    <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                    <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                    <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
                 </Button.Resources>
             </Button>
             <NumberBox x:Uid="CharacterInfo_Age" Value="{Binding Age, Mode=TwoWay}" />

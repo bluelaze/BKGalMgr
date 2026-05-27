@@ -130,9 +130,8 @@
                                                             x:Uid="Commom_MenuItem_Remove"
                                                             Click="remove_repository_Menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
-                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+
                                                 </MenuFlyoutItem.Resources>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>
@@ -244,9 +243,8 @@
                                                             x:Uid="Commom_MenuItem_Remove"
                                                             Click="remove_repository_Menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
-                                                    <StaticResource x:Key="MenuFlyoutItemForeground" ResourceKey="SystemFillColorCriticalBrush" />
-                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPointerOver" ResourceKey="SystemFillColorCriticalBrush" />
-                                                    <StaticResource x:Key="MenuFlyoutItemForegroundPressed" ResourceKey="SystemFillColorCriticalBrush" />
+                                                    <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+
                                                 </MenuFlyoutItem.Resources>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>

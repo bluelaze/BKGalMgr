@@ -39,6 +39,7 @@
         <None Remove="Views\Controls\RepositoryInfoControl.xaml" />
         <None Remove="Views\Controls\SaveDataInfoControl.xaml" />
         <None Remove="Views\Controls\SaveDataSettingsInfoControl.xaml" />
+        <None Remove="Views\Controls\ScrollableFlipView.xaml" />
         <None Remove="Views\Controls\ScrollableGridView.xaml" />
         <None Remove="Views\Controls\ShoppingSiteInfoControl.xaml" />
         <None Remove="Views\Controls\SourceInfoControl.xaml" />
@@ -160,6 +161,9 @@
         <Page Update="Views\Controls\SaveDataSettingsInfoControl.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
+        <Page Update="Views\Controls\ScrollableFlipView.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
         <Page Update="Views\Controls\ScrollableGridView.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
@@ -206,6 +210,15 @@
             <Generator>MSBuild:Compile</Generator>
         </Page>
         <Page Update="Views\Pages\SettingsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Page Update="Resources\DeleteButtonStyle.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+        <Page Update="Resources\Palette.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
     </ItemGroup>
