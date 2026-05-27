@@ -15,6 +15,7 @@
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
       d:DataContext="{d:DesignInstance local:ManagePage}"
+      NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
