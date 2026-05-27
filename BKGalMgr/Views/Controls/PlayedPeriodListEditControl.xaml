@@ -12,37 +12,42 @@
              xmlns:sys="using:System"
              xmlns:vm="using:BKGalMgr.ViewModels"
              mc:Ignorable="d">
-    <mcontrols:HeaderedContentControl>
-        <mcontrols:HeaderedContentControl.Header>
-            <Grid Margin="16,0" ColumnSpacing="16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="178" />
-                    <ColumnDefinition Width="178" />
-                    <ColumnDefinition Width="102" />
-                    <ColumnDefinition Width="52" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.Resources>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                    </Style>
-                </Grid.Resources>
-                <TextBlock x:Uid="Played_Periods_Edit_Begin" Grid.Column="0" />
-                <TextBlock x:Uid="Played_Periods_Edit_End" Grid.Column="1" />
-                <TextBlock x:Uid="Played_Periods_Edit_Pause" Grid.Column="2" />
-                <TextBlock x:Uid="Played_Periods_Edit_Played" Grid.Column="3" />
-                <Button x:Name="add_Button"
-                        Grid.Column="4"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        Click="add_Button_Click"
-                        Content="{mui:FontIcon FontSize=16,
-                                               Glyph=&#xE948;}"
-                        Style="{StaticResource IconButtonStyle}" />
-            </Grid>
-        </mcontrols:HeaderedContentControl.Header>
-        <ListView MinHeight="360"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Margin="16,0" ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="178" />
+                <ColumnDefinition Width="178" />
+                <ColumnDefinition Width="102" />
+                <ColumnDefinition Width="52" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </Grid.Resources>
+            <TextBlock x:Uid="Played_Periods_Edit_Begin" Grid.Column="0" />
+            <TextBlock x:Uid="Played_Periods_Edit_End" Grid.Column="1" />
+            <TextBlock x:Uid="Played_Periods_Edit_Pause" Grid.Column="2" />
+            <TextBlock x:Uid="Played_Periods_Edit_Played" Grid.Column="3" />
+            <Button x:Name="add_Button"
+                    Grid.Column="4"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="{x:Null}"
+                    Click="add_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE948;}"
+                    Style="{StaticResource IconButtonStyle}" />
+        </Grid>
+
+        <ListView Grid.Row="1"
+                  MinHeight="360"
                   ItemContainerStyle="{StaticResource CustomListViewItemStyle}"
                   ItemsSource="{x:Bind PlayedPeriods}"
                   SelectionMode="None">
@@ -88,5 +93,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </mcontrols:HeaderedContentControl>
+    </Grid>
 </UserControl>
