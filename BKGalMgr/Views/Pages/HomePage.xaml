@@ -35,8 +35,13 @@
 
                 <Image HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Source="{x:Bind Game.CoverImageSource, Mode=OneWay}"
-                       Stretch="UniformToFill" />
+                       Stretch="UniformToFill">
+                    <Image.Source>
+                        <BitmapImage DecodePixelHeight="260"
+                                     DecodePixelType="Logical"
+                                     UriSource="{x:Bind Game.CoverUri, Mode=OneWay}" />
+                    </Image.Source>
+                </Image>
                 <StackPanel>
                     <ContentPresenter Height="208" />
                     <StackPanel Height="144"
@@ -176,8 +181,13 @@
                                             </manimations:Explicit.Animations>
                                             <Image HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Source="{x:Bind CoverImageSource, Mode=OneWay}"
-                                                   Stretch="UniformToFill" />
+                                                   Stretch="UniformToFill">
+                                                <Image.Source>
+                                                    <BitmapImage DecodePixelHeight="105"
+                                                                 DecodePixelType="Logical"
+                                                                 UriSource="{x:Bind CoverUri, Mode=OneWay}" />
+                                                </Image.Source>
+                                            </Image>
                                         </Border>
                                         <ContentPresenter VerticalAlignment="Bottom" Background="{ThemeResource SystemControlTransientBackgroundBrush}">
                                             <TextBlock Margin="4,2"

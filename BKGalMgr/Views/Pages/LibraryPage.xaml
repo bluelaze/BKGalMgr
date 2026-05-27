@@ -273,7 +273,13 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
                                         <!--  封面  -->
-                                        <Image Margin="8" Source="{x:Bind CoverImageSource, Mode=OneWay}" />
+                                        <Image Margin="8">
+                                            <Image.Source>
+                                                <BitmapImage DecodePixelType="Logical"
+                                                             DecodePixelWidth="150"
+                                                             UriSource="{x:Bind CoverUri, Mode=OneWay}" />
+                                            </Image.Source>
+                                        </Image>
                                         <Button x:Name="cover_Button"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
@@ -624,14 +630,18 @@
                                     <Image Height="330"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Source="{x:Bind CoverImageSource, Mode=OneWay}"
                                            Stretch="UniformToFill">
+                                        <Image.Source>
+                                            <BitmapImage DecodePixelHeight="330"
+                                                         DecodePixelType="Logical"
+                                                         UriSource="{x:Bind CoverUri, Mode=OneWay}" />
+                                        </Image.Source>
                                         <ToolTipService.ToolTip>
                                             <ToolTip MaxWidth="1080"
                                                      MaxHeight="720"
                                                      Placement="Right">
                                                 <ToolTip.Content>
-                                                    <Image Source="{x:Bind CoverImageSource, Mode=OneWay}" Stretch="Uniform" />
+                                                    <Image Source="{x:Bind CoverUri, Mode=OneWay}" />
                                                 </ToolTip.Content>
                                             </ToolTip>
                                         </ToolTipService.ToolTip>

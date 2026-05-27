@@ -167,7 +167,7 @@
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        DoubleTapped="cover_Image_DoubleTapped"
-                       Source="{x:Bind ViewModel.Game.CoverImageSource, Mode=OneWay}" />
+                       Source="{x:Bind ViewModel.Game.CoverUri, Mode=OneWay}" />
             </Grid>
             <!--  right  -->
             <Grid Grid.Column="2"

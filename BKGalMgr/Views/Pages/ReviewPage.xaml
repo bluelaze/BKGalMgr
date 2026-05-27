@@ -188,14 +188,18 @@
                                 </StackPanel.ContextFlyout>
                                 <Image Height="170"
                                        Margin="4"
-                                       VerticalAlignment="Top"
-                                       Source="{x:Bind Game.CoverImageSource}">
+                                       VerticalAlignment="Top">
+                                    <Image.Source>
+                                        <BitmapImage DecodePixelHeight="170"
+                                                     DecodePixelType="Logical"
+                                                     UriSource="{x:Bind Game.CoverUri, Mode=OneWay}" />
+                                    </Image.Source>
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="1080"
                                                  MaxHeight="720"
                                                  Placement="Right">
                                             <ToolTip.Content>
-                                                <Image Source="{x:Bind Game.CoverImageSource}" Stretch="Uniform" />
+                                                <Image Source="{x:Bind Game.CoverUri, Mode=OneWay}" />
                                             </ToolTip.Content>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>

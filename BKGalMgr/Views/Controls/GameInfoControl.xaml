@@ -37,14 +37,16 @@
         </Grid.ColumnDefinitions>
         <Image Width="250" VerticalAlignment="Top">
             <Image.Source>
-                <BitmapImage CreateOptions="IgnoreImageCache" UriSource="{Binding Cover}" />
+                <BitmapImage CreateOptions="IgnoreImageCache"
+                             DecodePixelWidth="250"
+                             UriSource="{Binding Cover}" />
             </Image.Source>
             <ToolTipService.ToolTip>
                 <ToolTip MaxWidth="1080"
                          MaxHeight="720"
                          Placement="Right">
                     <ToolTip.Content>
-                        <Image Source="{Binding CoverImageSource}" Stretch="Uniform" />
+                        <Image Source="{Binding Cover}" />
                     </ToolTip.Content>
                 </ToolTip>
             </ToolTipService.ToolTip>

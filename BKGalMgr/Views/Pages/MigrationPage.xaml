@@ -31,13 +31,18 @@
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
-                <Image Margin="8" Source="{Binding CoverImageSource}">
+                <Image Margin="8">
+                    <Image.Source>
+                        <BitmapImage DecodePixelType="Logical"
+                                     DecodePixelWidth="150"
+                                     UriSource="{x:Bind CoverUri, Mode=OneWay}" />
+                    </Image.Source>
                     <ToolTipService.ToolTip>
                         <ToolTip MaxWidth="1080"
                                  MaxHeight="720"
                                  Placement="Right">
                             <ToolTip.Content>
-                                <Image Source="{Binding CoverImageSource}" Stretch="Uniform" />
+                                <Image Source="{x:Bind CoverUri, Mode=OneWay}" />
                             </ToolTip.Content>
                         </ToolTip>
                     </ToolTipService.ToolTip>

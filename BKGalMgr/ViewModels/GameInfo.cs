@@ -51,30 +51,14 @@ public partial class GameInfo : ObservableObject, IImageItem
     private ObservableCollection<PlayedPeriodInfo> _playedPeriods = new();
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CoverImageSource))]
+    [NotifyPropertyChangedFor(nameof(CoverUri))]
     private string _cover;
 
-    private Microsoft.UI.Xaml.Media.Imaging.BitmapImage _coverImageSource;
-
     [JsonIgnore]
-    public Microsoft.UI.Xaml.Media.Imaging.BitmapImage CoverImageSource
+    public string CoverUri
     {
-        get
-        {
-            if (Cover.IsNullOrEmpty())
-                return null;
-            // 看着只不支持svg当封面，目前用bitmap应该都可以
-            // https://learn.microsoft.com/en-us/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.media.imagesource
-            //CoverImageSource = (Microsoft.UI.Xaml.Media.ImageSource)
-            //    Microsoft.UI.Xaml.Markup.XamlBindingHelper.ConvertValue(
-            //        typeof(Microsoft.UI.Xaml.Media.ImageSource),
-            //        value
-            //    );
-            if (_coverImageSource == null)
-                _coverImageSource = new();
-            _coverImageSource.UriSource = new(Cover);
-            return _coverImageSource;
-        }
+        // uri用x:Bind时，null或者空会导致异常
+        get { return Cover.IsNullOrEmpty() ? "ms-appx:///Assets/cover_placeholder.jpg" : Cover; }
     }
 
     [ObservableProperty]
@@ -356,7 +340,7 @@ public partial class GameInfo : ObservableObject, IImageItem
             && e.PropertyName != nameof(WebsiteShot)
             && e.PropertyName != nameof(BugBugNews)
             && e.PropertyName != nameof(Campaign)
-            && e.PropertyName != nameof(CoverImageSource)
+            && e.PropertyName != nameof(CoverUri)
             && PlayStatus == PlayStatus.Stop
         )
             IsPropertyChanged = true;

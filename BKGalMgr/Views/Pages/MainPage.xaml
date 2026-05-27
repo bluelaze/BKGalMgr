@@ -265,7 +265,7 @@
                                     <ContentPresenter Width="80"
                                                       Height="80"
                                                       CornerRadius="{ThemeResource ControlCornerRadius}">
-                                        <Image Source="{x:Bind SelectedGame.CoverImageSource, Mode=OneWay}" Stretch="UniformToFill" />
+                                        <Image Source="{x:Bind SelectedGame.CoverUri, Mode=OneWay}" Stretch="UniformToFill" />
                                     </ContentPresenter>
 
                                     <Grid Grid.Column="1"
