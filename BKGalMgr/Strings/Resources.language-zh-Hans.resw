@@ -699,8 +699,26 @@
   <data name="Library_Repository.Header" xml:space="preserve">
     <value>仓库</value>
   </data>
-  <data name="Library_Group.Content" xml:space="preserve">
+  <data name="Library_Search_Repository.Content" xml:space="preserve">
+    <value>仓库</value>
+  </data>
+  <data name="Library_Search_Group.Content" xml:space="preserve">
     <value>分组</value>
+  </data>
+  <data name="Library_Search_Company.Content" xml:space="preserve">
+    <value>制作社</value>
+  </data>
+  <data name="Library_Search_PublishDate.Content" xml:space="preserve">
+    <value>发售日期</value>
+  </data>
+  <data name="Library_Search_PlayedDate.Content" xml:space="preserve">
+    <value>游玩日期</value>
+  </data>
+  <data name="Library_Search_Select.Content" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="Library_Search_InvertSelect.Content" xml:space="preserve">
+    <value>反选</value>
   </data>
   <data name="Library_SortType_CreateDate.Text" xml:space="preserve">
     <value>创建日期</value>

@@ -699,8 +699,26 @@ More in crash_exception.txt</value>
   <data name="Library_Repository.Header" xml:space="preserve">
     <value>Repository</value>
   </data>
-  <data name="Library_Group.Content" xml:space="preserve">
+  <data name="Library_Search_Repository.Content" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="Library_Search_Group.Content" xml:space="preserve">
     <value>Group</value>
+  </data>
+  <data name="Library_Search_Company.Content" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Library_Search_PublishDate.Content" xml:space="preserve">
+    <value>Publish Date</value>
+  </data>
+  <data name="Library_Search_PlayedDate.Content" xml:space="preserve">
+    <value>Played Date</value>
+  </data>
+  <data name="Library_Search_Select.Content" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Library_Search_InvertSelect.Content" xml:space="preserve">
+    <value>Invert Select</value>
   </data>
   <data name="Library_SortType_CreateDate.Text" xml:space="preserve">
     <value>Create Date</value>

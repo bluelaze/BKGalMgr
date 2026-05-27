@@ -190,9 +190,6 @@
                             </Style>
                         </StackPanel.Resources>
                         <StackPanel Orientation="Horizontal">
-
-                            <TextBlock x:Uid="Game_Play_Company" />
-                            <TextBlock Text="：" />
                             <TextBlock extensions:CursorExtension.Cursor="Hand" Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:ClickTriggerBehavior>
@@ -200,6 +197,7 @@
                                     </behaviors:ClickTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </TextBlock>
+                            <TextBlock Margin="10,0,0,0" Text="{x:Bind ViewModel.Game.PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock x:Uid="Game_Play_Scenario" />

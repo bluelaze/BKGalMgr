@@ -13,14 +13,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:MetadataControl">
-                    <TextBlock x:Name="TextContainer"
-                               AutomationProperties.AccessibilityView="{TemplateBinding AutomationProperties.AccessibilityView}"
-                               FontFamily="{TemplateBinding FontFamily}"
-                               FontSize="{TemplateBinding FontSize}"
-                               FontWeight="{TemplateBinding FontWeight}"
-                               Foreground="{TemplateBinding Foreground}"
-                               IsTextSelectionEnabled="True"
-                               Style="{TemplateBinding TextBlockStyle}" />
+                    <ContentPresenter Padding="{TemplateBinding Padding}"
+                                      Background="{TemplateBinding Background}"
+                                      CornerRadius="{TemplateBinding CornerRadius}">
+                        <TextBlock x:Name="TextContainer"
+                                   AutomationProperties.AccessibilityView="{TemplateBinding AutomationProperties.AccessibilityView}"
+                                   FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   FontWeight="{TemplateBinding FontWeight}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   IsTextSelectionEnabled="True"
+                                   Style="{TemplateBinding TextBlockStyle}" />
+                    </ContentPresenter>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

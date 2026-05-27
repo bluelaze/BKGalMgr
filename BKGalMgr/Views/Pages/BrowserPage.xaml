@@ -82,7 +82,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="CommonStates">
+            <VisualStateGroup x:Name="BlogStates">
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="BlogChecked">
                     <VisualState.StateTriggers>
@@ -91,6 +91,20 @@
                     <VisualState.Setters>
                         <Setter Target="games_GridView.ItemsPanel" Value="{StaticResource BlogStaggeredPanel}" />
                         <Setter Target="games_GridView.ItemTemplate" Value="{StaticResource BlogDataTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="SelectStates">
+                <VisualState x:Name="Common" />
+                <VisualState x:Name="SelectChecked">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=select_ToggleButton, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="games_GridView.SelectionMode" Value="Multiple" />
+                        <Setter Target="games_GridView.IsMultiSelectCheckBoxEnabled" Value="True" />
+                        <Setter Target="games_GridView.IsItemClickEnabled" Value="False" />
+                        <Setter Target="invert_select_Button.IsEnabled" Value="True" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -113,81 +127,240 @@
                                          SuggestedItemsSource="{x:Bind ViewModel.SearchSuggestedTags, Mode=OneTime}"
                                          Text="{x:Bind ViewModel.SearchText, Mode=TwoWay}" />
 
-            <StackPanel Grid.Column="2"
-                        Margin="16,0,0,0"
-                        Orientation="Horizontal"
-                        Spacing="8">
-                <ToggleSplitButton x:Uid="Library_Group"
-                                   VerticalAlignment="Top"
-                                   IsChecked="{x:Bind ViewModel.IsEnableGroup, Mode=TwoWay}">
-                    <ToggleSplitButton.Flyout>
-                        <Flyout Placement="Bottom">
-                            <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
-                            <ItemsView Width="{ThemeResource GroupDialogMaxWidth}"
-                                       ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}"
-                                       SelectionMode="None">
-                                <ItemsView.Layout>
-                                    <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
-                                </ItemsView.Layout>
-                                <ItemsView.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:GroupInfo">
-                                        <ItemContainer>
-                                            <Grid>
-                                                <ToggleButton x:Name="group_ToggleButton"
-                                                              Checked="group_Togglebutton_IsCheckedChanged"
-                                                              Content="{x:Bind Name, Mode=OneWay}"
+            <Expander Grid.Column="2"
+                      MinHeight="0"
+                      Padding="0"
+                      VerticalAlignment="Top"
+                      HorizontalContentAlignment="Left"
+                      Background="Transparent"
+                      BorderBrush="{x:Null}">
+                <Expander.Resources>
+                    <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
+                    <StaticResource x:Key="ExpanderHeaderBackground" ResourceKey="ControlFillColorTransparentBrush" />
+                </Expander.Resources>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <ToggleSplitButton x:Name="repository_ToggleSplitButton"
+                                           x:Uid="Library_Search_Repository"
+                                           VerticalAlignment="Top"
+                                           IsChecked="{x:Bind ViewModel.IsEnableRepository, Mode=TwoWay}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout>
+                                    <ListView x:Name="repository_ListView"
+                                              MaxWidth="200"
+                                              MaxHeight="220"
+                                              IsMultiSelectCheckBoxEnabled="True"
+                                              ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
+                                              SelectionChanged="repository_ListView_SelectionChanged"
+                                              SelectionMode="Multiple">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:RepositoryInfo">
+                                                <Grid Padding="0,8">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <interactivity:Interaction.Behaviors>
+                                                        <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                                Value="Visible" />
+                                                        </interactivity:EventTriggerBehavior>
+                                                        <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                                            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                                                                TargetObject="{Binding ElementName=games_count_TextBlock}"
+                                                                                                Value="Collapsed" />
+                                                        </interactivity:EventTriggerBehavior>
+                                                    </interactivity:Interaction.Behaviors>
+                                                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+                                                    <TextBlock x:Name="games_count_TextBlock"
+                                                               HorizontalAlignment="Right"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                               Style="{ThemeResource CaptionTextBlockStyle}"
+                                                               Text="{x:Bind Games.Count, Mode=OneWay}"
+                                                               TextTrimming="WordEllipsis"
+                                                               Visibility="Collapsed" />
+                                                    <TextBlock Grid.Row="1"
+                                                               Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                               Style="{ThemeResource CaptionTextBlockStyle}"
+                                                               Text="{x:Bind FolderPath, Mode=OneTime}"
+                                                               TextWrapping="NoWrap"
+                                                               ToolTipService.ToolTip="{x:Bind FolderPath, Mode=OneTime}" />
+                                                    <FontIcon Grid.RowSpan="2"
+                                                              Grid.Column="1"
+                                                              Margin="4,0,0,0"
                                                               FontSize="12"
-                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
-                                                              Unchecked="group_Togglebutton_IsCheckedChanged" />
-                                            </Grid>
-                                        </ItemContainer>
-                                    </DataTemplate>
-                                </ItemsView.ItemTemplate>
-                            </ItemsView>
-                        </Flyout>
-                    </ToggleSplitButton.Flyout>
-                </ToggleSplitButton>
-                <DropDownButton Content="{x:Bind ViewModel.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="CreateDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="LastPlayDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PlayedTime" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_Name"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Name" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_Company"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Company" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PublishDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                            Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PinValue" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-                <DropDownButton Content="{x:Bind ViewModel.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
-                                            Command="{x:Bind ViewModel.SelectSortOrderTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Ascending" />
-                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
-                                            Command="{x:Bind ViewModel.SelectSortOrderTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Descending" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-                <ToggleButton x:Name="blog_ToggleButton" Content="Blog" />
-            </StackPanel>
+                                                              Glyph="&#xECE4;"
+                                                              Visibility="{x:Bind Ignore, Mode=OneWay}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                        </ToggleSplitButton>
+                        <ToggleSplitButton x:Uid="Library_Search_Group"
+                                           VerticalAlignment="Top"
+                                           IsChecked="{x:Bind ViewModel.IsEnableGroup, Mode=TwoWay}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout Placement="Bottom">
+                                    <!--  ItemsView和ItemsRepeater的ItemTemplate里只要用了x:Bind，DataContext就会失效  -->
+                                    <ItemsView Width="{ThemeResource GroupDialogMaxWidth}"
+                                               ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}"
+                                               SelectionMode="None">
+                                        <ItemsView.Layout>
+                                            <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
+                                        </ItemsView.Layout>
+                                        <ItemsView.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:GroupInfo">
+                                                <ItemContainer>
+                                                    <Grid>
+                                                        <ToggleButton x:Name="group_ToggleButton"
+                                                                      Checked="group_Togglebutton_IsCheckedChanged"
+                                                                      Content="{x:Bind Name, Mode=OneWay}"
+                                                                      FontSize="12"
+                                                                      IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                                                                      Unchecked="group_Togglebutton_IsCheckedChanged" />
+                                                    </Grid>
+                                                </ItemContainer>
+                                            </DataTemplate>
+                                        </ItemsView.ItemTemplate>
+                                    </ItemsView>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                        </ToggleSplitButton>
+                        <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                            <DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="CreateDate" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="LastPlayDate" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="PlayedTime" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_Name"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="Name" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_Company"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="Company" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="PublishDate" />
+                                    <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
+                                                    Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="PinValue" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+                        <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                            <DropDownButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
+                                                    Command="{x:Bind ViewModel.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="Ascending" />
+                                    <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
+                                                    Command="{x:Bind ViewModel.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                                    CommandParameter="Descending" />
+                                </MenuFlyout>
+                            </DropDownButton.Flyout>
+                        </DropDownButton>
+
+                    </StackPanel>
+                </Expander.Header>
+                <Expander.Content>
+                    <mcontrols:WrapPanel Padding="16,8,0,0"
+                                         HorizontalSpacing="8"
+                                         Orientation="Horizontal"
+                                         VerticalSpacing="8">
+                        <ToggleSplitButton x:Name="company_ToggleSplitButton"
+                                           x:Uid="Library_Search_Company"
+                                           VerticalAlignment="Top"
+                                           IsChecked="{x:Bind ViewModel.IsEnableCompany, Mode=TwoWay}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout>
+                                    <ListView x:Name="company_ListView"
+                                              MaxWidth="200"
+                                              MaxHeight="220"
+                                              IsMultiSelectCheckBoxEnabled="True"
+                                              ItemsSource="{x:Bind ViewModel.AllCompanines, Mode=OneWay}"
+                                              SelectionChanged="company_ListView_SelectionChanged"
+                                              SelectionMode="Multiple">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="x:String">
+                                                <TextBlock Text="{x:Bind}" />
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                        </ToggleSplitButton>
+                        <ToggleSplitButton x:Name="publish_date_ToggleSplitButton"
+                                           x:Uid="Library_Search_PublishDate"
+                                           VerticalAlignment="Top"
+                                           IsChecked="{x:Bind ViewModel.IsEnablePublishDate, Mode=TwoWay}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <!--  这个日期的转换器需要用Banding  -->
+                                        <DatePicker Date="{Binding ViewModel.PublishDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   CenterPoint="6,12,0"
+                                                   FontSize="24"
+                                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                   Rotation="90"
+                                                   Text="~"
+                                                   TextAlignment="Center" />
+                                        <DatePicker Date="{Binding ViewModel.PublishDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                    </StackPanel>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                        </ToggleSplitButton>
+                        <ToggleSplitButton x:Name="played_date_ToggleSplitButton"
+                                           x:Uid="Library_Search_PlayedDate"
+                                           VerticalAlignment="Top"
+                                           IsChecked="{x:Bind ViewModel.IsEnablePlayedDate, Mode=TwoWay}">
+                            <ToggleSplitButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <!--  这个日期的转换器需要用Banding  -->
+                                        <DatePicker Date="{Binding ViewModel.PlayedDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   CenterPoint="6,12,0"
+                                                   FontSize="24"
+                                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                   Rotation="90"
+                                                   Text="~"
+                                                   TextAlignment="Center" />
+                                        <DatePicker Date="{Binding ViewModel.PlayedDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                    </StackPanel>
+                                </Flyout>
+                            </ToggleSplitButton.Flyout>
+                        </ToggleSplitButton>
+                        <ToggleButton x:Name="select_ToggleButton"
+                                      x:Uid="Library_Search_Select"
+                                      VerticalAlignment="Top" />
+                        <Button x:Name="invert_select_Button"
+                                x:Uid="Library_Search_InvertSelect"
+                                VerticalAlignment="Top"
+                                Click="invert_select_Button_Click"
+                                IsEnabled="False" />
+                        <ToggleButton x:Name="blog_ToggleButton"
+                                      VerticalAlignment="Top"
+                                      Content="Blog" />
+                    </mcontrols:WrapPanel>
+                </Expander.Content>
+            </Expander>
         </Grid>
 
         <!--  游戏列表  -->
@@ -204,67 +377,168 @@
             </GridView.Resources>
             <GridView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="0,0,20,20" />
+                    <Setter Property="Margin" Value="0,0,16,16" />
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid HorizontalAlignment="Center"
-                                   MaximumRowsOrColumns="8"
+                                   MaximumRowsOrColumns="6"
                                    Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:GameInfo">
-                    <Grid Width="196"
-                          Height="248"
-                          HorizontalAlignment="Stretch"
-                          Background="{ThemeResource CardBackgroundFillColorDefault}">
-                        <interactivity:Interaction.Behaviors>
-                            <interactivity:EventTriggerBehavior EventName="PointerEntered">
-                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
-                            </interactivity:EventTriggerBehavior>
-                            <interactivity:EventTriggerBehavior EventName="PointerExited">
-                                <animations:StartAnimationActionWrapper Animation="{Binding ElementName=Normal_AnimationSet}" />
-                            </interactivity:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
+                    <GridViewItem>
+                        <manimations:Explicit.Animations>
+                            <manimations:AnimationSet x:Name="PointerOver_AnimationSet">
+                                <manimations:TranslationAnimation To="0,-4,0" Duration="0:0:0.3" />
+                            </manimations:AnimationSet>
+                            <manimations:AnimationSet x:Name="Normal_AnimationSet">
+                                <manimations:TranslationAnimation To="0" Duration="0:0:0.3" />
+                            </manimations:AnimationSet>
+                        </manimations:Explicit.Animations>
+                        <Grid Width="220"
+                              Height="490"
+                              HorizontalAlignment="Stretch"
+                              Background="{ThemeResource CardBackgroundFillColorDefault}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Icon="{mui:FontIcon Glyph=&#xE8F1;}" Text="{x:Bind Repository.Name, Mode=OneWay}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem Icon="{mui:FontIcon Glyph=&#xEC92;}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                </MenuFlyout>
+                            </Grid.ContextFlyout>
 
-                        <Image HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Source="{x:Bind CoverImageSource, Mode=OneWay}"
-                               Stretch="UniformToFill" />
+                            <interactivity:Interaction.Behaviors>
+                                <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                                    <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
+                                </interactivity:EventTriggerBehavior>
+                                <interactivity:EventTriggerBehavior EventName="PointerExited">
+                                    <animations:StartAnimationActionWrapper Animation="{Binding ElementName=Normal_AnimationSet}" />
+                                </interactivity:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
 
-                        <StackPanel>
-                            <ContentPresenter Height="196" />
-                            <StackPanel Height="144"
-                                        Padding="{ThemeResource TextControlThemePadding}"
-                                        Background="{ThemeResource SystemControlTransientBackgroundBrush}"
-                                        Spacing="4">
-                                <manimations:Explicit.Animations>
-                                    <manimations:AnimationSet x:Name="PointerOver_AnimationSet">
-                                        <manimations:TranslationAnimation To="0,-88,0" Duration="0:0:0.3" />
-                                    </manimations:AnimationSet>
-                                    <manimations:AnimationSet x:Name="Normal_AnimationSet">
-                                        <manimations:TranslationAnimation To="0" Duration="0:0:0.3" />
-                                    </manimations:AnimationSet>
-                                </manimations:Explicit.Animations>
+                            <Image Height="330"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Source="{x:Bind CoverImageSource, Mode=OneWay}"
+                                   Stretch="UniformToFill" />
 
-                                <TextBlock Height="38"
-                                           Style="{ThemeResource BodyTextBlockStyle}"
-                                           Text="{x:Bind Name, Mode=OneWay}" />
-                                <ContentPresenter Height="6" />
-                                <controls:IconTextBlock FontSize="14"
-                                                        Icon="{mui:FontIcon Glyph=&#xE768;}"
-                                                        Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                <controls:IconTextBlock FontSize="14"
-                                                        Icon="{mui:FontIcon Glyph=&#xEC06;}"
-                                                        Text="{x:Bind Company, Mode=OneWay}" />
-                                <controls:IconTextBlock FontSize="14"
-                                                        Icon="{mui:FontIcon Glyph=&#xE8F1;}"
-                                                        Text="{x:Bind Repository.Name, Mode=OneWay}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
+                            <Grid Grid.Row="1"
+                                  Padding="8,16,8,4"
+                                  RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="13" />
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontSize" Value="11" />
+                                        <Setter Property="LineHeight" Value="13" />
+                                        <Setter Property="Foreground" Value="{ThemeResource NpTextColorSecondaryBrush}" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                    </Style>
+                                </Grid.Resources>
+
+                                <StackPanel>
+                                    <TextBlock MaxHeight="48"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource NpTextColorPrimaryBrush}"
+                                               Text="{x:Bind Name, Mode=OneWay}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="WrapWholeWords" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <HyperlinkButton Padding="0" Click="website_HyperlinkButton_Click">
+                                            <HyperlinkButton.Content>
+                                                <TextBlock FontSize="12"
+                                                           LineHeight="16"
+                                                           Text="{x:Bind Company, Mode=OneWay}" />
+                                            </HyperlinkButton.Content>
+                                        </HyperlinkButton>
+                                        <TextBlock Grid.Column="1"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="12"
+                                                   Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal"
+                                            Spacing="16">
+
+                                    <controls:MetadataControl FontSize="11"
+                                                              Foreground="{ThemeResource NpTextColorTertiaryBrush}"
+                                                              ItemClick="MetadataControl_ItemClick"
+                                                              ItemsSource="{x:Bind Scenario, Mode=OneTime}"
+                                                              MaxCount="2"
+                                                              Separator="、" />
+
+
+                                    <controls:MetadataControl FontSize="11"
+                                                              Foreground="{ThemeResource NpTextColorTertiaryBrush}"
+                                                              ItemClick="MetadataControl_ItemClick"
+                                                              ItemsSource="{x:Bind Artist, Mode=OneTime}"
+                                                              MaxCount="2"
+                                                              Separator="、" />
+                                </StackPanel>
+                                <ContentControl Grid.Row="2" VerticalContentAlignment="Bottom">
+                                    <ItemsView IsItemInvokedEnabled="True"
+                                               ItemInvoked="tag_ItemsView_ItemInvoked"
+                                               ItemsSource="{x:Bind Group, Mode=OneTime}"
+                                               SelectionMode="None"
+                                               Visibility="{x:Bind Group, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                                        <ItemsView.Layout>
+                                            <mcontrols:WrapLayout HorizontalSpacing="6" VerticalSpacing="4" />
+                                        </ItemsView.Layout>
+                                        <ItemsView.ItemTemplate>
+                                            <DataTemplate x:DataType="x:String">
+                                                <ItemContainer Background="{ThemeResource NpBackgroundColorPurpleBrush}" CornerRadius="6">
+                                                    <TextBlock Margin="6,2,6,3"
+                                                               FontSize="11"
+                                                               Foreground="{ThemeResource NpTextColorPurpleBrush}"
+                                                               Text="{x:Bind}" />
+                                                </ItemContainer>
+                                            </DataTemplate>
+                                        </ItemsView.ItemTemplate>
+                                    </ItemsView>
+                                </ContentControl>
+                                <Grid Grid.Row="3" RowSpacing="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Margin="0,0,4,0"
+                                              FontSize="11"
+                                              Foreground="{ThemeResource NpTextColorSecondaryBrush}"
+                                              Glyph="&#xE768;" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                    <FontIcon Grid.Column="3"
+                                              Margin="0,0,4,0"
+                                              FontSize="11"
+                                              Foreground="{ThemeResource NpTextColorSecondaryBrush}"
+                                              Glyph="&#xE7FC;" />
+                                    <TextBlock Grid.Column="4" Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </GridViewItem>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

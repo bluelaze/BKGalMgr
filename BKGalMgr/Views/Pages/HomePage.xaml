@@ -21,7 +21,7 @@
     <Page.Resources>
         <DataTemplate x:Key="GameGroupDataTemplate" x:DataType="vm:GameReviewGroupItem">
             <Grid Width="196"
-                  Height="248"
+                  Height="260"
                   HorizontalAlignment="Stretch"
                   Background="{ThemeResource CardBackgroundFillColorDefault}">
                 <interactivity:Interaction.Behaviors>
@@ -38,7 +38,7 @@
                        Source="{x:Bind Game.CoverImageSource, Mode=OneWay}"
                        Stretch="UniformToFill" />
                 <StackPanel>
-                    <ContentPresenter Height="196" />
+                    <ContentPresenter Height="208" />
                     <StackPanel Height="144"
                                 Padding="{ThemeResource TextControlThemePadding}"
                                 Background="{ThemeResource SystemControlTransientBackgroundBrush}"

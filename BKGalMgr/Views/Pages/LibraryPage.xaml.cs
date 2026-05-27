@@ -159,7 +159,10 @@ public sealed partial class LibraryPage : Page
 
     private void website_HyperlinkButton_Click(object sender, RoutedEventArgs e)
     {
-        FilterGames([(sender as HyperlinkButton).Content as string]);
+        if ((sender as HyperlinkButton).Content is TextBlock tb)
+            FilterGames([tb.Text]);
+        else
+            FilterGames([(sender as HyperlinkButton).Content as string]);
     }
 
     private void MetadataControl_ItemClick(object sender, MetadataControl.MetadataItemClickEventArgs e)
@@ -185,7 +188,7 @@ public sealed partial class LibraryPage : Page
         games_view_semanticzoom.ToggleActiveView();
     }
 
-    private void game_group_Flyout_Opened(object sender, object e)
+    private async void game_group_Flyout_Opened(object sender, object e)
     {
         if (VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot).FirstOrDefault() is not { } popup)
         {
@@ -231,6 +234,11 @@ public sealed partial class LibraryPage : Page
         App.ShowImages(gameInfo, gameInfo.Covers, 0);
     }
 
+    private void tag_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    {
+        FilterGames([args.InvokedItem as string]);
+    }
+
     private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
@@ -253,6 +261,14 @@ public sealed partial class LibraryPage : Page
         gameInfo.LoadScreenshot();
         if (gameInfo.Screenshot.Count > 0)
             App.ShowImages(gameInfo, gameInfo.Screenshot, 0);
+    }
+
+    private void pin_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        // 附加在右键菜单会显示不出来
+        //FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+        var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
+        flyout?.ShowAt(search_tokenizingtextbox);
     }
 
     private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)

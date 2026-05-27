@@ -17,11 +17,33 @@
                 <ResourceDictionary x:Key="Light">
                     <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_dark.svg</ImageSource>
                     <ImageSource x:Key="T2DFanIcon">ms-appx:///Assets/2dfan_dark.svg</ImageSource>
+
+                    <Color x:Key="NpTextColorPrimary">#334155</Color>
+                    <Color x:Key="NpTextColorSecondary">#6b7280</Color>
+                    <Color x:Key="NpTextColorTertiary">#7d8a97</Color>
+                    <Color x:Key="NpTextColorPurple">#7e22ce</Color>
+                    <Color x:Key="NpBackgroundColorPurple">#269333ea</Color>
+                    <SolidColorBrush x:Key="NpTextColorPrimaryBrush" Color="{StaticResource NpTextColorPrimary}" />
+                    <SolidColorBrush x:Key="NpTextColorSecondaryBrush" Color="{StaticResource NpTextColorSecondary}" />
+                    <SolidColorBrush x:Key="NpTextColorTertiaryBrush" Color="{StaticResource NpTextColorTertiary}" />
+                    <SolidColorBrush x:Key="NpTextColorPurpleBrush" Color="{StaticResource NpTextColorPurple}" />
+                    <SolidColorBrush x:Key="NpBackgroundColorPurpleBrush" Color="{StaticResource NpBackgroundColorPurple}" />
                 </ResourceDictionary>
 
                 <ResourceDictionary x:Key="Dark">
                     <ImageSource x:Key="BangumiIcon">ms-appx:///Assets/bangumi_light.svg</ImageSource>
                     <ImageSource x:Key="T2DFanIcon">ms-appx:///Assets/2dfan_light.svg</ImageSource>
+
+                    <Color x:Key="NpTextColorPrimary">#d3d9de</Color>
+                    <Color x:Key="NpTextColorSecondary">#9ca3af</Color>
+                    <Color x:Key="NpTextColorTertiary">#adb5bd</Color>
+                    <Color x:Key="NpTextColorPurple">#d8b4fe</Color>
+                    <Color x:Key="NpBackgroundColorPurple">#33a855f7</Color>
+                    <SolidColorBrush x:Key="NpTextColorPrimaryBrush" Color="{StaticResource NpTextColorPrimary}" />
+                    <SolidColorBrush x:Key="NpTextColorSecondaryBrush" Color="{StaticResource NpTextColorSecondary}" />
+                    <SolidColorBrush x:Key="NpTextColorTertiaryBrush" Color="{StaticResource NpTextColorTertiary}" />
+                    <SolidColorBrush x:Key="NpTextColorPurpleBrush" Color="{StaticResource NpTextColorPurple}" />
+                    <SolidColorBrush x:Key="NpBackgroundColorPurpleBrush" Color="{StaticResource NpBackgroundColorPurple}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <!--  Other app resources here  -->

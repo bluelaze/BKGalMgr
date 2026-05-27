@@ -44,6 +44,69 @@ public partial class BrowserPageViewModel : ObservableObject
     partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
 
     [ObservableProperty]
+    private bool _isEnableRepository = false;
+
+    partial void OnIsEnableRepositoryChanged(bool value) => GamesViewRefreshFilter();
+
+    public List<RepositoryInfo> SelectedRepositories = new();
+
+    [ObservableProperty]
+    private bool _isEnableCompany = false;
+
+    partial void OnIsEnableCompanyChanged(bool value) => GamesViewRefreshFilter();
+
+    [ObservableProperty]
+    private List<string> _allCompanines = new();
+
+    public List<string> SelectedCompanines = new();
+
+    [ObservableProperty]
+    private bool _isEnablePublishDate = false;
+
+    partial void OnIsEnablePublishDateChanged(bool value) => GamesViewRefreshFilter();
+
+    [ObservableProperty]
+    private DateTime _publishDateBegin;
+
+    partial void OnPublishDateBeginChanged(DateTime value)
+    {
+        if (IsEnablePublishDate)
+            GamesViewRefreshFilter();
+    }
+
+    [ObservableProperty]
+    private DateTime _publishDateEnd;
+
+    partial void OnPublishDateEndChanged(DateTime value)
+    {
+        if (IsEnablePublishDate)
+            GamesViewRefreshFilter();
+    }
+
+    [ObservableProperty]
+    private bool _isEnablePlayedDate = false;
+
+    partial void OnIsEnablePlayedDateChanged(bool value) => GamesViewRefreshFilter();
+
+    [ObservableProperty]
+    private DateTime _playedDateBegin;
+
+    partial void OnPlayedDateBeginChanged(DateTime value)
+    {
+        if (IsEnablePlayedDate)
+            GamesViewRefreshFilter();
+    }
+
+    [ObservableProperty]
+    private DateTime _playedDateEnd;
+
+    partial void OnPlayedDateEndChanged(DateTime value)
+    {
+        if (IsEnablePlayedDate)
+            GamesViewRefreshFilter();
+    }
+
+    [ObservableProperty]
     private ObservableCollection<GameInfo> _games = new();
 
     [ObservableProperty]
@@ -89,11 +152,16 @@ public partial class BrowserPageViewModel : ObservableObject
         Groups.Clear();
         Groups.AddRange(allGroups);
 
-        _allTags.Clear();
+        List<string> allTags = new();
+        List<string> allCompanines = new();
         foreach (var item in Games)
         {
-            _allTags = _allTags.Union(item.GetAllTags()).ToList();
+            allTags.AddRange(item.GetAllTags());
+            allCompanines.Add(item.Company);
         }
+        _allTags = allTags.Order().Distinct().ToList();
+        AllCompanines = allCompanines.Where(i => !i.IsNullOrEmpty()).Order().Distinct().ToList();
+
         GamesViewSort();
     }
 
@@ -140,6 +208,39 @@ public partial class BrowserPageViewModel : ObservableObject
                 if (validGroup.Any())
                 {
                     hit = gameInfo.Group.Intersect(validGroup).Any();
+                }
+            }
+            if (hit && IsEnableRepository)
+            {
+                hit = SelectedRepositories.Contains(gameInfo.Repository);
+            }
+            if (hit && IsEnableCompany)
+            {
+                hit = SelectedCompanines.Contains(gameInfo.Company);
+            }
+            if (hit && IsEnablePublishDate)
+            {
+                // 要考虑只设置开始或者结束的情况
+                hit = gameInfo.PublishDate >= PublishDateBegin;
+                if (hit && PublishDateEnd.Ticks > 0)
+                    hit = gameInfo.PublishDate <= PublishDateEnd;
+            }
+            if (hit && IsEnablePlayedDate)
+            {
+                hit = false;
+                if (gameInfo.PlayedPeriods?.Any() == true)
+                {
+                    foreach (var item in gameInfo.PlayedPeriods)
+                    {
+                        hit = item.BenginTime >= PlayedDateBegin || item.EndTime >= PlayedDateBegin;
+                        if (hit && PlayedDateEnd.Ticks > 0)
+                            hit =
+                                item.BenginTime >= PlayedDateBegin && item.BenginTime <= PlayedDateEnd
+                                || item.EndTime >= PlayedDateBegin && item.EndTime <= PlayedDateEnd;
+
+                        if (hit)
+                            break;
+                    }
                 }
             }
         }
