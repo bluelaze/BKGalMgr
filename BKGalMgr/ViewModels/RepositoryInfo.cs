@@ -263,6 +263,11 @@ public partial class RepositoryInfo : ObservableObject
 
     public void GroupChanged(GroupInfo oldGroup, GroupInfo newGroup, GroupChangedType type)
     {
+        foreach (var game in Games)
+        {
+            game.GroupChanged(oldGroup, newGroup, type);
+        }
+
         switch (type)
         {
             case GroupChangedType.Add:
@@ -279,11 +284,10 @@ public partial class RepositoryInfo : ObservableObject
                 var index = Groups.IndexOf(oldGroup);
                 if (index == -1)
                     break;
+                // 注意这里改了oldGroup的值，因为是同一个引用
                 Groups[index].Name = newGroup.Name;
                 break;
         }
-        foreach (var game in Games)
-            game.GroupChanged(oldGroup, newGroup, type);
         SaveJsonFile();
     }
 

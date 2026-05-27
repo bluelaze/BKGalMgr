@@ -219,6 +219,9 @@ public sealed partial class LibraryPage : Page
                 }
             }
         };
+        // 需要延迟刷新，不然界面不刷新
+        gameGroupItemsView.ItemsSource = null;
+        await Task.Delay(33);
         gameGroupItemsView.ItemsSource = gameGroups;
     }
 
