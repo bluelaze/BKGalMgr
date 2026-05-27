@@ -191,11 +191,11 @@
                                        VerticalAlignment="Top"
                                        Source="{x:Bind Game.CoverImageSource}">
                                     <ToolTipService.ToolTip>
-                                        <ToolTip MaxWidth="1920"
-                                                 MaxHeight="1080"
+                                        <ToolTip MaxWidth="1080"
+                                                 MaxHeight="720"
                                                  Placement="Right">
                                             <ToolTip.Content>
-                                                <Image Source="{x:Bind Game.CoverImageSource}" Stretch="None" />
+                                                <Image Source="{x:Bind Game.CoverImageSource}" Stretch="Uniform" />
                                             </ToolTip.Content>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
