@@ -39,12 +39,6 @@ public class UriSafeConverter : IValueConverter
             return resultUri;
         }
 
-        // 如果不是绝对路径，尝试作为相对路径解析
-        if (Uri.TryCreate(input, UriKind.Relative, out resultUri))
-        {
-            return resultUri;
-        }
-
         // 都失败了，返回安全回退地址
         return GetFallbackUri();
     }
