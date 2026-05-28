@@ -49,7 +49,7 @@
                                                             Value="Collapsed" />
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <Image x:Phase="1" Tag="{x:Bind}">
+                <Image>
                     <Image.Source>
                         <BitmapImage DecodePixelType="Logical"
                                      DecodePixelWidth="280"
@@ -432,9 +432,7 @@
                             <Image Height="330"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   x:Phase="1"
-                                   Stretch="UniformToFill"
-                                   Tag="{x:Bind}">
+                                   Stretch="UniformToFill">
                                 <Image.Source>
                                     <BitmapImage DecodePixelHeight="330"
                                                  DecodePixelType="Logical"

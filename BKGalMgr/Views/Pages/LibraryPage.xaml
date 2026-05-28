@@ -162,7 +162,7 @@
                       Margin="0,16,0,0"
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
-            <!--  列表试图  -->
+            <!--  列表视图  -->
             <SemanticZoom.ZoomedInView>
                 <ListView x:Name="games_ListView"
                           Padding="0,0,16,0"
@@ -534,7 +534,7 @@
                 </ListView>
             </SemanticZoom.ZoomedInView>
 
-            <!--  网格试图  -->
+            <!--  网格视图  -->
             <SemanticZoom.ZoomedOutView>
                 <GridView x:Name="games_GridView"
                           Margin="12,0,0,0"
@@ -633,9 +633,7 @@
                                     <Image Height="330"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           x:Phase="1"
-                                           Stretch="UniformToFill"
-                                           Tag="{x:Bind}">
+                                           Stretch="UniformToFill">
                                         <Image.Source>
                                             <BitmapImage DecodePixelHeight="330"
                                                          DecodePixelType="Logical"
