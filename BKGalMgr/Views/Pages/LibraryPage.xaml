@@ -273,7 +273,9 @@
                                             <ColumnDefinition Width="auto" />
                                         </Grid.ColumnDefinitions>
                                         <!--  封面  -->
-                                        <Image Margin="8">
+                                        <Image Margin="8"
+                                               x:Phase="1"
+                                               Tag="{x:Bind}">
                                             <Image.Source>
                                                 <BitmapImage DecodePixelType="Logical"
                                                              DecodePixelWidth="150"
@@ -631,7 +633,9 @@
                                     <Image Height="330"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Stretch="UniformToFill">
+                                           x:Phase="1"
+                                           Stretch="UniformToFill"
+                                           Tag="{x:Bind}">
                                         <Image.Source>
                                             <BitmapImage DecodePixelHeight="330"
                                                          DecodePixelType="Logical"

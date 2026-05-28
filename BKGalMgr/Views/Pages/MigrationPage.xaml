@@ -31,7 +31,9 @@
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
-                <Image Margin="8">
+                <Image Margin="8"
+                       x:Phase="1"
+                       Tag="{x:Bind}">
                     <Image.Source>
                         <BitmapImage DecodePixelType="Logical"
                                      DecodePixelWidth="150"

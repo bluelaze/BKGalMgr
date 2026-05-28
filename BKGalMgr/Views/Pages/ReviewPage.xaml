@@ -188,7 +188,9 @@
                                 </StackPanel.ContextFlyout>
                                 <Image Height="170"
                                        Margin="4"
-                                       VerticalAlignment="Top">
+                                       VerticalAlignment="Top"
+                                       x:Phase="1"
+                                       Tag="{x:Bind}">
                                     <Image.Source>
                                         <BitmapImage DecodePixelHeight="170"
                                                      DecodePixelType="Logical"

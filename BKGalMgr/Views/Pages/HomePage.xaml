@@ -35,7 +35,9 @@
 
                 <Image HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Stretch="UniformToFill">
+                       x:Phase="1"
+                       Stretch="UniformToFill"
+                       Tag="{x:Bind}">
                     <Image.Source>
                         <BitmapImage DecodePixelHeight="260"
                                      DecodePixelType="Logical"
@@ -114,9 +116,16 @@
                                         <Image x:Name="banner_image"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Source="{x:Bind Cover, Mode=OneWay}"
+                                               x:Phase="1"
                                                Stretch="UniformToFill"
-                                               Tapped="banner_image_Tapped" />
+                                               Tag="{x:Bind}"
+                                               Tapped="banner_image_Tapped">
+                                            <Image.Source>
+                                                <BitmapImage DecodePixelType="Logical"
+                                                             DecodePixelWidth="480"
+                                                             UriSource="{x:Bind CoverUri, Mode=OneWay}" />
+                                            </Image.Source>
+                                        </Image>
                                     </Grid>
                                 </DataTemplate>
                             </FlipView.ItemTemplate>
@@ -181,7 +190,9 @@
                                             </manimations:Explicit.Animations>
                                             <Image HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Stretch="UniformToFill">
+                                                   x:Phase="1"
+                                                   Stretch="UniformToFill"
+                                                   Tag="{x:Bind}">
                                                 <Image.Source>
                                                     <BitmapImage DecodePixelHeight="105"
                                                                  DecodePixelType="Logical"

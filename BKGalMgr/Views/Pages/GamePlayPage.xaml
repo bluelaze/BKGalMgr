@@ -291,7 +291,9 @@
                                                 <Image x:Name="character_illustration_Image"
                                                        Margin="8"
                                                        VerticalAlignment="Top"
-                                                       DoubleTapped="character_illustration_Image_DoubleTapped">
+                                                       x:Phase="1"
+                                                       DoubleTapped="character_illustration_Image_DoubleTapped"
+                                                       Tag="{x:Bind}">
                                                     <Image.Source>
                                                         <BitmapImage UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
                                                     </Image.Source>
@@ -397,7 +399,7 @@
                                     </ListView.ItemsPanel>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:CharacterInfo">
-                                            <Image>
+                                            <Image x:Phase="1" Tag="{x:Bind}">
                                                 <Image.Source>
                                                     <BitmapImage DecodePixelHeight="64"
                                                                  DecodePixelType="Logical"

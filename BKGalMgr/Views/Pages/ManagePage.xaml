@@ -599,6 +599,7 @@
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
                             <Image x:Name="cover_Image"
+                                   x:Phase="1"
                                    DoubleTapped="cover_Image_DoubleTapped"
                                    Source="{x:Bind}"
                                    Stretch="Uniform" />
@@ -864,7 +865,10 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Margin="8" VerticalAlignment="Top">
+                                    <Image Margin="8"
+                                           VerticalAlignment="Top"
+                                           x:Phase="1"
+                                           Tag="{x:Bind}">
                                         <Image.Source>
                                             <BitmapImage DecodePixelType="Logical"
                                                          DecodePixelWidth="250"
