@@ -22,6 +22,18 @@ namespace BKGalMgr.Views.Controls;
 
 public sealed partial class GameInfoControl : UserControl
 {
+    public GameInfo ViewModel
+    {
+        get { return (GameInfo)GetValue(ViewModelProperty); }
+        set { SetValue(ViewModelProperty, value); }
+    }
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+        nameof(ViewModel),
+        typeof(GameInfo),
+        typeof(GameInfoControl),
+        new PropertyMetadata(null)
+    );
+
     public GameInfoControl()
     {
         this.InitializeComponent();
@@ -43,7 +55,6 @@ public sealed partial class GameInfoControl : UserControl
         CommunityToolkit.WinUI.Controls.TokenItemAddingEventArgs args
     )
     {
-        var gameInfo = sender.DataContext as GameInfo;
-        args.Item = new CharacterInfo() { Name = args.TokenText, GameFolderPath = gameInfo.FolderPath };
+        args.Item = new CharacterInfo() { Name = args.TokenText, GameFolderPath = ViewModel.FolderPath };
     }
 }

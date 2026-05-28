@@ -261,7 +261,7 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="ArchiveState">
                                             <VisualState.StateTriggers>
-                                                <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                <mtriggers:IsEqualStateTrigger Value="{x:Bind IsArchive, Mode=OneWay}" To="True" />
                                             </VisualState.StateTriggers>
                                             <VisualState.Setters>
                                                 <Setter Target="target_FontIcon.Glyph" Value="&#xE82D;" />

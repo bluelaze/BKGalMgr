@@ -47,7 +47,8 @@
                 <mcontrols:SettingsCard x:Uid="Settings_Generic_App_Backdrop_Material" HeaderIcon="{mui:FontIcon Glyph=&#xE727;}">
                     <ComboBox ItemsSource="{mui:EnumValues Type=helpers:BackdropMaterial}" SelectedItem="{x:Bind ViewModel.AppBackdropMaterial, Mode=TwoWay}" />
                 </mcontrols:SettingsCard>
-                <controls:ThemeInfoControl DataContext="{x:Bind ViewModel.CustomTheme}" />
+
+                <controls:ThemeInfoControl ViewModel="{x:Bind ViewModel.CustomTheme}" />
 
                 <mcontrols:SettingsCard x:Uid="Settings_Generic_Zip_Level" HeaderIcon="{mui:FontIcon Glyph=&#xE8F1;}">
                     <ComboBox ItemsSource="{mui:EnumValues Type=ziplevel:CompressionLevel}" SelectedItem="{x:Bind ViewModel.ZipLevel, Mode=TwoWay}" />

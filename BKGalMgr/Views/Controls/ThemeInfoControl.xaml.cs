@@ -51,6 +51,18 @@ public sealed partial class ThemeInfoControl : UserControl
         new PropertyMetadata(default(string))
     );
 
+    public ThemeInfo ViewModel
+    {
+        get { return (ThemeInfo)GetValue(ViewModelProperty); }
+        set { SetValue(ViewModelProperty, value); }
+    }
+    public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+        nameof(ViewModel),
+        typeof(ThemeInfo),
+        typeof(ThemeInfoControl),
+        new PropertyMetadata(null)
+    );
+
     public ThemeInfoControl()
     {
         InitializeComponent();

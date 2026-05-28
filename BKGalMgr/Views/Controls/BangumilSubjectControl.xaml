@@ -73,17 +73,27 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Image MinWidth=" 78"
+                            <Image MinWidth="78"
                                    MaxWidth="78"
                                    Margin="0"
                                    VerticalAlignment="Top"
-                                   Source="{Binding images.small}">
+                                   x:Phase="1"
+                                   Tag="{x:Bind}">
+                                <Image.Source>
+                                    <BitmapImage DecodePixelType="Logical"
+                                                 DecodePixelWidth="78"
+                                                 UriSource="{x:Bind images.small, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
+                                </Image.Source>
                                 <ToolTipService.ToolTip>
                                     <ToolTip MaxWidth="1080"
                                              MaxHeight="720"
                                              Placement="Right">
                                         <ToolTip.Content>
-                                            <Image Source="{Binding images.large}" Stretch="Uniform" />
+                                            <Image>
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{x:Bind images.large, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
+                                                </Image.Source>
+                                            </Image>
                                         </ToolTip.Content>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>

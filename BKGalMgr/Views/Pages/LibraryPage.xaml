@@ -36,13 +36,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <!--  ItemsSource这里又不能用x:Bind，否者属性又报错  -->
+
             <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
                                          Grid.Column="1"
                                          MaxWidth="360"
                                          Margin="0,-10,0,0"
                                          VerticalAlignment="Top"
-                                         ItemsSource="{Binding ViewModel.SelectedRepository.SearchToken, Mode=TwoWay}"
+                                         ItemsSource="{x:Bind ViewModel.SelectedRepository.SearchToken, Mode=OneWay}"
                                          QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
                                                                         FontSize=12}"
                                          SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
@@ -249,7 +249,7 @@
                                         <VisualStateGroup>
                                             <VisualState x:Name="PlayingState">
                                                 <VisualState.StateTriggers>
-                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
+                                                    <mtriggers:IsEqualStateTrigger Value="{x:Bind PlayStatus, Mode=OneWay}" To="Playing" />
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
                                                     <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
@@ -257,7 +257,7 @@
                                             </VisualState>
                                             <VisualState x:Name="PauseState">
                                                 <VisualState.StateTriggers>
-                                                    <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                    <mtriggers:IsEqualStateTrigger Value="{x:Bind PlayStatus, Mode=OneWay}" To="Pause" />
                                                 </VisualState.StateTriggers>
                                                 <VisualState.Setters>
                                                     <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
@@ -328,13 +328,13 @@
                                                                    Text="{x:Bind Company, Mode=OneWay}" />
                                                     </HyperlinkButton.Content>
                                                 </HyperlinkButton>
-                                                <!--  Uri只能用Binding，否者运行时会报参数错误，或者用converter  -->
+
                                                 <TextBlock Grid.Column="1"
                                                            Margin="-10,2,0,0"
                                                            VerticalAlignment="Center">
                                                     <Hyperlink FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                                Foreground="{ThemeResource NpTextColorSecondaryBrush}"
-                                                               NavigateUri="{Binding Website, Mode=OneWay}"
+                                                               NavigateUri="{x:Bind Website, Mode=OneWay, Converter={StaticResource UriSafeConverter}}"
                                                                UnderlineStyle="None">
                                                         &#xE71B;
                                                     </Hyperlink>
@@ -458,6 +458,7 @@
                                                             </StackPanel.ContextFlyout>
                                                             <VisualStateManager.VisualStateGroups>
                                                                 <VisualStateGroup>
+                                                                    <!--  因为ComboBox的弹窗数据更新早于数据赋值，导致如果用x:Bind会触发空引用异常，只能用Binding  -->
                                                                     <VisualState x:Name="PlayingState">
                                                                         <VisualState.StateTriggers>
                                                                             <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />

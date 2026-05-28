@@ -58,7 +58,7 @@ public partial class GameInfo : ObservableObject, IImageItem
     public string CoverUri
     {
         // uri用x:Bind时，null或者空会导致异常
-        get { return Cover.IsNullOrEmpty() ? "ms-appx:///Assets/cover_placeholder.jpg" : Cover; }
+        get { return Cover.IsNullOrWhiteSpace() || !Cover.Contains(':') ? "about:blank" : Cover; }
     }
 
     [ObservableProperty]

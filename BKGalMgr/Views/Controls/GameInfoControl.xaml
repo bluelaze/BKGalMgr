@@ -8,8 +8,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
              xmlns:vm="using:BKGalMgr.ViewModels"
-             d:DataContext="{d:DesignInstance vm:GameInfo,
-                                              IsDesignTimeCreatable=False}"
              mc:Ignorable="d">
     <UserControl.Resources>
         <x:Double x:Key="HeaderWidth">80</x:Double>
@@ -39,14 +37,14 @@
             <Image.Source>
                 <BitmapImage CreateOptions="IgnoreImageCache"
                              DecodePixelWidth="250"
-                             UriSource="{Binding Cover}" />
+                             UriSource="{x:Bind ViewModel.CoverUri, Mode=OneWay}" />
             </Image.Source>
             <ToolTipService.ToolTip>
                 <ToolTip MaxWidth="1080"
                          MaxHeight="720"
                          Placement="Right">
                     <ToolTip.Content>
-                        <Image Source="{Binding Cover}" />
+                        <Image Source="{x:Bind ViewModel.CoverUri, Mode=OneWay}" />
                     </ToolTip.Content>
                 </ToolTip>
             </ToolTipService.ToolTip>
@@ -54,10 +52,10 @@
         <StackPanel Grid.Column="1" Margin="16,0">
             <local:HeaderedTextBox x:Uid="GameInfo_Name"
                                    CanEmpty="False"
-                                   Text="{Binding Name, Mode=TwoWay}" />
+                                   Text="{x:Bind ViewModel.Name, Mode=TwoWay}" />
 
-            <local:HeaderedTextBox x:Uid="GameInfo_Company" Text="{Binding Company, Mode=TwoWay}" />
-            <local:HeaderedTextBox x:Uid="GameInfo_WEBSITE" Text="{Binding Website, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_Company" Text="{x:Bind ViewModel.Company, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_WEBSITE" Text="{x:Bind ViewModel.Website, Mode=TwoWay}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -67,7 +65,7 @@
                 <TextBlock x:Uid="GameInfo_Artist" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Artist, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Artist, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -80,7 +78,7 @@
                 <TextBlock x:Uid="GameInfo_Scenario" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Scenario, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Scenario, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -94,13 +92,13 @@
                 <mcontrols:TokenizingTextBox x:Name="characters_tokentextbox"
                                              x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Characters, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Characters, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter=","
                                              TokenItemAdding="characters_tokentextbox_TokenItemAdding">
                     <mcontrols:TokenizingTextBox.TokenItemTemplate>
                         <DataTemplate x:DataType="vm:CharacterInfo">
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                         </DataTemplate>
                     </mcontrols:TokenizingTextBox.TokenItemTemplate>
                 </mcontrols:TokenizingTextBox>
@@ -115,25 +113,23 @@
                 <Expander Grid.Column="1"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Stretch">
-                    <Expander.HeaderTemplate>
-                        <DataTemplate x:DataType="vm:GameInfo">
-                            <TextBlock MaxHeight="38"
-                                       Style="{ThemeResource BodyTextBlockStyle}"
-                                       Text="{Binding Blog, Mode=OneWay}" />
-                        </DataTemplate>
-                    </Expander.HeaderTemplate>
+                    <Expander.Header>
+                        <TextBlock MaxHeight="38"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind ViewModel.Blog, Mode=OneWay}" />
+                    </Expander.Header>
                     <TextBox MaxHeight="360"
                              HorizontalAlignment="Stretch"
                              AcceptsReturn="True"
                              BorderBrush="Transparent"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{Binding Blog, Mode=TwoWay}"
+                             Text="{x:Bind ViewModel.Blog, Mode=TwoWay}"
                              TextWrapping="Wrap" />
                 </Expander>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="2">
-            <local:HeaderedTextBox x:Uid="GameInfo_Cover" Text="{Binding Cover, Mode=TwoWay}" />
+            <local:HeaderedTextBox x:Uid="GameInfo_Cover" Text="{x:Bind ViewModel.Cover, Mode=TwoWay}" />
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -145,7 +141,7 @@
                             MaxWidth="1080"
                             Margin="0,1"
                             HorizontalAlignment="Stretch"
-                            Date="{Binding PublishDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                            SelectedDate="{x:Bind ViewModel.PublishDate, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
             </Grid>
 
             <Grid>
@@ -156,7 +152,7 @@
                 <TextBlock x:Uid="GameInfo_Musician" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Musician, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Musician, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -169,7 +165,7 @@
                 <TextBlock x:Uid="GameInfo_Singer" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Singer, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Singer, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -182,7 +178,7 @@
                 <TextBlock x:Uid="GameInfo_CV" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Cv, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Cv, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -195,7 +191,7 @@
                 <TextBlock x:Uid="GameInfo_Tag" Style="{StaticResource HeaderTextBlockStyle}" />
                 <mcontrols:TokenizingTextBox x:Uid="Commom_TokenizingTextBox"
                                              Grid.Column="1"
-                                             ItemsSource="{Binding Tag, Mode=TwoWay}"
+                                             ItemsSource="{x:Bind ViewModel.Tag, Mode=OneWay}"
                                              Loaded="TokenizingTextBox_Loaded"
                                              TokenDelimiter="," />
             </Grid>
@@ -209,19 +205,17 @@
                 <Expander Grid.Column="1"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Stretch">
-                    <Expander.HeaderTemplate>
-                        <DataTemplate x:DataType="vm:GameInfo">
-                            <TextBlock MaxHeight="38"
-                                       Style="{ThemeResource BodyTextBlockStyle}"
-                                       Text="{Binding Story, Mode=OneWay}" />
-                        </DataTemplate>
-                    </Expander.HeaderTemplate>
+                    <Expander.Header>
+                        <TextBlock MaxHeight="38"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind ViewModel.Story, Mode=OneWay}" />
+                    </Expander.Header>
                     <TextBox MaxHeight="360"
                              HorizontalAlignment="Stretch"
                              AcceptsReturn="True"
                              BorderBrush="Transparent"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             Text="{Binding Story, Mode=TwoWay}"
+                             Text="{x:Bind ViewModel.Story, Mode=TwoWay}"
                              TextWrapping="Wrap" />
                 </Expander>
             </Grid>

@@ -83,6 +83,7 @@
             <converters:GetFileNameConverter x:Key="GetFileNameConverter" />
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
             <converters:EnumNameConveretr x:Key="EnumNameConveretr" />
+            <converters:UriSafeConverter x:Key="UriSafeConverter" />
 
             <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"

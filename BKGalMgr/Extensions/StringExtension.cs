@@ -14,6 +14,11 @@ public static class StringExtensions
         return string.IsNullOrEmpty(value);
     }
 
+    public static bool IsNullOrWhiteSpace(this string value)
+    {
+        return string.IsNullOrWhiteSpace(value);
+    }
+
     public static string Format(this string format, params object[] args)
     {
         return string.Format(format, args);

@@ -62,6 +62,20 @@ public sealed partial class ManagePage : Page
         ViewModel.AddNewGame();
     }
 
+    private async void games_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (games_ComboBox.SelectedItem is GameInfo game)
+        {
+            ViewModel.SelectedRepository.SelectedGame = game;
+        }
+        else
+        {
+            await Task.Delay(33);
+            var index = games_ComboBox.Items.IndexOf(ViewModel.SelectedRepository.SelectedGame);
+            games_ComboBox.SelectedIndex = index;
+        }
+    }
+
     private async Task<(ContentDialogResult result, string subjectUrl)> EditBangumiGameInfo(string bangumiSubjectId)
     {
         BangumiSubjectControl bangumiSubjectControl = new BangumiSubjectControl()
@@ -677,9 +691,7 @@ public sealed partial class ManagePage : Page
 
     private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        special_GridView.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        special_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private void character_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -698,9 +710,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        websiteshot_GridView.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        websiteshot_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private void bugbugnews_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -712,9 +722,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        bugbugnews_GridView.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        bugbugnews_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private void campaign_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -726,9 +734,7 @@ public sealed partial class ManagePage : Page
             return;
         }
 
-        campaign_GridView.StartBringIntoView(
-            new() { AnimationDesired = true, VerticalAlignmentRatio = 0 }
-        );
+        campaign_GridView.StartBringIntoView(new() { AnimationDesired = true, VerticalAlignmentRatio = 0 });
     }
 
     private async void delete_target_folder_only_menuflyoutitem_Click(object sender, RoutedEventArgs e)

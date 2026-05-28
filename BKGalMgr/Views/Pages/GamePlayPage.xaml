@@ -193,7 +193,7 @@
                             <TextBlock extensions:CursorExtension.Cursor="Hand" Text="{x:Bind ViewModel.Game.Company, Mode=OneWay}">
                                 <interactivity:Interaction.Behaviors>
                                     <behaviors:ClickTriggerBehavior>
-                                        <mbehaviors:NavigateToUriAction NavigateUri="{Binding ViewModel.Game.Website, Mode=OneWay}" />
+                                        <mbehaviors:NavigateToUriAction NavigateUri="{x:Bind ViewModel.Game.Website, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
                                     </behaviors:ClickTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </TextBlock>
@@ -291,8 +291,11 @@
                                                 <Image x:Name="character_illustration_Image"
                                                        Margin="8"
                                                        VerticalAlignment="Top"
-                                                       DoubleTapped="character_illustration_Image_DoubleTapped"
-                                                       Source="{Binding Illustration}" />
+                                                       DoubleTapped="character_illustration_Image_DoubleTapped">
+                                                    <Image.Source>
+                                                        <BitmapImage UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
+                                                    </Image.Source>
+                                                </Image>
                                                 <Grid Grid.Column="1" Padding="30,40,0,0">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto" />
@@ -398,7 +401,7 @@
                                                 <Image.Source>
                                                     <BitmapImage DecodePixelHeight="64"
                                                                  DecodePixelType="Logical"
-                                                                 UriSource="{Binding Illustration}" />
+                                                                 UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
                                                 </Image.Source>
                                             </Image>
                                         </DataTemplate>
@@ -590,9 +593,9 @@
                 <ContentPresenter Grid.ColumnSpan="2"
                                   Padding="{ThemeResource ContentDialogPadding}"
                                   Background="{ThemeResource ContentDialogTopOverlay}">
-                    <controls:ThemeInfoControl DataContext="{x:Bind ViewModel.Game.CustomTheme, Mode=OneWay}"
-                                               ImageFolder="{x:Bind ViewModel.Game.FolderPath, Mode=OneTime}"
-                                               IsGameMode="True" />
+                    <controls:ThemeInfoControl ImageFolder="{x:Bind ViewModel.Game.FolderPath, Mode=OneTime}"
+                                               IsGameMode="True"
+                                               ViewModel="{x:Bind ViewModel.Game.CustomTheme, Mode=OneWay}" />
                 </ContentPresenter>
 
                 <Button x:Name="custom_theme_confirm_Button"

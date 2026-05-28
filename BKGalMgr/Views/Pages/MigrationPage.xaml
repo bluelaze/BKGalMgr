@@ -65,7 +65,7 @@
                         <TextBlock x:Uid="Library_GameInfo_Company" />
                         <HyperlinkButton Padding="0,-1,4,0"
                                          Content="{x:Bind Company, Mode=OneTime}"
-                                         NavigateUri="{Binding Website}" />
+                                         NavigateUri="{x:Bind Website, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
                         <TextBlock x:Uid="Library_GameInfo_PublishDate" />
                         <TextBlock Text="{x:Bind PublishDate, Mode=OneTime, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
                     </StackPanel>
@@ -95,7 +95,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="MoveButtonDisableState">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsEqualStateTrigger Value="{Binding SelectedItem, ElementName=left_repository_ComboBox, Mode=OneWay}" To="{Binding SelectedItem, ElementName=right_repository_ComboBox, Mode=OneWay}" />
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind left_repository_ComboBox.SelectedItem, Mode=OneWay}" To="{Binding SelectedItem, ElementName=right_repository_ComboBox, Mode=OneWay}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="left_repository_ListView.IsEnabled" Value="False" />
@@ -108,7 +108,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="LeftMoveButtonEnableState">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsNotEqualStateTrigger Value="{Binding SelectedItem, ElementName=left_repository_ListView, Mode=OneWay}" To="{x:Null}" />
+                        <mtriggers:IsNotEqualStateTrigger Value="{x:Bind left_repository_ListView.SelectedItem, Mode=OneWay}" To="{x:Null}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="move_game_left_to_right_Button.IsEnabled" Value="True" />
@@ -118,7 +118,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="RightMoveButtonEnableState">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsNotEqualStateTrigger Value="{Binding SelectedItem, ElementName=right_repository_ListView, Mode=OneWay}" To="{x:Null}" />
+                        <mtriggers:IsNotEqualStateTrigger Value="{x:Bind right_repository_ListView.SelectedItem, Mode=OneWay}" To="{x:Null}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="move_game_right_to_left_Button.IsEnabled" Value="True" />

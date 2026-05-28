@@ -92,7 +92,7 @@
                 <VisualState x:Name="Normal" />
                 <VisualState x:Name="BlogChecked">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=blog_ToggleButton, Mode=OneWay}" To="True" />
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind blog_ToggleButton.IsChecked, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="games_GridView.ItemsPanel" Value="{StaticResource BlogStaggeredPanel}" />
@@ -104,7 +104,7 @@
                 <VisualState x:Name="Common" />
                 <VisualState x:Name="SelectChecked">
                     <VisualState.StateTriggers>
-                        <mtriggers:IsEqualStateTrigger Value="{Binding IsChecked, ElementName=select_ToggleButton, Mode=OneWay}" To="True" />
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind select_ToggleButton.IsChecked, Mode=OneWay}" To="True" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="games_GridView.SelectionMode" Value="Multiple" />
@@ -121,13 +121,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <!--  ItemsSource这里又不能用x:Bind，否者属性又报错  -->
+
             <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
                                          Grid.Column="1"
                                          MaxWidth="360"
                                          Margin="0,-10,0,0"
                                          VerticalAlignment="Top"
-                                         ItemsSource="{Binding ViewModel.SearchToken, Mode=TwoWay}"
+                                         ItemsSource="{x:Bind ViewModel.SearchToken, Mode=OneWay}"
                                          QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
                                                                         FontSize=12}"
                                          SuggestedItemsSource="{x:Bind ViewModel.SearchSuggestedTags, Mode=OneTime}"
@@ -317,7 +317,7 @@
                                 <Flyout>
                                     <StackPanel>
                                         <!--  这个日期的转换器需要用Banding  -->
-                                        <DatePicker Date="{Binding ViewModel.PublishDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <DatePicker SelectedDate="{x:Bind ViewModel.PublishDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    CenterPoint="6,12,0"
@@ -326,7 +326,7 @@
                                                    Rotation="90"
                                                    Text="~"
                                                    TextAlignment="Center" />
-                                        <DatePicker Date="{Binding ViewModel.PublishDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <DatePicker SelectedDate="{x:Bind ViewModel.PublishDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
                                     </StackPanel>
                                 </Flyout>
                             </ToggleSplitButton.Flyout>
@@ -339,7 +339,7 @@
                                 <Flyout>
                                     <StackPanel>
                                         <!--  这个日期的转换器需要用Banding  -->
-                                        <DatePicker Date="{Binding ViewModel.PlayedDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <DatePicker SelectedDate="{x:Bind ViewModel.PlayedDateBegin, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    CenterPoint="6,12,0"
@@ -348,7 +348,7 @@
                                                    Rotation="90"
                                                    Text="~"
                                                    TextAlignment="Center" />
-                                        <DatePicker Date="{Binding ViewModel.PlayedDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+                                        <DatePicker SelectedDate="{x:Bind ViewModel.PlayedDateEnd, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
                                     </StackPanel>
                                 </Flyout>
                             </ToggleSplitButton.Flyout>

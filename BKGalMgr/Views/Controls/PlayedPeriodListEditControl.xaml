@@ -64,22 +64,22 @@
                         <TextBox Grid.Column="0"
                                  Width="178"
                                  mui:TextBoxExtensions.Mask="9999-99-99 99:99:99"
-                                 Text="{Binding BenginTime, Mode=TwoWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}"
+                                 Text="{x:Bind BenginTime, Mode=TwoWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}"
                                  TextChanged="datetime_TextBox_TextChanged" />
                         <TextBox Grid.Column="1"
                                  Width="178"
                                  mui:TextBoxExtensions.Mask="9999-99-99 99:99:99"
-                                 Text="{Binding EndTime, Mode=TwoWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}"
+                                 Text="{x:Bind EndTime, Mode=TwoWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='yyyy-MM-dd HH:mm:ss'}"
                                  TextChanged="datetime_TextBox_TextChanged" />
                         <TextBox Grid.Column="2"
                                  Width="102"
                                  mui:TextBoxExtensions.Mask="99:99:99"
-                                 Text="{Binding PauseTime, Mode=TwoWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                 Text="{x:Bind PauseTime, Mode=TwoWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
                                  TextChanged="timespan_TextBox_TextChanged" />
                         <TextBlock Grid.Column="3"
                                    Width="52"
                                    VerticalAlignment="Center"
-                                   Text="{Binding Period, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                   Text="{x:Bind Period, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
                         <Button x:Name="delete_Button"
                                 Grid.Column="4"
                                 VerticalAlignment="Center"
