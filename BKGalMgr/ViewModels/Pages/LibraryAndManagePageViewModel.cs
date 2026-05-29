@@ -51,6 +51,9 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         if (repository.FolderPath.IsNullOrEmpty())
             return false;
 
+        if (Repository.Any(t => t.FolderPath == repository.FolderPath))
+            return true;
+
         repository = await RepositoryInfo.Open(repository.FolderPath, repository);
         if (repository == null)
             return false;
@@ -58,11 +61,13 @@ public partial class LibraryAndManagePageViewModel : ObservableObject
         Repository.Add(repository);
         if (repository.FolderPath == Settings.SelectedRepositoryPath)
             SelectedRepository = repository;
+
         if (!Settings.RepositoryPath.Contains(repository.FolderPath))
         {
             Settings.RepositoryPath.Add(repository.FolderPath);
             Settings.SaveSettings();
         }
+
         return true;
     }
 
