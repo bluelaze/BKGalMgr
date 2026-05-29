@@ -33,25 +33,57 @@ public partial class MigratePageViewModel : ObservableObject
             fromRepository = RightRepository;
             toRepository = LeftRepository;
         }
+
         foreach (var game in games)
         {
             if (fromRepository.Games.Contains(game))
             {
                 var gameNewPath = Path.Combine(toRepository.FolderPath, Path.GetFileName(game.FolderPath));
-                var ret = await FileSystemMisc.MoveOrCopyDirectoryAsync(game.FolderPath, gameNewPath);
-                if (ret.success == false)
+
+                // 可移动
+                if (FileSystemMisc.IsSameRootPath(game.FolderPath, gameNewPath))
                 {
-                    App.ShowErrorMessage(ret.message);
-                    FileSystemMisc.DeleteDirectory(gameNewPath);
-                    return false;
+                    (bool suc, string errmsg) = await Task.Run(
+                        () => FileSystemMisc.IsMoveDirectoryValid(game.FolderPath, gameNewPath)
+                    );
+                    if (!suc)
+                    {
+                        App.ShowErrorMessage($"{game.Name} can not be move:\n{errmsg}");
+                        return false;
+                    }
+
+                    var result = await Task.Run(() => FileSystemMisc.MoveDirectory(game.FolderPath, gameNewPath));
+                    if (!result.success)
+                    {
+                        App.ShowErrorMessage($"{game.Name} move failed!\n{result.message}");
+                        return false;
+                    }
                 }
+                else
+                {
+                    // 复制
+                    var ret = await Task.Run(() => FileSystemMisc.CopyDirectory(game.FolderPath, gameNewPath));
+                    if (ret.success == false)
+                    {
+                        App.ShowErrorMessage($"{game.Name} copy failed!\n{ret.message}");
+                        FileSystemMisc.DeleteDirectory(gameNewPath);
+                        return false;
+                    }
+                }
+
+                // 新库添加游戏
                 await toRepository.AddGame(gameNewPath);
                 toRepository.RestoreAddGroupIndex();
-
+                // 旧库移除游戏
                 if (await fromRepository.DeleteGameAsync(game) == false)
                 {
+                    App.ShowErrorMessage(
+                        $"{game.Name} add to {toRepository.Name} successful,\nbut {fromRepository.Name} delete game failed!"
+                    );
                     return false;
                 }
+
+                App.ShowSuccessMessage($"{game.Name} migrate successful！");
             }
         }
         return true;

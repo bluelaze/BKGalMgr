@@ -199,6 +199,10 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [ObservableProperty]
     [property: JsonIgnore]
+    private long _storageUsage = 0;
+
+    [ObservableProperty]
+    [property: JsonIgnore]
     private SaveDataSettingsInfo _saveDataSettings = new();
 
     [ObservableProperty]
@@ -213,10 +217,6 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [property: JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
-
-    [ObservableProperty]
-    [property: JsonIgnore]
-    private long _storageUsage = 0;
 
     public GameInfo()
     {

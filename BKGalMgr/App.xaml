@@ -103,6 +103,7 @@
                                                       NotEmptyValue="True" />
             <mconverters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
             <mconverters:DoubleToVisibilityConverter x:Key="DoubleToVisibilityConverter" GreaterThan="0" />
+            <mconverters:DoubleToVisibilityConverter x:Key="DoubleToCollapsedConverter" LessThan="1" />
             <mconverters:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter" />
             <mconverters:BoolToObjectConverter x:Key="BoolInvertConverter"
                                                FalseValue="True"

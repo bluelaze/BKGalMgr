@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -97,6 +98,16 @@ public sealed partial class MigrationPage : Page
             var games = right_repository_ListView.SelectedItems.Select(i => i as GameInfo).ToList();
             if (await ViewModel.MigrateGames(games, false) == false)
                 App.ShowErrorMessage(LanguageHelper.GetString("Msg_Migrate_Exception"));
+            App.HideLoading();
+        }
+    }
+
+    private async void storage_Button_Click(object sender, RoutedEventArgs e)
+    {
+        if ((sender as Button).DataContext is GameInfo game)
+        {
+            App.ShowLoading();
+            await game.RefreshStorageUsageAsync();
             App.HideLoading();
         }
     }

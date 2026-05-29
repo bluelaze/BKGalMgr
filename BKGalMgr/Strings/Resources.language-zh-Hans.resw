@@ -161,7 +161,7 @@
     <value>确定从 {1} 迁移 {0} 个游戏到 {2} ?</value>
   </data>
   <data name="Msg_Migrate_Exception" xml:space="preserve">
-    <value>发生异常，迁移失败，请重启软件后再试！</value>
+    <value>发生异常，迁移失败，请处理错误后重试或手动迁移！</value>
   </data>
   <data name="Msg_SaveData_Invalid_Path" xml:space="preserve">
     <value>无效存档路径</value>

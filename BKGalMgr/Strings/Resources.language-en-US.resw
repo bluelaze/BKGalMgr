@@ -161,7 +161,7 @@
     <value>Migrate {0} games from {1} to {2}?</value>
   </data>
   <data name="Msg_Migrate_Exception" xml:space="preserve">
-    <value>An exception occurred, Migrate failed, Please restart and try again!</value>
+    <value>An exception occurred, Migrate failed, Please resolve the error and try again, or migrate manually!</value>
   </data>
   <data name="Msg_SaveData_Invalid_Path" xml:space="preserve">
     <value>Invalid savedata path</value>

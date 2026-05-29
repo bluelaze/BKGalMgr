@@ -107,6 +107,10 @@ public partial class SaveDataInfo : ObservableObject
                 Path.GetDirectoryName(savedataFolderPath),
                 Path.GetFileName(savedataFolderPath) + "_backup"
             );
+
+            if (Directory.Exists(backupFolder))
+                Directory.Delete(backupFolder, true);
+
             var ret = await FileSystemMisc.MoveOrCopyDirectoryAsync(savedataFolderPath, backupFolder);
             if (!ret.success)
             {

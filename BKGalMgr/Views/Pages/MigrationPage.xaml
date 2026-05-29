@@ -15,6 +15,7 @@
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
       d:DataContext="{d:DesignInstance local:MigrationPage}"
+      NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
         <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
@@ -26,6 +27,15 @@
                     <ColumnDefinition Width="150" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="{ThemeResource NpTextColorPrimaryBrush}" />
+                    </Style>
+                    <Style TargetType="controls:MetadataControl">
+                        <Setter Property="Foreground" Value="{ThemeResource NpTextColorPrimaryBrush}" />
+                    </Style>
+                    <SolidColorBrush x:Key="SelectorBarItemForeground" Color="{ThemeResource NpTextColorPrimary}" />
+                </Grid.Resources>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
@@ -57,7 +67,8 @@
                                      Click="game_name_HyperlinkButton_Click"
                                      Content="{x:Bind Name, Mode=OneTime}"
                                      FontSize="16"
-                                     FontWeight="Bold" />
+                                     FontWeight="Bold"
+                                     Foreground="{ThemeResource NpTextColorPrimaryBrush}" />
                     <StackPanel Orientation="Horizontal" Spacing="12">
                         <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                         <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneTime}" />
@@ -67,6 +78,7 @@
                         <TextBlock x:Uid="Library_GameInfo_Company" />
                         <HyperlinkButton Padding="0,-1,4,0"
                                          Content="{x:Bind Company, Mode=OneTime}"
+                                         Foreground="{ThemeResource NpTextColorPrimaryBrush}"
                                          NavigateUri="{x:Bind Website, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
                         <TextBlock x:Uid="Library_GameInfo_PublishDate" />
                         <TextBlock Text="{x:Bind PublishDate, Mode=OneTime, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
@@ -84,6 +96,22 @@
                         <controls:MetadataControl ItemsSource="{x:Bind Group, Mode=OneTime}" Separator="   " />
                     </StackPanel>
                 </StackPanel>
+                <Button x:Name="storage_Button"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        BorderBrush="{x:Null}"
+                        Click="storage_Button_Click">
+                    <Grid>
+                        <FontIcon FontSize="12"
+                                  Glyph="&#xEDA2;"
+                                  Visibility="{x:Bind StorageUsage, Mode=OneWay, Converter={StaticResource DoubleToCollapsedConverter}}" />
+                        <TextBlock FontSize="12"
+                                   Text="{x:Bind StorageUsage, Mode=OneWay, Converter={StaticResource FileSizeToFriendlyStringConverter}}"
+                                   Visibility="{x:Bind StorageUsage, Mode=OneWay, Converter={StaticResource DoubleToVisibilityConverter}}" />
+                    </Grid>
+                </Button>
             </Grid>
         </DataTemplate>
     </Page.Resources>

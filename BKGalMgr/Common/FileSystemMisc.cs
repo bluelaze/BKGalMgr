@@ -142,6 +142,52 @@ public class FileSystemMisc
         return true;
     }
 
+    public static bool IsSameRootPath(string sourceDirName, string destDirName)
+    {
+        var sourceDir = Path.GetFullPath(sourceDirName);
+        var destDir = Path.GetFullPath(destDirName);
+
+        if (string.Equals(Path.GetPathRoot(sourceDir), Path.GetPathRoot(destDir), StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+
+    /// <summary>
+    /// 确保路径以斜杠结尾，用于安全的路径前缀匹配
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private static string EnsureTrailingSlash(string path)
+    {
+        if (!path.EndsWith(Path.DirectorySeparatorChar) && !path.EndsWith(Path.AltDirectorySeparatorChar))
+        {
+            return path + Path.DirectorySeparatorChar;
+        }
+        return path;
+    }
+
+    public static (bool success, string message) IsMoveDirectoryValid(string sourceDirName, string destDirName)
+    {
+        var sourceDir = Path.GetFullPath(sourceDirName);
+        var destDir = Path.GetFullPath(destDirName);
+
+        if (!Directory.Exists(sourceDir))
+            return (false, $"invalid source path: {sourceDirName}");
+
+        if (Directory.Exists(destDir))
+            return (false, $"dest path existed: {destDirName}");
+
+        if (!string.Equals(Path.GetPathRoot(sourceDir), Path.GetPathRoot(destDir), StringComparison.OrdinalIgnoreCase))
+            return (false, $"source and dest not on the same disk");
+
+        // 目标文件夹不能是源文件夹的子文件夹
+        if (EnsureTrailingSlash(destDir).StartsWith(EnsureTrailingSlash(sourceDir), StringComparison.OrdinalIgnoreCase))
+            return (false, $"dest is source children path");
+
+        return (true, "");
+    }
+
     // https://blog.coldwind.top/posts/how-to-copy-folder/
     public static (bool success, string message) CopyDirectory(string sourceFolderPath, string targetFolderPath)
     {
@@ -169,40 +215,43 @@ public class FileSystemMisc
         return (true, "");
     }
 
-    public static (bool success, string message) MoveOrCopyDirectory(string sourceDirName, string destDirName)
+    /// <summary>
+    /// 同磁盘移动是原子操作，能移动就移动，不能就不能
+    /// </summary>
+    /// <param name="sourceDirName"></param>
+    /// <param name="destDirName"></param>
+    /// <returns></returns>
+    public static (bool success, string message) MoveDirectory(string sourceDirName, string destDirName)
     {
         if (!Directory.Exists(sourceDirName))
             return (false, $"{sourceDirName} is invalid");
-        // move
         try
         {
-            if (
-                string.Equals(
-                    Path.GetPathRoot(sourceDirName),
-                    Path.GetPathRoot(destDirName),
-                    StringComparison.OrdinalIgnoreCase
-                )
-            )
-            {
-                // move need delete target folder
-                if (Directory.Exists(destDirName))
-                {
-                    Directory.Delete(destDirName, true);
-                }
-                else
-                {
-                    var destParentFolderPath = Path.GetDirectoryName(destDirName);
-                    if (destParentFolderPath != null)
-                        Directory.CreateDirectory(destParentFolderPath);
-                }
-                Directory.Move(sourceDirName, destDirName);
-                return (true, "");
-            }
+            var sourceDir = Path.GetFullPath(sourceDirName);
+            var destDir = Path.GetFullPath(destDirName);
+
+            var destParentFolderPath = Path.GetDirectoryName(destDir);
+            if (destParentFolderPath != null && !Directory.Exists(destParentFolderPath))
+                Directory.CreateDirectory(destParentFolderPath);
+
+            Directory.Move(sourceDir, destDir);
+
+            return (true, "");
         }
         catch (Exception e)
         {
             return (false, e.Message);
         }
+    }
+
+    public static (bool success, string message) MoveOrCopyDirectory(string sourceDirName, string destDirName)
+    {
+        if (!Directory.Exists(sourceDirName))
+            return (false, $"{sourceDirName} is invalid");
+
+        // move
+        if (IsMoveDirectoryValid(sourceDirName, destDirName).success)
+            return MoveDirectory(sourceDirName, destDirName);
 
         // copy
         return CopyDirectory(sourceDirName, destDirName);
