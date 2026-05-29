@@ -214,6 +214,10 @@ public partial class GameInfo : ObservableObject, IImageItem
     [property: JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
 
+    [ObservableProperty]
+    [property: JsonIgnore]
+    private long _storageUsage = 0;
+
     public GameInfo()
     {
         Group.CollectionChanged += Group_CollectionChanged;
@@ -312,6 +316,12 @@ public partial class GameInfo : ObservableObject, IImageItem
         }
 
         SaveDataSettings.SetGamePath(FolderPath);
+    }
+
+    public async Task<long> RefreshStorageUsageAsync()
+    {
+        StorageUsage = await FileSystemMisc.GetDirectorySizeAsync(FolderPath);
+        return StorageUsage;
     }
 
     public List<string> GetAllTags()

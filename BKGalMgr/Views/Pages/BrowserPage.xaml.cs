@@ -29,6 +29,18 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class BrowserPage : Page
 {
+    public bool IsFilterMode
+    {
+        get { return (bool)GetValue(IsFilterModeProperty); }
+        set { SetValue(IsFilterModeProperty, value); }
+    }
+    public static readonly DependencyProperty IsFilterModeProperty = DependencyProperty.Register(
+        nameof(IsFilterMode),
+        typeof(bool),
+        typeof(BrowserPage),
+        new PropertyMetadata(false)
+    );
+
     public BrowserPageViewModel ViewModel { get; }
 
     public BrowserPage()
@@ -38,10 +50,15 @@ public sealed partial class BrowserPage : Page
         this.InitializeComponent();
     }
 
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
 
+        Init();
+    }
+
+    public async void Init()
+    {
         if (!ViewModel.LibraryAndManagePageViewModel.IsLoadedRepository)
         {
             App.ShowLoading();

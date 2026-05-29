@@ -153,7 +153,7 @@
                             <ToggleSplitButton.Flyout>
                                 <Flyout>
                                     <ListView x:Name="repository_ListView"
-                                              MaxWidth="200"
+                                              Width="200"
                                               MaxHeight="220"
                                               IsMultiSelectCheckBoxEnabled="True"
                                               ItemsSource="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository, Mode=OneTime}"
@@ -355,12 +355,14 @@
                         </ToggleSplitButton>
                         <ToggleButton x:Name="select_ToggleButton"
                                       x:Uid="Library_Search_Select"
-                                      VerticalAlignment="Top" />
+                                      VerticalAlignment="Top"
+                                      Visibility="{x:Bind IsFilterMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                         <Button x:Name="invert_select_Button"
                                 x:Uid="Library_Search_InvertSelect"
                                 VerticalAlignment="Top"
                                 Click="invert_select_Button_Click"
-                                IsEnabled="False" />
+                                IsEnabled="False"
+                                Visibility="{x:Bind IsFilterMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                         <ToggleButton x:Name="blog_ToggleButton"
                                       VerticalAlignment="Top"
                                       Content="Blog" />

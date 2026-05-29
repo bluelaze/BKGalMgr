@@ -51,7 +51,7 @@ public partial class App : Application
                 // Main window container with navigation
                 services.AddSingleton<MainWindow>();
                 // ViewModels
-                services.AddSingleton<BrowserPageViewModel>();
+                services.AddTransient<BrowserPageViewModel>();
                 services.AddSingleton<HomePageViewModel>();
                 services.AddSingleton<MainPageViewModel>();
                 services.AddSingleton<LibraryAndManagePageViewModel>();

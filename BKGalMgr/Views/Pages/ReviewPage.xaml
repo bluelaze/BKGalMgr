@@ -96,7 +96,7 @@
 
                         <TextBlock Margin="0,56,0,0"
                                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                                   Text="{x:Bind ViewModel.LibraryAndManagePageViewModel.Repository.Count, Mode=OneWay}" />
+                                   Text="{x:Bind ViewModel.RepositoriesNumber, Mode=OneWay}" />
                         <TextBlock x:Uid="Review_Repositories" FontSize="16" />
                     </StackPanel>
                 </SplitView>
@@ -175,19 +175,25 @@
                             <Setter Property="Padding" Value="0" />
                         </Style>
                     </GridView.ItemContainerStyle>
-                    <!--  Item高度：50+220+20=290  -->
+                    <!--  Item高度：50+246+20=316  -->
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameReviewGroupItem">
-                            <StackPanel Width="150"
-                                        Height="220"
-                                        Background="{ThemeResource CardBackgroundFillColorDefault}">
-                                <StackPanel.ContextFlyout>
+                            <Grid Width="150"
+                                  Height="246"
+                                  Padding="4"
+                                  Background="{ThemeResource CardBackgroundFillColorDefault}"
+                                  RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="36" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind Game.OpenJsonFolderCommand, Mode=OneTime}" />
                                     </MenuFlyout>
-                                </StackPanel.ContextFlyout>
+                                </Grid.ContextFlyout>
                                 <Image Height="170"
-                                       Margin="4"
                                        VerticalAlignment="Top"
                                        x:Phase="1"
                                        Tag="{x:Bind}">
@@ -206,18 +212,31 @@
                                         </ToolTip>
                                     </ToolTipService.ToolTip>
                                 </Image>
-                                <StackPanel Margin="4,0" Spacing="2">
-                                    <HyperlinkButton x:Name="group_game_name_HyperlinkButton"
-                                                     Padding="0"
-                                                     Click="group_game_name_HyperlinkButton_Click"
-                                                     Content="{x:Bind Game.Name, Mode=OneTime}"
-                                                     FontSize="12"
-                                                     FontWeight="Bold" />
-                                    <TextBlock FontSize="11"
-                                               Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
-                                               TextAlignment="Right" />
-                                </StackPanel>
-                            </StackPanel>
+
+                                <HyperlinkButton x:Name="group_game_name_HyperlinkButton"
+                                                 Grid.Row="1"
+                                                 Margin="4,0"
+                                                 Padding="0"
+                                                 Click="group_game_name_HyperlinkButton_Click">
+                                    <TextBlock MaxHeight="32"
+                                               FontSize="12"
+                                               FontWeight="Bold"
+                                               Foreground="{ThemeResource NpTextColorPrimaryBrush}"
+                                               LineHeight="16"
+                                               Text="{x:Bind Game.Name, Mode=OneTime}"
+                                               TextTrimming="WordEllipsis"
+                                               TextWrapping="WrapWholeWords" />
+                                </HyperlinkButton>
+
+                                <TextBlock Grid.Row="2"
+                                           Margin="4,0"
+                                           FontSize="11"
+                                           Foreground="{ThemeResource NpTextColorPrimaryBrush}"
+                                           LineHeight="13"
+                                           Text="{x:Bind PlayedTime, Mode=OneTime, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}"
+                                           TextAlignment="Right" />
+
+                            </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
@@ -235,11 +254,19 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Spacing="10">
+
             <Button x:Name="review_refresh_Button"
                     Height="40"
                     Click="review_refresh_Button_Click"
                     Content="{mui:FontIcon FontSize=16,
                                            Glyph=&#xE72C;}"
+                    Style="{StaticResource IconButtonStyle}" />
+
+            <Button x:Name="filter_Button"
+                    Height="40"
+                    Click="filter_Button_Click"
+                    Content="{mui:FontIcon FontSize=16,
+                                           Glyph=&#xE71C;}"
                     Style="{StaticResource IconButtonStyle}" />
 
             <mcontrols:SwitchPresenter Height="40"
@@ -274,7 +301,49 @@
                     </Button>
                 </mcontrols:Case>
             </mcontrols:SwitchPresenter>
+
         </StackPanel>
+
+        <!--  筛选视图  -->
+        <Grid x:Name="games_filter_popup_Grid"
+              Grid.RowSpan="2"
+              Margin="{ThemeResource ContentDialogPadding}"
+              Background="{ThemeResource ContentDialogBackground}"
+              CornerRadius="{ThemeResource OverlayCornerRadius}"
+              IsTabStop="False"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <local:BrowserPage x:Name="games_filter_Page"
+                               Grid.ColumnSpan="2"
+                               IsFilterMode="True" />
+
+            <Button x:Name="games_filter_confirm_Button"
+                    x:Uid="Dlg_Confirm_Button"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="24,24,4,24"
+                    HorizontalAlignment="Stretch"
+                    Click="games_filter_confirm_Button_Click"
+                    ElementSoundMode="FocusOnly"
+                    Style="{ThemeResource AccentButtonStyle}" />
+            <Button x:Name="games_filter_cancel_Button"
+                    x:Uid="Dlg_Cancel_Button"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="4,24,24,24"
+                    HorizontalAlignment="Stretch"
+                    Click="games_filter_cancel_Button_Click"
+                    ElementSoundMode="FocusOnly"
+                    Style="{ThemeResource DefaultButtonStyle}" />
+        </Grid>
 
     </Grid>
 </Page>

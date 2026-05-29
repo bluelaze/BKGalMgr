@@ -170,9 +170,14 @@ public partial class RepositoryInfo : ObservableObject
         return tags.Where(t => t != null && t.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
-    public async Task RefreshStorageUsageAsync()
+    public async Task<long> RefreshStorageUsageAsync()
     {
-        StorageUsage = await FileSystemMisc.GetDirectorySizeAsync(FolderPath);
+        StorageUsage = 0;
+        foreach (var item in Games)
+        {
+            StorageUsage += await item.RefreshStorageUsageAsync();
+        }
+        return StorageUsage;
     }
 
     public void RestoreAddGroupIndex()

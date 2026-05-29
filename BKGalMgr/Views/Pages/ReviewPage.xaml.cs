@@ -85,7 +85,7 @@ public sealed partial class ReviewPage : Page
                 {
                     if (ViewModel.Groups[i].PlayedTime.Ticks == ticks)
                     {
-                        time_axis_ScrollView.ScrollTo(0, 290 * i);
+                        time_axis_ScrollView.ScrollTo(0, 316 * i);
                         break;
                     }
                 }
@@ -104,5 +104,24 @@ public sealed partial class ReviewPage : Page
         App.ShowLoading();
         await ViewModel.RefreshAsync();
         App.HideLoading();
+    }
+
+    private void filter_Button_Click(object sender, RoutedEventArgs e)
+    {
+        games_filter_popup_Grid.Visibility = Visibility.Visible;
+        games_filter_Page.Init();
+    }
+
+    private async void games_filter_confirm_Button_Click(object sender, RoutedEventArgs e)
+    {
+        games_filter_popup_Grid.Visibility = Visibility.Collapsed;
+        App.ShowLoading();
+        await ViewModel.RefreshAsync(games_filter_Page.GetSelectedGames());
+        App.HideLoading();
+    }
+
+    private void games_filter_cancel_Button_Click(object sender, RoutedEventArgs e)
+    {
+        games_filter_popup_Grid.Visibility = Visibility.Collapsed;
     }
 }
