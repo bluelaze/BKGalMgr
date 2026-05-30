@@ -84,6 +84,10 @@
             <StackPanel MaxWidth="1296"
                         HorizontalAlignment="Center"
                         Spacing="18">
+                <StackPanel.ChildrenTransitions>
+                    <EntranceThemeTransition FromVerticalOffset="100" />
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
                 <StackPanel Orientation="Horizontal" Spacing="20">
                     <Grid>
                         <FlipView x:Name="banner_FlipView"
@@ -303,6 +307,9 @@
 
                 <!--  游戏分组  -->
                 <ListView ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}" SelectionMode="None">
+                    <ListView.ItemContainerTransitions>
+                        <ReorderThemeTransition />
+                    </ListView.ItemContainerTransitions>
                     <ListView.Resources>
                         <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
                         <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />

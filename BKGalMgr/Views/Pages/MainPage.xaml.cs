@@ -179,7 +179,7 @@ public sealed partial class MainPage : Page
         if (folder != null)
         {
             App.ShowLoading();
-            
+
             RepositoryInfo newRepository = new() { FolderPath = folder.Path };
             if (false == await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository))
             {
@@ -244,7 +244,8 @@ public sealed partial class MainPage : Page
 
     private void RefreshRepositoryGridView()
     {
-        repository_gridview_Popup.HorizontalOffset = repository_NavigationViewItemSeparator.ActualWidth + 1;
+        var scale = App.MainWindow.GetWindowScale();
+        repository_gridview_Popup.HorizontalOffset = repository_NavigationViewItemSeparator.ActualWidth + 1 * scale;
         repository_gridview_root_Grid.Height = root_frame.ActualHeight;
         repository_gridview_root_Grid.Width = root_frame.ActualWidth;
         repository_gridview_root_sizer_RowDefinition.Height = new(
@@ -254,7 +255,7 @@ public sealed partial class MainPage : Page
                     .TransformPoint(new Point(0, 0))
                     .Y
                 - repository_NavigationViewItemSeparator.ActualHeight / 2
-                + 1
+                + 1 * scale
         );
     }
 

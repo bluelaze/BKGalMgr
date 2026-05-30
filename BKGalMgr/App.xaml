@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:BKGalMgr.Converters"
              xmlns:local="using:BKGalMgr"
+             xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
              xmlns:mconverters="using:CommunityToolkit.WinUI.Converters">
     <Application.Resources>
         <ResourceDictionary>
@@ -75,6 +76,23 @@
             <ImageSource x:Key="LocalEmulatorGray">ms-appx:///Assets/LocalEmulator/gray.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorPurple">ms-appx:///Assets/LocalEmulator/purple.bmp</ImageSource>
             <ImageSource x:Key="LocalEmulatorYellow">ms-appx:///Assets/LocalEmulator/yellow.bmp</ImageSource>
+
+            <!--  animation  -->
+            <manimations:ImplicitAnimationSet x:Key="PopupShow">
+                <manimations:TranslationAnimation From="0,100,0"
+                                                  To="0"
+                                                  Duration="0:0:0.3" />
+                <manimations:OpacityAnimation From="0"
+                                              To="1.0"
+                                              Duration="0:0:0.3" />
+            </manimations:ImplicitAnimationSet>
+
+            <manimations:ImplicitAnimationSet x:Key="PopupHide">
+                <manimations:OpacityAnimation To="0.0" Duration="0:0:0.3" />
+                <manimations:ScalarAnimation Target="Translation.Y"
+                                             To="100"
+                                             Duration="0:0:0.3" />
+            </manimations:ImplicitAnimationSet>
 
             <!--  coverter  -->
             <converters:DateTimeFormatStringConverter x:Key="DateTimeFormatStringConverter" />

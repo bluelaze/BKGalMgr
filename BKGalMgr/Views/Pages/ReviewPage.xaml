@@ -7,6 +7,7 @@
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+      xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
       xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
@@ -33,6 +34,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Padding="16,32" Spacing="16">
+            <StackPanel.ChildrenTransitions>
+                <RepositionThemeTransition />
+            </StackPanel.ChildrenTransitions>
             <StackPanel x:Name="card_StackPanel"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
@@ -308,6 +312,8 @@
         <Grid x:Name="games_filter_popup_Grid"
               Grid.RowSpan="2"
               Margin="{ThemeResource ContentDialogPadding}"
+              manimations:Implicit.HideAnimations="{StaticResource PopupHide}"
+              manimations:Implicit.ShowAnimations="{StaticResource PopupShow}"
               Background="{ThemeResource ContentDialogBackground}"
               CornerRadius="{ThemeResource OverlayCornerRadius}"
               IsTabStop="False"

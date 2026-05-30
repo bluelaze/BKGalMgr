@@ -10,6 +10,7 @@
       xmlns:extensions="using:BKGalMgr.Extensions"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
+      xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
       xmlns:mbehaviors="using:CommunityToolkit.WinUI.Behaviors"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcollections="using:CommunityToolkit.WinUI.Collections"
@@ -576,6 +577,8 @@
         <!--  custom theme  -->
         <Grid x:Name="custom_theme_popup_Grid"
               Grid.RowSpan="3"
+              manimations:Implicit.HideAnimations="{StaticResource PopupHide}"
+              manimations:Implicit.ShowAnimations="{StaticResource PopupShow}"
               Background="Transparent"
               IsTabStop="False"
               Visibility="Collapsed">
@@ -624,6 +627,8 @@
         <!--  select game process  -->
         <Grid x:Name="select_game_process_Grid"
               Grid.RowSpan="3"
+              manimations:Implicit.HideAnimations="{StaticResource PopupHide}"
+              manimations:Implicit.ShowAnimations="{StaticResource PopupShow}"
               Background="Transparent"
               IsTabStop="False"
               Visibility="Collapsed">

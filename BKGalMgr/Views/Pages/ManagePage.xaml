@@ -305,6 +305,10 @@
                       IsTabStop="True"
                       Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">
+                <StackPanel.ChildrenTransitions>
+                    <EntranceThemeTransition FromVerticalOffset="100" />
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
                 <!--  GameInfo  -->
                 <controls:GameInfoControl ViewModel="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
                 <!--  source, localization, target, savedata  -->

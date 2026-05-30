@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views"
+      xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
       xmlns:mui="using:CommunityToolkit.WinUI"
@@ -190,6 +191,9 @@
                HorizontalOffset="201"
                IsLightDismissEnabled="True"
                VerticalOffset="1">
+            <Popup.ChildTransitions>
+                <PopupThemeTransition />
+            </Popup.ChildTransitions>
             <Grid x:Name="repository_gridview_root_Grid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
