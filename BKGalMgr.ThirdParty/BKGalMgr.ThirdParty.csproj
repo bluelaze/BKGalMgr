@@ -12,6 +12,9 @@
     <ItemGroup>
         <PackageReference Include="MouseKeyHook" Version="5.7.1" />
         <PackageReference Include="NHotkey.Wpf" Version="4.0.0" />
+        <!--.net8就不用加这个库，.net10直接移除了支持，所以要加入-->
+        <!--https://learn.microsoft.com/en-us/dotnet/desktop/winforms/advanced/how-to-enable-binaryformatter-clipboard-support-->
+        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="10.0.8" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ThirdParty\ShareX\ShareX.ScreenCaptureLib\ShareX.ScreenCaptureLib.csproj" />
