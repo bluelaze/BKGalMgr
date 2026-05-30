@@ -11,23 +11,22 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class ReviewPageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private long _storageUsage = 0;
+    public partial long StorageUsage { get; set; } = 0;
 
     [ObservableProperty]
-    private int _repositoriesNumber = 0;
+    public partial int RepositoriesNumber { get; set; } = 0;
 
     [ObservableProperty]
-    private TimeSpan _playedTime = TimeSpan.Zero;
+    public partial TimeSpan PlayedTime { get; set; } = TimeSpan.Zero;
 
     [ObservableProperty]
-    private int _gamesNumber = 0;
+    public partial int GamesNumber { get; set; } = 0;
 
     [ObservableProperty]
-    private int _sessionsPlayed = 0;
+    public partial int SessionsPlayed { get; set; } = 0;
 
     [ObservableProperty]
-    private ObservableCollection<GameReviewGroupInfo> _groups;
-
+    public partial ObservableCollection<GameReviewGroupInfo> Groups { get; set; }
     public LibraryAndManagePageViewModel LibraryAndManagePageViewModel { get; }
 
     public ReviewPageViewModel(LibraryAndManagePageViewModel libraryAndManagePageViewModel)

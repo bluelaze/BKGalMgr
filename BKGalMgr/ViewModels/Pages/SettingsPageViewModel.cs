@@ -20,28 +20,28 @@ public partial class SettingsPageViewModel : ObservableObject
     public string BKGalMgrVersion => Assembly.GetEntryAssembly().GetName().Version.ToString();
 
     [ObservableProperty]
-    private ElementTheme _appTheme;
+    public partial ElementTheme AppTheme { get; set; }
 
     [ObservableProperty]
-    private BackdropMaterial _appBackdropMaterial;
+    public partial BackdropMaterial AppBackdropMaterial { get; set; }
 
     [ObservableProperty]
-    private CompressionLevel _zipLevel;
+    public partial CompressionLevel ZipLevel { get; set; }
 
     [ObservableProperty]
-    public bool _autoCropScreenshotBlackBorder;
+    public partial bool AutoCropScreenshotBlackBorder { get; set; }
 
     [ObservableProperty]
-    private SupportLanguages _language;
+    public partial SupportLanguages Language { get; set; }
 
     [ObservableProperty]
-    private int _languageIndex = -1;
+    public partial int LanguageIndex { get; set; } = -1;
 
     [ObservableProperty]
-    private Dictionary<SupportLanguages, string> _languages;
+    public partial Dictionary<SupportLanguages, string> Languages { get; set; }
 
     [ObservableProperty]
-    private string _checkForUpdatesContent;
+    public partial string CheckForUpdatesContent { get; set; }
 
     public BangumiInfo Bangumi => _settings.Bangumi;
     public LocalEmulatorInfo LocalEmulator => _settings.LocalEmulator;
@@ -67,12 +67,11 @@ public partial class SettingsPageViewModel : ObservableObject
             CheckForUpdatesContent = message;
         };
         CheckForUpdatesContent = _updateService.GetStatusMessage("");
-
-        _languages = LanguageHelper.GetSupportLangugesName();
-        foreach (var language in _languages)
+        Languages = LanguageHelper.GetSupportLangugesName();
+        foreach (var language in Languages)
         {
             LanguageIndex++;
-            if (language.Key == _language)
+            if (language.Key == Language)
                 break;
         }
 

@@ -18,46 +18,46 @@ namespace BKGalMgr.ViewModels;
 public partial class TargetInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _jsonPath;
+    [JsonIgnore]
+    public partial string JsonPath { get; set; }
 
     [ObservableProperty]
-    private string _startupName;
+    public partial string StartupName { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private DateTime _lastPlayDate;
+    public partial DateTime LastPlayDate { get; set; }
 
     [ObservableProperty]
-    private TimeSpan _playedTime = TimeSpan.Zero;
+    public partial TimeSpan PlayedTime { get; set; } = TimeSpan.Zero;
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
     [ObservableProperty]
-    private bool _enableLocalEmulator;
+    public partial bool EnableLocalEmulator { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _screenCaptureHotkey = string.Empty;
+    [JsonIgnore]
+    public partial string ScreenCaptureHotkey { get; set; } = string.Empty;
 
     [ObservableProperty]
-    private GameInfo _game;
+    public partial GameInfo Game { get; set; }
 
     [ObservableProperty]
-    private SourceInfo _source;
+    public partial SourceInfo Source { get; set; }
 
     [ObservableProperty]
-    private LocalizationInfo _localization;
+    public partial LocalizationInfo Localization { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private PlayStatus _playStatus = PlayStatus.Stop;
+    [JsonIgnore]
+    public partial PlayStatus PlayStatus { get; set; } = PlayStatus.Stop;
 
     partial void OnPlayStatusChanged(PlayStatus value)
     {
@@ -65,19 +65,19 @@ public partial class TargetInfo : ObservableObject
     }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private bool _isArchive = false;
+    [JsonIgnore]
+    public partial bool IsArchive { get; set; } = false;
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string TargetPath => Path.Combine(FolderPath, GlobalInfo.TargetName);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string TargetZipPath => Path.Combine(FolderPath, GlobalInfo.TargetZipName);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string TargetExePath => Path.Combine(TargetPath, StartupName);
 
     public TargetInfo() { }

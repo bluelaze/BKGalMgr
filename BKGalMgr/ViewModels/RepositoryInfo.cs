@@ -18,43 +18,44 @@ namespace BKGalMgr.ViewModels;
 public partial class RepositoryInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _folderPath;
+    [JsonIgnore]
+    public partial string FolderPath { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SearchSuggestedTags))]
-    [property: JsonIgnore]
-    private string _searchText = string.Empty;
+    [JsonIgnore]
+    public partial string SearchText { get; set; } = string.Empty;
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _searchToken = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> SearchToken { get; set; } = new();
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public List<string> SearchSuggestedTags => GetSuggestedTags();
 
     [ObservableProperty]
-    private ObservableCollection<GroupInfo> _groups = new() { new() { Name = GlobalInfo.GroupItemCase_Add } };
+    public partial ObservableCollection<GroupInfo> Groups { get; set; } =
+        new() { new() { Name = GlobalInfo.GroupItemCase_Add } };
 
     [ObservableProperty]
-    private bool _isEnableGroup = false;
+    public partial bool IsEnableGroup { get; set; } = false;
 
     partial void OnIsEnableGroupChanged(bool value) => GamesViewRefreshFilter();
 
     [ObservableProperty]
-    private SortType _sortType = SortType.CreateDate;
+    public partial SortType SortType { get; set; } = SortType.CreateDate;
 
     [ObservableProperty]
-    private SortDirection _sortOrderType = SortDirection.Descending;
+    public partial SortDirection SortOrderType { get; set; } = SortDirection.Descending;
 
     partial void OnSortTypeChanged(SortType value)
     {
@@ -69,21 +70,21 @@ public partial class RepositoryInfo : ObservableObject
     }
 
     [ObservableProperty]
-    private bool _ignore = false;
+    public partial bool Ignore { get; set; } = false;
 
     partial void OnIgnoreChanged(bool value) => SaveJsonFile();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<GameInfo> _games = new();
+    [JsonIgnore]
+    public partial ObservableCollection<GameInfo> Games { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private AdvancedCollectionView _gamesView;
+    [JsonIgnore]
+    public partial AdvancedCollectionView GamesView { get; set; }
 
     private GameInfo _selectedGame;
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public GameInfo SelectedGame
     {
         get => _selectedGame;
@@ -102,12 +103,12 @@ public partial class RepositoryInfo : ObservableObject
     // 。。。yet, also, Selected is correct, but data is save
     public DateTime? SeletedGameCreateDate { get; set; }
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     private string JsonPath => Path.Combine(FolderPath, GlobalInfo.RepositoryJsonName);
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private long _storageUsage = 0;
+    [JsonIgnore]
+    public partial long StorageUsage { get; set; } = 0;
 
     public RepositoryInfo()
     {

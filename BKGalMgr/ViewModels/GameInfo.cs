@@ -32,27 +32,27 @@ public partial class GameInfo : ObservableObject, IImageItem
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
-    private string _name = "";
+    public partial string Name { get; set; } = "";
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _jsonPath;
+    [JsonIgnore]
+    public partial string JsonPath { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private DateTime _lastPlayDate;
+    public partial DateTime LastPlayDate { get; set; }
 
     [ObservableProperty]
-    private TimeSpan _playedTime = TimeSpan.Zero;
+    public partial TimeSpan PlayedTime { get; set; } = TimeSpan.Zero;
 
     [ObservableProperty]
-    private ObservableCollection<PlayedPeriodInfo> _playedPeriods = new();
+    public partial ObservableCollection<PlayedPeriodInfo> PlayedPeriods { get; set; } = new();
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CoverUri))]
-    private string _cover;
+    public partial string Cover { get; set; }
 
     [JsonIgnore]
     public string CoverUri
@@ -62,98 +62,98 @@ public partial class GameInfo : ObservableObject, IImageItem
     }
 
     [ObservableProperty]
-    private string _company;
+    public partial string Company { get; set; }
 
     [ObservableProperty]
-    private DateTime _publishDate;
+    public partial DateTime PublishDate { get; set; }
 
     [ObservableProperty]
-    private int _pinValue = 1000;
+    public partial int PinValue { get; set; } = 1000;
 
     [ObservableProperty]
-    private ObservableCollection<string> _artist = new();
+    public partial ObservableCollection<string> Artist { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _cv = new();
+    public partial ObservableCollection<string> Cv { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _scenario = new();
+    public partial ObservableCollection<string> Scenario { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _musician = new();
+    public partial ObservableCollection<string> Musician { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _singer = new();
+    public partial ObservableCollection<string> Singer { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<CharacterInfo> _characters = new();
+    public partial ObservableCollection<CharacterInfo> Characters { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _tag = new();
+    public partial ObservableCollection<string> Tag { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _group = new();
+    public partial ObservableCollection<string> Group { get; set; } = new();
 
     [ObservableProperty]
-    private string _website;
+    public partial string Website { get; set; }
 
     [ObservableProperty]
-    private string _story;
+    public partial string Story { get; set; }
 
     [ObservableProperty]
-    private string _blog;
+    public partial string Blog { get; set; }
 
     [ObservableProperty]
-    private string _bangumiSubjectId;
+    public partial string BangumiSubjectId { get; set; }
 
     [ObservableProperty]
-    private string _t2DFanSubjectId;
+    public partial string T2DFanSubjectId { get; set; }
 
     [ObservableProperty]
-    private bool _stopTimingWhenNotActive = true;
+    public partial bool StopTimingWhenNotActive { get; set; } = true;
 
     [ObservableProperty]
-    private ShoppingSiteInfo _shoppingInfo;
+    public partial ShoppingSiteInfo ShoppingInfo { get; set; }
 
     [ObservableProperty]
-    public ThemeInfo _customTheme = new();
+    public partial ThemeInfo CustomTheme { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _covers = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> Covers { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _gallery = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> Gallery { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _special = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> Special { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _screenshot = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> Screenshot { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _websiteShot = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> WebsiteShot { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _bugBugNews = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> BugBugNews { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<string> _campaign = new();
+    [JsonIgnore]
+    public partial ObservableCollection<string> Campaign { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private bool _isPropertyChanged;
+    [JsonIgnore]
+    public partial bool IsPropertyChanged { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsPlaying))]
-    [property: JsonIgnore]
-    private PlayStatus _playStatus = PlayStatus.Stop;
+    [JsonIgnore]
+    public partial PlayStatus PlayStatus { get; set; } = PlayStatus.Stop;
 
     [JsonIgnore]
     public CancellationTokenSource PlayCancelTokenSource { get; set; }
@@ -162,24 +162,24 @@ public partial class GameInfo : ObservableObject, IImageItem
     public bool IsPlaying => PlayStatus != PlayStatus.Stop;
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private RepositoryInfo _repository;
+    [JsonIgnore]
+    public partial RepositoryInfo Repository { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<SourceInfo> _sources = new();
+    [JsonIgnore]
+    public partial ObservableCollection<SourceInfo> Sources { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<LocalizationInfo> _localizations = new();
+    [JsonIgnore]
+    public partial ObservableCollection<LocalizationInfo> Localizations { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<TargetInfo> _targets = new();
+    [JsonIgnore]
+    public partial ObservableCollection<TargetInfo> Targets { get; set; } = new();
 
     private TargetInfo _selectedTarget;
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public TargetInfo SelectedTarget
     {
         get { return _selectedTarget; }
@@ -198,24 +198,24 @@ public partial class GameInfo : ObservableObject, IImageItem
     public DateTime SeletedTargetCreateDate { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private long _storageUsage = 0;
+    [JsonIgnore]
+    public partial long StorageUsage { get; set; } = 0;
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private SaveDataSettingsInfo _saveDataSettings = new();
+    [JsonIgnore]
+    public partial SaveDataSettingsInfo SaveDataSettings { get; set; } = new();
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private ObservableCollection<SaveDataInfo> _saveDatas = new();
+    [JsonIgnore]
+    public partial ObservableCollection<SaveDataInfo> SaveDatas { get; set; } = new();
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string ScreenshotFolderPath => Path.Combine(FolderPath, GlobalInfo.GameScreenshotFolderName);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
 
     public GameInfo()
@@ -297,7 +297,7 @@ public partial class GameInfo : ObservableObject, IImageItem
         return gameInfo;
     }
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public bool IsValid
     {
         get { return !Name.IsNullOrEmpty(); }
@@ -1115,7 +1115,6 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     #region IImageItem
 
-    [property: JsonIgnore]
     object IImageItem.Args { get; set; }
     string IImageItem.Image { get; set; }
 

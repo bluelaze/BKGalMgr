@@ -15,22 +15,22 @@ namespace BKGalMgr.ViewModels;
 public partial class SaveDataInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _jsonPath;
+    [JsonIgnore]
+    public partial string JsonPath { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string ZipPath => Path.Combine(FolderPath, GlobalInfo.SaveDataZipName);
 
     public SaveDataInfo() { }

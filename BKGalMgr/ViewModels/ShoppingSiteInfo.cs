@@ -17,19 +17,19 @@ public partial class ShoppingSiteInfo : ObservableObject
     }
 
     [ObservableProperty]
-    private string _GetchuProductId;
+    public partial string GetchuProductId { get; set; }
 
     [ObservableProperty]
-    private string _DMMProductId;
+    public partial string DMMProductId { get; set; }
 
     [ObservableProperty]
-    private string _DLsiteProductId;
+    public partial string DLsiteProductId { get; set; }
 
     [ObservableProperty]
-    private string _MelonbooksProductId;
+    public partial string MelonbooksProductId { get; set; }
 
     [ObservableProperty]
-    private DLsiteProductType _dLsiteType = DLsiteProductType.pro;
+    public partial DLsiteProductType DLsiteType { get; set; } = DLsiteProductType.pro;
 
     private string _GetchuWebsit = "https://www.getchu.com";
 

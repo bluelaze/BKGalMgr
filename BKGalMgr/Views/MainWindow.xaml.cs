@@ -33,13 +33,13 @@ namespace BKGalMgr.Views;
 public sealed partial class MainWindow : Window
 {
     [ObservableProperty]
-    private ObservableCollection<IImageItem> _images = new();
+    public partial ObservableCollection<IImageItem> Images { get; set; } = new();
 
     [ObservableProperty]
-    private GameInfo _selectedGame = null;
+    public partial GameInfo SelectedGame { get; set; } = null;
 
     [ObservableProperty]
-    private ObservableCollection<NotificationInfo> _notifications = new();
+    public partial ObservableCollection<NotificationInfo> Notifications { get; set; } = new();
 
     private SettingsDto Settings { get; }
 

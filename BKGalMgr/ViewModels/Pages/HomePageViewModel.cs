@@ -12,26 +12,25 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class HomePageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<GameInfo> _banners = new();
+    public partial ObservableCollection<GameInfo> Banners { get; set; } = new();
 
     [ObservableProperty]
-    private int _bannersCount = 12;
+    public partial int BannersCount { get; set; } = 12;
 
     [ObservableProperty]
-    private ObservableCollection<GameInfo> _repositoryCovers = new();
+    public partial ObservableCollection<GameInfo> RepositoryCovers { get; set; } = new();
 
     [ObservableProperty]
-    private DateTime _currentDate;
+    public partial DateTime CurrentDate { get; set; }
 
     [ObservableProperty]
-    private ObservableCollection<GameReviewGroupItem> _recentlyPlayedGames = new();
+    public partial ObservableCollection<GameReviewGroupItem> RecentlyPlayedGames { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<GameReviewGroupItem> _recentlyCreatedGames = new();
+    public partial ObservableCollection<GameReviewGroupItem> RecentlyCreatedGames { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<GameReviewGroupInfo> _groups = new();
-
+    public partial ObservableCollection<GameReviewGroupInfo> Groups { get; set; } = new();
     public LibraryAndManagePageViewModel LibraryAndManagePageViewModel { get; }
 
     public HomePageViewModel(LibraryAndManagePageViewModel libraryAndManagePageViewModel)

@@ -20,32 +20,32 @@ public partial class ThemeInfo : ObservableObject
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ThemeTypeValue))]
-    private CustomThemeType _themeType = CustomThemeType.Default;
+    public partial CustomThemeType ThemeType { get; set; } = CustomThemeType.Default;
 
     [JsonIgnore]
     public int ThemeTypeValue => ((int)ThemeType);
 
     [ObservableProperty]
-    private ElementTheme _requestedTheme = ElementTheme.Dark;
+    public partial ElementTheme RequestedTheme { get; set; } = ElementTheme.Dark;
 
     [ObservableProperty]
-    private bool _lastScreenshotAsBackground = true;
+    public partial bool LastScreenshotAsBackground { get; set; } = true;
 
     [ObservableProperty]
-    private bool _automaticImageThemeType = true;
+    public partial bool AutomaticImageThemeType { get; set; } = true;
 
     [ObservableProperty]
-    private bool _hideReturn = false;
+    public partial bool HideReturn { get; set; } = false;
 
     [ObservableProperty]
-    private bool _hideCover = false;
+    public partial bool HideCover { get; set; } = false;
 
     [ObservableProperty]
-    private bool _hideGameInfo = false;
+    public partial bool HideGameInfo { get; set; } = false;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(BackgroundImageSource))]
-    private string _backgroundImage;
+    public partial string BackgroundImage { get; set; }
 
     partial void OnBackgroundImageChanged(string value)
     {
@@ -77,11 +77,11 @@ public partial class ThemeInfo : ObservableObject
     }
 
     [ObservableProperty]
-    private double _backgroundImageOpacity = 1;
+    public partial double BackgroundImageOpacity { get; set; } = 1;
 
     [ObservableProperty]
-    private string _linearGradientStartColor = "#FF575757";
+    public partial string LinearGradientStartColor { get; set; } = "#FF575757";
 
     [ObservableProperty]
-    private string _linearGradientEndColor = "#FF575757";
+    public partial string LinearGradientEndColor { get; set; } = "#FF575757";
 }

@@ -16,14 +16,14 @@ public class GameReviewGroupItem
 public partial class GameReviewGroupInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    private DateTime _label;
+    public partial DateTime Label { get; set; }
 
     [ObservableProperty]
-    private TimeSpan _playedTime = TimeSpan.Zero;
+    public partial TimeSpan PlayedTime { get; set; } = TimeSpan.Zero;
 
     [ObservableProperty]
-    private ObservableCollection<GameReviewGroupItem> _games;
+    public partial ObservableCollection<GameReviewGroupItem> Games { get; set; }
 }

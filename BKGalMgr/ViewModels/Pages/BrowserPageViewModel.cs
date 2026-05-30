@@ -12,7 +12,7 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class BrowserPageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string _searchText = string.Empty;
+    public partial string SearchText { get; set; } = string.Empty;
 
     partial void OnSearchTextChanged(string value)
     {
@@ -20,53 +20,53 @@ public partial class BrowserPageViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ObservableCollection<string> _searchToken = new();
+    public partial ObservableCollection<string> SearchToken { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _searchSuggestedTags = new();
+    public partial ObservableCollection<string> SearchSuggestedTags { get; set; } = new();
 
     [ObservableProperty]
-    private ObservableCollection<GroupInfo> _groups = new();
+    public partial ObservableCollection<GroupInfo> Groups { get; set; } = new();
 
     [ObservableProperty]
-    private bool _isEnableGroup = false;
+    public partial bool IsEnableGroup { get; set; } = false;
 
     partial void OnIsEnableGroupChanged(bool value) => GamesViewRefreshFilter();
 
     [ObservableProperty]
-    private SortType _sortType = SortType.CreateDate;
+    public partial SortType SortType { get; set; } = SortType.CreateDate;
 
     [ObservableProperty]
-    private SortDirection _sortOrderType = SortDirection.Descending;
+    public partial SortDirection SortOrderType { get; set; } = SortDirection.Descending;
 
     partial void OnSortTypeChanged(SortType value) => GamesViewSort();
 
     partial void OnSortOrderTypeChanged(SortDirection value) => GamesViewSort();
 
     [ObservableProperty]
-    private bool _isEnableRepository = false;
+    public partial bool IsEnableRepository { get; set; } = false;
 
     partial void OnIsEnableRepositoryChanged(bool value) => GamesViewRefreshFilter();
 
     public List<RepositoryInfo> SelectedRepositories = new();
 
     [ObservableProperty]
-    private bool _isEnableCompany = false;
+    public partial bool IsEnableCompany { get; set; } = false;
 
     partial void OnIsEnableCompanyChanged(bool value) => GamesViewRefreshFilter();
 
     [ObservableProperty]
-    private List<string> _allCompanines = new();
+    public partial List<string> AllCompanines { get; set; } = new();
 
     public List<string> SelectedCompanines = new();
 
     [ObservableProperty]
-    private bool _isEnablePublishDate = false;
+    public partial bool IsEnablePublishDate { get; set; } = false;
 
     partial void OnIsEnablePublishDateChanged(bool value) => GamesViewRefreshFilter();
 
     [ObservableProperty]
-    private DateTime _publishDateBegin;
+    public partial DateTime PublishDateBegin { get; set; }
 
     partial void OnPublishDateBeginChanged(DateTime value)
     {
@@ -75,7 +75,7 @@ public partial class BrowserPageViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private DateTime _publishDateEnd;
+    public partial DateTime PublishDateEnd { get; set; }
 
     partial void OnPublishDateEndChanged(DateTime value)
     {
@@ -84,12 +84,12 @@ public partial class BrowserPageViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private bool _isEnablePlayedDate = false;
+    public partial bool IsEnablePlayedDate { get; set; } = false;
 
     partial void OnIsEnablePlayedDateChanged(bool value) => GamesViewRefreshFilter();
 
     [ObservableProperty]
-    private DateTime _playedDateBegin;
+    public partial DateTime PlayedDateBegin { get; set; }
 
     partial void OnPlayedDateBeginChanged(DateTime value)
     {
@@ -98,7 +98,7 @@ public partial class BrowserPageViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private DateTime _playedDateEnd;
+    public partial DateTime PlayedDateEnd { get; set; }
 
     partial void OnPlayedDateEndChanged(DateTime value)
     {
@@ -107,10 +107,10 @@ public partial class BrowserPageViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ObservableCollection<GameInfo> _games = new();
+    public partial ObservableCollection<GameInfo> Games { get; set; } = new();
 
     [ObservableProperty]
-    private AdvancedCollectionView _gamesView;
+    public partial AdvancedCollectionView GamesView { get; set; }
 
     private List<string> _allTags = new();
 

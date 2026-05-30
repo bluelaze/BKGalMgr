@@ -12,7 +12,7 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class GamePlayPageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private GameInfo _game;
+    public partial GameInfo Game { get; set; }
 
     public readonly SettingsDto Settings;
     public LibraryAndManagePageViewModel LibraryAndManagePageViewModel { get; }

@@ -13,61 +13,61 @@ namespace BKGalMgr.ViewModels;
 public partial class CharacterInfo : ObservableObject
 {
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _illustration;
+    [JsonIgnore]
+    public partial string Illustration { get; set; }
 
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    private string _translatedName;
+    public partial string TranslatedName { get; set; }
 
     [ObservableProperty]
-    private string _id = Guid.NewGuid().ToString();
+    public partial string Id { get; set; } = Guid.NewGuid().ToString();
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private string _CV;
+    public partial string CV { get; set; }
 
     [ObservableProperty]
-    private DateTime _birthday;
+    public partial DateTime Birthday { get; set; }
 
     [ObservableProperty]
-    private int _age;
+    public partial int Age { get; set; }
 
     [ObservableProperty]
-    private string _bloodType;
+    public partial string BloodType { get; set; }
 
     [ObservableProperty]
-    private string _cup;
+    public partial string Cup { get; set; }
 
     [ObservableProperty]
-    private double _bust;
+    public partial double Bust { get; set; }
 
     [ObservableProperty]
-    private double _waist;
+    public partial double Waist { get; set; }
 
     [ObservableProperty]
-    private double _hips;
+    public partial double Hips { get; set; }
 
     [ObservableProperty]
-    private double _height;
+    public partial double Height { get; set; }
 
     [ObservableProperty]
-    private double _weight;
+    public partial double Weight { get; set; }
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
     [ObservableProperty]
-    private string _bangumiCharacterId;
+    public partial string BangumiCharacterId { get; set; }
 
     [JsonIgnore]
     public string GameFolderPath { get; set; }
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.Combine(GameFolderPath, GlobalInfo.GameCharacterFolderName);
 
     public void LoadIllustration()

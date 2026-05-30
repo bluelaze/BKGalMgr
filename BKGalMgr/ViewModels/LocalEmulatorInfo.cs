@@ -10,9 +10,9 @@ namespace BKGalMgr.ViewModels;
 public partial class LocalEmulatorInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _LEProcPath;
+    public partial string LEProcPath { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private List<LEProfileInfo> _profiles;
+    [JsonIgnore]
+    public partial List<LEProfileInfo> Profiles { get; set; }
 }

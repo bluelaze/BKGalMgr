@@ -17,31 +17,31 @@ namespace BKGalMgr.ViewModels;
 public partial class SourceInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _jsonPath;
+    [JsonIgnore]
+    public partial string JsonPath { get; set; }
 
     [ObservableProperty]
-    private string _startupName;
+    public partial string StartupName { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
     [ObservableProperty]
-    private bool _enableLocalEmulator;
+    public partial bool EnableLocalEmulator { get; set; }
 
     [ObservableProperty]
-    private ObservableCollection<ContributorInfo> _contributors = new();
+    public partial ObservableCollection<ContributorInfo> Contributors { get; set; } = new();
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string ZipPath => Path.Combine(FolderPath, GlobalInfo.SourceZipName);
 
     public SourceInfo() { }

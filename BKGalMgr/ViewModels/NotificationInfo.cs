@@ -10,14 +10,14 @@ namespace BKGalMgr.ViewModels;
 public partial class NotificationInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _title;
+    public partial string Title { get; set; }
 
     [ObservableProperty]
-    private string _message;
+    public partial string Message { get; set; }
 
     [ObservableProperty]
-    private bool _isOpen = true;
+    public partial bool IsOpen { get; set; } = true;
 
     [ObservableProperty]
-    private InfoBarSeverity _Severity = InfoBarSeverity.Informational;
+    public partial InfoBarSeverity Severity { get; set; } = InfoBarSeverity.Informational;
 }

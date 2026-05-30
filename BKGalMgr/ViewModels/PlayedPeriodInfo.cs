@@ -15,17 +15,17 @@ public partial class PlayedPeriodInfo : ObservableObject, IChartEntity
     // 。。。yet, begin is correct, but data is save
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Period))]
-    [property: JsonPropertyName("benginTime")]
-    private DateTime _benginTime;
+    [JsonPropertyName("benginTime")]
+    public partial DateTime BenginTime { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Period))]
-    [property: JsonPropertyName("endTime")]
-    private DateTime _endTime;
+    [JsonPropertyName("endTime")]
+    public partial DateTime EndTime { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Period))]
-    private TimeSpan _pauseTime = TimeSpan.Zero;
+    public partial TimeSpan PauseTime { get; set; } = TimeSpan.Zero;
 
     [JsonIgnore]
     public TimeSpan Period => EndTime - BenginTime - PauseTime;

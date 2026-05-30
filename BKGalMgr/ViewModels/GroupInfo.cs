@@ -16,8 +16,8 @@ public enum GroupChangedType
 public partial class GroupInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    private bool _isChecked;
+    public partial bool IsChecked { get; set; }
 }

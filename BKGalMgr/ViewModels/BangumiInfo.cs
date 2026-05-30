@@ -9,5 +9,5 @@ namespace BKGalMgr.ViewModels;
 public partial class BangumiInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _accessToken;
+    public partial string AccessToken { get; set; }
 }

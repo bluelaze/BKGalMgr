@@ -13,10 +13,10 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class LibraryAndManagePageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private ObservableCollection<RepositoryInfo> _repository = new();
+    public partial ObservableCollection<RepositoryInfo> Repository { get; set; } = new();
 
     [ObservableProperty]
-    private RepositoryInfo _selectedRepository;
+    public partial RepositoryInfo SelectedRepository { get; set; }
 
     partial void OnSelectedRepositoryChanged(RepositoryInfo value)
     {

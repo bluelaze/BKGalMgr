@@ -9,11 +9,11 @@ namespace BKGalMgr.ViewModels;
 public partial class ContributorInfo : ObservableObject
 {
     [ObservableProperty]
-    private string _avatar;
+    public partial string Avatar { get; set; }
 
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 }

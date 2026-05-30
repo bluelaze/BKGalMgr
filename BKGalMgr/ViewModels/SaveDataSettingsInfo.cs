@@ -13,22 +13,22 @@ namespace BKGalMgr.ViewModels;
 public partial class SaveDataSettingsInfo : ObservableObject
 {
     [ObservableProperty]
-    [property: JsonIgnore]
-    private string _jsonPath;
+    [JsonIgnore]
+    public partial string JsonPath { get; set; }
 
     [ObservableProperty]
-    private DateTime _createDate = DateTime.Now;
+    public partial DateTime CreateDate { get; set; } = DateTime.Now;
 
     [ObservableProperty]
-    private string _saveDataFolderPath;
+    public partial string SaveDataFolderPath { get; set; }
 
     [ObservableProperty]
-    private bool _autoBackup = false;
+    public partial bool AutoBackup { get; set; } = false;
 
     [ObservableProperty]
-    private string _description;
+    public partial string Description { get; set; }
 
-    [property: JsonIgnore]
+    [JsonIgnore]
     public string FolderPath => Path.GetDirectoryName(JsonPath);
 
     public SaveDataSettingsInfo() { }

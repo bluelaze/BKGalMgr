@@ -10,11 +10,10 @@ namespace BKGalMgr.ViewModels.Pages;
 public partial class MigratePageViewModel : ObservableObject
 {
     [ObservableProperty]
-    private RepositoryInfo _leftRepository;
+    public partial RepositoryInfo LeftRepository { get; set; }
 
     [ObservableProperty]
-    private RepositoryInfo _rightRepository;
-
+    public partial RepositoryInfo RightRepository { get; set; }
     public LibraryAndManagePageViewModel LibraryAndManagePageViewModel { get; }
 
     public MigratePageViewModel(LibraryAndManagePageViewModel libraryAndManagePageViewModel)

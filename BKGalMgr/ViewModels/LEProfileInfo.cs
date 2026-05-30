@@ -13,11 +13,11 @@ public partial class LEProfileInfo : ObservableObject
     public const string SeparatorGuid = "separator";
 
     [ObservableProperty]
-    private string _name;
+    public partial string Name { get; set; }
 
     [ObservableProperty]
-    private string _guid;
+    public partial string Guid { get; set; }
 
     [ObservableProperty]
-    private bool _isSeparator = false;
+    public partial bool IsSeparator { get; set; } = false;
 }
