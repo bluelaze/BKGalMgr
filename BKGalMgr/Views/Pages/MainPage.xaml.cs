@@ -181,14 +181,22 @@ public sealed partial class MainPage : Page
             App.ShowLoading();
 
             RepositoryInfo newRepository = new() { FolderPath = folder.Path };
-            if (false == await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository))
+
+            // 已有仓库，直接添加
+            if (
+                RepositoryInfo.IsExistedRepository(folder.Path)
+                && true == await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository)
+            )
             {
-                // 不是已有仓库，新建
-                var result = await EditRepositoryInfo(newRepository);
-                if (result == ContentDialogResult.Primary)
-                {
-                    await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository);
-                }
+                App.HideLoading();
+                return;
+            }
+
+            // 不是已有仓库，新建
+            var result = await EditRepositoryInfo(newRepository);
+            if (result == ContentDialogResult.Primary)
+            {
+                await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository);
             }
 
             App.HideLoading();

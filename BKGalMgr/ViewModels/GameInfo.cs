@@ -225,17 +225,23 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     public static GameInfo Open(string dirPath, RepositoryInfo repo)
     {
-        var path = Path.Combine(dirPath, GlobalInfo.GameJsonName);
-        if (!File.Exists(path))
+        var jsonPath = Path.Combine(dirPath, GlobalInfo.GameJsonName);
+        if (!File.Exists(jsonPath))
             return null;
 
-        var gameInfo = JsonMisc.Deserialize<GameInfo>(File.ReadAllText(path));
-        gameInfo.JsonPath = path;
-
-        path = Path.Combine(dirPath, GlobalInfo.SourcesFolderName);
-        if (Directory.Exists(path))
+        var gameInfo = JsonMisc.Deserialize<GameInfo>(File.ReadAllText(jsonPath));
+        if (gameInfo == null)
         {
-            var dirs = Directory.GetDirectories(path);
+            App.ShowErrorMessage($"Game open failed: {jsonPath}");
+            return null;
+        }
+
+        gameInfo.JsonPath = jsonPath;
+
+        jsonPath = Path.Combine(dirPath, GlobalInfo.SourcesFolderName);
+        if (Directory.Exists(jsonPath))
+        {
+            var dirs = Directory.GetDirectories(jsonPath);
             foreach (var dir in dirs)
             {
                 var source = SourceInfo.Open(dir);
@@ -244,10 +250,10 @@ public partial class GameInfo : ObservableObject, IImageItem
             }
         }
 
-        path = Path.Combine(dirPath, GlobalInfo.LocalizationsFolderName);
-        if (Directory.Exists(path))
+        jsonPath = Path.Combine(dirPath, GlobalInfo.LocalizationsFolderName);
+        if (Directory.Exists(jsonPath))
         {
-            var dirs = Directory.GetDirectories(path);
+            var dirs = Directory.GetDirectories(jsonPath);
             foreach (var dir in dirs)
             {
                 var localization = LocalizationInfo.Open(dir);
@@ -256,10 +262,10 @@ public partial class GameInfo : ObservableObject, IImageItem
             }
         }
 
-        path = Path.Combine(dirPath, GlobalInfo.TargetsFolderName);
-        if (Directory.Exists(path))
+        jsonPath = Path.Combine(dirPath, GlobalInfo.TargetsFolderName);
+        if (Directory.Exists(jsonPath))
         {
-            var dirs = Directory.GetDirectories(path);
+            var dirs = Directory.GetDirectories(jsonPath);
             foreach (var dir in dirs)
             {
                 var target = TargetInfo.Open(dir);
@@ -273,13 +279,13 @@ public partial class GameInfo : ObservableObject, IImageItem
             }
         }
 
-        path = Path.Combine(dirPath, GlobalInfo.SaveDatasFolderName);
-        if (Directory.Exists(path))
+        jsonPath = Path.Combine(dirPath, GlobalInfo.SaveDatasFolderName);
+        if (Directory.Exists(jsonPath))
         {
-            gameInfo.SaveDataSettings = SaveDataSettingsInfo.Open(path) ?? new();
-            gameInfo.SaveDataSettings.JsonPath = Path.Combine(path, GlobalInfo.SaveDataSettingsJsonName);
+            gameInfo.SaveDataSettings = SaveDataSettingsInfo.Open(jsonPath) ?? new();
+            gameInfo.SaveDataSettings.JsonPath = Path.Combine(jsonPath, GlobalInfo.SaveDataSettingsJsonName);
 
-            var dirs = Directory.GetDirectories(path);
+            var dirs = Directory.GetDirectories(jsonPath);
             foreach (var dir in dirs)
             {
                 var savedata = SaveDataInfo.Open(dir);

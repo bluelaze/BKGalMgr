@@ -32,7 +32,12 @@ public class JsonMisc
 
     public static T Deserialize<T>(string str)
     {
-        return JsonSerializer.Deserialize<T>(str);
+        try
+        {
+            return JsonSerializer.Deserialize<T>(str);
+        }
+        catch { }
+        return default(T);
     }
 
     public static T CloneObject<T>(T obj)

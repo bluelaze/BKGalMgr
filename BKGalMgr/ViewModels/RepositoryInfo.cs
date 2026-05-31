@@ -128,20 +128,25 @@ public partial class RepositoryInfo : ObservableObject
         if (!Path.Exists(folderPath))
             return null;
 
-        var repositoryInfo = defaultValue;
         var jsonPath = Path.Combine(folderPath, GlobalInfo.RepositoryJsonName);
+
+        RepositoryInfo repository = null;
         if (IsExistedRepository(folderPath))
-            repositoryInfo = JsonMisc.Deserialize<RepositoryInfo>(File.ReadAllText(jsonPath));
-        if (repositoryInfo == null)
-            repositoryInfo = defaultValue ?? new RepositoryInfo();
+            repository = JsonMisc.Deserialize<RepositoryInfo>(File.ReadAllText(jsonPath));
+        if (repository == null)
+        {
+            repository = defaultValue ?? new RepositoryInfo() { Name = "Ciallo～(∠・ω< )⌒☆", FolderPath = folderPath };
+            repository.FolderPath = folderPath;
+            repository.SaveJsonFile();
+        }
 
-        repositoryInfo.FolderPath = folderPath;
+        repository.FolderPath = folderPath;
 
-        if (repositoryInfo.Ignore)
-            return repositoryInfo;
+        if (repository.Ignore)
+            return repository;
 
-        await repositoryInfo.Load();
-        return repositoryInfo;
+        await repository.Load();
+        return repository;
     }
 
     public async Task Load()

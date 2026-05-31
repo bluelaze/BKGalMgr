@@ -131,7 +131,7 @@ public sealed partial class LibraryPage : Page
     private async void edit_group_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
         GroupInfo groupInfo = (sender as MenuFlyoutItem).DataContext as GroupInfo;
-        GroupInfo newGroupInfo = JsonMisc.Deserialize<GroupInfo>(JsonMisc.Serialize(groupInfo));
+        GroupInfo newGroupInfo = JsonMisc.CloneObject(groupInfo);
         var result = await EditGroupInfo(newGroupInfo);
         if (result == ContentDialogResult.Primary)
         {

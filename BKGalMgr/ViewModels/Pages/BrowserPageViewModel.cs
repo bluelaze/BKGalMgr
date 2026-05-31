@@ -138,7 +138,7 @@ public partial class BrowserPageViewModel : ObservableObject
             allGames.AddRange(repo.Games);
             allGroups = allGroups
                 .UnionBy(repo.Groups.Where(t => t.Name != GlobalInfo.GroupItemCase_Add), t => t.Name)
-                .Select(t => JsonMisc.Deserialize<GroupInfo>(JsonMisc.Serialize(t)))
+                .Select(t => JsonMisc.CloneObject(t))
                 .ToList();
         }
         // 移除没有的，合入有的
