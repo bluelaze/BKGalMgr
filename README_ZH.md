@@ -113,7 +113,7 @@ BKGalMgr本身只存储仓库的根目录路径，不会记录仓库里的任何
 
 ### 框架
 
-- Visual Studio 2022
+- Visual Studio 2026
 - WinUI3
 
 ### 编码规范

@@ -6,10 +6,10 @@
 
 <div align="center">
 
-[![License](https://img.shields.io/github/license/bluelaze/BKGalMgr?label=license&color=25c2a0)](./LICENSE)
-[![All Contributors](https://img.shields.io/github/all-contributors/bluelaze/BKGalMgr?label=all%20contributors&color=25c2a0)](https://github.com/bluelaze/BKGalMgr/contributors)
-[![Latest Release](https://img.shields.io/github/v/release/bluelaze/BKGalMgr?color=25c2a0)](https://github.com/bluelaze/BKGalMgr/releases)
-[![Downloads](https://img.shields.io/github/downloads/bluelaze/BKGalMgr/total?color=25c2a0&label=downloads)](https://github.com/bluelaze/BKGalMgr/releases)
+[![License](https://img.shields.io/github/license/bluelaze/BKGalMgr?color=25c2a0&label=License)](./LICENSE)
+[![All Contributors](https://img.shields.io/github/all-contributors/bluelaze/BKGalMgr?color=25c2a0&label=All%20Contributors)](https://github.com/bluelaze/BKGalMgr/contributors)
+[![Latest Release](https://img.shields.io/github/release-pre/bluelaze/BKGalMgr?color=25c2a0&label=Latest%20Release)](https://github.com/bluelaze/BKGalMgr/releases)
+[![Downloads](https://img.shields.io/github/downloads/bluelaze/BKGalMgr/total?color=25c2a0&label=Downloads)](https://github.com/bluelaze/BKGalMgr/releases)
 
 </div>
 
@@ -114,7 +114,7 @@ If you want to modify an existing feature or add a new feature, please new [Issu
 
 ### Framework
 
-- Visual Studio 2022
+- Visual Studio 2026
 - WinUI3
 
 ### Coding style
