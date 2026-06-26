@@ -14,7 +14,6 @@ using BKGalMgr.Services;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
-using H.NotifyIcon;
 using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;

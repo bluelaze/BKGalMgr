@@ -13,7 +13,6 @@ using BKGalMgr.Services;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using CommunityToolkit.WinUI.Controls;
-using H.NotifyIcon;
 using Mapster;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -388,7 +387,9 @@ public sealed partial class GamePlayPage : Page
             };
             pickFolder.Click += (object sender, RoutedEventArgs e) =>
             {
-                if(FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"])?.FirstOrDefault() is string saveFile)
+                if (
+                    FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"])?.FirstOrDefault() is string saveFile
+                )
                 {
                     saveFolderPath = Path.GetDirectoryName(saveFile);
                     msgTextBlk.Text = LanguageHelper.GetString("Msg_SaveData_Path_Detected").Format(saveFolderPath);
@@ -537,7 +538,7 @@ public sealed partial class GamePlayPage : Page
                 t =>
                 {
                     targetInfo.DoScreenCapture();
-                    App.MainWindow.ShowWindow();
+                    App.MainWindow.Show();
                 },
                 TaskScheduler.FromCurrentSynchronizationContext()
             );

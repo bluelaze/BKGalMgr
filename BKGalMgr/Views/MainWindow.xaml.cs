@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using BKGalMgr.Models;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
-using H.NotifyIcon;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -136,12 +135,17 @@ public sealed partial class MainWindow : Window
     }
 
     [RelayCommand]
-    public void ShowWindow()
+    public void Show()
     {
         (AppWindow.Presenter as OverlappedPresenter).IsAlwaysOnTop = true;
-        this.Show();
+        H.NotifyIcon.WindowExtensions.Show(this, false);
         Activate();
         (AppWindow.Presenter as OverlappedPresenter).IsAlwaysOnTop = false;
+    }
+
+    public void Hide()
+    {
+        H.NotifyIcon.WindowExtensions.Hide(this, false);
     }
 
     private bool _exit = false;
@@ -194,7 +198,7 @@ public sealed partial class MainWindow : Window
         if (!_exit)
         {
             args.Cancel = true;
-            this.Hide();
+            Hide();
         }
     }
 

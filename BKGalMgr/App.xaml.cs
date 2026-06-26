@@ -96,7 +96,7 @@ public partial class App : Application
         {
             while (Program._mainWindowWakeUpHandle.WaitOne())
             {
-                PostUITask(() => MainWindow.ShowWindow());
+                PostUITask(() => MainWindow.Show());
             }
         })
         {
@@ -108,7 +108,7 @@ public partial class App : Application
         GetRequiredService<SettingsPageViewModel>().ApplyTheme();
 
         MainWindow.Closed += MainWindow_Closed;
-        MainWindow.ShowWindow();
+        MainWindow.Show();
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args)
