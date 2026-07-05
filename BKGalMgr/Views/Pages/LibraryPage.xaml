@@ -566,7 +566,7 @@
 
                                 <Grid Width="220"
                                       Height="490"
-                                      Background="{ThemeResource CardBackgroundFillColorDefault}">
+                                      Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />

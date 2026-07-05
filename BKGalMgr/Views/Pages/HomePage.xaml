@@ -23,7 +23,7 @@
             <Grid Width="196"
                   Height="260"
                   HorizontalAlignment="Stretch"
-                  Background="{ThemeResource CardBackgroundFillColorDefault}">
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="PointerEntered">
                         <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />

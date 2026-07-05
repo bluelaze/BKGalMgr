@@ -185,7 +185,7 @@
                             <Grid Width="150"
                                   Height="246"
                                   Padding="4"
-                                  Background="{ThemeResource CardBackgroundFillColorDefault}"
+                                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                   RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

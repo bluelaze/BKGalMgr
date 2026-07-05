@@ -32,7 +32,7 @@
                                       RowSpacing="0" />
         </ItemsPanelTemplate>
         <DataTemplate x:Key="BlogDataTemplate" x:DataType="vm:GameInfo">
-            <Grid Background="{ThemeResource CardBackgroundFillColorDefault}">
+            <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -409,7 +409,7 @@
                         <Grid Width="220"
                               Height="490"
                               HorizontalAlignment="Stretch"
-                              Background="{ThemeResource CardBackgroundFillColorDefault}">
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
