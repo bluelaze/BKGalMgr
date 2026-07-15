@@ -47,16 +47,6 @@ public partial class ThemeInfo : ObservableObject
     [NotifyPropertyChangedFor(nameof(BackgroundImageSource))]
     public partial string BackgroundImage { get; set; }
 
-    partial void OnBackgroundImageChanged(string value)
-    {
-        if (AutomaticImageThemeType && !BackgroundImage.IsNullOrEmpty())
-        {
-            ThemeType = CustomThemeType.Image;
-            HideReturn = true;
-            HideCover = true;
-        }
-    }
-
     // Resource里不能用Banding
     private Microsoft.UI.Xaml.Media.Imaging.BitmapImage _backgroundImageSource;
 

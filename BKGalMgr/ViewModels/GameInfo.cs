@@ -1353,7 +1353,15 @@ public partial class GameInfo : ObservableObject, IImageItem
         });
 
         if (CustomTheme.LastScreenshotAsBackground)
+        {
             CustomTheme.BackgroundImage = screenshotPath;
+            if (CustomTheme.AutomaticImageThemeType)
+            {
+                CustomTheme.ThemeType = CustomThemeType.Image;
+                CustomTheme.HideReturn = true;
+                CustomTheme.HideCover = true;
+            }
+        }
     }
 
     private List<FileSystemWatcher> _savePathWatchers = new List<FileSystemWatcher>();
