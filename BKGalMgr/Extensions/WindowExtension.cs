@@ -79,6 +79,14 @@ public static class WindowExtension
         return isCloaked != 0;
     }
 
+    public static double GetWindowScale(this Window window)
+    {
+        var dpi = GetDpiForWindow(window.GetWindowHandle());
+        var scalingFactor = (double)dpi / 96;
+
+        return scalingFactor;
+    }
+
     // Window attributes
     //enum DWMWINDOWATTRIBUTE
     //{
@@ -111,18 +119,15 @@ public static class WindowExtension
     //    DWMWA_LAST
     //};
     [DllImport("dwmapi.dll")]
-    public static extern int DwmGetWindowAttribute(IntPtr hWnd, int dwAttribute, out uint pvAttribute, int cbAttribute);
+    internal static extern int DwmGetWindowAttribute(
+        IntPtr hWnd,
+        int dwAttribute,
+        out uint pvAttribute,
+        int cbAttribute
+    );
 
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern int GetDpiForWindow(IntPtr hWnd);
-
-    public static double GetWindowScale(this Window window)
-    {
-        var dpi = GetDpiForWindow(window.GetWindowHandle());
-        var scalingFactor = (double)dpi / 96;
-
-        return scalingFactor;
-    }
 
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
@@ -130,11 +135,11 @@ public static class WindowExtension
     public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool IsWindowVisible(IntPtr hWnd);
+    internal static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processId);
+    internal static extern int GetWindowThreadProcessId(IntPtr hWnd, out int processId);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern IntPtr GetForegroundWindow();
+    internal static extern IntPtr GetForegroundWindow();
 }
