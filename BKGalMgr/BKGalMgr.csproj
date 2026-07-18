@@ -75,16 +75,16 @@
         <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.5" />
         <PackageReference Include="Mapster" Version="10.0.9" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.10" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.8249" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
         <PackageReference Include="Octokit" Version="14.0.0" />
         <PackageReference Include="RestSharp" Version="114.0.0" />
         <PackageReference Include="System.Interactive.Async" Version="7.0.1" />
-        <PackageReference Include="System.Management" Version="10.0.9" />
+        <PackageReference Include="System.Management" Version="10.0.10" />
         <PackageReference Include="System.Reactive.Async" Version="6.0.0-alpha.18" />
-        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="10.0.9" />
+        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="10.0.10" />
         <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
