@@ -26,7 +26,7 @@ namespace BKGalMgr.Views.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class LibraryAndManagePage : Page
+public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitleBarPage
 {
     public LibraryAndManagePageViewModel ViewModel { get; }
 
@@ -37,7 +37,7 @@ public sealed partial class LibraryAndManagePage : Page
         this.InitializeComponent();
         Loaded += (s, e) =>
         {
-            root_Popup.IsOpen = true;
+            ShowExtendedContent();
         };
     }
 
@@ -48,13 +48,13 @@ public sealed partial class LibraryAndManagePage : Page
             root_SelectorBar.SelectedItem = library_SelectorBarItem;
     }
 
-    public async void NavigateTo(Type pageType, object parameter = null)
+    public async void NavigateTo(Type pageType)
     {
         if (pageType == typeof(LibraryPage))
         {
             root_Frame.Navigate(
                 typeof(LibraryPage),
-                parameter,
+                this,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }
             );
             // 需要延迟，如果直接赋值，会导致按钮选择样式不生效
@@ -65,12 +65,26 @@ public sealed partial class LibraryAndManagePage : Page
         {
             root_Frame.Navigate(
                 typeof(ManagePage),
-                parameter,
+                this,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight }
             );
             await Task.Delay(67);
             root_SelectorBar.SelectedItem = manage_SelectorBarItem;
         }
+    }
+
+    public async void ShowExtendedContent()
+    {
+        if (IsLoaded)
+        {
+            await Task.Delay(33);
+            root_Popup.IsOpen = true;
+        }
+    }
+
+    public void HideExtendedContent()
+    {
+        root_Popup.IsOpen = false;
     }
 
     private void root_SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)

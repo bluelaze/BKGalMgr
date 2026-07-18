@@ -35,8 +35,10 @@ namespace BKGalMgr.Views.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class LibraryPage : Page
+public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
 {
+    private IExtendsContentIntoTitleBarPage _parentPage;
+
     public LibraryAndManagePageViewModel ViewModel { get; }
 
     public LibraryPage()
@@ -46,18 +48,17 @@ public sealed partial class LibraryPage : Page
         this.InitializeComponent();
         Loaded += (s, e) =>
         {
-            search_Popup.IsOpen = true;
+            ShowExtendedContent();
         };
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
+        _parentPage = e.Parameter as IExtendsContentIntoTitleBarPage;
+
         base.OnNavigatedTo(e);
 
-        if (IsLoaded)
-        {
-            search_Popup.IsOpen = true;
-        }
+        ShowExtendedContent();
 
         if (!ViewModel.IsLoadedRepository)
         {
@@ -80,6 +81,20 @@ public sealed partial class LibraryPage : Page
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
         base.OnNavigatedFrom(e);
+        HideExtendedContent();
+    }
+
+    public async void ShowExtendedContent()
+    {
+        if (IsLoaded)
+        {
+            await Task.Delay(33);
+            search_Popup.IsOpen = true;
+        }
+    }
+
+    public void HideExtendedContent()
+    {
         search_Popup.IsOpen = false;
     }
 
@@ -95,6 +110,12 @@ public sealed partial class LibraryPage : Page
 
     private void play_Button_Click(object sender, RoutedEventArgs e)
     {
+        HideExtendedContent();
+        if (_parentPage is not null)
+        {
+            _parentPage.HideExtendedContent();
+        }
+
         var gameInfo = (sender as FrameworkElement).DataContext as GameInfo;
         if (gameInfo != null)
         {

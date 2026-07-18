@@ -31,6 +31,7 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class ManagePage : Page
 {
+    private IExtendsContentIntoTitleBarPage _parentPage;
     public LibraryAndManagePageViewModel ViewModel { get; }
 
     public ManagePage()
@@ -42,6 +43,8 @@ public sealed partial class ManagePage : Page
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
+        _parentPage = e.Parameter as IExtendsContentIntoTitleBarPage;
+
         base.OnNavigatedTo(e);
 
         if (!ViewModel.IsLoadedRepository)
@@ -300,6 +303,10 @@ public sealed partial class ManagePage : Page
 
     private void play_game_Button_Click(object sender, RoutedEventArgs e)
     {
+        if (_parentPage is not null)
+        {
+            _parentPage.HideExtendedContent();
+        }
         App.MainWindow.NavigateToGamePlayPage(ViewModel.SelectedRepository.SelectedGame);
     }
 

@@ -27,7 +27,7 @@ namespace BKGalMgr.Views.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class BrowserPage : Page
+public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
 {
     public bool IsFilterMode
     {
@@ -51,7 +51,7 @@ public sealed partial class BrowserPage : Page
 
         Loaded += (s, e) =>
         {
-            search_Popup.IsOpen = true;
+            ShowExtendedContent();
         };
     }
 
@@ -65,6 +65,20 @@ public sealed partial class BrowserPage : Page
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
         base.OnNavigatedFrom(e);
+        HideExtendedContent();
+    }
+
+    public async void ShowExtendedContent()
+    {
+        if (IsLoaded)
+        {
+            await Task.Delay(33);
+            search_Popup.IsOpen = true;
+        }
+    }
+
+    public void HideExtendedContent()
+    {
         search_Popup.IsOpen = false;
     }
 
@@ -88,15 +102,7 @@ public sealed partial class BrowserPage : Page
         {
             search_Popup.VerticalOffset = -40 + -24;
         }
-        if (IsLoaded)
-        {
-            search_Popup.IsOpen = true;
-        }
-    }
-
-    public void Hide()
-    {
-        search_Popup.IsOpen = false;
+        ShowExtendedContent();
     }
 
     private void FilterGames(List<string> searchToken)
@@ -142,6 +148,8 @@ public sealed partial class BrowserPage : Page
 
     private void games_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
+        HideExtendedContent();
+
         var gameInfo = e.ClickedItem as GameInfo;
         App.MainWindow.NavigateToGamePlayPage(gameInfo);
     }

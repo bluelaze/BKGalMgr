@@ -43,6 +43,16 @@ public sealed partial class ReviewPage : Page
         }
     }
 
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        if (games_filter_popup_Grid.Visibility == Visibility.Visible)
+        {
+            games_filter_Page.HideExtendedContent();
+        }
+
+        base.OnNavigatedFrom(e);
+    }
+
     private void ReviewPage_Loaded(object sender, RoutedEventArgs e)
     {
         time_axis_ScrollView.ScrollPresenter.VerticalScrollController = time_axis_AnnotatedScrollBar.ScrollController;
@@ -114,7 +124,7 @@ public sealed partial class ReviewPage : Page
 
     private async void games_filter_confirm_Button_Click(object sender, RoutedEventArgs e)
     {
-        games_filter_Page.Hide();
+        games_filter_Page.HideExtendedContent();
         games_filter_popup_Grid.Visibility = Visibility.Collapsed;
 
         App.ShowLoading();
@@ -124,7 +134,7 @@ public sealed partial class ReviewPage : Page
 
     private void games_filter_cancel_Button_Click(object sender, RoutedEventArgs e)
     {
-        games_filter_Page.Hide();
+        games_filter_Page.HideExtendedContent();
         games_filter_popup_Grid.Visibility = Visibility.Collapsed;
     }
 }
