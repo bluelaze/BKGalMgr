@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Interfaces.Page;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using Microsoft.UI.Xaml;

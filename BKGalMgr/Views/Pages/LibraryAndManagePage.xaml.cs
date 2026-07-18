@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Interfaces.Page;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using Microsoft.UI.Xaml;
@@ -28,6 +29,8 @@ namespace BKGalMgr.Views.Pages;
 /// </summary>
 public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitleBarPage
 {
+    private SelectorBarItem _targetSelectedItem;
+
     public LibraryAndManagePageViewModel ViewModel { get; }
 
     public LibraryAndManagePage()
@@ -35,9 +38,11 @@ public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitl
         ViewModel = App.GetRequiredService<LibraryAndManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
-        Loaded += (s, e) =>
+        Loaded += async (s, e) =>
         {
             ShowExtendedContent();
+            await Task.Delay(100);
+            root_SelectorBar.SelectedItem = _targetSelectedItem;
         };
     }
 
@@ -45,31 +50,33 @@ public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitl
     {
         base.OnNavigatedTo(e);
         if (root_SelectorBar.SelectedItem == null)
-            root_SelectorBar.SelectedItem = library_SelectorBarItem;
+            _targetSelectedItem = library_SelectorBarItem;
     }
 
-    public async void NavigateTo(Type pageType)
+    public async void NavigateTo(Type pageType, object parameter = null)
     {
         if (pageType == typeof(LibraryPage))
         {
             root_Frame.Navigate(
                 typeof(LibraryPage),
-                this,
+                new IExtendsContentIntoTitleBarPage.PageParameter(this, parameter),
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }
             );
-            // 需要延迟，如果直接赋值，会导致按钮选择样式不生效
-            await Task.Delay(67);
-            root_SelectorBar.SelectedItem = library_SelectorBarItem;
+            // 如果直接赋值，会导致按钮选择样式不生效
+            _targetSelectedItem = library_SelectorBarItem;
         }
         else if (pageType == typeof(ManagePage))
         {
             root_Frame.Navigate(
                 typeof(ManagePage),
-                this,
+                new IExtendsContentIntoTitleBarPage.PageParameter(this, parameter),
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight }
             );
-            await Task.Delay(67);
-            root_SelectorBar.SelectedItem = manage_SelectorBarItem;
+            _targetSelectedItem = manage_SelectorBarItem;
+            if (string.Equals(parameter as string, "fromLibrary"))
+            {
+                root_SelectorBar.SelectedItem = manage_SelectorBarItem;
+            }
         }
     }
 

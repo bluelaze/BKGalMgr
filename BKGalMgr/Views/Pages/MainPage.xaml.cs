@@ -70,12 +70,12 @@ public sealed partial class MainPage : Page
         else if (pageType == typeof(LibraryAndManagePage))
         {
             _mainpage.root_navigationview.SelectedItem = _mainpage.repository_navitem;
-            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(LibraryPage));
+            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(LibraryPage), parameter);
         }
         else if (pageType == typeof(ManagePage))
         {
             _mainpage.root_navigationview.SelectedItem = _mainpage.repository_navitem;
-            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(ManagePage));
+            (_mainpage.root_frame.Content as LibraryAndManagePage).NavigateTo(typeof(ManagePage), parameter);
         }
         else if (pageType == typeof(SettingsPage))
         {

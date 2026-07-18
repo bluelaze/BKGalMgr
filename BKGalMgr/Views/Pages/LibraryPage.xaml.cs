@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
+using BKGalMgr.Interfaces.Page;
 using BKGalMgr.Services;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -54,8 +55,6 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
-        _parentPage = e.Parameter as IExtendsContentIntoTitleBarPage;
-
         base.OnNavigatedTo(e);
 
         ShowExtendedContent();
@@ -66,15 +65,19 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
             await ViewModel.LoadRepository();
             App.HideLoading();
         }
-        if (e.Parameter is GameInfo game)
-        {
-            game.Repository.SelectedGame = game;
-            ViewModel.SelectedRepository = game.Repository;
 
-            games_ListView.SelectedItem = game;
-            games_ListView.ScrollIntoView(game);
-            games_ListView.MakeVisible(new SemanticZoomLocation() { Item = game });
-            games_ListView.UpdateLayout();
+        if (e.Parameter is IExtendsContentIntoTitleBarPage.PageParameter pageParameter)
+        {
+            _parentPage = pageParameter.ParentPage;
+            if (pageParameter.Parameter is GameInfo game)
+            {
+                game.Repository.SelectedGame = game;
+                ViewModel.SelectedRepository = game.Repository;
+                games_ListView.SelectedItem = game;
+                games_ListView.ScrollIntoView(game);
+                games_ListView.MakeVisible(new SemanticZoomLocation() { Item = game });
+                games_ListView.UpdateLayout();
+            }
         }
     }
 
@@ -104,7 +107,10 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         if (gameInfo != null)
         {
             ViewModel.SelectedRepository.SelectedGame = gameInfo;
-            MainPage.NavigateTo(typeof(ManagePage));
+            if (_parentPage != null)
+            {
+                _parentPage.NavigateTo(typeof(ManagePage), "fromLibrary");
+            }
         }
     }
 

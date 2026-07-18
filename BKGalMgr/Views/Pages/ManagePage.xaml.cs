@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using BKGalMgr.Extensions;
 using BKGalMgr.Helpers;
+using BKGalMgr.Interfaces.Page;
 using BKGalMgr.ThirdParty;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -43,8 +44,6 @@ public sealed partial class ManagePage : Page
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
-        _parentPage = e.Parameter as IExtendsContentIntoTitleBarPage;
-
         base.OnNavigatedTo(e);
 
         if (!ViewModel.IsLoadedRepository)
@@ -53,10 +52,15 @@ public sealed partial class ManagePage : Page
             await ViewModel.LoadRepository();
             App.HideLoading();
         }
-        if (e.Parameter is GameInfo game)
+
+        if (e.Parameter is IExtendsContentIntoTitleBarPage.PageParameter pageParameter)
         {
-            game.Repository.SelectedGame = game;
-            ViewModel.SelectedRepository = game.Repository;
+            _parentPage = pageParameter.ParentPage;
+            if (pageParameter.Parameter is GameInfo game)
+            {
+                game.Repository.SelectedGame = game;
+                ViewModel.SelectedRepository = game.Repository;
+            }
         }
     }
 
