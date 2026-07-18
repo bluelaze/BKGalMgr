@@ -35,6 +35,10 @@ public sealed partial class LibraryAndManagePage : Page
         ViewModel = App.GetRequiredService<LibraryAndManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
+        Loaded += (s, e) =>
+        {
+            root_Popup.IsOpen = true;
+        };
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)

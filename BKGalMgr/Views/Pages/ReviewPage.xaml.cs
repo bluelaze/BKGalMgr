@@ -114,7 +114,9 @@ public sealed partial class ReviewPage : Page
 
     private async void games_filter_confirm_Button_Click(object sender, RoutedEventArgs e)
     {
+        games_filter_Page.Hide();
         games_filter_popup_Grid.Visibility = Visibility.Collapsed;
+
         App.ShowLoading();
         await ViewModel.RefreshAsync(games_filter_Page.GetSelectedGames());
         App.HideLoading();
@@ -122,6 +124,7 @@ public sealed partial class ReviewPage : Page
 
     private void games_filter_cancel_Button_Click(object sender, RoutedEventArgs e)
     {
+        games_filter_Page.Hide();
         games_filter_popup_Grid.Visibility = Visibility.Collapsed;
     }
 }

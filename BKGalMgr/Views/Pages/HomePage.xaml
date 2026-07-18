@@ -80,8 +80,9 @@
 
 
     <Grid>
-        <ScrollViewer x:Name="root_ScrollViewer" Padding="16,24,16,0">
+        <ScrollViewer x:Name="root_ScrollViewer" Padding="36,0,26,0">
             <StackPanel MaxWidth="1296"
+                        Margin="0,16,0,0"
                         HorizontalAlignment="Center"
                         Spacing="18">
                 <StackPanel.ChildrenTransitions>
@@ -317,7 +318,7 @@
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
-                            <Setter Property="Margin" Value="0,0,0,36" />
+                            <Setter Property="Margin" Value="0,0,0,24" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
@@ -343,8 +344,7 @@
         </ScrollViewer>
 
         <!--  右下角按钮  -->
-        <StackPanel Grid.RowSpan="2"
-                    Margin="10"
+        <StackPanel Margin="10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Spacing="10">

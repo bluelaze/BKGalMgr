@@ -48,6 +48,11 @@ public sealed partial class BrowserPage : Page
         ViewModel = App.GetRequiredService<BrowserPageViewModel>();
         DataContext = this;
         this.InitializeComponent();
+
+        Loaded += (s, e) =>
+        {
+            search_Popup.IsOpen = true;
+        };
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -55,6 +60,12 @@ public sealed partial class BrowserPage : Page
         base.OnNavigatedTo(e);
 
         Init();
+    }
+
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        base.OnNavigatedFrom(e);
+        search_Popup.IsOpen = false;
     }
 
     public async void Init()
@@ -72,6 +83,20 @@ public sealed partial class BrowserPage : Page
         {
             ViewModel.Refresh();
         }
+
+        if (IsFilterMode)
+        {
+            search_Popup.VerticalOffset = -40 + -24;
+        }
+        if (IsLoaded)
+        {
+            search_Popup.IsOpen = true;
+        }
+    }
+
+    public void Hide()
+    {
+        search_Popup.IsOpen = false;
     }
 
     private void FilterGames(List<string> searchToken)

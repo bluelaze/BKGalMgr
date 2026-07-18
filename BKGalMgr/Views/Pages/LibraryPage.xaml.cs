@@ -44,11 +44,20 @@ public sealed partial class LibraryPage : Page
         ViewModel = App.GetRequiredService<LibraryAndManagePageViewModel>();
         DataContext = this;
         this.InitializeComponent();
+        Loaded += (s, e) =>
+        {
+            search_Popup.IsOpen = true;
+        };
     }
 
     protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
+
+        if (IsLoaded)
+        {
+            search_Popup.IsOpen = true;
+        }
 
         if (!ViewModel.IsLoadedRepository)
         {
@@ -66,6 +75,12 @@ public sealed partial class LibraryPage : Page
             games_ListView.MakeVisible(new SemanticZoomLocation() { Item = game });
             games_ListView.UpdateLayout();
         }
+    }
+
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        base.OnNavigatedFrom(e);
+        search_Popup.IsOpen = false;
     }
 
     private void gamename_linkbutton_Click(object sender, RoutedEventArgs e)

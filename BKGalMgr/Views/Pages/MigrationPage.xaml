@@ -115,7 +115,7 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid MaxWidth="1920" Margin="16,32,16,24">
+    <Grid MaxWidth="1920" Margin="36,16,16,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -157,7 +157,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid>
+        <Grid Padding="0,0,12,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

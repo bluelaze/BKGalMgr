@@ -26,146 +26,148 @@
         <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Popup x:Name="search_Popup"
+               HorizontalAlignment="Center"
+               HorizontalOffset="-285"
+               IsLightDismissEnabled="False"
+               VerticalOffset="-40">
+            <Popup.ChildTransitions>
+                <PopupThemeTransition />
+            </Popup.ChildTransitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
-                                         Grid.Column="1"
-                                         MaxWidth="360"
-                                         Margin="0,-10,0,0"
-                                         VerticalAlignment="Top"
-                                         ItemsSource="{x:Bind ViewModel.SelectedRepository.SearchToken, Mode=OneWay}"
-                                         QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
-                                                                        FontSize=12}"
-                                         SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
-                                         Text="{x:Bind ViewModel.SelectedRepository.SearchText, Mode=TwoWay}"
-                                         Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}" />
+                <mcontrols:TokenizingTextBox x:Name="search_tokenizingtextbox"
+                                             Grid.Column="1"
+                                             MaxWidth="360"
+                                             Margin="0,-10,0,0"
+                                             VerticalAlignment="Top"
+                                             ItemsSource="{x:Bind ViewModel.SelectedRepository.SearchToken, Mode=OneWay}"
+                                             QueryIcon="{mui:FontIconSource Glyph=&#xE721;,
+                                                                            FontSize=12}"
+                                             SuggestedItemsSource="{x:Bind ViewModel.SelectedRepository.SearchSuggestedTags, Mode=OneWay}"
+                                             Text="{x:Bind ViewModel.SelectedRepository.SearchText, Mode=TwoWay}"
+                                             Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}" />
 
-            <StackPanel Grid.Column="2"
-                        Margin="16,0,0,0"
-                        Orientation="Horizontal"
-                        Spacing="8"
-                        Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                <ToggleSplitButton x:Uid="Library_Search_Group"
-                                   VerticalAlignment="Top"
-                                   IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
-                    <ToggleSplitButton.Flyout>
-                        <Flyout x:Name="repository_groups_Flyout" Placement="Bottom">
-                            <GridView Width="{ThemeResource GroupDialogMaxWidth}"
-                                      ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
-                                      SelectionMode="None">
-                                <GridView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                        <Setter Property="Margin" Value="0" />
-                                        <Setter Property="MinWidth" Value="0" />
-                                        <Setter Property="MinHeight" Value="0" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <mcontrols:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" />
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:GroupInfo">
-                                        <Grid>
-                                            <ToggleButton x:Name="group_togglebutton"
-                                                          Checked="group_togglebutton_IsCheckedChanged"
-                                                          Content="{x:Bind Name, Mode=OneWay}"
-                                                          FontSize="12"
-                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
-                                                          Unchecked="group_togglebutton_IsCheckedChanged"
-                                                          Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
-                                                <ToggleButton.ContextFlyout>
-                                                    <MenuFlyout>
-                                                        <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
-                                                                        x:Uid="Commom_MenuItem_Edit"
-                                                                        Click="edit_group_menuflyoutitem_Click" />
-                                                        <MenuFlyoutSeparator />
-                                                        <MenuFlyoutItem x:Name="delete_group_menuflyoutitem"
-                                                                        x:Uid="Commom_MenuItem_Delete"
-                                                                        Click="delete_group_menuflyoutitem_Click">
-                                                            <MenuFlyoutItem.Resources>
-                                                                <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
-                                                            </MenuFlyoutItem.Resources>
-                                                        </MenuFlyoutItem>
-                                                    </MenuFlyout>
-                                                </ToggleButton.ContextFlyout>
-                                            </ToggleButton>
-                                            <Button x:Name="add_group_button"
-                                                    Padding="6"
-                                                    BorderBrush="{x:Null}"
-                                                    Click="add_group_button_Click"
-                                                    Content="{mui:FontIcon FontSize=16,
-                                                                           Glyph=&#xE948;}"
-                                                    Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </Flyout>
-                    </ToggleSplitButton.Flyout>
-                </ToggleSplitButton>
-                <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="CreateDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="LastPlayDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PlayedTime" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_Name"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Name" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_Company"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Company" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PublishDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PinValue" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-                <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Ascending" />
-                            <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
-                                            Command="{x:Bind ViewModel.SelectedRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
-                                            CommandParameter="Descending" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-            </StackPanel>
-        </Grid>
-
+                <StackPanel Grid.Column="2"
+                            Margin="16,0,0,0"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            Visibility="{x:Bind ViewModel.SelectedRepository, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                    <ToggleSplitButton x:Uid="Library_Search_Group"
+                                       VerticalAlignment="Top"
+                                       IsChecked="{x:Bind ViewModel.SelectedRepository.IsEnableGroup, Mode=TwoWay}">
+                        <ToggleSplitButton.Flyout>
+                            <Flyout x:Name="repository_groups_Flyout" Placement="Bottom">
+                                <GridView Width="{ThemeResource GroupDialogMaxWidth}"
+                                          ItemsSource="{x:Bind ViewModel.SelectedRepository.Groups, Mode=OneWay}"
+                                          SelectionMode="None">
+                                    <GridView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                            <Setter Property="Margin" Value="0" />
+                                            <Setter Property="MinWidth" Value="0" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <mcontrols:WrapPanel HorizontalSpacing="8" VerticalSpacing="8" />
+                                        </ItemsPanelTemplate>
+                                    </GridView.ItemsPanel>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:GroupInfo">
+                                            <Grid>
+                                                <ToggleButton x:Name="group_togglebutton"
+                                                              Checked="group_togglebutton_IsCheckedChanged"
+                                                              Content="{x:Bind Name, Mode=OneWay}"
+                                                              FontSize="12"
+                                                              IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                                                              Unchecked="group_togglebutton_IsCheckedChanged"
+                                                              Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}, ConverterParameter=True}">
+                                                    <ToggleButton.ContextFlyout>
+                                                        <MenuFlyout>
+                                                            <MenuFlyoutItem x:Name="edit_group_menuflyoutitem"
+                                                                            x:Uid="Commom_MenuItem_Edit"
+                                                                            Click="edit_group_menuflyoutitem_Click" />
+                                                            <MenuFlyoutSeparator />
+                                                            <MenuFlyoutItem x:Name="delete_group_menuflyoutitem"
+                                                                            x:Uid="Commom_MenuItem_Delete"
+                                                                            Click="delete_group_menuflyoutitem_Click">
+                                                                <MenuFlyoutItem.Resources>
+                                                                    <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+                                                                </MenuFlyoutItem.Resources>
+                                                            </MenuFlyoutItem>
+                                                        </MenuFlyout>
+                                                    </ToggleButton.ContextFlyout>
+                                                </ToggleButton>
+                                                <Button x:Name="add_group_button"
+                                                        Padding="6"
+                                                        BorderBrush="{x:Null}"
+                                                        Click="add_group_button_Click"
+                                                        Content="{mui:FontIcon FontSize=16,
+                                                                               Glyph=&#xE948;}"
+                                                        Visibility="{x:Bind Name, Mode=OneWay, Converter={StaticResource GroupTypeToVisibilityConverter}}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Flyout>
+                        </ToggleSplitButton.Flyout>
+                    </ToggleSplitButton>
+                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="CreateDate" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_LastPlayDate"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="LastPlayDate" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_PlayedTime"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="PlayedTime" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_Name"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="Name" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_Company"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="Company" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="PublishDate" />
+                                <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
+                                                CommandParameter="PinValue" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                                CommandParameter="Ascending" />
+                                <MenuFlyoutItem x:Uid="Library_SortOrderType_Descending"
+                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortOrderTypeCommand, Mode=OneWay}"
+                                                CommandParameter="Descending" />
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                </StackPanel>
+            </Grid>
+        </Popup>
         <!--  游戏列表  -->
         <SemanticZoom x:Name="games_view_semanticzoom"
-                      Grid.Row="1"
-                      Margin="0,16,0,0"
                       IsZoomedInViewActive="True"
                       ViewChangeStarted="games_view_semanticzoom_ViewChangeStarted">
             <!--  列表视图  -->
             <SemanticZoom.ZoomedInView>
                 <ListView x:Name="games_ListView"
-                          Padding="0,0,16,0"
+                          Padding="36,40,36,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}">
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="ListViewItem">
@@ -537,7 +539,7 @@
             <!--  网格视图  -->
             <SemanticZoom.ZoomedOutView>
                 <GridView x:Name="games_GridView"
-                          Margin="12,0,0,0"
+                          Padding="8,40,0,0"
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.GamesView, Mode=OneWay}"
                           SelectionMode="Single">
                     <GridView.ItemContainerStyle>
@@ -782,35 +784,8 @@
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>
 
-        <mcontrols:SwitchPresenter Grid.Row="0"
-                                   Margin="0,0,10,-16"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom"
-                                   TargetType="x:Boolean"
-                                   Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
-            <mcontrols:Case Value="True">
-                <Button x:Name="switch_to_gridview_button"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        Click="switch_gameview_button_Click"
-                        Content="{mui:FontIcon FontSize=16,
-                                               Glyph=&#xF0E2;}"
-                        Style="{StaticResource IconButtonStyle}" />
-            </mcontrols:Case>
-            <mcontrols:Case Value="False">
-                <Button x:Name="switch_to_listview_button"
-                        Background="Transparent"
-                        BorderBrush="{x:Null}"
-                        Click="switch_gameview_button_Click"
-                        Content="{mui:FontIcon FontSize=16,
-                                               Glyph=&#xEA37;}"
-                        Style="{StaticResource IconButtonStyle}" />
-            </mcontrols:Case>
-        </mcontrols:SwitchPresenter>
-
         <!--  右下角按钮  -->
-        <StackPanel Grid.RowSpan="2"
-                    Margin="10"
+        <StackPanel Margin="10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Spacing="10">
@@ -820,8 +795,26 @@
                     Content="{x:Bind ViewModel.SelectedRepository.GamesView.Count, Mode=OneWay}"
                     Style="{StaticResource IconButtonStyle}" />
 
+            <mcontrols:SwitchPresenter TargetType="x:Boolean" Value="{x:Bind games_view_semanticzoom.IsZoomedInViewActive, Mode=OneWay}">
+                <mcontrols:Case Value="True">
+                    <Button x:Name="switch_to_gridview_button"
+                            Height="40"
+                            Click="switch_gameview_button_Click"
+                            Content="{mui:FontIcon FontSize=16,
+                                                   Glyph=&#xF0E2;}"
+                            Style="{StaticResource IconButtonStyle}" />
+                </mcontrols:Case>
+                <mcontrols:Case Value="False">
+                    <Button x:Name="switch_to_listview_button"
+                            Height="40"
+                            Click="switch_gameview_button_Click"
+                            Content="{mui:FontIcon FontSize=16,
+                                                   Glyph=&#xEA37;}"
+                            Style="{StaticResource IconButtonStyle}" />
+                </mcontrols:Case>
+            </mcontrols:SwitchPresenter>
+
             <Button x:Name="goto_top_Button"
-                    Grid.RowSpan="2"
                     Height="40"
                     Click="goto_top_Button_Click"
                     Content="{mui:FontIcon FontSize=16,

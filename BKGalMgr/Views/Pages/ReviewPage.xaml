@@ -33,7 +33,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Padding="16,32" Spacing="16">
+        <StackPanel Padding="36,40,36,24" Spacing="16">
             <StackPanel.ChildrenTransitions>
                 <RepositionThemeTransition />
             </StackPanel.ChildrenTransitions>

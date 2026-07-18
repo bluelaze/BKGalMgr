@@ -57,7 +57,7 @@
             </Image>
         </DataTemplate>
     </Page.Resources>
-    <Grid Margin="0,16,0,0">
+    <Grid Margin="0,24,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -75,7 +75,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Margin="16,0"
+        <Grid Margin="36,0"
               ColumnSpacing="8"
               RowSpacing="8">
             <Grid.RowDefinitions>
@@ -301,7 +301,7 @@
         <ScrollViewer x:Name="gameinfo_ScrollViewer"
                       Grid.Row="2"
                       Margin="0,16,0,0"
-                      Padding="16,0"
+                      Padding="36,0"
                       IsTabStop="True"
                       Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">

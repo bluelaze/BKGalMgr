@@ -13,19 +13,24 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
 
-    <Grid Margin="24,16,0,16">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <SelectorBar x:Name="root_SelectorBar" SelectionChanged="root_SelectorBar_SelectionChanged">
-            <SelectorBarItem x:Name="library_SelectorBarItem"
-                             x:Uid="Repository_Nav_Library" 
-                             Icon="{mui:FontIcon Glyph=&#xEA37;}" />
-            <SelectorBarItem x:Name="manage_SelectorBarItem"
-                             x:Uid="Repository_Nav_Manage"
-                             Icon="{mui:FontIcon Glyph=&#xE70F;}" />
-        </SelectorBar>
+    <Grid>
+        <Popup x:Name="root_Popup"
+               HorizontalOffset="24"
+               IsLightDismissEnabled="False"
+               IsOpen="False"
+               VerticalOffset="-50">
+            <Popup.ChildTransitions>
+                <PopupThemeTransition />
+            </Popup.ChildTransitions>
+            <SelectorBar x:Name="root_SelectorBar" SelectionChanged="root_SelectorBar_SelectionChanged">
+                <SelectorBarItem x:Name="library_SelectorBarItem"
+                                 x:Uid="Repository_Nav_Library"
+                                 Icon="{mui:FontIcon Glyph=&#xEA37;}" />
+                <SelectorBarItem x:Name="manage_SelectorBarItem"
+                                 x:Uid="Repository_Nav_Manage"
+                                 Icon="{mui:FontIcon Glyph=&#xE70F;}" />
+            </SelectorBar>
+        </Popup>
 
         <Frame x:Name="root_Frame" Grid.Row="1">
             <Frame.ContentTransitions>
