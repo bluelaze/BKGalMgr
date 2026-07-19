@@ -55,25 +55,21 @@ public sealed partial class GamePlayPage : Page
         var theme = ViewModel.Game.CustomTheme;
         if (theme.ThemeType == CustomThemeType.Default)
         {
-            theme.RequestedTheme = ElementTheme.Dark;
-            // 每次都重新计算主色调
-            if (ViewModel.Game.Cover.IsNullOrEmpty() || ViewModel.Game.Cover.EndsWith(".webp"))
-            {
-                theme.LinearGradientStartColor = "#FF000000"; // System.Drawing.Color.Black;
-                theme.LinearGradientEndColor = "#FF808080"; // System.Drawing.Color.Gray;
-            }
-            else
-            {
-                var colors = await Task.Run(() =>
-                {
-                    var primaryColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover);
-                    var secondColor = ColorHelper.GenerateLighterOrDarkerColor(primaryColor);
+            if (ViewModel.Game.Cover.IsNullOrEmpty() || !File.Exists(ViewModel.Game.Cover))
+                return;
 
-                    return (ColorHelper.ToWindowsUIColor(primaryColor), ColorHelper.ToWindowsUIColor(secondColor));
-                });
-                theme.LinearGradientStartColor = colors.Item2.ToString();
-                theme.LinearGradientEndColor = colors.Item1.ToString();
-            }
+            // 每次都重新计算主色调
+            var colors = await Task.Run(() =>
+            {
+                var startColor = ColorHelper.GetImagePrimaryColor(ViewModel.Game.Cover, true);
+                var endColor = ColorHelper.GenerateLighterOrDarkerColor(startColor, false, 0.3f);
+
+                return (startColor.ToString(), endColor.ToString());
+            });
+            theme.LinearGradientStartColor = colors.Item1;
+            theme.LinearGradientEndColor = colors.Item2;
+
+            theme.RequestedTheme = ElementTheme.Dark;
         }
     }
 
