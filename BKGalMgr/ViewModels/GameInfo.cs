@@ -1176,7 +1176,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     public void SetAsGameBackground()
     {
-        CustomTheme.BackgroundImage = ((IImageItem)this).Image;
+        _ = CustomTheme.SetBackgroundImageAsync(((IImageItem)this).Image);
         SaveJsonFile();
     }
 
@@ -1354,13 +1354,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
         if (CustomTheme.LastScreenshotAsBackground)
         {
-            CustomTheme.BackgroundImage = screenshotPath;
-            if (CustomTheme.AutomaticImageThemeType)
-            {
-                CustomTheme.ThemeType = CustomThemeType.Image;
-                CustomTheme.HideReturn = true;
-                CustomTheme.HideCover = true;
-            }
+            await CustomTheme.SetBackgroundImageAsync(screenshotPath);
         }
     }
 

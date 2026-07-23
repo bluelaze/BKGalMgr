@@ -74,4 +74,20 @@ public partial class ThemeInfo : ObservableObject
 
     [ObservableProperty]
     public partial string LinearGradientEndColor { get; set; } = "#FF575757";
+
+    public ThemeInfo() { }
+
+    public async Task SetBackgroundImageAsync(string imagePath)
+    {
+        BackgroundImage = imagePath;
+        if (AutomaticImageThemeType)
+        {
+            ThemeType = CustomThemeType.Image;
+            HideReturn = true;
+            HideCover = true;
+            RequestedTheme = await Task.Run(
+                () => ColorHelper.IsDarkImage(imagePath) ? ElementTheme.Dark : ElementTheme.Light
+            );
+        }
+    }
 }

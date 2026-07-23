@@ -47,6 +47,14 @@ public static class ColorHelper
         return retColor;
     }
 
+    public static bool IsDarkImage(string imagePath)
+    {
+        using var bitmap = new System.Drawing.Bitmap(imagePath);
+        var colorThief = new ColorThiefDotNet.ColorThief();
+        var qColors = colorThief.GetPalette(bitmap, 5);
+        return qColors.Where(c => c.IsDark).Sum(c => c.Population) > qColors.Sum(c => c.Population) * 0.5;
+    }
+
     public static Color GenerateLighterOrDarkerColor(Color color, bool isLighter, float percent = 0.2f)
     {
         return isLighter
