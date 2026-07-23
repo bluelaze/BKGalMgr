@@ -138,7 +138,7 @@
                     Background="Transparent"
                     BorderBrush="{x:Null}"
                     Click="back_Button_Click"
-                    Content="{mui:FontIcon FontSize=16,
+                    Content="{mui:FontIcon FontSize=14,
                                            Glyph=&#xE76B;}"
                     CornerRadius="0"
                     Visibility="{x:Bind ViewModel.Game.CustomTheme.HideReturn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
