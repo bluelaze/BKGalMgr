@@ -43,9 +43,7 @@
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
     </Page.Resources>
-    <Grid x:Name="root_Grid"
-          Background="Transparent"
-          PointerPressed="root_Grid_PointerPressed">
+    <Grid x:Name="root_Grid">
         <Grid.Resources>
             <ImageBrush x:Key="BackgroundImageBrush"
                         ImageSource="{x:Bind ViewModel.Game.CustomTheme.BackgroundImageSource, Mode=OneWay}"

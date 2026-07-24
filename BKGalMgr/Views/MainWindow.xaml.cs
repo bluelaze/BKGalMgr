@@ -59,6 +59,21 @@ public sealed partial class MainWindow : Window
         this.CenterToScreen();
 
         main_root_frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+
+        root_Grid.AddHandler(
+            UIElement.PointerPressedEvent,
+            new PointerEventHandler(
+                (s, e) =>
+                {
+                    if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed && main_root_frame.CanGoBack)
+                    {
+                        main_root_frame.GoBack();
+                        e.Handled = true;
+                    }
+                }
+            ),
+            true
+        );
     }
 
     public void NavigateToGamePlayPage(GameInfo game)

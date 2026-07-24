@@ -408,15 +408,6 @@ public sealed partial class GamePlayPage : Page
         }
     }
 
-    private void root_Grid_PointerPressed(object sender, PointerRoutedEventArgs e)
-    {
-        if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed)
-        {
-            App.MainWindow.NavigateToMainPage();
-            e.Handled = true;
-        }
-    }
-
     private void SegmentedItem_Loaded(object sender, RoutedEventArgs e)
     {
         var segmentedItem = sender as SegmentedItem;
