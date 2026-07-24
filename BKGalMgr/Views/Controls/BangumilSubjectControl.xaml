@@ -5,6 +5,7 @@
              xmlns:bangumi="using:BKGalMgr.Models.Bangumi"
              xmlns:converters="using:BKGalMgr.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="using:BKGalMgr.Helpers"
              xmlns:local="using:BKGalMgr.Views.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
@@ -77,23 +78,14 @@
                                    MaxWidth="78"
                                    Margin="0"
                                    VerticalAlignment="Top"
-                                   x:Phase="1"
-                                   Tag="{x:Bind}">
-                                <Image.Source>
-                                    <BitmapImage DecodePixelType="Logical"
-                                                 DecodePixelWidth="78"
-                                                 UriSource="{x:Bind images.small, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
-                                </Image.Source>
+                                   helpers:ImageLoadHelper.DecodePixelWidth="78"
+                                   helpers:ImageLoadHelper.UriSource="{x:Bind images.small, Mode=OneTime}">
                                 <ToolTipService.ToolTip>
                                     <ToolTip MaxWidth="1080"
                                              MaxHeight="720"
                                              Placement="Right">
                                         <ToolTip.Content>
-                                            <Image>
-                                                <Image.Source>
-                                                    <BitmapImage UriSource="{x:Bind images.large, Mode=OneTime, Converter={StaticResource UriSafeConverter}}" />
-                                                </Image.Source>
-                                            </Image>
+                                            <Image helpers:ImageLoadHelper.UriSource="{x:Bind images.large, Mode=OneTime}" />
                                         </ToolTip.Content>
                                     </ToolTip>
                                 </ToolTipService.ToolTip>

@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="using:BKGalMgr.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:helpers="using:BKGalMgr.Helpers"
              xmlns:local="using:BKGalMgr.Views.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
@@ -33,22 +34,11 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Image Width="250" VerticalAlignment="Top">
-            <Image.Source>
-                <BitmapImage CreateOptions="IgnoreImageCache"
-                             DecodePixelWidth="250"
-                             UriSource="{x:Bind ViewModel.CoverUri, Mode=OneWay}" />
-            </Image.Source>
-            <ToolTipService.ToolTip>
-                <ToolTip MaxWidth="1080"
-                         MaxHeight="720"
-                         Placement="Right">
-                    <ToolTip.Content>
-                        <Image Source="{x:Bind ViewModel.CoverUri, Mode=OneWay}" />
-                    </ToolTip.Content>
-                </ToolTip>
-            </ToolTipService.ToolTip>
-        </Image>
+        <Image Width="250"
+               VerticalAlignment="Top"
+               helpers:ImageLoadHelper.CreateOptions="IgnoreImageCache"
+               helpers:ImageLoadHelper.DecodePixelWidth="250"
+               helpers:ImageLoadHelper.UriSource="{x:Bind ViewModel.Cover, Mode=OneWay}" />
         <StackPanel Grid.Column="1" Margin="16,0">
             <local:HeaderedTextBox x:Uid="GameInfo_Name"
                                    CanEmpty="False"

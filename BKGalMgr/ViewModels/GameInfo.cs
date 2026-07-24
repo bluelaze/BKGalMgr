@@ -51,15 +51,7 @@ public partial class GameInfo : ObservableObject, IImageItem
     public partial ObservableCollection<PlayedPeriodInfo> PlayedPeriods { get; set; } = new();
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CoverUri))]
     public partial string Cover { get; set; }
-
-    [JsonIgnore]
-    public string CoverUri
-    {
-        // uri用x:Bind时，null或者空会导致异常
-        get { return Cover.IsNullOrWhiteSpace() || !Cover.Contains(':') ? "about:blank" : Cover; }
-    }
 
     [ObservableProperty]
     public partial string Company { get; set; }
@@ -356,7 +348,6 @@ public partial class GameInfo : ObservableObject, IImageItem
             && e.PropertyName != nameof(WebsiteShot)
             && e.PropertyName != nameof(BugBugNews)
             && e.PropertyName != nameof(Campaign)
-            && e.PropertyName != nameof(CoverUri)
             && PlayStatus == PlayStatus.Stop
         )
             IsPropertyChanged = true;

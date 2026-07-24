@@ -8,6 +8,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:diagnostics="using:System.Diagnostics"
       xmlns:extensions="using:BKGalMgr.Extensions"
+      xmlns:helpers="using:BKGalMgr.Helpers"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
@@ -167,8 +168,8 @@
                        Grid.Column="1"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       DoubleTapped="cover_Image_DoubleTapped"
-                       Source="{x:Bind ViewModel.Game.CoverUri, Mode=OneWay}" />
+                       helpers:ImageLoadHelper.UriSource="{x:Bind ViewModel.Game.Cover, Mode=OneWay}"
+                       DoubleTapped="cover_Image_DoubleTapped" />
             </Grid>
             <!--  right  -->
             <Grid Grid.Column="2"
@@ -292,13 +293,9 @@
                                                 <Image x:Name="character_illustration_Image"
                                                        Margin="8"
                                                        VerticalAlignment="Top"
+                                                       helpers:ImageLoadHelper.UriSource="{x:Bind Illustration, Mode=OneWay}"
                                                        x:Phase="1"
-                                                       DoubleTapped="character_illustration_Image_DoubleTapped"
-                                                       Tag="{x:Bind}">
-                                                    <Image.Source>
-                                                        <BitmapImage UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
-                                                    </Image.Source>
-                                                </Image>
+                                                       DoubleTapped="character_illustration_Image_DoubleTapped" />
                                                 <Grid Grid.Column="1" Padding="30,40,0,0">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="Auto" />
@@ -400,13 +397,9 @@
                                     </ListView.ItemsPanel>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="vm:CharacterInfo">
-                                            <Image x:Phase="1" Tag="{x:Bind}">
-                                                <Image.Source>
-                                                    <BitmapImage DecodePixelHeight="64"
-                                                                 DecodePixelType="Logical"
-                                                                 UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
-                                                </Image.Source>
-                                            </Image>
+                                            <Image helpers:ImageLoadHelper.DecodePixelHeight="64"
+                                                   helpers:ImageLoadHelper.UriSource="{x:Bind Illustration, Mode=OneWay}"
+                                                   x:Phase="1" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>

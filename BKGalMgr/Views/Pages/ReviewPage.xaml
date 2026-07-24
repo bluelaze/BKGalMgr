@@ -4,6 +4,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:helpers="using:BKGalMgr.Helpers"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
@@ -199,19 +200,14 @@
                                 </Grid.ContextFlyout>
                                 <Image Height="170"
                                        VerticalAlignment="Top"
-                                       x:Phase="1"
-                                       Tag="{x:Bind}">
-                                    <Image.Source>
-                                        <BitmapImage DecodePixelHeight="170"
-                                                     DecodePixelType="Logical"
-                                                     UriSource="{x:Bind Game.CoverUri, Mode=OneWay}" />
-                                    </Image.Source>
+                                       helpers:ImageLoadHelper.DecodePixelHeight="170"
+                                       helpers:ImageLoadHelper.UriSource="{x:Bind Game.Cover, Mode=OneWay}">
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="1080"
                                                  MaxHeight="720"
                                                  Placement="Right">
                                             <ToolTip.Content>
-                                                <Image Source="{x:Bind Game.CoverUri, Mode=OneWay}" />
+                                                <Image helpers:ImageLoadHelper.UriSource="{x:Bind Game.Cover, Mode=OneWay}" />
                                             </ToolTip.Content>
                                         </ToolTip>
                                     </ToolTipService.ToolTip>

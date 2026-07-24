@@ -6,6 +6,7 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:helpers="using:BKGalMgr.Helpers"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
@@ -25,6 +26,7 @@
         <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
 
         <ItemsPanelTemplate x:Key="BlogStaggeredPanel">
+            <!--  这个StaggeredPanel性能不好，但目前找不到更好的替代方案  -->
             <mcontrols:StaggeredPanel MaxWidth="1800"
                                       HorizontalAlignment="Center"
                                       ColumnSpacing="0"
@@ -49,13 +51,9 @@
                                                             Value="Collapsed" />
                     </interactivity:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <Image>
-                    <Image.Source>
-                        <BitmapImage DecodePixelType="Logical"
-                                     DecodePixelWidth="280"
-                                     UriSource="{x:Bind CoverUri, Mode=OneWay}" />
-                    </Image.Source>
-                </Image>
+
+                <Image helpers:ImageLoadHelper.DecodePixelWidth="280" helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}" />
+
                 <StackPanel Grid.Row="1"
                             Padding="{StaticResource TextControlThemePadding}"
                             Spacing="4">
@@ -435,13 +433,9 @@
                             <Image Height="330"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Stretch="UniformToFill">
-                                <Image.Source>
-                                    <BitmapImage DecodePixelHeight="330"
-                                                 DecodePixelType="Logical"
-                                                 UriSource="{x:Bind CoverUri, Mode=OneWay}" />
-                                </Image.Source>
-                            </Image>
+                                   helpers:ImageLoadHelper.DecodePixelHeight="330"
+                                   helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}"
+                                   Stretch="UniformToFill" />
 
                             <Grid Grid.Row="1"
                                   Padding="8,16,8,4"

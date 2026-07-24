@@ -5,6 +5,7 @@
         xmlns:behaviors="using:BKGalMgr.Behaviors"
         xmlns:controls="using:BKGalMgr.Views.Controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:helpers="using:BKGalMgr.Helpers"
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:local="using:BKGalMgr.Views"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -135,9 +136,10 @@
                                     </MenuFlyoutItem>
                                 </MenuFlyout>
                             </ScrollViewer.ContextFlyout>
+                            <!--  如果用ImageLoadHelper，ImageOpened触发后不能正常缩放图片  -->
                             <Image x:Name="post_Image"
-                                   ImageOpened="post_Image_ImageOpened"
-                                   Source="{x:Bind Image}"
+                                   helpers:ImageLoadHelper.UriSource="{x:Bind Image}"
+                                   SizeChanged="post_Image_SizeChanged"
                                    Stretch="None" />
                         </ScrollViewer>
                     </DataTemplate>
@@ -160,13 +162,9 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="mgr:IImageItem">
-                        <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}">
-                            <Image.Source>
-                                <BitmapImage DecodePixelHeight="64"
-                                             DecodePixelType="Logical"
-                                             UriSource="{x:Bind Image}" />
-                            </Image.Source>
-                        </Image>
+                        <Image helpers:ImageLoadHelper.DecodePixelHeight="64"
+                               helpers:ImageLoadHelper.UriSource="{x:Bind Image}"
+                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -246,7 +246,7 @@ public sealed partial class MainWindow : Window
         ImageFitToScreen(sender as ScrollViewer, scrollerViwer.FindName("post_Image") as Image, true);
     }
 
-    private void post_Image_ImageOpened(object sender, RoutedEventArgs e)
+    private void post_Image_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         var image = sender as Image;
         ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image, true);

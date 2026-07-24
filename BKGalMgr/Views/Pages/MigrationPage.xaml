@@ -5,6 +5,7 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:helpers="using:BKGalMgr.Helpers"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -42,19 +43,14 @@
                     </MenuFlyout>
                 </Grid.ContextFlyout>
                 <Image Margin="8"
-                       x:Phase="1"
-                       Tag="{x:Bind}">
-                    <Image.Source>
-                        <BitmapImage DecodePixelType="Logical"
-                                     DecodePixelWidth="150"
-                                     UriSource="{x:Bind CoverUri, Mode=OneWay}" />
-                    </Image.Source>
+                       helpers:ImageLoadHelper.DecodePixelWidth="150"
+                       helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}">
                     <ToolTipService.ToolTip>
                         <ToolTip MaxWidth="1080"
                                  MaxHeight="720"
                                  Placement="Right">
                             <ToolTip.Content>
-                                <Image Source="{x:Bind CoverUri, Mode=OneWay}" />
+                                <Image helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}" />
                             </ToolTip.Content>
                         </ToolTip>
                     </ToolTipService.ToolTip>

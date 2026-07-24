@@ -5,6 +5,7 @@
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:helpers="using:BKGalMgr.Helpers"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:local="using:BKGalMgr.Views.Pages"
       xmlns:mbehaviors="using:CommunityToolkit.WinUI.Behaviors"
@@ -48,13 +49,10 @@
             <Setter Property="Height" Value="126" />
         </Style>
         <DataTemplate x:Key="ImageGridViewItemDataTemplate" x:DataType="x:String">
-            <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}">
-                <Image.Source>
-                    <BitmapImage DecodePixelType="Logical"
-                                 DecodePixelWidth="224"
-                                 UriSource="{x:Bind}" />
-                </Image.Source>
-            </Image>
+            <Image helpers:ImageLoadHelper.DecodePixelWidth="224"
+                   helpers:ImageLoadHelper.UriSource="{x:Bind}"
+                   x:Phase="1"
+                   ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
         </DataTemplate>
     </Page.Resources>
     <Grid Margin="0,24,0,0">
@@ -603,9 +601,9 @@
                     <FlipView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
                             <Image x:Name="cover_Image"
+                                   helpers:ImageLoadHelper.UriSource="{x:Bind}"
                                    x:Phase="1"
                                    DoubleTapped="cover_Image_DoubleTapped"
-                                   Source="{x:Bind}"
                                    Stretch="Uniform" />
                         </DataTemplate>
                     </FlipView.ItemTemplate>
@@ -626,13 +624,10 @@
                     </ListView.ItemsPanel>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Image x:Phase="1" ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}">
-                                <Image.Source>
-                                    <BitmapImage DecodePixelHeight="64"
-                                                 DecodePixelType="Logical"
-                                                 UriSource="{x:Bind}" />
-                                </Image.Source>
-                            </Image>
+                            <Image helpers:ImageLoadHelper.DecodePixelHeight="64"
+                                   helpers:ImageLoadHelper.UriSource="{x:Bind}"
+                                   x:Phase="1"
+                                   ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -871,14 +866,9 @@
 
                                     <Image Margin="8"
                                            VerticalAlignment="Top"
-                                           x:Phase="1"
-                                           Tag="{x:Bind}">
-                                        <Image.Source>
-                                            <BitmapImage DecodePixelType="Logical"
-                                                         DecodePixelWidth="250"
-                                                         UriSource="{x:Bind Illustration, Mode=OneWay, Converter={StaticResource UriSafeConverter}}" />
-                                        </Image.Source>
-                                    </Image>
+                                           helpers:ImageLoadHelper.DecodePixelWidth="250"
+                                           helpers:ImageLoadHelper.UriSource="{x:Bind Illustration, Mode=OneWay}"
+                                           x:Phase="1" />
                                     <Button x:Name="add_illustration_Button"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
