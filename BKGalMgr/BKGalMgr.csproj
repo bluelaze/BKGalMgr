@@ -22,6 +22,13 @@
         <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
         <NoWarn>NU1701;NU1702;</NoWarn>
         <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+        <!-- 2.3.1新增xaml优化，测试DefaultStyleOptimizations这个会有些bug，尤其是在管理页面 -->
+        <!-- 此外这个版本有些卡顿，最小化后，在还原会有短暂的白屏，且整个应用切换gpu占用较高 -->
+        <!-- https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/release-notes/windows-app-sdk-2-0?pivots=stable#version-231 
+        <DisabledXamlOptionalChanges>DefaultStyleOptimizations</DisabledXamlOptionalChanges>
+        -->
+        <EnabledXamlOptionalChanges>OptimizeApplyStyles,IconNoGridOptimization</EnabledXamlOptionalChanges>
+
     </PropertyGroup>
 
     <ItemGroup>
