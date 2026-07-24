@@ -228,27 +228,20 @@ public sealed partial class MainWindow : Window
         if (imagePost.ActualWidth == 0 || imagePost.ActualHeight == 0)
             return;
 
-        double widthCompare = scrollerViwer.ActualWidth / imagePost.ActualWidth;
-        double heightCompare = scrollerViwer.ActualHeight / imagePost.ActualHeight;
+        double widthCompare = (scrollerViwer.ActualWidth - 1) / imagePost.ActualWidth;
+        double heightCompare = (scrollerViwer.ActualHeight - 1) / imagePost.ActualHeight;
 
         double zoomFactor = 1.0f;
-        double v = 0.001f;
         if (widthCompare > 1 && heightCompare > 1)
         {
             zoomFactor = 1.0f;
         }
         else if (widthCompare > heightCompare)
         {
-            while (imagePost.ActualHeight * heightCompare >= scrollerViwer.ActualHeight)
-                heightCompare -= v;
-
             zoomFactor = heightCompare;
         }
         else
         {
-            while (imagePost.ActualWidth * widthCompare >= scrollerViwer.ActualWidth)
-                widthCompare -= v;
-
             zoomFactor = widthCompare;
         }
 
