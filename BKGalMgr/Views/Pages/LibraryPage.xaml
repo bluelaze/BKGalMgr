@@ -278,8 +278,7 @@
                                         <!--  封面  -->
                                         <Image Margin="8"
                                                helpers:ImageLoadHelper.DecodePixelWidth="150"
-                                               helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}"
-                                               x:Phase="1" />
+                                               helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}" />
                                         <Button x:Name="cover_Button"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
@@ -439,6 +438,7 @@
                                                   MinWidth="200"
                                                   Margin="16,0"
                                                   VerticalAlignment="Center"
+                                                  x:Phase="2"
                                                   ItemsSource="{x:Bind Targets, Mode=OneTime}"
                                                   SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
                                             <ComboBox.ItemTemplate>

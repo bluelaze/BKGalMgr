@@ -51,7 +51,7 @@
         <DataTemplate x:Key="ImageGridViewItemDataTemplate" x:DataType="x:String">
             <Image helpers:ImageLoadHelper.DecodePixelWidth="224"
                    helpers:ImageLoadHelper.UriSource="{x:Bind}"
-                   x:Phase="1"
+                   x:Phase="2"
                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
         </DataTemplate>
     </Page.Resources>
@@ -868,7 +868,7 @@
                                            VerticalAlignment="Top"
                                            helpers:ImageLoadHelper.DecodePixelWidth="250"
                                            helpers:ImageLoadHelper.UriSource="{x:Bind Illustration, Mode=OneWay}"
-                                           x:Phase="1" />
+                                           x:Phase="2" />
                                     <Button x:Name="add_illustration_Button"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Stretch"
