@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using BKGalMgr.Extensions;
 using BKGalMgr.Helpers;
 using BKGalMgr.Interfaces.Page;
 using BKGalMgr.ThirdParty;
@@ -19,6 +18,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -319,21 +319,29 @@ public sealed partial class ManagePage : Page
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
-            App.ShowLoading();
-            var existSource = await ViewModel.CopySource(folder.Path);
-
-            if (!existSource)
-            {
-                SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
-                var result = await EditSourceInfo(sourceInfo, folder.Path);
-                if (result == ContentDialogResult.Primary)
-                {
-                    await ViewModel.SelectedRepository.SelectedGame.AddSource(folder.Path, sourceInfo);
-                }
-            }
-
-            App.HideLoading();
+            await AddSource(folder.Path);
         }
+    }
+
+    private async Task AddSource(string folderPath, string startupName = "")
+    {
+        App.ShowLoading();
+
+        var existSource = await ViewModel.CopySource(folderPath);
+        if (!existSource)
+        {
+            SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
+            sourceInfo.Name = Path.GetFileName(folderPath);
+            sourceInfo.StartupName = startupName;
+
+            var result = await EditSourceInfo(sourceInfo, folderPath);
+            if (result == ContentDialogResult.Primary)
+            {
+                await ViewModel.SelectedRepository.SelectedGame.AddSource(folderPath, sourceInfo);
+            }
+        }
+
+        App.HideLoading();
     }
 
     private async Task<ContentDialogResult> EditSourceInfo(SourceInfo sourceInfo, string pickFilePath)
@@ -372,19 +380,27 @@ public sealed partial class ManagePage : Page
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
-            App.ShowLoading();
-            var existLocalization = await ViewModel.CopyLocalization(folder.Path);
-            if (!existLocalization)
-            {
-                LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
-                var result = await EditLocalizationInfo(localizationInfo, folder.Path);
-                if (result == ContentDialogResult.Primary)
-                {
-                    await ViewModel.SelectedRepository.SelectedGame.AddLocalization(folder.Path, localizationInfo);
-                }
-            }
-            App.HideLoading();
+            await AddLocalization(folder.Path);
         }
+    }
+
+    private async Task AddLocalization(string folderPath, string startupName = "")
+    {
+        App.ShowLoading();
+        var existLocalization = await ViewModel.CopyLocalization(folderPath);
+        if (!existLocalization)
+        {
+            LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
+            localizationInfo.Name = Path.GetFileName(folderPath);
+            localizationInfo.StartupName = startupName;
+
+            var result = await EditLocalizationInfo(localizationInfo, folderPath);
+            if (result == ContentDialogResult.Primary)
+            {
+                await ViewModel.SelectedRepository.SelectedGame.AddLocalization(folderPath, localizationInfo);
+            }
+        }
+        App.HideLoading();
     }
 
     private async Task<ContentDialogResult> EditLocalizationInfo(LocalizationInfo localizationInfo, string pickFilePath)
@@ -418,7 +434,7 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void add_target_button_Click(object sender, RoutedEventArgs e)
+    private async void add_target_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         TargetInfo targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
 
@@ -431,72 +447,84 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async void add_target_folder_button_Click(object sender, RoutedEventArgs e)
+    private async void add_target_folder_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
         if (folder != null)
         {
-            App.ShowLoading();
-            // check whether exist valid target that archive or not
-            var targetInfo = TargetInfo.Open(folder.Path);
-            if (targetInfo != null)
-            {
-                // copy to local
-                targetInfo.CreateDate = DateTime.Now;
-                targetInfo.SetGamePath(ViewModel.SelectedRepository.SelectedGame.FolderPath);
-                await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
-                App.HideLoading();
-                return;
-            }
-
-            // check exist source or localization
-            targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
-            targetInfo.Source = SourceInfo.Open(folder.Path);
-            targetInfo.Localization = LocalizationInfo.Open(folder.Path);
-
-            if (targetInfo.Localization == null && targetInfo.Source == null)
-            {
-                // don't both exist, create as new source to add target
-                targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
-                var result = await EditSourceInfo(targetInfo.Source, folder.Path);
-                if (result == ContentDialogResult.Primary)
-                {
-                    targetInfo.Description = targetInfo.Source.Description;
-                    targetInfo.SelectedSource();
-                    await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folder.Path, targetInfo);
-                }
-            }
-            else
-            {
-                // dezip to add target
-                if (targetInfo.Localization != null)
-                {
-                    targetInfo.Description = targetInfo.Localization.Description;
-                    targetInfo.SelectedLocalization();
-                }
-                else
-                {
-                    targetInfo.Description = targetInfo.Source.Description;
-                    targetInfo.SelectedSource();
-                }
-                if (!targetInfo.IsValid())
-                    App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
-                else
-                    await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
-            }
-
-            App.HideLoading();
+            await AddTargetWithFolder(folder.Path);
         }
     }
 
-    private async void add_target_shortcut_Button_Click(object sender, RoutedEventArgs e)
+    private async Task AddTargetWithFolder(string folderPath, string startupName = "")
+    {
+        App.ShowLoading();
+        // check whether exist valid target that archive or not
+        var targetInfo = TargetInfo.Open(folderPath);
+        if (targetInfo != null)
+        {
+            // copy to local
+            targetInfo.CreateDate = DateTime.Now;
+            targetInfo.SetGamePath(ViewModel.SelectedRepository.SelectedGame.FolderPath);
+            await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folderPath, targetInfo);
+            App.HideLoading();
+            return;
+        }
+
+        // check exist source or localization
+        targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
+        targetInfo.Source = SourceInfo.Open(folderPath);
+        targetInfo.Localization = LocalizationInfo.Open(folderPath);
+
+        if (targetInfo.Localization == null && targetInfo.Source == null)
+        {
+            // don't both exist, create as new source to add target
+            targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
+            targetInfo.Source.Name = Path.GetFileName(folderPath);
+            targetInfo.Source.StartupName = startupName;
+
+            var result = await EditSourceInfo(targetInfo.Source, folderPath);
+            if (result == ContentDialogResult.Primary)
+            {
+                targetInfo.Description = targetInfo.Source.Description;
+                targetInfo.SelectedSource();
+                await ViewModel.SelectedRepository.SelectedGame.CopyTarget(folderPath, targetInfo);
+            }
+        }
+        else
+        {
+            // dezip to add target
+            if (targetInfo.Localization != null)
+            {
+                targetInfo.Description = targetInfo.Localization.Description;
+                targetInfo.SelectedLocalization();
+            }
+            else
+            {
+                targetInfo.Description = targetInfo.Source.Description;
+                targetInfo.SelectedSource();
+            }
+            if (!targetInfo.IsValid())
+                App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Add_Invalid"));
+            else
+                await ViewModel.SelectedRepository.SelectedGame.AddTarget(targetInfo);
+        }
+
+        App.HideLoading();
+    }
+
+    private async void add_target_shortcut_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
         if (file == null)
             return;
+        await AddTargetWithShortcut(file.Path);
+    }
 
+    private async Task AddTargetWithShortcut(string filePath)
+    {
         // 创建一个临时文件夹存放快捷方式，作为源来创建本
-        if (!ViewModel.SelectedRepository.SelectedGame.CreateShortcut(file.Path))
+        if (!ViewModel.SelectedRepository.SelectedGame.CreateShortcut(filePath))
         {
             App.ShowErrorMessage(LanguageHelper.GetString("Msg_Target_Create_Shortcut_Fail"));
             return;
@@ -507,8 +535,10 @@ public sealed partial class ManagePage : Page
         // shortcut folder as source
         var targetInfo = ViewModel.SelectedRepository.SelectedGame.NewTarget();
         targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
-        targetInfo.Source.StartupName = Path.GetFileName(ShortcutHelpers.GetShortcutPath(file.Path));
-        var result = await EditSourceInfo(targetInfo.Source, Path.GetDirectoryName(file.Path));
+        targetInfo.Source.Name = Path.GetFileNameWithoutExtension(filePath);
+        targetInfo.Source.StartupName = Path.GetFileName(ShortcutHelpers.GetShortcutPath(filePath));
+
+        var result = await EditSourceInfo(targetInfo.Source, Path.GetDirectoryName(filePath));
         if (result == ContentDialogResult.Primary)
         {
             targetInfo.SelectedSource();
@@ -1028,6 +1058,91 @@ public sealed partial class ManagePage : Page
             ViewModel.SelectedRepository.SelectedGame.SaveJsonFile();
             if (ViewModel.SelectedRepository.SelectedGame.PlayedPeriods.Any())
                 playedperiods_ComboBox.SelectedIndex = 0;
+        }
+    }
+
+    private void drag_Rectangle_DragOver(object sender, DragEventArgs e)
+    {
+        e.AcceptedOperation = DataPackageOperation.Copy;
+        e.DragUIOverride.IsCaptionVisible = false;
+        e.DragUIOverride.IsGlyphVisible = false;
+    }
+
+    private async void source_drag_add_Rectangle_Drop(object sender, DragEventArgs e)
+    {
+        drag_add_Grid.Visibility = Visibility.Collapsed;
+
+        if (e.DataView.Contains(StandardDataFormats.StorageItems))
+        {
+            var items = await e.DataView.GetStorageItemsAsync();
+            var item = items.FirstOrDefault();
+            if (item is Windows.Storage.StorageFolder folder)
+            {
+                await AddSource(folder.Path);
+            }
+            else if (item is Windows.Storage.StorageFile file)
+            {
+                await AddSource(Path.GetDirectoryName(file.Path), Path.GetFileName(file.Path));
+            }
+        }
+    }
+
+    private async void localization_drag_add_Rectangle_Drop(object sender, DragEventArgs e)
+    {
+        drag_add_Grid.Visibility = Visibility.Collapsed;
+
+        if (e.DataView.Contains(StandardDataFormats.StorageItems))
+        {
+            var items = await e.DataView.GetStorageItemsAsync();
+            var item = items.FirstOrDefault();
+            if (item is Windows.Storage.StorageFolder folder)
+            {
+                await AddLocalization(folder.Path);
+            }
+            else if (item is Windows.Storage.StorageFile file)
+            {
+                await AddLocalization(Path.GetDirectoryName(file.Path), Path.GetFileName(file.Path));
+            }
+        }
+    }
+
+    private Windows.Storage.IStorageItem _targetDragAddPath;
+
+    private async void target_drag_add_Rectangle_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+        {
+            drag_add_Grid.Visibility = Visibility.Collapsed;
+            return;
+        }
+        var items = await e.DataView.GetStorageItemsAsync();
+        _targetDragAddPath = items.FirstOrDefault();
+
+        drag_add_type_StackPanel.Visibility = Visibility.Collapsed;
+        drag_add_target_type_StackPanel.Visibility = Visibility.Visible;
+    }
+
+    private async void drag_add_target_folder_Button_Click(object sender, RoutedEventArgs e)
+    {
+        drag_add_Grid.Visibility = Visibility.Collapsed;
+
+        if (_targetDragAddPath is Windows.Storage.StorageFolder folder)
+        {
+            await AddTargetWithFolder(folder.Path);
+        }
+        else if (_targetDragAddPath is Windows.Storage.StorageFile file)
+        {
+            await AddTargetWithFolder(Path.GetDirectoryName(file.Path), Path.GetFileName(file.Path));
+        }
+    }
+
+    private async void drag_add_target_shortcut_Button_Click(object sender, RoutedEventArgs e)
+    {
+        drag_add_Grid.Visibility = Visibility.Collapsed;
+
+        if (_targetDragAddPath is Windows.Storage.StorageFile file)
+        {
+            await AddTargetWithShortcut(file.Path);
         }
     }
 }

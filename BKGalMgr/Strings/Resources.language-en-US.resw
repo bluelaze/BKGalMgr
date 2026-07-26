@@ -775,22 +775,37 @@ More in crash_exception.txt</value>
     <value>Sources</value>
   </data>
   <data name="Manage_Sources_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Import exist source</value>
+    <value>Add with Folder</value>
   </data>
   <data name="Manage_Localization.Text" xml:space="preserve">
     <value>Localization</value>
   </data>
   <data name="Manage_Localization_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Import exist localization</value>
+    <value>Add with Folder</value>
   </data>
   <data name="Manage_Target.Text" xml:space="preserve">
     <value>Target</value>
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Import exist source, localization or target</value>
+    <value>Create new Target</value>
   </data>
-  <data name="Manage_Target_Add_Shortcut.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Add with shortcut</value>
+  <data name="Manage_Target_Add_Combine.Text" xml:space="preserve">
+    <value>Create with Source and Localization</value>
+  </data>
+    <data name="Manage_Target_Add_Folder.Text" xml:space="preserve">
+    <value>Create with Folder</value>
+  </data>
+  <data name="Manage_Target_Add_Shortcut.Text" xml:space="preserve">
+    <value>Create with Shortcut</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Source.Text" xml:space="preserve">
+    <value>Add Source</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Localization.Text" xml:space="preserve">
+    <value>Add Localization</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Target.Text" xml:space="preserve">
+    <value>Add Target</value>
   </data>
   <data name="Manage_SaveData.Text" xml:space="preserve">
     <value>SaveData</value>

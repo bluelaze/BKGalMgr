@@ -16,6 +16,7 @@
       xmlns:mui="using:CommunityToolkit.WinUI"
       xmlns:vm="using:BKGalMgr.ViewModels"
       d:DataContext="{d:DesignInstance local:ManagePage}"
+      AllowDrop="True"
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
@@ -55,6 +56,24 @@
                    ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
         </DataTemplate>
     </Page.Resources>
+    <interactivity:Interaction.Behaviors>
+        <interactivity:EventTriggerBehavior EventName="DragEnter">
+            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                TargetObject="{x:Bind drag_add_Grid}"
+                                                Value="Visible" />
+            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                TargetObject="{x:Bind drag_add_type_StackPanel}"
+                                                Value="Visible" />
+            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                TargetObject="{x:Bind drag_add_target_type_StackPanel}"
+                                                Value="Collapsed" />
+        </interactivity:EventTriggerBehavior>
+        <interactivity:EventTriggerBehavior EventName="DragLeave">
+            <interactivity:ChangePropertyAction PropertyName="Visibility"
+                                                TargetObject="{x:Bind drag_add_Grid}"
+                                                Value="Collapsed" />
+        </interactivity:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
     <Grid Margin="0,24,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -304,7 +323,7 @@
                       Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
             <StackPanel Spacing="24">
                 <StackPanel.ChildrenTransitions>
-                    <EntranceThemeTransition FromVerticalOffset="100" />
+                    <EntranceThemeTransition FromVerticalOffset="50" />
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
                 <!--  GameInfo  -->
@@ -422,26 +441,25 @@
                                         Orientation="Horizontal"
                                         Spacing="8">
                                 <TextBlock x:Uid="Manage_Target" VerticalAlignment="Center" />
-                                <Button x:Name="add_target_button"
-                                        Click="add_target_button_Click"
+                                <Button x:Uid="Manage_Target_Add"
                                         Content="{mui:FontIcon FontSize=16,
                                                                Glyph=&#xE948;}"
                                         IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                        Style="{StaticResource IconButtonStyle}" />
-                                <Button x:Name="add_target_folder_button"
-                                        x:Uid="Manage_Target_Add"
-                                        Click="add_target_folder_button_Click"
-                                        Content="{mui:FontIcon FontSize=16,
-                                                               Glyph=&#xE8F4;}"
-                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                        Style="{StaticResource IconButtonStyle}" />
-                                <Button x:Name="add_target_shortcut_Button"
-                                        x:Uid="Manage_Target_Add_Shortcut"
-                                        Click="add_target_shortcut_Button_Click"
-                                        Content="{mui:FontIcon FontSize=16,
-                                                               Glyph=&#xF61B;}"
-                                        IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.IsValid, Mode=OneWay}"
-                                        Style="{StaticResource IconButtonStyle}" />
+                                        Style="{StaticResource IconButtonStyle}">
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="RightEdgeAlignedTop">
+                                            <MenuFlyoutItem x:Name="add_target_MenuFlyoutItem"
+                                                            x:Uid="Manage_Target_Add_Combine"
+                                                            Click="add_target_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Name="add_target_folder_MenuFlyoutItem"
+                                                            x:Uid="Manage_Target_Add_Folder"
+                                                            Click="add_target_folder_MenuFlyoutItem_Click" />
+                                            <MenuFlyoutItem x:Name="add_target_shortcut_MenuFlyoutItem"
+                                                            x:Uid="Manage_Target_Add_Shortcut"
+                                                            Click="add_target_shortcut_MenuFlyoutItem_Click" />
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
                             </StackPanel>
                         </ListView.Header>
                         <ListView.ItemTemplate>
@@ -974,5 +992,130 @@
                     Style="{StaticResource IconButtonStyle}" />
         </StackPanel>
 
+        <!--  拖拽添加  -->
+        <Grid Name="drag_add_Grid"
+              Grid.RowSpan="3"
+              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+              Visibility="Collapsed">
+            <Grid.Resources>
+                <x:Double x:Key="TextBlockFontSize">18</x:Double>
+            </Grid.Resources>
+            <StackPanel x:Name="drag_add_type_StackPanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="36">
+                <StackPanel.Resources>
+                    <Style TargetType="Grid">
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="Height" Value="100" />
+                        <Setter Property="Padding" Value="0" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                    </Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="RadiusX" Value="10" />
+                        <Setter Property="RadiusY" Value="10" />
+                        <Setter Property="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                        <Setter Property="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <Setter Property="StrokeDashArray" Value="3,4" />
+                        <Setter Property="StrokeThickness" Value="2" />
+                        <Setter Property="AllowDrop" Value="True" />
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <Grid>
+                    <TextBlock x:Uid="Manage_Target_Drag_Add_Source" FontSize="{StaticResource TextBlockFontSize}" />
+                    <Rectangle x:Name="source_drag_add_Rectangle"
+                               DragOver="drag_Rectangle_DragOver"
+                               Drop="source_drag_add_Rectangle_Drop">
+                        <interactivity:Interaction.Behaviors>
+                            <interactivity:EventTriggerBehavior EventName="DragEnter">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="Transparent" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="DragLeave">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="Drop">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </Rectangle>
+                </Grid>
+
+                <Grid>
+                    <TextBlock x:Uid="Manage_Target_Drag_Add_Localization" FontSize="{StaticResource TextBlockFontSize}" />
+                    <!--  不知道为什么StrokeDashArray只在第一个Rectangle生效  -->
+                    <Rectangle x:Name="localization_drag_add_Rectangle"
+                               DragOver="drag_Rectangle_DragOver"
+                               Drop="localization_drag_add_Rectangle_Drop"
+                               StrokeDashArray="3,4">
+                        <interactivity:Interaction.Behaviors>
+                            <interactivity:EventTriggerBehavior EventName="DragEnter">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="Transparent" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="DragLeave">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="Drop">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </Rectangle>
+                </Grid>
+
+                <Grid>
+                    <TextBlock x:Uid="Manage_Target_Drag_Add_Target" FontSize="{StaticResource TextBlockFontSize}" />
+                    <Rectangle x:Name="target_drag_add_Rectangle"
+                               DragOver="drag_Rectangle_DragOver"
+                               Drop="target_drag_add_Rectangle_Drop"
+                               StrokeDashArray="3,4">
+                        <interactivity:Interaction.Behaviors>
+                            <interactivity:EventTriggerBehavior EventName="DragEnter">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="Transparent" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="DragLeave">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                            <interactivity:EventTriggerBehavior EventName="Drop">
+                                <interactivity:ChangePropertyAction PropertyName="Stroke" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+                                <interactivity:ChangePropertyAction PropertyName="Fill" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+                            </interactivity:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </Rectangle>
+                </Grid>
+            </StackPanel>
+            <StackPanel x:Name="drag_add_target_type_StackPanel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="36">
+                <Button x:Name="drag_add_target_folder_Button"
+                        Width="200"
+                        Height="100"
+                        Click="drag_add_target_folder_Button_Click"
+                        CornerRadius="10">
+                    <TextBlock x:Uid="Manage_Target_Add_Folder" FontSize="{StaticResource TextBlockFontSize}" />
+                </Button>
+                <Button x:Name="drag_add_target_shortcut_Button"
+                        Width="200"
+                        Height="100"
+                        Click="drag_add_target_shortcut_Button_Click"
+                        CornerRadius="10">
+                    <TextBlock x:Uid="Manage_Target_Add_Shortcut" FontSize="{StaticResource TextBlockFontSize}" />
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

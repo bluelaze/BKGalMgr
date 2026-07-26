@@ -775,22 +775,37 @@
     <value>源</value>
   </data>
   <data name="Manage_Sources_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导入已有的源</value>
+    <value>通过文件夹添加源</value>
   </data>
   <data name="Manage_Localization.Text" xml:space="preserve">
     <value>本地化</value>
   </data>
   <data name="Manage_Localization_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导入已有的本地化</value>
+    <value>通过文件夹添加本地化</value>
   </data>
   <data name="Manage_Target.Text" xml:space="preserve">
     <value>本</value>
   </data>
   <data name="Manage_Target_Add.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>导入已有的源、本地化或者本</value>
+    <value>新建本</value>
   </data>
-  <data name="Manage_Target_Add_Shortcut.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>通过快捷方式添加</value>
+  <data name="Manage_Target_Add_Combine.Text" xml:space="preserve">
+    <value>组合源和本</value>
+  </data>
+    <data name="Manage_Target_Add_Folder.Text" xml:space="preserve">
+    <value>移动或复制文件夹</value>
+  </data>
+  <data name="Manage_Target_Add_Shortcut.Text" xml:space="preserve">
+    <value>创建快捷方式</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Source.Text" xml:space="preserve">
+    <value>添加源</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Localization.Text" xml:space="preserve">
+    <value>添加本地化</value>
+  </data>
+  <data name="Manage_Target_Drag_Add_Target.Text" xml:space="preserve">
+    <value>添加本</value>
   </data>
   <data name="Manage_SaveData.Text" xml:space="preserve">
     <value>存档</value>
