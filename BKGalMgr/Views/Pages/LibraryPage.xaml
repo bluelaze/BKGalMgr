@@ -385,11 +385,10 @@
                                                                                Glyph=&#xE70F;}"
                                                         Foreground="{ThemeResource NpTextColorSecondaryBrush}">
                                                     <Button.Flyout>
-                                                        <Flyout x:Name="game_group_Flyout"
-                                                                Opened="game_group_Flyout_Opened"
-                                                                Placement="BottomEdgeAlignedLeft">
+                                                        <Flyout Placement="BottomEdgeAlignedLeft">
                                                             <ItemsView x:Name="game_group_ItemsView"
                                                                        Width="{ThemeResource GroupDialogMaxWidth}"
+                                                                       Loaded="game_group_ItemsView_Loaded"
                                                                        SelectionMode="None">
                                                                 <ItemsView.Layout>
                                                                     <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />

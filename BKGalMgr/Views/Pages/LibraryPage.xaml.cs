@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
@@ -15,9 +14,6 @@ using BKGalMgr.Services;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using BKGalMgr.Views.Controls;
-using LiveChartsCore;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.SkiaSharpView;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -229,13 +225,9 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         games_view_semanticzoom.ToggleActiveView();
     }
 
-    private async void game_group_Flyout_Opened(object sender, object e)
+    private async void game_group_ItemsView_Loaded(object sender, RoutedEventArgs e)
     {
-        if (VisualTreeHelper.GetOpenPopupsForXamlRoot(this.XamlRoot).FirstOrDefault() is not { } popup)
-        {
-            return;
-        }
-        var gameGroupItemsView = popup.Child.FindDescendant("game_group_ItemsView") as ItemsView;
+        var gameGroupItemsView = sender as ItemsView;
         var gameInfo = gameGroupItemsView.DataContext as GameInfo;
         var gameGroups = new BindingList<GroupInfo>();
         foreach (var g in ViewModel.SelectedRepository.Groups)
