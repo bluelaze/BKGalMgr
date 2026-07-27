@@ -18,7 +18,7 @@ namespace BKGalMgr.Helpers;
 public static class ImageLoadHelper
 {
     // 全局内存缓存，设置最多保留 1000 张小图
-    private static readonly MemoryCache Cache = new(new MemoryCacheOptions { SizeLimit = 1000 });
+    private static readonly MemoryCache Cache = new(new MemoryCacheOptions { SizeLimit = 256 });
 
     // 滑动过期时间：10分钟内如果没有再次被渲染展示，自动失效释放
     private static readonly TimeSpan SlidingExpirationTime = TimeSpan.FromMinutes(10);
@@ -136,8 +136,8 @@ public static class ImageLoadHelper
         string cacheKey = $"{filePath}_{decodeWidth}_{decodeHeight}";
         if (
             bitmapCreateOptions != BitmapCreateOptions.IgnoreImageCache
-            && Cache.TryGetValue(cacheKey, out BitmapImage cachedBitmap)
-            && cachedBitmap != null
+            && Cache.TryGetValue(cacheKey, out WeakReference<BitmapImage> weakRef)
+            && weakRef.TryGetTarget(out BitmapImage cachedBitmap)
         )
         {
             image.Source = cachedBitmap;
@@ -163,7 +163,7 @@ public static class ImageLoadHelper
                     .SetAbsoluteExpiration(AbsoluteExpirationTime); // 绝对超时：最多存 1 小时
 
                 if (bitmapCreateOptions != BitmapCreateOptions.IgnoreImageCache)
-                    Cache.Set(cacheKey, loadedBitmap, options);
+                    Cache.Set(cacheKey, new WeakReference<BitmapImage>(loadedBitmap), options);
 
                 image.Source = loadedBitmap;
             }
