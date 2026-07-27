@@ -90,6 +90,7 @@
                          ShowPaused="False" />
         </ContentPresenter>
 
+        <!--  图片浏览  -->
         <Grid x:Name="image_viewer_Grid"
               Grid.Row="1"
               HorizontalAlignment="Stretch"
@@ -173,20 +174,14 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="{x:Null}"
+                    Click="{x:Bind HideImages}"
                     Content="{mui:FontIcon FontSize=16,
                                            Glyph=&#xE711;}"
                     CornerRadius="0"
-                    Style="{StaticResource IconButtonStyle}">
-                <interactivity:Interaction.Behaviors>
-                    <interactivity:EventTriggerBehavior EventName="Click">
-                        <interactivity:ChangePropertyAction PropertyName="Visibility"
-                                                            TargetObject="{x:Bind image_viewer_Grid}"
-                                                            Value="Collapsed" />
-                    </interactivity:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </Button>
+                    Style="{StaticResource IconButtonStyle}" />
         </Grid>
 
+        <!--  blog  -->
         <Grid x:Name="blog_viewer_Grid"
               Grid.Row="1"
               HorizontalAlignment="Stretch"
@@ -225,6 +220,7 @@
             </Button>
         </Grid>
 
+        <!--  选择本  -->
         <Grid x:Name="target_selecte_Grid"
               Grid.Row="1"
               Background="Transparent"
@@ -288,6 +284,7 @@
 
         </Grid>
 
+        <!--  通知  -->
         <!--  有个bug，window不能用Converter，https://github.com/microsoft/microsoft-ui-xaml/issues/4966  -->
         <ListView x:Name="notification_ListView"
                   Grid.Row="1"
