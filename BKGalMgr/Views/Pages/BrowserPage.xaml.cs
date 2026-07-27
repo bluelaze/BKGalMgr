@@ -69,12 +69,14 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         HideExtendedContent();
     }
 
-    public async void ShowExtendedContent()
+    public void ShowExtendedContent()
     {
         if (IsLoaded)
         {
-            await Task.Delay(33);
-            search_Popup.IsOpen = true;
+            _ = DispatcherQueue.EnqueueAsync(() =>
+            {
+                search_Popup.IsOpen = true;
+            });
         }
     }
 
@@ -122,16 +124,13 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         return games_GridView.Items.Select(t => t as GameInfo).ToList();
     }
 
-    private void group_Togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
+    private async void group_Togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
     {
         if (ViewModel.IsEnableGroup)
         {
             // delay to IsChecked TwoWay binding valid
-            Task.Delay(33)
-                .ContinueWith(
-                    _ => ViewModel.GamesViewRefreshFilter(),
-                    TaskScheduler.FromCurrentSynchronizationContext()
-                );
+            await Task.Delay(33);
+            ViewModel.GamesViewRefreshFilter();
         }
     }
 

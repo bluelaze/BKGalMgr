@@ -503,19 +503,15 @@ public sealed partial class GamePlayPage : Page
             App.ShowImages(ViewModel.Game, ViewModel.Game.Screenshot, 0);
     }
 
-    private void screen_capture_Button_Click(object sender, RoutedEventArgs e)
+    private async void screen_capture_Button_Click(object sender, RoutedEventArgs e)
     {
         var targetInfo = ViewModel.Game.SelectedTarget;
         App.MainWindow.Hide();
-        Task.Delay(225)
-            .ContinueWith(
-                t =>
-                {
-                    targetInfo.DoScreenCapture();
-                    App.MainWindow.Show();
-                },
-                TaskScheduler.FromCurrentSynchronizationContext()
-            );
+
+        await Task.Delay(225);
+        targetInfo.DoScreenCapture();
+
+        App.MainWindow.Show();
     }
 
     private void library_Button_Click(object sender, RoutedEventArgs e)

@@ -87,8 +87,10 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
     {
         if (IsLoaded)
         {
-            await Task.Delay(33);
-            search_Popup.IsOpen = true;
+            _ = DispatcherQueue.EnqueueAsync(() =>
+            {
+                search_Popup.IsOpen = true;
+            });
         }
     }
 
@@ -125,16 +127,13 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         }
     }
 
-    private void group_togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
+    private async void group_togglebutton_IsCheckedChanged(object sender, RoutedEventArgs e)
     {
         if (ViewModel.SelectedRepository.IsEnableGroup)
         {
             // delay to IsChecked TwoWay binding valid
-            Task.Delay(33)
-                .ContinueWith(
-                    _ => ViewModel.SelectedRepository.GamesViewRefreshFilter(),
-                    TaskScheduler.FromCurrentSynchronizationContext()
-                );
+            await Task.Delay(33);
+            ViewModel.SelectedRepository.GamesViewRefreshFilter();
         }
     }
 

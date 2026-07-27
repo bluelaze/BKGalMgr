@@ -41,8 +41,10 @@ public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitl
         Loaded += async (s, e) =>
         {
             ShowExtendedContent();
-            await Task.Delay(100);
-            root_SelectorBar.SelectedItem = _targetSelectedItem;
+            _ = DispatcherQueue.EnqueueAsync(() =>
+            {
+                root_SelectorBar.SelectedItem = _targetSelectedItem;
+            });
         };
     }
 
@@ -84,8 +86,10 @@ public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitl
     {
         if (IsLoaded)
         {
-            await Task.Delay(33);
-            root_Popup.IsOpen = true;
+            _ = DispatcherQueue.EnqueueAsync(() =>
+            {
+                root_Popup.IsOpen = true;
+            });
         }
     }
 
