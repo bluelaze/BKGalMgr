@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
+using BKGalMgr.Interfaces;
 using BKGalMgr.Models;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
@@ -130,12 +132,16 @@ public sealed partial class MainWindow : Window
         Images.Clear();
     }
 
-    public void DeleteImage(bool alsoDeleteSystemPicture)
+    public void DeleteImage(ImageItemHelper.DeleteImageType deleteType)
     {
         var image = (IImageItem)image_viewer_FlipView.SelectedItem;
-        Images.Remove(image);
-        image.Args = alsoDeleteSystemPicture;
+        image.Args = deleteType;
         image.DeleteImage();
+
+        if (deleteType != ImageItemHelper.DeleteImageType.OnlySystem)
+        {
+            Images.Remove(image);
+        }
     }
 
     public void ShowBlog(GameInfo game)
@@ -293,11 +299,16 @@ public sealed partial class MainWindow : Window
 
     private void only_delete_game_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage(false);
+        DeleteImage(ImageItemHelper.DeleteImageType.OnlyGame);
     }
 
-    private void also_delete_system_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    private void only_delete_system_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage(true);
+        DeleteImage(ImageItemHelper.DeleteImageType.OnlySystem);
+    }
+
+    private void all_delete_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        DeleteImage(ImageItemHelper.DeleteImageType.All);
     }
 }

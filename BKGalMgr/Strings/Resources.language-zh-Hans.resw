@@ -320,8 +320,11 @@
   <data name="Commom_MenuItem_Only_Delete_Game_Picture.Text" xml:space="preserve">
     <value>仅删除游戏内图片</value>
   </data>
-  <data name="Commom_MenuItem_Also_Delete_System_Picture.Text" xml:space="preserve">
-    <value>同步删除系统图片</value>
+  <data name="Commom_MenuItem_Only_Delete_System_Picture.Text" xml:space="preserve">
+    <value>仅删除系统图片</value>
+  </data>
+  <data name="Commom_MenuItem_All_Delete_Picture.Text" xml:space="preserve">
+    <value>同时删除</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>

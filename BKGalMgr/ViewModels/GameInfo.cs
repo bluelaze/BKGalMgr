@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
+using BKGalMgr.Interfaces;
 using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ThirdParty;
 using Windows.Storage;
@@ -1118,38 +1119,49 @@ public partial class GameInfo : ObservableObject, IImageItem
     public async void DeleteImage()
     {
         var image = ((IImageItem)this).Image;
-        if (Covers.Contains(image))
+        var deleteType = ((IImageItem)this).Args as ImageItemHelper.DeleteImageType?;
+        if (deleteType == null)
+            return;
+
+        if (deleteType == ImageItemHelper.DeleteImageType.OnlyGame || deleteType == ImageItemHelper.DeleteImageType.All)
         {
-            Covers.Remove(image);
+            if (Covers.Contains(image))
+            {
+                Covers.Remove(image);
+            }
+            else if (Gallery.Contains(image))
+            {
+                Gallery.Remove(image);
+            }
+            else if (Special.Contains(image))
+            {
+                Special.Remove(image);
+            }
+            else if (Screenshot.Contains(image))
+            {
+                Screenshot.Remove(image);
+            }
+            else if (WebsiteShot.Contains(image))
+            {
+                WebsiteShot.Remove(image);
+            }
+            else if (BugBugNews.Contains(image))
+            {
+                BugBugNews.Remove(image);
+            }
+            else if (Campaign.Contains(image))
+            {
+                Campaign.Remove(image);
+            }
+            FileSystemMisc.DeleteFile(image);
         }
-        else if (Gallery.Contains(image))
+
+        if (
+            deleteType == ImageItemHelper.DeleteImageType.OnlySystem
+            || deleteType == ImageItemHelper.DeleteImageType.All
+        )
         {
-            Gallery.Remove(image);
-        }
-        else if (Special.Contains(image))
-        {
-            Special.Remove(image);
-        }
-        else if (Screenshot.Contains(image))
-        {
-            Screenshot.Remove(image);
-        }
-        else if (WebsiteShot.Contains(image))
-        {
-            WebsiteShot.Remove(image);
-        }
-        else if (BugBugNews.Contains(image))
-        {
-            BugBugNews.Remove(image);
-        }
-        else if (Campaign.Contains(image))
-        {
-            Campaign.Remove(image);
-        }
-        FileSystemMisc.DeleteFile(image);
-        if (((IImageItem)this).Args is bool alsoDeleteSystemPicture && alsoDeleteSystemPicture is true)
-        {
-            // 只有截图需要同步删除系统图片
+            // 只有截图能同步删除系统图片
             var imageName = Path.GetFileName(image);
             var timestampLength = GlobalInfo.GameScreenshotFileFormatStr.Length + (".png").Length;
             if (imageName.Length < timestampLength)

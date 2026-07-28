@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
+using BKGalMgr.Interfaces;
 using BKGalMgr.Models;
 using BKGalMgr.Services;
 using BKGalMgr.ViewModels.Pages;
@@ -135,7 +136,7 @@ public partial class App : Application
 
     public static void ShowImages(IImageItem imageOwner, IEnumerable<string> images, int selectedIndex)
     {
-        MainWindow.ShowImages(images.Select(t => new ImageItemWrapper(imageOwner, t)), selectedIndex);
+        MainWindow.ShowImages(images.Select(t => new ImageItemHelper(imageOwner, t)), selectedIndex);
     }
 
     public static void ShowInfoMessage(string message)
@@ -162,53 +163,4 @@ public partial class App : Application
 
     public static bool AutoCropScreenshotBlackBorder() =>
         GetRequiredService<SettingsDto>().AutoCropScreenshotBlackBorder;
-}
-
-public interface IImageItem
-{
-    object Args { get; set; }
-    string Image { get; set; }
-
-    public void DeleteImage();
-
-    public void SetAsGameBackground();
-
-    public void SetAsAppBackground();
-}
-
-// 考虑以后可能会出个全游戏截图浏览的功能，这样写会好点，就是搞得有点乱
-public class ImageItemWrapper : IImageItem
-{
-    public ImageItemWrapper(IImageItem imageOwner, string image)
-    {
-        ImageOwner = imageOwner;
-        Image = image;
-    }
-
-    public IImageItem ImageOwner { get; set; }
-
-    public object Args { get; set; }
-    public string Image { get; set; }
-
-    public void DeleteImage()
-    {
-        ImageOwner.Args = Args;
-        ImageOwner.Image = Image;
-        ImageOwner.DeleteImage();
-    }
-
-    public void SetAsGameBackground()
-    {
-        ImageOwner.Args = Args;
-        ImageOwner.Image = Image;
-        ImageOwner.SetAsGameBackground();
-    }
-
-    public void SetAsAppBackground()
-    {
-        var settingsDto = App.GetRequiredService<SettingsDto>();
-        settingsDto.CustomTheme.BackgroundImage = Image;
-        settingsDto.CustomTheme.ThemeType = ViewModels.CustomThemeType.Image;
-        App.GetRequiredService<SettingsDto>().SaveSettings();
-    }
 }
