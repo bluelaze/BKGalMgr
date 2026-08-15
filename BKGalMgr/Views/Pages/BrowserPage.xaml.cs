@@ -63,9 +63,9 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         Init();
     }
 
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
-        base.OnNavigatedFrom(e);
+        base.OnNavigatingFrom(e);
         HideExtendedContent();
     }
 

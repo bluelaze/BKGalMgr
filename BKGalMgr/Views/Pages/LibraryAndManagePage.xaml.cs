@@ -82,6 +82,17 @@ public sealed partial class LibraryAndManagePage : Page, IExtendsContentIntoTitl
         }
     }
 
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+    {
+        base.OnNavigatingFrom(e);
+
+        HideExtendedContent();
+        if (root_Frame.Content is IExtendsContentIntoTitleBarPage page)
+        {
+            page.HideExtendedContent();
+        }
+    }
+
     public async void ShowExtendedContent()
     {
         if (IsLoaded)

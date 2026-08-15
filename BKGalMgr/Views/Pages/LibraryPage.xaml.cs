@@ -77,9 +77,9 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         }
     }
 
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
-        base.OnNavigatedFrom(e);
+        base.OnNavigatingFrom(e);
         HideExtendedContent();
     }
 

@@ -43,14 +43,14 @@ public sealed partial class ReviewPage : Page
         }
     }
 
-    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
+        base.OnNavigatingFrom(e);
+
         if (games_filter_popup_Grid.Visibility == Visibility.Visible)
         {
             games_filter_Page.HideExtendedContent();
         }
-
-        base.OnNavigatedFrom(e);
     }
 
     private void ReviewPage_Loaded(object sender, RoutedEventArgs e)
