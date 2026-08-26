@@ -4,14 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BKGalMgr.ViewModels;
 using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using Microsoft.UI.Xaml.Data;
 using SkiaSharp;
-using Windows.Devices.Lights;
 
 namespace BKGalMgr.Converters;
 

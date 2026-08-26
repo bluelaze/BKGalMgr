@@ -15,7 +15,6 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.Devices.Lights;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 

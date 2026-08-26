@@ -8,7 +8,6 @@ using BKGalMgr.ViewModels;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using Microsoft.UI.Xaml.Data;
-using Windows.Devices.Lights;
 
 namespace BKGalMgr.Converters;
 

@@ -9,7 +9,6 @@ using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
 using Microsoft.UI.Xaml.Data;
-using Windows.Devices.Lights;
 
 namespace BKGalMgr.Converters;
 

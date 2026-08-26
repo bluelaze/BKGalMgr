@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using BKGalMgr.Behaviors;
 using Microsoft.UI.Input;
 
 namespace BKGalMgr.Extensions;

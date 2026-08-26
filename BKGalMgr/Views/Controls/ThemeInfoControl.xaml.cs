@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using BKGalMgr.Converters;
-using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
 using CommunityToolkit.WinUI.Helpers;
@@ -18,7 +16,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

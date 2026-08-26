@@ -8,10 +8,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Newtonsoft.Json.Linq;
-using ShareX.HelpersLib;
-using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace BKGalMgr.Helpers;
 
