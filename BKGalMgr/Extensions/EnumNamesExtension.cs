@@ -16,7 +16,7 @@ public sealed partial class EnumNamesExtension : MarkupExtension
     /// <summary>
     /// Gets or sets the <see cref="global::System.Type"/> of the target <see langword="enum"/>
     /// </summary>
-    public Type? Type { get; set; }
+    public Type Type { get; set; }
 
     /// <inheritdoc/>
     protected override object ProvideValue()

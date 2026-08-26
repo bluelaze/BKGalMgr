@@ -60,7 +60,7 @@ public class Hotkey
                 }
             );
         }
-        catch (Exception e)
+        catch
         {
             return false;
         }
