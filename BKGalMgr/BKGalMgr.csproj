@@ -229,9 +229,6 @@
         <Page Update="Resources\DeleteButtonStyle.xaml">
             <Generator>MSBuild:Compile</Generator>
         </Page>
-        <Page Update="Resources\Palette.xaml">
-            <Generator>MSBuild:Compile</Generator>
-        </Page>
     </ItemGroup>
 
     <!--
