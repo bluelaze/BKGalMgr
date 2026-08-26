@@ -6,55 +6,51 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
+using Microsoft.Windows.Storage.Pickers;
 
 namespace BKGalMgr.Common;
 
 public class FileSystemMisc
 {
-    public static async Task<StorageFile> PickFile(List<string> fileTypeFilter)
+    public static async Task<string> PickSingleFileAsync(List<string> fileTypeFilter, string suggestedFolder = null)
     {
-        var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
-        filePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+        var filePicker = new FileOpenPicker(App.MainWindow.GetWindowId())
+        {
+            SuggestedFolder = suggestedFolder,
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+        };
 
         foreach (var filter in fileTypeFilter)
             filePicker.FileTypeFilter.Add(filter);
 
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-        WinRT.Interop.InitializeWithWindow.Initialize(filePicker, hWnd);
-
-        return await filePicker.PickSingleFileAsync();
+        return (await filePicker.PickSingleFileAsync())?.Path;
     }
 
-    // https://learn.microsoft.com/dotnet/api/system.windows.forms.filedialog
-    /// <summary>
-    /// For each filtering option, the filter string contains a description of the filter, followed by the vertical bar (|) and the filter pattern.<br/>
-    /// The strings for different filtering options are separated by the vertical bar.<br/>
-    /// The following is an example of a filter string:
-    /// <code>Text files(*.txt)|*.txt|All files(*.*)|*.*</code>
-    /// </summary>
-    /// <param name="initialDirectory"></param>
-    /// <param name="fileTypeFilter"></param>
-    /// <returns></returns>
-    public static string[] PickFile(string initialDirectory, List<string> fileTypeFilter)
+    public static async Task<List<string>> PickMultipleFilesAsync(
+        List<string> fileTypeFilter,
+        string suggestedFolder = ""
+    )
     {
-        return ThirdParty.FileSystem.PickFile(initialDirectory, fileTypeFilter);
-    }
-
-    public static async Task<StorageFolder> PickFolder(List<string> fileTypeFilter)
-    {
-        var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-        folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+        var filePicker = new FileOpenPicker(App.MainWindow.GetWindowId())
+        {
+            SuggestedFolder = suggestedFolder,
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+        };
 
         foreach (var filter in fileTypeFilter)
-            folderPicker.FileTypeFilter.Add(filter);
+            filePicker.FileTypeFilter.Add(filter);
 
-        // Retrieve the window handle (HWND) of the current WinUI 3 window.
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(App.MainWindow);
-        WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hWnd);
+        return (await filePicker.PickMultipleFilesAsync())?.Select(f => f.Path).ToList();
+    }
 
-        return await folderPicker.PickSingleFolderAsync();
+    public static async Task<string> PickSingleFolderAsync()
+    {
+        var folderPicker = new FolderPicker(App.MainWindow.GetWindowId())
+        {
+            SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+        };
+
+        return (await folderPicker.PickSingleFolderAsync())?.Path;
     }
 
     public static (bool success, string message) CopyFile(

@@ -34,10 +34,10 @@ public sealed partial class SaveDataSettingsInfoControl : UserControl
 
     private async void pick_savedata_folder_Button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
-            pick_savedata_folder_TextBox.Text = folder.Path;
+            pick_savedata_folder_TextBox.Text = folderPath;
         }
     }
 }

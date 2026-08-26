@@ -175,16 +175,16 @@ public sealed partial class MainPage : Page
 
     private async void add_repository_Button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
             App.ShowLoading();
 
-            RepositoryInfo newRepository = new() { FolderPath = folder.Path };
+            RepositoryInfo newRepository = new() { FolderPath = folderPath };
 
             // 已有仓库，直接添加
             if (
-                RepositoryInfo.IsExistedRepository(folder.Path)
+                RepositoryInfo.IsExistedRepository(folderPath)
                 && true == await ViewModel.LibraryAndManagePageViewModel.AddRepository(newRepository)
             )
             {

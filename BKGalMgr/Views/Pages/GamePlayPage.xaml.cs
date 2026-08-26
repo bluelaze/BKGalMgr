@@ -368,11 +368,9 @@ public sealed partial class GamePlayPage : Page
                     Glyph = "\uE838",
                 },
             };
-            pickFolder.Click += (object sender, RoutedEventArgs e) =>
+            pickFolder.Click += async (object sender, RoutedEventArgs e) =>
             {
-                if (
-                    FileSystemMisc.PickFile(saveFolderPath, ["Save data file|*.*"])?.FirstOrDefault() is string saveFile
-                )
+                if (await FileSystemMisc.PickSingleFileAsync([], saveFolderPath) is string saveFile)
                 {
                     saveFolderPath = Path.GetDirectoryName(saveFile);
                     msgTextBlk.Text = LanguageHelper.GetString("Msg_SaveData_Path_Detected").Format(saveFolderPath);

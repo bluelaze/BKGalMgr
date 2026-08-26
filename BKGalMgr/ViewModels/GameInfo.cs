@@ -1237,10 +1237,10 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [RelayCommand]
     [property: JsonIgnore]
-    public void CustomCover()
+    public async Task CustomCover()
     {
         string coversFolder = Path.Combine(FolderPath, GlobalInfo.GameCoversFolderName);
-        var cover = FileSystemMisc.PickFile(coversFolder, new() { "Image Files|*.*" })?.FirstOrDefault();
+        var cover = await FileSystemMisc.PickSingleFileAsync([], coversFolder);
         if (cover == null)
             return;
         Cover = cover;
@@ -1250,7 +1250,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [RelayCommand]
     [property: JsonIgnore]
-    public void MoveImageToCoverFolder(string folderName)
+    public async Task MoveImageToCoverFolder(string folderName)
     {
         if (folderName.IsNullOrEmpty())
             return;
@@ -1275,7 +1275,7 @@ public partial class GameInfo : ObservableObject, IImageItem
         {
             return;
         }
-        var images = FileSystemMisc.PickFile(coversFolder, new() { "Image Files|*.*" });
+        var images = await FileSystemMisc.PickMultipleFilesAsync([], coversFolder);
         if (images == null)
             return;
         foreach (var image in images)
@@ -1287,7 +1287,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [RelayCommand]
     [property: JsonIgnore]
-    public void MoveImageToSpecialFolder(string folderName)
+    public async Task MoveImageToSpecialFolder(string folderName)
     {
         if (folderName.IsNullOrEmpty())
             return;
@@ -1319,7 +1319,7 @@ public partial class GameInfo : ObservableObject, IImageItem
         {
             return;
         }
-        var images = FileSystemMisc.PickFile(specialFolder, new() { "Image Files|*.*" });
+        var images = await FileSystemMisc.PickMultipleFilesAsync([], specialFolder);
         if (images == null)
             return;
         foreach (var image in images)

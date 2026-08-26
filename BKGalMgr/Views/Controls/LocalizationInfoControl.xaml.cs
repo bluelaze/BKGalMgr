@@ -34,12 +34,12 @@ public sealed partial class LocalizationInfoControl : UserControl
         return vm != null && vm.IsValid();
     }
 
-    private void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
+    private async void pick_startup_name_button_Click(object sender, RoutedEventArgs e)
     {
-        var files = FileSystemMisc.PickFile(PickFilePath, ["Executable file|*.exe", "Shortcut|*.lnk"]);
-        if (files?.Any() == true)
+        var file = await FileSystemMisc.PickSingleFileAsync([".exe", ".lnk"], PickFilePath);
+        if (file != null)
         {
-            pick_startup_name_headeredtextbox.Text = Path.GetFileName(files.First());
+            pick_startup_name_headeredtextbox.Text = Path.GetFileName(file);
         }
     }
 

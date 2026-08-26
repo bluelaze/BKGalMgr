@@ -316,10 +316,10 @@ public sealed partial class ManagePage : Page
 
     private async void add_source_folder_button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
-            await AddSource(folder.Path);
+            await AddSource(folderPath);
         }
     }
 
@@ -377,10 +377,10 @@ public sealed partial class ManagePage : Page
 
     private async void add_localization_folder_button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
-            await AddLocalization(folder.Path);
+            await AddLocalization(folderPath);
         }
     }
 
@@ -449,10 +449,10 @@ public sealed partial class ManagePage : Page
 
     private async void add_target_folder_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
-            await AddTargetWithFolder(folder.Path);
+            await AddTargetWithFolder(folderPath);
         }
     }
 
@@ -515,10 +515,10 @@ public sealed partial class ManagePage : Page
 
     private async void add_target_shortcut_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(new() { ".exe", ".lnk" });
+        string file = await FileSystemMisc.PickSingleFileAsync([".exe", ".lnk"]);
         if (file == null)
             return;
-        await AddTargetWithShortcut(file.Path);
+        await AddTargetWithShortcut(file);
     }
 
     private async Task AddTargetWithShortcut(string filePath)
@@ -629,11 +629,11 @@ public sealed partial class ManagePage : Page
         )
             return;
 
-        Windows.Storage.StorageFolder folder = await FileSystemMisc.PickFolder(new() { "*" });
-        if (folder != null)
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
         {
             App.ShowLoading();
-            await targetInfo.CopyTargetAsSourceToFolder(folder.Path);
+            await targetInfo.CopyTargetAsSourceToFolder(folderPath);
             App.HideLoading();
         }
     }
@@ -909,12 +909,10 @@ public sealed partial class ManagePage : Page
         var charater = (sender as Button).DataContext as CharacterInfo;
         if (charater.Illustration.IsNullOrEmpty())
         {
-            Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(
-                GlobalInfo.GameCoverSupportFormats.ToList()
-            );
+            string file = await FileSystemMisc.PickSingleFileAsync(GlobalInfo.GameCoverSupportFormats.ToList());
             if (file != null)
             {
-                charater.Illustration = file.Path;
+                charater.Illustration = file;
                 await charater.SaveIllustration();
             }
         }

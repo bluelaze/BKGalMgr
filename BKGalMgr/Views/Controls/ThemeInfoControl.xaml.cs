@@ -75,22 +75,12 @@ public sealed partial class ThemeInfoControl : UserControl
 
     private async void pick_background_image_Button_Click(object sender, RoutedEventArgs e)
     {
-        if (ImageFolder.IsNullOrEmpty())
-        {
-            Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(
-                GlobalInfo.GameCoverSupportFormats.ToList()
-            );
-            if (file != null)
-                pick_background_image_TextBox.Text = file.Path;
-        }
-        else
-        {
-            var files = FileSystemMisc.PickFile(ImageFolder, new() { "Image Files|*.*" });
-            if (files?.Any() == true)
-            {
-                pick_background_image_TextBox.Text = files.First();
-            }
-        }
+        string file = await FileSystemMisc.PickSingleFileAsync(
+            GlobalInfo.GameCoverSupportFormats.ToList(),
+            ImageFolder
+        );
+        if (file != null)
+            pick_background_image_TextBox.Text = file;
     }
 
     private void switch_color_Button_Click(object sender, RoutedEventArgs e)

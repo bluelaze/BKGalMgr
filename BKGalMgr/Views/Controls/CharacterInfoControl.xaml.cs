@@ -34,10 +34,10 @@ public sealed partial class CharacterInfoControl : UserControl
 
     private async void pick_illustration_Button_Click(object sender, RoutedEventArgs e)
     {
-        Windows.Storage.StorageFile file = await FileSystemMisc.PickFile(GlobalInfo.GameCoverSupportFormats.ToList());
+        string file = await FileSystemMisc.PickSingleFileAsync(GlobalInfo.GameCoverSupportFormats.ToList());
         if (file != null)
         {
-            pick_illustration_HeaderedTextBox.Text = file.Path;
+            pick_illustration_HeaderedTextBox.Text = file;
         }
     }
 
