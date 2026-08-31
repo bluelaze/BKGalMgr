@@ -54,7 +54,7 @@
                     <Grid>
                         <TextBox x:Name="pick_background_image_TextBox"
                                  MinWidth="200"
-                                 Text="{x:Bind ViewModel.BackgroundImage, Mode=TwoWay}" />
+                                 Text="{x:Bind ViewModel.BackgroundImage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button x:Name="pick_background_image_Button"
                                 Width="30"
                                 Margin="{ThemeResource TextBoxInnerButtonMargin}"
