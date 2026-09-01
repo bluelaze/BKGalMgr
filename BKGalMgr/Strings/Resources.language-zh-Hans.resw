@@ -867,6 +867,9 @@
   <data name="Settings_Linear_Gradient_Colors.Header" xml:space="preserve">
     <value>渐变色</value>
   </data>
+  <data name="Settings_Auto_Hide_Game_Info.Header" xml:space="preserve">
+    <value>自动隐藏游戏信息</value>
+  </data>
   <data name="Settings_Hide_Return.Header" xml:space="preserve">
     <value>隐藏返回</value>
   </data>

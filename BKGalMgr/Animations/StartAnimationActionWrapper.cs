@@ -36,6 +36,19 @@ public sealed partial class StartAnimationActionWrapper : DependencyObject, IAct
         new PropertyMetadata(null)
     );
 
+    public bool IsEnabled
+    {
+        get => (bool)GetValue(IsEnabledProperty);
+        set => SetValue(IsEnabledProperty, value);
+    }
+
+    public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register(
+        nameof(IsEnabled),
+        typeof(bool),
+        typeof(StartAnimationActionWrapper),
+        new PropertyMetadata(true)
+    );
+
     private StartAnimationAction _action;
 
     public StartAnimationActionWrapper()
@@ -45,7 +58,7 @@ public sealed partial class StartAnimationActionWrapper : DependencyObject, IAct
 
     public object Execute(object sender, object parameter)
     {
-        if (Animation is null)
+        if (!IsEnabled || Animation is null)
             return null;
 
         _action.Animation = Animation;

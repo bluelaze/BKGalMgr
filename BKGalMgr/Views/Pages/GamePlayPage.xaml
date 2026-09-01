@@ -2,6 +2,7 @@
 <Page x:Class="BKGalMgr.Views.Pages.GamePlayPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:BKGalMgr.Animations"
       xmlns:behaviors="using:BKGalMgr.Behaviors"
       xmlns:controls="using:BKGalMgr.Views.Controls"
       xmlns:converters="using:BKGalMgr.Converters"
@@ -143,12 +144,42 @@
                     Visibility="{x:Bind ViewModel.Game.CustomTheme.HideReturn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
         </StackPanel>
         <!--  center  -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <!--  自动虚化  -->
+            <interactivity:Interaction.Behaviors>
+                <interactivity:EventTriggerBehavior EventName="PointerEntered">
+                    <animations:StartAnimationActionWrapper Animation="{x:Bind Show_Game_Info_AnimationSet}" IsEnabled="{x:Bind ViewModel.Game.CustomTheme.AutoHideGameInfo, Mode=OneWay}" />
+                </interactivity:EventTriggerBehavior>
+                <interactivity:EventTriggerBehavior EventName="PointerExited">
+                    <animations:StartAnimationActionWrapper Animation="{x:Bind Hide_Game_Info_AnimationSet}" IsEnabled="{x:Bind ViewModel.Game.CustomTheme.AutoHideGameInfo, Mode=OneWay}" />
+                </interactivity:EventTriggerBehavior>
+                <interactivity:DataTriggerBehavior Binding="{x:Bind ViewModel.Game.CustomTheme.AutoHideGameInfo, Mode=OneWay}"
+                                                   ComparisonCondition="Equal"
+                                                   Value="False">
+                    <animations:StartAnimationActionWrapper Animation="{x:Bind Show_Game_Info_AnimationSet}" />
+                </interactivity:DataTriggerBehavior>
+                <interactivity:DataTriggerBehavior Binding="{x:Bind ViewModel.Game.CustomTheme.AutoHideGameInfo, Mode=OneWay}"
+                                                   ComparisonCondition="Equal"
+                                                   Value="True">
+                    <animations:StartAnimationActionWrapper Animation="{x:Bind Hide_Game_Info_AnimationSet}" />
+                </interactivity:DataTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+            <manimations:Explicit.Animations>
+                <manimations:AnimationSet x:Name="Show_Game_Info_AnimationSet">
+                    <manimations:OpacityAnimation To="1" Duration="0:0:0.3" />
+                </manimations:AnimationSet>
+                <manimations:AnimationSet x:Name="Hide_Game_Info_AnimationSet">
+                    <manimations:OpacityAnimation Duration="0:0:2">
+                        <manimations:ScalarKeyFrame Key="0.7" Value="1" />
+                        <manimations:ScalarKeyFrame Key="1.0" Value="0" />
+                    </manimations:OpacityAnimation>
+                </manimations:AnimationSet>
+            </manimations:Explicit.Animations>
             <!--  left  -->
             <Grid Grid.Column="1" Visibility="{x:Bind ViewModel.Game.CustomTheme.HideCover, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
                 <Grid.ColumnDefinitions>

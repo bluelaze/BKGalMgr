@@ -35,6 +35,9 @@ public partial class ThemeInfo : ObservableObject
     public partial bool AutomaticImageThemeType { get; set; } = true;
 
     [ObservableProperty]
+    public partial bool AutoHideGameInfo { get; set; } = false;
+
+    [ObservableProperty]
     public partial bool HideReturn { get; set; } = false;
 
     [ObservableProperty]
@@ -83,6 +86,7 @@ public partial class ThemeInfo : ObservableObject
         if (AutomaticImageThemeType)
         {
             ThemeType = CustomThemeType.Image;
+            AutoHideGameInfo = true;
             HideReturn = true;
             HideCover = true;
             RequestedTheme = await Task.Run(

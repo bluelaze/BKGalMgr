@@ -88,6 +88,9 @@
                         <mcontrols:ColorPickerButton x:Name="LinearGradientEndColor_ColorPickerButton" SelectedColor="{x:Bind ViewModel.LinearGradientEndColor, Mode=TwoWay, Converter={StaticResource StringToColorConverter}}" />
                     </StackPanel>
                 </mcontrols:SettingsCard>
+                <mcontrols:SettingsCard x:Uid="Settings_Auto_Hide_Game_Info" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.AutoHideGameInfo, Mode=TwoWay}" />
+                </mcontrols:SettingsCard>
                 <mcontrols:SettingsCard x:Uid="Settings_Hide_Return" Visibility="{x:Bind IsGameMode, Mode=OneWay}">
                     <ToggleSwitch IsOn="{x:Bind ViewModel.HideReturn, Mode=TwoWay}" />
                 </mcontrols:SettingsCard>

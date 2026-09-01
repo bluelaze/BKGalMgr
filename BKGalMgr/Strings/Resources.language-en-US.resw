@@ -867,6 +867,9 @@ More in crash_exception.txt</value>
   <data name="Settings_Linear_Gradient_Colors.Header" xml:space="preserve">
     <value>Linear Gradient Colors</value>
   </data>
+  <data name="Settings_Auto_Hide_Game_Info.Header" xml:space="preserve">
+    <value>Auto Hide Game Info</value>
+  </data>
   <data name="Settings_Hide_Return.Header" xml:space="preserve">
     <value>Hide Return</value>
   </data>
