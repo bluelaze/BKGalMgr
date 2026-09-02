@@ -101,6 +101,7 @@
             <converters:StringToColorConverter x:Key="StringToColorConverter" />
             <converters:EnumNameConveretr x:Key="EnumNameConveretr" />
             <converters:UriSafeConverter x:Key="UriSafeConverter" />
+            <converters:EnumCompareConveretr x:Key="EnumCompareConveretr" />
 
             <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"

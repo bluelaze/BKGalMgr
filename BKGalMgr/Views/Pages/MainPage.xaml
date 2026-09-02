@@ -127,6 +127,20 @@
                                                             x:Uid="Commom_MenuItem_Load"
                                                             Click="load_repository_Menuflyoutitem_Click"
                                                             IsEnabled="{x:Bind Ignore, Mode=OneWay}" />
+                                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Mosaic">
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_None"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="None" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Small"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Small" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Medium"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Medium" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Big"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Big" />
+                                            </MenuFlyoutSubItem>
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="remove_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Remove"
@@ -243,13 +257,26 @@
                                                             x:Uid="Commom_MenuItem_Load"
                                                             Click="load_repository_Menuflyoutitem_Click"
                                                             IsEnabled="{x:Bind Ignore, Mode=OneWay}" />
+                                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Mosaic">
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_None"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="None" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Small"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Small" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Medium"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Medium" />
+                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Big"
+                                                                Command="{x:Bind SetMosaicCommand, Mode=OneTime}"
+                                                                CommandParameter="Big" />
+                                            </MenuFlyoutSubItem>
                                             <MenuFlyoutSeparator />
                                             <MenuFlyoutItem x:Name="remove_repository_Menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Remove"
                                                             Click="remove_repository_Menuflyoutitem_Click">
                                                 <MenuFlyoutItem.Resources>
                                                     <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
-
                                                 </MenuFlyoutItem.Resources>
                                             </MenuFlyoutItem>
                                         </MenuFlyout>

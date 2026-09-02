@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic;
+using BKGalMgr.Enums;
 
 namespace BKGalMgr.ViewModels;
 
@@ -368,5 +368,18 @@ public partial class RepositoryInfo : ObservableObject
     public void OpenJsonFolder()
     {
         Process.Start("explorer", FolderPath);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void SetMosaic(string mosaicType)
+    {
+        if (Enum.TryParse(mosaicType, out MosaicType result))
+        {
+            foreach (var game in Games)
+            {
+                game.Mosaic = result;
+            }
+        }
     }
 }

@@ -201,6 +201,7 @@
                                 <Image Height="170"
                                        VerticalAlignment="Top"
                                        helpers:ImageLoadHelper.DecodePixelHeight="170"
+                                       helpers:ImageLoadHelper.MosaicType="{x:Bind Game.Mosaic, Mode=OneWay}"
                                        helpers:ImageLoadHelper.UriSource="{x:Bind Game.Cover, Mode=OneWay}">
                                     <ToolTipService.ToolTip>
                                         <ToolTip MaxWidth="1080"

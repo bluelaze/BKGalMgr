@@ -326,6 +326,21 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_All_Delete_Picture.Text" xml:space="preserve">
     <value>All Delete</value>
   </data>
+  <data name="Commom_MenuItem_Mosaic.Text" xml:space="preserve">
+    <value>Mosaic</value>
+  </data>
+  <data name="Commom_MenuItem_Mosaic_None.Text" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Commom_MenuItem_Mosaic_Small.Text" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="Commom_MenuItem_Mosaic_Medium.Text" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Commom_MenuItem_Mosaic_Big.Text" xml:space="preserve">
+    <value>Big</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>

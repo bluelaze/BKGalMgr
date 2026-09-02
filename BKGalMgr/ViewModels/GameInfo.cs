@@ -13,6 +13,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Enums;
 using BKGalMgr.Helpers;
 using BKGalMgr.Interfaces;
 using BKGalMgr.Models.Bangumi;
@@ -104,6 +105,9 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [ObservableProperty]
     public partial bool StopTimingWhenNotActive { get; set; } = true;
+
+    [ObservableProperty]
+    public partial MosaicType Mosaic { get; set; } = MosaicType.None;
 
     [ObservableProperty]
     public partial ShoppingSiteInfo ShoppingInfo { get; set; }
@@ -351,9 +355,14 @@ public partial class GameInfo : ObservableObject, IImageItem
             && e.PropertyName != nameof(Campaign)
             && PlayStatus == PlayStatus.Stop
         )
+        {
             IsPropertyChanged = true;
-        if (e.PropertyName == nameof(PinValue))
+        }
+
+        if (e.PropertyName == nameof(PinValue) || e.PropertyName == nameof(Mosaic))
+        {
             SaveJsonFile();
+        }
     }
 
     private void Group_CollectionChanged(

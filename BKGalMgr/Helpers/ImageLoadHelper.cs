@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Enums;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -90,6 +91,23 @@ public static class ImageLoadHelper
         element.SetValue(CreateOptionsProperty, value);
     }
 
+    private static readonly DependencyProperty MosaicTypeProperty = DependencyProperty.RegisterAttached(
+        "MosaicType",
+        typeof(MosaicType),
+        typeof(ImageLoadHelper),
+        new PropertyMetadata(MosaicType.None, OnPropertyChanged)
+    );
+
+    public static MosaicType GetMosaicType(Image element)
+    {
+        return (MosaicType)element.GetValue(MosaicTypeProperty);
+    }
+
+    public static void SetMosaicType(Image element, MosaicType value)
+    {
+        element.SetValue(MosaicTypeProperty, value);
+    }
+
     private static readonly DependencyProperty LoadingCtsProperty = DependencyProperty.RegisterAttached(
         "LoadingCts",
         typeof(CancellationTokenSource),
@@ -119,6 +137,7 @@ public static class ImageLoadHelper
         string filePath = GetUriSource(image);
         int decodeWidth = GetDecodePixelWidth(image);
         int decodeHeight = GetDecodePixelHeight(image);
+        MosaicType mosaicType = GetMosaicType(image);
         BitmapCreateOptions bitmapCreateOptions = GetCreateOptions(image);
 
         // 非标准路径直接清空旧图，避免抛出异常
@@ -129,7 +148,7 @@ public static class ImageLoadHelper
         }
 
         // 2. 查询缓存（若已超时失效，TryGetValue 会直接返回 false）
-        string cacheKey = $"{filePath}_{decodeWidth}_{decodeHeight}";
+        string cacheKey = $"{filePath}_{decodeWidth}_{decodeHeight}_{mosaicType}";
         if (
             bitmapCreateOptions != BitmapCreateOptions.IgnoreImageCache
             && Cache.TryGetValue(cacheKey, out WeakReference<BitmapImage> weakRef)
@@ -148,7 +167,7 @@ public static class ImageLoadHelper
         var token = newCts.Token;
         try
         {
-            BitmapImage loadedBitmap = await LoadAndDecodeAsync(filePath, decodeWidth, decodeHeight, token);
+            BitmapImage loadedBitmap = await LoadAndDecodeAsync(filePath, decodeWidth, decodeHeight, mosaicType, token);
 
             if (!token.IsCancellationRequested && loadedBitmap != null)
             {
@@ -183,6 +202,7 @@ public static class ImageLoadHelper
         string filePath,
         int targetWidth,
         int targetHeight,
+        MosaicType mosaicType,
         CancellationToken token
     )
     {
@@ -217,7 +237,15 @@ public static class ImageLoadHelper
             DecodePixelType = DecodePixelType.Logical,
         };
 
-        await bitmap.SetSourceAsync(randomAccessStream);
+        if (mosaicType == MosaicType.None)
+        {
+            await bitmap.SetSourceAsync(randomAccessStream);
+        }
+        else
+        {
+            using var mosaicStream = await ImageMisc.CreateMosaicAsync(randomAccessStream, mosaicType);
+            await bitmap.SetSourceAsync(mosaicStream);
+        }
 
         if (token.IsCancellationRequested)
             return null;

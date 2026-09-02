@@ -37,6 +37,7 @@
                 <Image HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        helpers:ImageLoadHelper.DecodePixelHeight="260"
+                       helpers:ImageLoadHelper.MosaicType="{x:Bind Game.Mosaic, Mode=OneWay}"
                        helpers:ImageLoadHelper.UriSource="{x:Bind Game.Cover, Mode=OneWay}"
                        x:Phase="1"
                        Stretch="UniformToFill" />
@@ -119,6 +120,7 @@
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                helpers:ImageLoadHelper.DecodePixelWidth="480"
+                                               helpers:ImageLoadHelper.MosaicType="{x:Bind Mosaic, Mode=OneWay}"
                                                helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}"
                                                Stretch="UniformToFill"
                                                Tapped="banner_image_Tapped" />
@@ -187,6 +189,7 @@
                                             <Image HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    helpers:ImageLoadHelper.DecodePixelHeight="105"
+                                                   helpers:ImageLoadHelper.MosaicType="{x:Bind Mosaic, Mode=OneWay}"
                                                    helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}"
                                                    Stretch="UniformToFill" />
                                         </Border>
