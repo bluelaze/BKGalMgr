@@ -24,9 +24,11 @@
                             QuerySubmitted="search_game_AutoSuggestBox_QuerySubmitted"
                             Visibility="{x:Bind HideSearch, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
             <mcontrols:SettingsCard x:Uid="Bangumi_Game_Access_Token" Header="Access Token">
-                <local:HeaderedTextBox CanEmpty="False"
+                <local:HeaderedTextBox Width="256"
+                                       CanEmpty="False"
                                        HeaderWidth="0"
-                                       Text="{x:Bind AccessToken, Mode=TwoWay}" />
+                                       IsReadOnly="True"
+                                       Text="{x:Bind AccessToken, Mode=OneWay}" />
             </mcontrols:SettingsCard>
             <mcontrols:SettingsCard x:Uid="Bangumi_Game_Subject_Url">
                 <Grid MinWidth="256" MaxWidth="600">
