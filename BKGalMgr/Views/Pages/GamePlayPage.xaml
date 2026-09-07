@@ -289,7 +289,6 @@
                                      BorderBrush="Transparent"
                                      FontSize="15"
                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                     LostFocus="blog_TextBox_LostFocus"
                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                                      Text="{x:Bind ViewModel.Game.Blog, Mode=TwoWay}"
                                      TextWrapping="Wrap" />

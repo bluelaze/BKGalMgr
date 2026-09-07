@@ -359,7 +359,7 @@ public partial class GameInfo : ObservableObject, IImageItem
             IsPropertyChanged = true;
         }
 
-        if (e.PropertyName == nameof(PinValue) || e.PropertyName == nameof(Mosaic))
+        if (e.PropertyName == nameof(PinValue) || e.PropertyName == nameof(Mosaic) || e.PropertyName == nameof(Blog))
         {
             SaveJsonFile();
         }

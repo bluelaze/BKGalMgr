@@ -420,11 +420,6 @@ public sealed partial class GamePlayPage : Page
         App.MainWindow.NavigateToMainPage();
     }
 
-    private void blog_TextBox_LostFocus(object sender, RoutedEventArgs e)
-    {
-        ViewModel.Game.SaveJsonFile();
-    }
-
     private async void play_Button_Click(object sender, RoutedEventArgs e)
     {
         if (ViewModel.Game.PlayStatus != PlayStatus.Stop && ViewModel.Game.StopTimingWhenNotActive)
