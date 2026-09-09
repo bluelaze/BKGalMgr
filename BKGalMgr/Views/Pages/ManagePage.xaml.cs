@@ -64,11 +64,6 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private void add_game_button_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel.AddNewGame();
-    }
-
     private async void games_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (games_ComboBox.SelectedItem is GameInfo game)

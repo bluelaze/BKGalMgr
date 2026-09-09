@@ -304,8 +304,7 @@ public partial class RepositoryInfo : ObservableObject
 
     public GameInfo NewGame()
     {
-        var game = new GameInfo();
-        game.SetRepository(this);
+        var game = new GameInfo(this);
         return game;
     }
 

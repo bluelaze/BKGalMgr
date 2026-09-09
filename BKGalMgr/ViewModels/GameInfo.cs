@@ -215,9 +215,19 @@ public partial class GameInfo : ObservableObject, IImageItem
     [JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
 
+    // 为了避免在加载游戏信息时触发属性更改事件，导致不必要的保存操作
+    private bool _isLoading = true;
+
     public GameInfo()
     {
         Group.CollectionChanged += Group_CollectionChanged;
+    }
+
+    public GameInfo(RepositoryInfo repository)
+    {
+        _isLoading = false;
+        Group.CollectionChanged += Group_CollectionChanged;
+        SetRepository(repository);
     }
 
     public static GameInfo Open(string dirPath, RepositoryInfo repo)
@@ -296,7 +306,7 @@ public partial class GameInfo : ObservableObject, IImageItem
         gameInfo.LoadTheme();
         gameInfo.Repository = repo;
         gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
-        gameInfo.IsPropertyChanged = false;
+        gameInfo._isLoading = false;
         return gameInfo;
     }
 
@@ -309,6 +319,9 @@ public partial class GameInfo : ObservableObject, IImageItem
     public void SetRepository(RepositoryInfo repository)
     {
         Repository = repository;
+        // 有可能用户改了游戏文件夹名称，而不是默认的日期格式
+        // 迁移游戏时，目前逻辑不会执行到这里
+        // 注意这个判断可能导致jsonpath没正确更新到对应的仓库
         if (JsonPath.IsNullOrEmpty())
         {
             JsonPath = Path.Combine(
@@ -348,6 +361,10 @@ public partial class GameInfo : ObservableObject, IImageItem
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
+
+        if (_isLoading)
+            return;
+
         if (
             e.PropertyName != nameof(IsPropertyChanged)
             && e.PropertyName != nameof(WebsiteShot)
@@ -359,6 +376,10 @@ public partial class GameInfo : ObservableObject, IImageItem
             IsPropertyChanged = true;
         }
 
+        // 在加载游戏信息发序列化时，也会触发属性更改事件，所以才加了isLoading，
+        // 在new一个对象后，需要设置isLoading为false，且新对象也后续更改时，也得注意别触发下面属性，
+        // 否者不想要的对象也会在本地创建一个文件夹，就很多余，
+        // 不这样写，又得针对这几个属性更改来保存json文件，太麻烦了，所以目前还是先这样写吧
         if (e.PropertyName == nameof(PinValue) || e.PropertyName == nameof(Mosaic) || e.PropertyName == nameof(Blog))
         {
             SaveJsonFile();
