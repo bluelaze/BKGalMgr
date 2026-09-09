@@ -182,13 +182,6 @@ public sealed partial class ManagePage : Page
 
     private async void open_bangumi_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        if (ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId.IsNullOrEmpty())
-        {
-            (ContentDialogResult result, string subjectUrl) = await EditBangumiGameInfo("");
-            if (result != ContentDialogResult.Primary)
-                return;
-            ViewModel.UpdateBangumiSubjectId(subjectUrl);
-        }
         ViewModel.OpenBangumiGame(ViewModel.SelectedRepository.SelectedGame);
     }
 
@@ -220,13 +213,6 @@ public sealed partial class ManagePage : Page
 
     private async void open_t2dfan_game_menuflyoutitem_Click(object sender, RoutedEventArgs e)
     {
-        if (ViewModel.SelectedRepository.SelectedGame.T2DFanSubjectId.IsNullOrEmpty())
-        {
-            (ContentDialogResult result, string subjectUrl) = await Edit2DFanGameInfo("");
-            if (result != ContentDialogResult.Primary)
-                return;
-            ViewModel.Update2DFanSubjectId(subjectUrl);
-        }
         ViewModel.Open2dfanGame(ViewModel.SelectedRepository.SelectedGame);
     }
 

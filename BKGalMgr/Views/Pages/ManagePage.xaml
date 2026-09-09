@@ -115,7 +115,7 @@
                             <MenuFlyoutItem x:Name="open_bangumi_game_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Open_In_Bangumi"
                                             Click="open_bangumi_game_menuflyoutitem_Click"
-                                            IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}, FallbackValue=False}" />
+                                            IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}" />
                             <MenuFlyoutItem x:Name="add_bangumi_game_menuflyoutitem"
                                             x:Uid="Bangumi_Pull_Game_Add"
                                             Click="add_bangumi_game_menuflyoutitem_Click" />
@@ -140,7 +140,8 @@
                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                             <MenuFlyoutItem x:Name="open_t2dfan_game_menuflyoutitem"
                                             x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                            Click="open_t2dfan_game_menuflyoutitem_Click" />
+                                            Click="open_t2dfan_game_menuflyoutitem_Click"
+                                            IsEnabled="{x:Bind ViewModel.SelectedRepository.SelectedGame.T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}" />
                             <MenuFlyoutItem x:Name="edit_t2dfan_game_menuflyoutitem"
                                             x:Uid="T2DFan_Edit_Game"
                                             Click="edit_t2dfan_game_menuflyoutitem_Click" />
