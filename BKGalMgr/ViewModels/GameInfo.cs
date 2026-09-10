@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -196,10 +197,6 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     [ObservableProperty]
     [JsonIgnore]
-    public partial long StorageUsage { get; set; } = 0;
-
-    [ObservableProperty]
-    [JsonIgnore]
     public partial SaveDataSettingsInfo SaveDataSettings { get; set; } = new();
 
     [ObservableProperty]
@@ -215,19 +212,37 @@ public partial class GameInfo : ObservableObject, IImageItem
     [JsonIgnore]
     public string ShortcutFolderPath => Path.Combine(FolderPath, GlobalInfo.GameShortcutFolderName);
 
+    [ObservableProperty]
+    [JsonIgnore]
+    public partial long StorageUsage { get; set; } = 0;
+
     // 为了避免在加载游戏信息时触发属性更改事件，导致不必要的保存操作
     private bool _isLoading = true;
 
     public GameInfo()
     {
-        Group.CollectionChanged += Group_CollectionChanged;
+        CollectionCollectionChangedNotify();
     }
 
     public GameInfo(RepositoryInfo repository)
     {
         _isLoading = false;
-        Group.CollectionChanged += Group_CollectionChanged;
+        CollectionCollectionChangedNotify();
         SetRepository(repository);
+    }
+
+    private void CollectionCollectionChangedNotify()
+    {
+        PlayedPeriods.CollectionChanged += CollectionPropertyChanged;
+        Artist.CollectionChanged += CollectionPropertyChanged;
+        Cv.CollectionChanged += CollectionPropertyChanged;
+        Scenario.CollectionChanged += CollectionPropertyChanged;
+        Musician.CollectionChanged += CollectionPropertyChanged;
+        Singer.CollectionChanged += CollectionPropertyChanged;
+        Characters.CollectionChanged += CollectionPropertyChanged;
+        Tag.CollectionChanged += CollectionPropertyChanged;
+
+        Group.CollectionChanged += Group_CollectionChanged;
     }
 
     public static GameInfo Open(string dirPath, RepositoryInfo repo)
@@ -305,7 +320,8 @@ public partial class GameInfo : ObservableObject, IImageItem
         gameInfo.Refresh();
         gameInfo.LoadTheme();
         gameInfo.Repository = repo;
-        gameInfo.Group.CollectionChanged += gameInfo.Group_CollectionChanged;
+        // 反序列化构建的对象属性会被覆盖，需要重新绑定
+        gameInfo.CollectionCollectionChangedNotify();
         gameInfo._isLoading = false;
         return gameInfo;
     }
@@ -365,12 +381,17 @@ public partial class GameInfo : ObservableObject, IImageItem
         if (_isLoading)
             return;
 
-        // 一些JsonIgore的属性更改，不需要触发保存json文件
+        // 一些JsonIgore的属性更改，不需要提示保存json文件
         if (
             PlayStatus == PlayStatus.Stop
             && e.PropertyName != nameof(IsPropertyChanged)
             && e.PropertyName != nameof(JsonPath)
             && e.PropertyName != nameof(StorageUsage)
+            // 忽略图片文件夹
+            && e.PropertyName != nameof(Covers)
+            && e.PropertyName != nameof(Gallery)
+            && e.PropertyName != nameof(Special)
+            && e.PropertyName != nameof(Screenshot)
             && e.PropertyName != nameof(WebsiteShot)
             && e.PropertyName != nameof(BugBugNews)
             && e.PropertyName != nameof(Campaign)
@@ -389,10 +410,12 @@ public partial class GameInfo : ObservableObject, IImageItem
         }
     }
 
-    private void Group_CollectionChanged(
-        object sender,
-        System.Collections.Specialized.NotifyCollectionChangedEventArgs e
-    )
+    private void CollectionPropertyChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        IsPropertyChanged = true;
+    }
+
+    private void Group_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         SaveJsonFile();
     }
