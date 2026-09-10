@@ -34,7 +34,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 {
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
-    public partial string Name { get; set; } = "";
+    public partial string Name { get; set; } = string.Empty;
 
     [ObservableProperty]
     [JsonIgnore]
@@ -53,10 +53,10 @@ public partial class GameInfo : ObservableObject, IImageItem
     public partial ObservableCollection<PlayedPeriodInfo> PlayedPeriods { get; set; } = new();
 
     [ObservableProperty]
-    public partial string Cover { get; set; }
+    public partial string Cover { get; set; } = string.Empty;
 
     [ObservableProperty]
-    public partial string Company { get; set; }
+    public partial string Company { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial DateTime PublishDate { get; set; }
@@ -89,7 +89,7 @@ public partial class GameInfo : ObservableObject, IImageItem
     public partial ObservableCollection<string> Group { get; set; } = new();
 
     [ObservableProperty]
-    public partial string Website { get; set; }
+    public partial string Website { get; set; } = string.Empty;
 
     [ObservableProperty]
     public partial string Story { get; set; }
