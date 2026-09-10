@@ -365,12 +365,15 @@ public partial class GameInfo : ObservableObject, IImageItem
         if (_isLoading)
             return;
 
+        // 一些JsonIgore的属性更改，不需要触发保存json文件
         if (
-            e.PropertyName != nameof(IsPropertyChanged)
+            PlayStatus == PlayStatus.Stop
+            && e.PropertyName != nameof(IsPropertyChanged)
+            && e.PropertyName != nameof(JsonPath)
+            && e.PropertyName != nameof(StorageUsage)
             && e.PropertyName != nameof(WebsiteShot)
             && e.PropertyName != nameof(BugBugNews)
             && e.PropertyName != nameof(Campaign)
-            && PlayStatus == PlayStatus.Stop
         )
         {
             IsPropertyChanged = true;
@@ -962,7 +965,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
         if (!Covers.Any())
         {
-            Covers = new(covers);
+            Covers.AddRange(covers);
             return;
         }
         // Move动效不行，不如这种删除插入的有点动效，性能可能差些
@@ -1011,7 +1014,7 @@ public partial class GameInfo : ObservableObject, IImageItem
 
             if (!Special.Any())
             {
-                Special = new(images);
+                Special.AddRange(images);
                 return;
             }
             Special.RemoveIf(t => !images.Contains(t));
