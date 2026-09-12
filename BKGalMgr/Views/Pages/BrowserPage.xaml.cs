@@ -255,4 +255,10 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
     {
         FilterGames([args.InvokedItem as string]);
     }
+
+    private void repository_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        MainPage.NavigateTo(typeof(LibraryAndManagePage), gameInfo);
+    }
 }

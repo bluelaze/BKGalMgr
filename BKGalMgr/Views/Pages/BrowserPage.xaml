@@ -417,7 +417,10 @@
                             </Grid.RowDefinitions>
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem Icon="{mui:FontIcon Glyph=&#xE8F1;}" Text="{x:Bind Repository.Name, Mode=OneWay}" />
+                                    <MenuFlyoutItem x:Name="repository_MenuFlyoutItem"
+                                                    Click="repository_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE8F1;}"
+                                                    Text="{x:Bind Repository.Name, Mode=OneWay}" />
                                     <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Mosaic" Icon="{mui:FontIcon Glyph=&#xF463;}">
                                         <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_None" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=None}" />
                                         <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Small" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Small}" />
