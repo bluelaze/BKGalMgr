@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using BKGalMgr.Helpers;
 using BKGalMgr.Interfaces.Page;
 using BKGalMgr.ViewModels;
 using BKGalMgr.ViewModels.Pages;
@@ -159,6 +160,16 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         App.MainWindow.ShowBlog(gameInfo);
     }
 
+    private void screenshot_Button_Click(object sender, RoutedEventArgs e)
+    {
+        // 这里不能在再次loadscreenshot，慢且概率低，
+        // 如果某个游戏截图发生了增删，那么单独查看这个游戏截图后，列表会同步刷新
+        App.ShowImages(
+            GetSelectedGames().SelectMany(game => game.Screenshot.Select(t => new ImageItemHelper(game, t))),
+            -1
+        );
+    }
+
     private void refresh_Button_Click(object sender, RoutedEventArgs e)
     {
         ViewModel.Refresh();
@@ -260,5 +271,29 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
         MainPage.NavigateTo(typeof(LibraryAndManagePage), gameInfo);
+    }
+
+    private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadGallery();
+        if (gameInfo.Gallery.Count > 0)
+            App.ShowImages(gameInfo, gameInfo.Gallery, 0);
+    }
+
+    private void special_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadSpecial();
+        if (gameInfo.Special.Count > 0)
+            App.ShowImages(gameInfo, gameInfo.Special, 0);
+    }
+
+    private void screenshot_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.LoadScreenshot();
+        if (gameInfo.Screenshot.Count > 0)
+            App.ShowImages(gameInfo, gameInfo.Screenshot, 0);
     }
 }

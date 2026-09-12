@@ -135,6 +135,11 @@ public partial class App : Application
         MainWindow.ShowImages(images.Select(t => new ImageItemHelper(imageOwner, t)), selectedIndex);
     }
 
+    public static void ShowImages(IEnumerable<IImageItem> images, int selectedIndex)
+    {
+        MainWindow.ShowImages(images, selectedIndex);
+    }
+
     public static void ShowInfoMessage(string message)
     {
         MainWindow.ShowNotification(new() { Message = message, Severity = InfoBarSeverity.Informational });

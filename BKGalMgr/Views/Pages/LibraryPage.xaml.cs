@@ -324,16 +324,4 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         games_ListView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
         games_GridView.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
     }
-
-    private void bangumi_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
-        BangumiService.OpenSubjectPage(gameInfo.BangumiSubjectId);
-    }
-
-    private void t2dfan_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
-        T2DFanService.OpenSubjectPage(gameInfo.T2DFanSubjectId);
-    }
 }

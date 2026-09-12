@@ -9,6 +9,7 @@
         xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
         xmlns:interface="using:BKGalMgr.Interfaces"
         xmlns:local="using:BKGalMgr.Views"
+        xmlns:manimations="using:CommunityToolkit.WinUI.Animations"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mconverters="using:CommunityToolkit.WinUI.Converters"
         xmlns:mtriggers="using:CommunityToolkit.WinUI"
@@ -77,7 +78,7 @@
 
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Text="{x:Bind local:MainWindow.GetImageFileName(((interface:IImageItem)image_viewer_FlipView.SelectedItem).Image), Mode=OneWay}"
+                   Text="{x:Bind local:MainWindow.GetImageFileName(((interface:IImageItem)image_viewer_GridView.SelectedItem).Image), Mode=OneWay}"
                    Visibility="{x:Bind image_viewer_Grid.Visibility, Mode=OneWay}" />
 
         <ContentPresenter x:Name="loading_contentpresenter"
@@ -93,22 +94,83 @@
         <!--  图片浏览  -->
         <Grid x:Name="image_viewer_Grid"
               Grid.Row="1"
-              HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
+              manimations:Implicit.HideAnimations="{StaticResource PopupHide}"
+              manimations:Implicit.ShowAnimations="{StaticResource PopupShow}"
               Background="{ThemeResource SystemControlTransientBackgroundBrush}"
               Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <FlipView x:Name="image_viewer_FlipView"
-                      Background="Transparent"
+            <GridView x:Name="image_viewer_GridView"
+                      Padding="16,40,0,0"
+                      IsItemClickEnabled="True"
+                      ItemClick="image_viewer_GridView_ItemClick"
                       ItemsSource="{x:Bind Images, Mode=OneWay}"
-                      SelectionChanged="image_viewer_FlipView_SelectionChanged"
-                      UseTouchAnimationsForAllNavigation="False">
+                      SelectionChanged="image_viewer_GridView_SelectionChanged">
+                <GridView.Resources>
+                    <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
+                </GridView.Resources>
+                <GridView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="0,0,16,16" />
+                        <Setter Property="Width" Value="250" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid HorizontalAlignment="Center"
+                                       MaximumRowsOrColumns="6"
+                                       Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="interface:IImageItem">
+                        <Image HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               helpers:ImageLoadHelper.DecodePixelWidth="250"
+                               helpers:ImageLoadHelper.UriSource="{x:Bind Image}"
+                               Stretch="UniformToFill"
+                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}">
+                            <Image.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_Game_Background"
+                                                    Click="{x:Bind SetAsGameBackground}"
+                                                    Icon="{mui:FontIcon Glyph=&#xE7FC;}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background"
+                                                    Click="{x:Bind SetAsAppBackground}"
+                                                    Icon="{mui:FontIcon Glyph=&#xE727;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture"
+                                                    Click="only_delete_game_picture_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE74D;}">
+                                        <MenuFlyoutItem.Resources>
+                                            <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+                                        </MenuFlyoutItem.Resources>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_System_Picture" Click="only_delete_system_picture_MenuFlyoutItem_Click">
+                                        <MenuFlyoutItem.Resources>
+                                            <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+                                        </MenuFlyoutItem.Resources>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_All_Delete_Picture" Click="all_delete_picture_MenuFlyoutItem_Click">
+                                        <MenuFlyoutItem.Resources>
+                                            <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
+                                        </MenuFlyoutItem.Resources>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Image.ContextFlyout>
+                        </Image>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <FlipView x:Name="image_viewer_FlipView"
+                      manimations:Implicit.HideAnimations="{StaticResource PopupHide}"
+                      manimations:Implicit.ShowAnimations="{StaticResource PopupShow}"
+                      Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                      ItemsSource="{x:Bind Images, Mode=OneWay}"
+                      SelectedIndex="{x:Bind image_viewer_GridView.SelectedIndex, Mode=TwoWay}"
+                      UseTouchAnimationsForAllNavigation="False"
+                      Visibility="Collapsed">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:ClickTriggerBehavior>
-                        <interactivity:CallMethodAction MethodName="HideImages" TargetObject="{x:Bind}" />
+                        <interactivity:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" />
                     </behaviors:ClickTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlipView.ItemTemplate>
@@ -122,10 +184,16 @@
                                       ZoomMode="Enabled">
                             <ScrollViewer.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_Game_Background" Click="{x:Bind SetAsGameBackground}" />
-                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background" Click="{x:Bind SetAsAppBackground}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_Game_Background"
+                                                    Click="{x:Bind SetAsGameBackground}"
+                                                    Icon="{mui:FontIcon Glyph=&#xE7FC;}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background"
+                                                    Click="{x:Bind SetAsAppBackground}"
+                                                    Icon="{mui:FontIcon Glyph=&#xE727;}" />
                                     <MenuFlyoutSeparator />
-                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture" Click="only_delete_game_picture_MenuFlyoutItem_Click">
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture"
+                                                    Click="only_delete_game_picture_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE74D;}">
                                         <MenuFlyoutItem.Resources>
                                             <ResourceDictionary Source="ms-appx:///Resources/DeleteButtonStyle.xaml" />
                                         </MenuFlyoutItem.Resources>
@@ -151,30 +219,8 @@
                     </DataTemplate>
                 </FlipView.ItemTemplate>
             </FlipView>
-            <ListView x:Name="image_viewer_ListView"
-                      Grid.Row="1"
-                      Height="64"
-                      HorizontalAlignment="Center"
-                      ItemsSource="{x:Bind Images, Mode=OneWay}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                      ScrollViewer.HorizontalScrollMode="Enabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                      ScrollViewer.VerticalScrollMode="Disabled"
-                      SelectionChanged="image_viewer_ListView_SelectionChanged">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="interface:IImageItem">
-                        <Image helpers:ImageLoadHelper.DecodePixelHeight="64"
-                               helpers:ImageLoadHelper.UriSource="{x:Bind Image}"
-                               ToolTipService.ToolTip="{x:Bind local:MainWindow.GetImageFileName(Image)}" />
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button Height="40"
+            <Button Width="32"
+                    Margin="8"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Background="Transparent"
@@ -182,7 +228,7 @@
                     Click="{x:Bind HideImages}"
                     Content="{mui:FontIcon FontSize=16,
                                            Glyph=&#xE711;}"
-                    CornerRadius="0"
+                    CornerRadius="16"
                     Style="{StaticResource IconButtonStyle}" />
         </Grid>
 

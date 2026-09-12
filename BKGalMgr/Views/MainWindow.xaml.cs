@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.Interfaces;
 using BKGalMgr.Models;
+using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
 using Microsoft.UI.Windowing;
@@ -67,10 +68,18 @@ public sealed partial class MainWindow : Window
             new PointerEventHandler(
                 (s, e) =>
                 {
-                    if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed && main_root_frame.CanGoBack)
+                    if (e.GetCurrentPoint(root_Grid).Properties.IsXButton1Pressed)
                     {
-                        main_root_frame.GoBack();
-                        e.Handled = true;
+                        if (image_viewer_Grid.Visibility == Visibility.Visible)
+                        {
+                            HideImages();
+                            e.Handled = true;
+                        }
+                        else if (main_root_frame.CanGoBack)
+                        {
+                            main_root_frame.GoBack();
+                            e.Handled = true;
+                        }
                     }
                 }
             ),
@@ -119,11 +128,19 @@ public sealed partial class MainWindow : Window
 
     public void ShowImages(IEnumerable<IImageItem> images, int selectedIndex)
     {
+        Images.Clear();
+        Images.AddRange(images);
+
         image_viewer_Grid.Visibility = Visibility.Visible;
-        // x:Bind不能是null对象，否则会崩溃
-        Images = new(images.Where(t => !t.Image.IsNullOrEmpty()));
+
         if (selectedIndex > -1 && selectedIndex < images.Count())
-            image_viewer_FlipView.SelectedIndex = selectedIndex;
+        {
+            var selectedItem = Images[selectedIndex];
+            image_viewer_GridView.SelectedItem = selectedItem;
+            image_viewer_GridView.ScrollIntoView(selectedItem);
+            image_viewer_GridView.MakeVisible(new SemanticZoomLocation() { Item = selectedItem });
+            image_viewer_GridView.UpdateLayout();
+        }
     }
 
     public void HideImages()
@@ -132,9 +149,8 @@ public sealed partial class MainWindow : Window
         Images.Clear();
     }
 
-    public void DeleteImage(ImageItemHelper.DeleteImageType deleteType)
+    public void DeleteImage(IImageItem image, ImageItemHelper.DeleteImageType deleteType)
     {
-        var image = (IImageItem)image_viewer_FlipView.SelectedItem;
         image.Args = deleteType;
         image.DeleteImage();
 
@@ -234,10 +250,10 @@ public sealed partial class MainWindow : Window
         if (imagePost.ActualWidth == 0 || imagePost.ActualHeight == 0)
             return;
 
-        double widthCompare = (scrollerViwer.ActualWidth - 1) / imagePost.ActualWidth;
-        double heightCompare = (scrollerViwer.ActualHeight - 1) / imagePost.ActualHeight;
+        float widthCompare = (float)scrollerViwer.ActualWidth / (float)imagePost.ActualWidth;
+        float heightCompare = (float)scrollerViwer.ActualHeight / (float)imagePost.ActualHeight;
 
-        double zoomFactor = 1.0f;
+        float zoomFactor = 1.0f;
         if (widthCompare > 1 && heightCompare > 1)
         {
             zoomFactor = 1.0f;
@@ -266,30 +282,14 @@ public sealed partial class MainWindow : Window
         ImageFitToScreen(image.FindAscendant("image_ScrollViewer") as ScrollViewer, image, true);
     }
 
-    private void image_viewer_FlipView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void image_viewer_GridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (image_viewer_FlipView.SelectedIndex < image_viewer_FlipView.Items.Count)
-            image_viewer_ListView.SelectedIndex = image_viewer_FlipView.SelectedIndex;
+        image_viewer_GridView.ScrollIntoView(image_viewer_GridView.SelectedItem);
     }
 
-    private void image_viewer_ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void image_viewer_GridView_ItemClick(object sender, ItemClickEventArgs e)
     {
-        // 删除时，listview不会自动选择下一张图，SelectedIndex会变成-1
-        // 需要特殊处理
-        if (
-            image_viewer_ListView.SelectedIndex == -1
-            && image_viewer_FlipView.SelectedIndex < image_viewer_ListView.Items.Count
-        )
-        {
-            // 会发生循环复制，但值同样后，会终止循环
-            image_viewer_ListView.SelectedIndex = image_viewer_FlipView.SelectedIndex;
-        }
-        else if (image_viewer_ListView.SelectedIndex < image_viewer_ListView.Items.Count)
-        {
-            image_viewer_FlipView.SelectedIndex = image_viewer_ListView.SelectedIndex;
-        }
-
-        image_viewer_ListView.ScrollIntoView(image_viewer_ListView.SelectedItem);
+        image_viewer_FlipView.Visibility = Visibility.Visible;
     }
 
     private void notification_InfoBar_CloseButtonClick(InfoBar sender, object args)
@@ -299,16 +299,16 @@ public sealed partial class MainWindow : Window
 
     private void only_delete_game_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage(ImageItemHelper.DeleteImageType.OnlyGame);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.OnlyGame);
     }
 
     private void only_delete_system_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage(ImageItemHelper.DeleteImageType.OnlySystem);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.OnlySystem);
     }
 
     private void all_delete_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage(ImageItemHelper.DeleteImageType.All);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.All);
     }
 }

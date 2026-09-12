@@ -182,18 +182,18 @@
                                 <UserControl.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
-                                                        Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
+                                                        Command="{x:Bind OpenJsonFolderCommand}"
                                                         Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
-                                                        Click="bangumi_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                                        Command="{x:Bind OpenInBangumiCommand}"
+                                                        IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
                                             <MenuFlyoutItem.Icon>
                                                 <ImageIcon Source="{ThemeResource BangumiIcon}" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                                        Click="t2dfan_MenuFlyoutItem_Click"
-                                                        IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                                        Command="{x:Bind OpenIn2DFanCommand}"
+                                                        IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
                                             <MenuFlyoutItem.Icon>
                                                 <ImageIcon Source="{ThemeResource T2DFanIcon}" />
                                             </MenuFlyoutItem.Icon>
@@ -578,18 +578,18 @@
                                     <Grid.ContextFlyout>
                                         <MenuFlyout>
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
-                                                            Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
+                                                            Command="{x:Bind OpenJsonFolderCommand}"
                                                             Icon="{mui:FontIcon Glyph=&#xE838;}" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
-                                                            Click="bangumi_MenuFlyoutItem_Click"
-                                                            IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                                            Command="{x:Bind OpenInBangumiCommand}"
+                                                            IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
                                                 <MenuFlyoutItem.Icon>
                                                     <ImageIcon Source="{ThemeResource BangumiIcon}" />
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                                            Click="t2dfan_MenuFlyoutItem_Click"
-                                                            IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}}">
+                                                            Command="{x:Bind OpenIn2DFanCommand}"
+                                                            IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
                                                 <MenuFlyoutItem.Icon>
                                                     <ImageIcon Source="{ThemeResource T2DFanIcon}" />
                                                 </MenuFlyoutItem.Icon>
@@ -624,6 +624,22 @@
                                             <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click"
                                                             Icon="{mui:FontIcon Glyph=&#xF408;}"
                                                             Text="SCREENSHOT" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph='&#xE840;'}"
+                                                            Text="{x:Bind PinValue, Mode=OneWay}">
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <Flyout Placement="Bottom">
+                                                        <Grid>
+                                                            <NumberBox LargeChange="10"
+                                                                       SmallChange="10"
+                                                                       SpinButtonPlacementMode="Inline"
+                                                                       Value="{x:Bind PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                                        </Grid>
+                                                    </Flyout>
+                                                </FlyoutBase.AttachedFlyout>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                         </MenuFlyout>
                                     </Grid.ContextFlyout>
                                     <interactivity:Interaction.Behaviors>

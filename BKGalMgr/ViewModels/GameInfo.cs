@@ -18,6 +18,7 @@ using BKGalMgr.Enums;
 using BKGalMgr.Helpers;
 using BKGalMgr.Interfaces;
 using BKGalMgr.Models.Bangumi;
+using BKGalMgr.Services;
 using BKGalMgr.ThirdParty;
 using Windows.Storage;
 
@@ -826,6 +827,20 @@ public partial class GameInfo : ObservableObject, IImageItem
             Characters.Remove(characterInfo);
             OnPropertyChanged(nameof(Characters));
         }
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenInBangumi()
+    {
+        BangumiService.OpenSubjectPage(BangumiSubjectId);
+    }
+
+    [RelayCommand]
+    [property: JsonIgnore]
+    public void OpenIn2DFan()
+    {
+        T2DFanService.OpenSubjectPage(T2DFanSubjectId);
     }
 
     [RelayCommand]
