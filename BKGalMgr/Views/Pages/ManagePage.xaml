@@ -23,6 +23,7 @@
         <converters:PlayedPeriodStringConverter x:Key="PlayedPeriodStringConverter" />
 
         <x:Double x:Key="HeaderedControlMaxWidth">1200</x:Double>
+        <x:Double x:Key="ScrollViewMaxHeight">720</x:Double>
 
         <Style x:Key="HeaderedControlHeaderTextBlockStyle"
                BasedOn="{StaticResource TitleTextBlockStyle}"
@@ -653,6 +654,7 @@
                 <!--  story  -->
                 <mcontrols:HeaderedContentControl x:Name="story_HeaderedContentControl"
                                                   MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  MaxHeight="{StaticResource ScrollViewMaxHeight}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
@@ -667,7 +669,6 @@
                         </StackPanel>
                     </mcontrols:HeaderedContentControl.Header>
                     <TextBox x:Name="story_TextBox"
-                             MaxHeight="720"
                              HorizontalAlignment="Stretch"
                              AcceptsReturn="True"
                              Background="Transparent"
@@ -680,14 +681,14 @@
                 <!--  blog  -->
                 <mcontrols:HeaderedContentControl x:Name="blog_HeaderedContentControl"
                                                   MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                                                  MaxHeight="{StaticResource ScrollViewMaxHeight}"
                                                   HorizontalAlignment="Stretch"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch">
                     <mcontrols:HeaderedContentControl.Header>
                         <TextBlock Style="{StaticResource HeaderedControlHeaderTextBlockStyle}" Text="BLOG" />
                     </mcontrols:HeaderedContentControl.Header>
-                    <TextBox MaxHeight="720"
-                             HorizontalAlignment="Stretch"
+                    <TextBox HorizontalAlignment="Stretch"
                              AcceptsReturn="True"
                              Background="Transparent"
                              BorderBrush="Transparent"
@@ -701,6 +702,7 @@
                 <!--  但ItemsRepeater太难用了，点击事件处理起来很麻烦，而且我记得有些绑定的问题，还是先这样优化下先用着吧  -->
                 <GridView x:Name="gallery_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="gallery_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -708,14 +710,20 @@
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Gallery, Mode=OneWay}"
                           SelectionMode="None">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenGalleryFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenGalleryFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="GALLERY" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                 </GridView>
                 <!--  screen captures  -->
                 <GridView x:Name="screenshot_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="screenshot_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -723,14 +731,20 @@
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Screenshot, Mode=OneWay}"
                           SelectionMode="None">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenshotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenScreenshotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SCREENSHOT" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                 </GridView>
                 <!--  Special  -->
                 <GridView x:Name="special_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="special_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -738,9 +752,14 @@
                           ItemsSource="{x:Bind ViewModel.SelectedRepository.SelectedGame.Special, Mode=OneWay}"
                           SelectionMode="None">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenSpecialFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="SPECIAL" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                     <GridView.ContextFlyout>
                         <MenuFlyout>
@@ -788,6 +807,7 @@
                 <!--  Campaign  -->
                 <GridView x:Name="campaign_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="campaign_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -796,14 +816,20 @@
                           SelectionMode="None"
                           Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.Campaign, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCampaignFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CAMPAIGN" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenCampaignFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="CAMPAIGN" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                 </GridView>
                 <!--  WebsiteShot  -->
                 <GridView x:Name="websiteshot_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="websiteshot_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -812,14 +838,20 @@
                           SelectionMode="None"
                           Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.WebsiteShot, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenWebsiteShotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="WEBSITESHOT" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenWebsiteShotFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="WEBSITESHOT" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                 </GridView>
                 <!--  BugBugNews  -->
                 <GridView x:Name="bugbugnews_GridView"
                           MaxWidth="{StaticResource HeaderedControlMaxWidth}"
+                          MaxHeight="{StaticResource ScrollViewMaxHeight}"
                           IsItemClickEnabled="True"
                           ItemClick="bugbugnews_GridView_ItemClick"
                           ItemContainerStyle="{StaticResource ImageGridViewItemStyle}"
@@ -828,9 +860,14 @@
                           SelectionMode="None"
                           Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame.BugBugNews, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
                     <GridView.Header>
-                        <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenBugBugNewsFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
-                            <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="BUGBUGNEWS" />
-                        </Button>
+                        <Grid>
+                            <interactivity:Interaction.Behaviors>
+                                <mbehaviors:StickyHeaderBehavior />
+                            </interactivity:Interaction.Behaviors>
+                            <Button Command="{x:Bind ViewModel.SelectedRepository.SelectedGame.OpenBugBugNewsFolderCommand, Mode=OneWay}" Style="{StaticResource HeaderedControlHeaderButtonStyle}">
+                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="BUGBUGNEWS" />
+                            </Button>
+                        </Grid>
                     </GridView.Header>
                 </GridView>
                 <!--  character  -->
