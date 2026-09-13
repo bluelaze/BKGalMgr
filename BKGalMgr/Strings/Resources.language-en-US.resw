@@ -341,6 +341,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Mosaic_Big.Text" xml:space="preserve">
     <value>Big</value>
   </data>
+  <data name="Commom_MenuItem_PasteWithSpaceSplite.Text" xml:space="preserve">
+    <value>Paste with Space Splite</value>
+  </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>
   </data>
