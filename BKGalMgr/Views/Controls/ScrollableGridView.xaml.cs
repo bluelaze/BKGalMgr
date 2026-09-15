@@ -265,7 +265,7 @@ public sealed partial class ScrollableGridView : UserControl
 
     private void ScheduleUpdate()
     {
-        if (!IsLoaded || _isUpdatePending)
+        if (_isUpdatePending)
             return;
 
         _isUpdatePending = true;
@@ -286,6 +286,7 @@ public sealed partial class ScrollableGridView : UserControl
         if (ItemsSource == null)
         {
             _itemSource.Clear();
+            scrollable_FlipView.Visibility = Visibility.Collapsed;
             return;
         }
 
@@ -293,6 +294,7 @@ public sealed partial class ScrollableGridView : UserControl
         if (allItems.Count == 0)
         {
             _itemSource.Clear();
+            scrollable_FlipView.Visibility = Visibility.Collapsed;
             return;
         }
 
@@ -321,6 +323,7 @@ public sealed partial class ScrollableGridView : UserControl
         if (ActualRows > 0)
         {
             scrollable_FlipView.Height = ActualRows * (ItemHeight + RowSpacing) - RowSpacing;
+            scrollable_FlipView.Visibility = Visibility.Visible;
         }
 
         ObservableCollection<ScrollableGridViewItem> newItemSource = new();

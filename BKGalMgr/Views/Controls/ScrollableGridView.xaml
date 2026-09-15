@@ -38,12 +38,14 @@
                     Click="left_scroll_Button_Click"
                     Content="{mui:FontIcon FontSize=12,
                                            Glyph=&#xE76B;}"
-                    Style="{StaticResource ScrollButtonStyle}" />
+                    Style="{StaticResource ScrollButtonStyle}"
+                    Visibility="Collapsed" />
             <Button x:Name="right_scroll_Button"
                     Click="right_scroll_Button_Click"
                     Content="{mui:FontIcon FontSize=12,
                                            Glyph=&#xE76C;}"
-                    Style="{StaticResource ScrollButtonStyle}" />
+                    Style="{StaticResource ScrollButtonStyle}"
+                    Visibility="Collapsed" />
         </StackPanel>
 
         <local:ScrollableFlipView x:Name="scrollable_FlipView"
@@ -55,7 +57,8 @@
                                   HideFlipButton="True"
                                   IsFlipEnabled="False"
                                   ItemsSource="{x:Bind _itemSource, Mode=OneWay}"
-                                  SelectionChanged="scrollable_FlipView_SelectionChanged">
+                                  SelectionChanged="scrollable_FlipView_SelectionChanged"
+                                  Visibility="Collapsed">
             <local:ScrollableFlipView.ItemTemplate>
                 <DataTemplate x:DataType="local:ScrollableGridViewItem">
                     <ItemsControl ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
