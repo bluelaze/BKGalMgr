@@ -342,7 +342,13 @@
     <value>大</value>
   </data>
   <data name="Commom_MenuItem_PasteWithSpaceSplite.Text" xml:space="preserve">
-    <value>粘贴且以空格拆分</value>
+    <value>以' '拆分粘贴</value>
+  </data>
+  <data name="Commom_MenuItem_Clear.Text" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="Commom_MenuItem_ClearAndPasteWithSpaceSplite.Text" xml:space="preserve">
+    <value>清空并以' '拆分粘贴</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>文件夹</value>

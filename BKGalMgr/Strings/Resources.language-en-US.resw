@@ -342,7 +342,13 @@ More in crash_exception.txt</value>
     <value>Big</value>
   </data>
   <data name="Commom_MenuItem_PasteWithSpaceSplite.Text" xml:space="preserve">
-    <value>Paste with Space Splite</value>
+    <value>Splite Paste with ' '</value>
+  </data>
+  <data name="Commom_MenuItem_Clear.Text" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Commom_MenuItem_ClearAndPaste.Text" xml:space="preserve">
+    <value>Clear and Splite Paste with ' '</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
     <value>Folder</value>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using BKGalMgr.Helpers;
 using BKGalMgr.ViewModels;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -43,7 +44,7 @@ public sealed partial class GameInfoControl : UserControl
 
     private void TokenizingTextBox_Loaded(object sender, RoutedEventArgs e)
     {
-        var ele = sender as FrameworkElement;
+        var ele = sender as TokenizingTextBox;
         if (ele?.FindDescendant("QueryButton") is Button queryButton)
         {
             //queryButton.Visibility = Visibility.Collapsed;
@@ -55,11 +56,7 @@ public sealed partial class GameInfoControl : UserControl
             var flyout = new MenuFlyout();
             flyout.Items.Add(new MenuFlyoutItem { Command = new StandardUICommand(StandardUICommandKind.Paste) });
 
-            var customPasteItem = new MenuFlyoutItem
-            {
-                Text = LanguageHelper.GetString("Commom_MenuItem_PasteWithSpaceSplite/Text"),
-            };
-            customPasteItem.Click += async (object sender, RoutedEventArgs e) =>
+            var pasteAction = async () =>
             {
                 var dataPackageView = Clipboard.GetContent();
                 if (dataPackageView.Contains(StandardDataFormats.Text))
@@ -67,20 +64,48 @@ public sealed partial class GameInfoControl : UserControl
                     string text = await dataPackageView.GetTextAsync();
                     if (!string.IsNullOrWhiteSpace(text))
                     {
-                        innerTextBox.Text = string.Join(',', text.Split(' ')) + ",";
+                        innerTextBox.Text = string.Join(',', text.Trim().Split(' ')) + ",";
                     }
                 }
             };
 
+            var customPasteItem = new MenuFlyoutItem
+            {
+                Text = LanguageHelper.GetString("Commom_MenuItem_PasteWithSpaceSplite/Text"),
+            };
+            customPasteItem.Click += (_, _) =>
+            {
+                pasteAction();
+            };
+
+            var customClearItem = new MenuFlyoutItem
+            {
+                Text = LanguageHelper.GetString("Commom_MenuItem_Clear/Text"),
+                Icon = new SymbolIcon(Symbol.Cancel),
+            };
+            customClearItem.Click += (object sender, RoutedEventArgs e) =>
+            {
+                _ = ele.ClearAsync();
+            };
+
+            var customClearPasteItem = new MenuFlyoutItem
+            {
+                Text = LanguageHelper.GetString("Commom_MenuItem_ClearAndPasteWithSpaceSplite/Text"),
+            };
+            customClearPasteItem.Click += async (object sender, RoutedEventArgs e) =>
+            {
+                await ele.ClearAsync();
+                _ = pasteAction();
+            };
+
             flyout.Items.Add(customPasteItem);
+            flyout.Items.Add(customClearItem);
+            flyout.Items.Add(customClearPasteItem);
             innerTextBox.ContextFlyout = flyout;
         }
     }
 
-    private void characters_tokentextbox_TokenItemAdding(
-        CommunityToolkit.WinUI.Controls.TokenizingTextBox sender,
-        CommunityToolkit.WinUI.Controls.TokenItemAddingEventArgs args
-    )
+    private void characters_tokentextbox_TokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
     {
         args.Item = new CharacterInfo() { Name = args.TokenText, GameFolderPath = ViewModel.FolderPath };
     }
