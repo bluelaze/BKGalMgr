@@ -73,11 +73,19 @@ public partial class App : Application
     {
         this.InitializeComponent();
         this.UnhandledException += App_UnhandledException;
+        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
     }
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         e.Handled = true;
+        File.WriteAllText("crash_exception.txt", $"{DateTime.Now}\n{e.Exception}");
+        ShowErrorMessage(e.Exception.Message);
+        ShowErrorMessage(LanguageHelper.GetString("Msg_App_UnhandledException"));
+    }
+
+    private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+    {
         File.WriteAllText("crash_exception.txt", $"{DateTime.Now}\n{e.Exception}");
         ShowErrorMessage(e.Exception.Message);
         ShowErrorMessage(LanguageHelper.GetString("Msg_App_UnhandledException"));

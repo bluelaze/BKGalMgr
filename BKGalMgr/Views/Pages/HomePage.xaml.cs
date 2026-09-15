@@ -170,9 +170,9 @@ public sealed partial class HomePage : Page
         App.MainWindow.NavigateToGamePlayPage(gameInfo);
     }
 
-    private void game_group_GridView_ItemClick(object sender, ItemClickEventArgs e)
+    private void game_group_GridView_ItemClick(object sender, object clickItem)
     {
-        var gameGroupItem = e.ClickedItem as GameReviewGroupItem;
+        var gameGroupItem = clickItem as GameReviewGroupItem;
         StartPlayGame(gameGroupItem.Game);
     }
 

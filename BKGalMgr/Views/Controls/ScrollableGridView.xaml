@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:BKGalMgr.Views.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mcontrols="using:CommunityToolkit.WinUI.Controls"
              xmlns:mui="using:CommunityToolkit.WinUI"
              mc:Ignorable="d">
 
@@ -19,7 +20,7 @@
             <Setter Property="BorderBrush" Value="{x:Null}" />
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="root_Grid" SizeChanged="root_Grid_SizeChanged">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -44,31 +45,33 @@
                                            Glyph=&#xE76C;}"
                     Style="{StaticResource ScrollButtonStyle}" />
         </StackPanel>
-        <!--  忘记在StackOverflow哪看到了，确实用GridView横向滚动，效果好些  -->
-        <GridView x:Name="scrollable_GridView"
-                  Grid.Row="1"
-                  Grid.ColumnSpan="2"
-                  IsItemClickEnabled="True"
-                  ItemClick="scrollable_GridView_ItemClick"
-                  ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
-                  ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
-                  Loaded="scrollable_GridView_Loaded"
-                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                  ScrollViewer.HorizontalScrollMode="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  ScrollViewer.VerticalScrollMode="Disabled"
-                  SelectionMode="None">
-            <GridView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="0,0,20,0" />
-                    <Setter Property="Padding" Value="0" />
-                </Style>
-            </GridView.ItemContainerStyle>
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-        </GridView>
+
+        <local:ScrollableFlipView x:Name="scrollable_FlipView"
+                                  Grid.Row="1"
+                                  Grid.ColumnSpan="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Top"
+                                  Background="{x:Null}"
+                                  HideFlipButton="True"
+                                  IsFlipEnabled="False"
+                                  ItemsSource="{x:Bind _itemSource, Mode=OneWay}"
+                                  SelectionChanged="scrollable_FlipView_SelectionChanged">
+            <local:ScrollableFlipView.ItemTemplate>
+                <DataTemplate x:DataType="local:ScrollableGridViewItem">
+                    <ItemsControl ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
+                                  ItemsSource="{x:Bind Items, Mode=OneWay}"
+                                  Tapped="ItemsControl_Tapped">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <mcontrols:UniformGrid ColumnSpacing="{Binding ColumnSpacing, Mode=OneWay}"
+                                                       Columns="{Binding Columns, Mode=OneWay}"
+                                                       RowSpacing="{Binding RowSpacing, Mode=OneWay}"
+                                                       Rows="{Binding Rows, Mode=OneWay}" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </DataTemplate>
+            </local:ScrollableFlipView.ItemTemplate>
+        </local:ScrollableFlipView>
     </Grid>
 </UserControl>

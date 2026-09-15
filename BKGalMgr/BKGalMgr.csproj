@@ -72,6 +72,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Collections" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.2.251219" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.251219" />

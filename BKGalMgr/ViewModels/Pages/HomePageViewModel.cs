@@ -55,17 +55,14 @@ public partial class HomePageViewModel : ObservableObject
 
         int count = Math.Min(allGames.Count, 12);
 
-        Banners.Clear();
-        Banners.AddRange(allGames.Where(t => !t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
+        Banners = new(allGames.Where(t => !t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
         BannersCount = Banners.Count();
 
         allGames = allGames.OrderByDescending(t => t.LastPlayDate).ToList();
-        RecentlyPlayedGames.Clear();
-        RecentlyPlayedGames.AddRange(allGames.Take(count).Select(t => new GameReviewGroupItem() { Game = t }));
+        RecentlyPlayedGames = new(allGames.Select(t => new GameReviewGroupItem() { Game = t }));
 
         allGames = allGames.OrderByDescending(t => t.CreateDate).ToList();
-        RecentlyCreatedGames.Clear();
-        RecentlyCreatedGames.AddRange(allGames.Take(count).Select(t => new GameReviewGroupItem() { Game = t }));
+        RecentlyCreatedGames = new(allGames.Select(t => new GameReviewGroupItem() { Game = t }));
 
         Dictionary<string, GameReviewGroupInfo> groupMap = new();
         foreach (var game in allGames)
@@ -76,7 +73,6 @@ public partial class HomePageViewModel : ObservableObject
                 groupMap[group].Games.Add(new() { Game = game });
             }
         }
-        Groups.Clear();
-        Groups.AddRange(groupMap.Values);
+        Groups = new(groupMap.Values);
     }
 }

@@ -22,6 +22,18 @@ public sealed partial class ScrollableFlipView : FlipView
         new PropertyMetadata(false)
     );
 
+    public bool HideFlipButton
+    {
+        get { return (bool)GetValue(HideFlipButtonProperty); }
+        set { SetValue(HideFlipButtonProperty, value); }
+    }
+    public static readonly DependencyProperty HideFlipButtonProperty = DependencyProperty.Register(
+        nameof(HideFlipButton),
+        typeof(bool),
+        typeof(ScrollableFlipView),
+        new PropertyMetadata(false)
+    );
+
     public ScrollableFlipView()
     {
         this.DefaultStyleKey = typeof(FlipView);
@@ -33,13 +45,27 @@ public sealed partial class ScrollableFlipView : FlipView
         // 按钮样式会失效，重新赋值
         if (GetTemplateChild("PreviousButtonHorizontal") is Button leftButton)
         {
-            var temp = (ControlTemplate)App.Current.Resources["FlipViewLeftButtonTemplate"];
-            leftButton.Template = temp;
+            if (HideFlipButton)
+            {
+                leftButton.Opacity = 0;
+            }
+            else
+            {
+                var temp = (ControlTemplate)App.Current.Resources["FlipViewLeftButtonTemplate"];
+                leftButton.Template = temp;
+            }
         }
         if (GetTemplateChild("NextButtonHorizontal") is Button rightButton)
         {
-            var temp = (ControlTemplate)App.Current.Resources["FlipViewRightButtonTemplate"];
-            rightButton.Template = temp;
+            if (HideFlipButton)
+            {
+                rightButton.Opacity = 0;
+            }
+            else
+            {
+                var temp = (ControlTemplate)App.Current.Resources["FlipViewRightButtonTemplate"];
+                rightButton.Template = temp;
+            }
         }
     }
 

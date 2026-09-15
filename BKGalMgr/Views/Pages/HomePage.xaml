@@ -21,10 +21,10 @@
 
     <Page.Resources>
         <DataTemplate x:Key="GameGroupDataTemplate" x:DataType="vm:GameReviewGroupItem">
-            <Grid Width="196"
-                  Height="260"
+            <Grid Height="260"
                   HorizontalAlignment="Stretch"
-                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  CornerRadius="{ThemeResource OverlayCornerRadius}">
                 <interactivity:Interaction.Behaviors>
                     <interactivity:EventTriggerBehavior EventName="PointerEntered">
                         <animations:StartAnimationActionWrapper Animation="{Binding ElementName=PointerOver_AnimationSet}" />
@@ -78,15 +78,11 @@
 
 
     <Grid>
-        <ScrollViewer x:Name="root_ScrollViewer" Padding="36,0,26,0">
+        <ScrollViewer x:Name="root_ScrollViewer" Padding="36,0,36,0">
             <StackPanel MaxWidth="1296"
                         Margin="0,16,0,0"
                         HorizontalAlignment="Center"
                         Spacing="18">
-                <StackPanel.ChildrenTransitions>
-                    <EntranceThemeTransition FromVerticalOffset="100" />
-                    <RepositionThemeTransition IsStaggeringEnabled="False" />
-                </StackPanel.ChildrenTransitions>
                 <StackPanel Orientation="Horizontal" Spacing="20">
                     <Grid>
                         <FlipView x:Name="banner_FlipView"
@@ -94,7 +90,7 @@
                                   Height="180"
                                   Background="Transparent"
                                   CornerRadius="{ThemeResource OverlayCornerRadius}"
-                                  ItemsSource="{x:Bind ViewModel.Banners, Mode=OneTime}"
+                                  ItemsSource="{x:Bind ViewModel.Banners, Mode=OneWay}"
                                   Loaded="banner_FlipView_Loaded">
                             <FlipView.ItemTemplate>
                                 <DataTemplate x:DataType="vm:GameInfo">
@@ -237,72 +233,44 @@
                 </StackPanel>
 
                 <!--  最近游玩  -->
-                <GridView IsItemClickEnabled="True"
-                          ItemClick="game_group_GridView_ItemClick"
-                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                          ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneTime}"
-                          SelectionMode="None">
-                    <GridView.Resources>
-                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
-                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
-                    </GridView.Resources>
-                    <GridView.Header>
+                <controls:ScrollableGridView Margin="0,20,0,0"
+                                             ColumnSpacing="20"
+                                             ItemClick="game_group_GridView_ItemClick"
+                                             ItemHeight="260"
+                                             ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                                             ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneWay}"
+                                             MinItemWidth="196"
+                                             RowSpacing="20"
+                                             Rows="2">
+                    <controls:ScrollableGridView.Header>
                         <TextBlock x:Uid="Home_Recently_Played"
-                                   Margin="0,20,0,10"
+                                   Margin="0,0,0,10"
                                    Padding="0"
                                    FontWeight="Bold"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    </GridView.Header>
-                    <GridView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                            <Setter Property="Margin" Value="0,0,20,20" />
-                        </Style>
-                    </GridView.ItemContainerStyle>
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                </GridView>
+                    </controls:ScrollableGridView.Header>
+                </controls:ScrollableGridView>
 
                 <!--  最近添加  -->
-                <GridView IsItemClickEnabled="True"
-                          ItemClick="game_group_GridView_ItemClick"
-                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                          ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneTime}"
-                          SelectionMode="None">
-                    <GridView.Resources>
-                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
-                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
-                    </GridView.Resources>
-                    <GridView.Header>
+                <controls:ScrollableGridView Margin="0,20,0,0"
+                                             ColumnSpacing="20"
+                                             ItemClick="game_group_GridView_ItemClick"
+                                             ItemHeight="260"
+                                             ItemTemplate="{StaticResource GameGroupDataTemplate}"
+                                             ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneWay}"
+                                             MinItemWidth="196"
+                                             RowSpacing="20"
+                                             Rows="2">
+                    <controls:ScrollableGridView.Header>
                         <TextBlock x:Uid="Home_Recently_Created"
                                    Margin="0,0,0,10"
                                    Padding="0"
                                    FontWeight="Bold"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    </GridView.Header>
-                    <GridView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                            <Setter Property="Margin" Value="0,0,20,20" />
-                        </Style>
-                    </GridView.ItemContainerStyle>
-                    <GridView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <ItemsWrapGrid MaximumRowsOrColumns="6" Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </GridView.ItemsPanel>
-                </GridView>
-
+                    </controls:ScrollableGridView.Header>
+                </controls:ScrollableGridView>
                 <!--  游戏分组  -->
-                <ListView ItemsSource="{x:Bind ViewModel.Groups, Mode=OneTime}" SelectionMode="None">
-                    <ListView.ItemContainerTransitions>
-                        <ReorderThemeTransition />
-                    </ListView.ItemContainerTransitions>
-                    <ListView.Resources>
-                        <StaticResource x:Key="GridViewItemCornerRadius" ResourceKey="OverlayCornerRadius" />
-                        <StaticResource x:Key="GridViewItemPointerOverBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
-                    </ListView.Resources>
+                <ListView ItemsSource="{x:Bind ViewModel.Groups, Mode=OneWay}" SelectionMode="None">
                     <ListView.ItemContainerStyle>
                         <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0" />
@@ -312,9 +280,15 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameReviewGroupInfo">
                             <controls:ScrollableGridView x:Name="group_GridView"
+                                                         Margin="0,20,0,0"
+                                                         ColumnSpacing="20"
                                                          ItemClick="game_group_GridView_ItemClick"
+                                                         ItemHeight="260"
                                                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
-                                                         ItemsSource="{x:Bind Games, Mode=OneTime}">
+                                                         ItemsSource="{x:Bind Games, Mode=OneTime}"
+                                                         MinItemWidth="196"
+                                                         RowSpacing="20"
+                                                         Rows="2">
                                 <controls:ScrollableGridView.Header>
                                     <TextBlock Margin="0,0,0,10"
                                                Padding="0"
