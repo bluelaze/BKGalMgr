@@ -181,7 +181,7 @@ public sealed partial class ScrollableGridView : UserControl
         ScheduleUpdate();
     }
 
-    private void ItemsControl_Tapped(object sender, TappedRoutedEventArgs e)
+    public void ItemsControl_Click(object sender, PointerRoutedEventArgs e)
     {
         if (ItemClick == null)
             return;
@@ -297,6 +297,10 @@ public sealed partial class ScrollableGridView : UserControl
             scrollable_FlipView.Visibility = Visibility.Collapsed;
             return;
         }
+
+        // 要判断是否loaded，不然一些属性获取会异常
+        if (!IsLoaded)
+            return;
 
         int rows = 0;
         int pageSize = allItems.Count;

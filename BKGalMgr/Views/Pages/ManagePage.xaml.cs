@@ -960,7 +960,7 @@ public sealed partial class ManagePage : Page
 
     private void goto_top_Button_Click(object sender, RoutedEventArgs e)
     {
-        gameinfo_ScrollViewer.ChangeView(0, 0, null);
+        gameinfo_ListViewer.FindDescendant<ScrollViewer>()?.ChangeView(0, 0, null);
     }
 
     private void cover_Image_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

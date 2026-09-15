@@ -17,11 +17,31 @@ public class ClickTriggerBehavior : Trigger<FrameworkElement>
     protected override void OnAttached()
     {
         // 其他事件（而不是 PointerReleased）可能会在操作结束时触发，例如 PointerCanceled 或 PointerCaptureLost。
-        AssociatedObject.PointerPressed += AssociatedObject_PointerPressed;
-        AssociatedObject.PointerReleased += AssociatedObject_PointerReleased;
-        AssociatedObject.PointerExited += AssociatedObject_PointerLost;
-        AssociatedObject.PointerCanceled += AssociatedObject_PointerLost;
-        AssociatedObject.PointerCaptureLost += AssociatedObject_PointerLost;
+        AssociatedObject.AddHandler(
+            UIElement.PointerPressedEvent,
+            new PointerEventHandler(AssociatedObject_PointerPressed),
+            handledEventsToo: true // 避免被吞事件
+        );
+        AssociatedObject.AddHandler(
+            UIElement.PointerReleasedEvent,
+            new PointerEventHandler(AssociatedObject_PointerReleased),
+            handledEventsToo: true
+        );
+        AssociatedObject.AddHandler(
+            UIElement.PointerExitedEvent,
+            new PointerEventHandler(AssociatedObject_PointerLost),
+            handledEventsToo: true
+        );
+        AssociatedObject.AddHandler(
+            UIElement.PointerCanceledEvent,
+            new PointerEventHandler(AssociatedObject_PointerLost),
+            handledEventsToo: true
+        );
+        AssociatedObject.AddHandler(
+            UIElement.PointerCaptureLostEvent,
+            new PointerEventHandler(AssociatedObject_PointerLost),
+            handledEventsToo: true
+        );
     }
 
     protected override void OnDetaching()

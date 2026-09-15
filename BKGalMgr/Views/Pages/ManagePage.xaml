@@ -49,17 +49,15 @@
         <x:Int32 x:Key="ImageGridViewItemColumnSpacing">10</x:Int32>
         <x:Int32 x:Key="ImageGridViewItemMaxRows">3</x:Int32>
         <DataTemplate x:Key="ImageGridViewItemDataTemplate" x:DataType="x:String">
-            <Button Padding="0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    BorderBrush="{x:Null}">
+            <GridViewItem Margin="0"
+                          Padding="0"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Stretch">
                 <Image helpers:ImageLoadHelper.DecodePixelHeight="{StaticResource ImageGridViewItemHeight}"
                        helpers:ImageLoadHelper.UriSource="{x:Bind}"
                        x:Phase="2"
                        ToolTipService.ToolTip="{x:Bind Converter={StaticResource GetFileNameConverter}}" />
-            </Button>
+            </GridViewItem>
         </DataTemplate>
     </Page.Resources>
     <interactivity:Interaction.Behaviors>
@@ -322,18 +320,22 @@
             </ComboBox>
         </Grid>
         <!--  游戏信息  -->
-        <ScrollViewer x:Name="gameinfo_ScrollViewer"
+        <ListView x:Name="gameinfo_ListViewer"
                       Grid.Row="2"
                       Margin="0,16,0,0"
                       Padding="36,0"
-                      IsTabStop="True"
+                  IsItemClickEnabled="False"
+                  SelectionMode="None"
                       Visibility="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay, Converter={StaticResource EmptyObjectToVisibilityConverter}, FallbackValue=Collapsed}">
-            <StackPanel Spacing="24">
-                <StackPanel.ChildrenTransitions>
-                    <EntranceThemeTransition FromVerticalOffset="50" />
-                    <RepositionThemeTransition IsStaggeringEnabled="False" />
-                </StackPanel.ChildrenTransitions>
-                <StackPanel.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="MinHeight" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="0,0,0,24" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.Resources>
                     <Style TargetType="controls:ScrollableGridView">
                         <Setter Property="MaxWidth" Value="{StaticResource HeaderedControlMaxWidth}" />
                         <Setter Property="MinItemWidth" Value="{StaticResource ImageGridViewItemWidth}" />
@@ -343,7 +345,7 @@
                         <Setter Property="Rows" Value="{StaticResource ImageGridViewItemMaxRows}" />
                         <Setter Property="ItemTemplate" Value="{StaticResource ImageGridViewItemDataTemplate}" />
                     </Style>
-                </StackPanel.Resources>
+            </ListView.Resources>
                 <!--  GameInfo  -->
                 <controls:GameInfoControl ViewModel="{x:Bind ViewModel.SelectedRepository.SelectedGame, Mode=OneWay}" />
                 <!--  source, localization, target, savedata  -->
@@ -951,8 +953,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </mcontrols:HeaderedContentControl>
-            </StackPanel>
-        </ScrollViewer>
+        </ListView>
 
         <!--  右下角按钮  -->
         <StackPanel Grid.RowSpan="3"
