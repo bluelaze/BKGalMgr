@@ -55,7 +55,9 @@ public partial class HomePageViewModel : ObservableObject
 
         int count = Math.Min(allGames.Count, 12);
 
-        Banners = new(allGames.Where(t => !t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
+        // Banners不能直接 =new，不然有概率引起PipsPager的下标溢出崩溃
+        Banners.Clear();
+        Banners.AddRange(allGames.Where(t => !t.Cover.IsNullOrEmpty()).ToList().TakeRandom(count));
         BannersCount = Banners.Count();
 
         allGames = allGames.OrderByDescending(t => t.LastPlayDate).ToList();
