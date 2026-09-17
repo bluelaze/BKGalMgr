@@ -14,7 +14,7 @@ namespace BKGalMgr.Helpers;
 
 public static class ImageLoadHelper
 {
-    // 全局内存缓存，设置最多保留 1000 张小图
+    // 全局内存缓存，设置最多保留多少张图
     private static readonly MemoryCache Cache = new(new MemoryCacheOptions { SizeLimit = 256 });
 
     // 滑动过期时间：10分钟内如果没有再次被渲染展示，自动失效释放
@@ -198,6 +198,12 @@ public static class ImageLoadHelper
         newCts.Dispose();
     }
 
+    // 初始化 MemoryCache，并设置总容量上限
+    // 这里的 Size 是相对单位，我们在存入缓存时指定每个项目占据的 Size
+    private static readonly MemoryCache FileCache = new MemoryCache(
+        new MemoryCacheOptions { SizeLimit = 512 * 1024 * 1024 }
+    );
+
     private static async Task<BitmapImage> LoadAndDecodeAsync(
         string filePath,
         int targetWidth,
@@ -221,12 +227,27 @@ public static class ImageLoadHelper
         if (!File.Exists(filePath))
             return null;
 
-        // 改用标准 .NET FileStream，比 StorageFile 更稳定且不易抛出 Native WinRT 异常
-        using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
-        using var randomAccessStream = fileStream.AsRandomAccessStream();
+        // 尝试从缓存中获取文件的原始字节数据
+        if (!FileCache.TryGetValue(filePath, out byte[] imageBytes))
+        {
+            // 缓存未命中，读取本地文件
+            imageBytes = await File.ReadAllBytesAsync(filePath);
+
+            // 配置缓存规则
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSize(imageBytes.Length) // 设定此项占用的容量
+                .SetSlidingExpiration(TimeSpan.FromMinutes(5)); // 滑动过期：5分钟无访问则清理
+
+            // 存入缓存 (由于是托管内存的 byte[]，不需要 RegisterPostEvictionCallback 清理回调)
+            FileCache.Set(filePath, imageBytes, cacheEntryOptions);
+        }
 
         if (token.IsCancellationRequested)
             return null;
+
+        // 每次解码都新建一个 MemoryStream 包装字节数组，确保并发读取时流指针互不干扰
+        using var stream = new MemoryStream(imageBytes);
+        using var randomAccessStream = stream.AsRandomAccessStream();
 
         // 设置 BitmapImage 的解码像素大小，放大 1.5 倍以提高显示质量
         // 笔电一般屏幕 DPI 在 150% 左右，就默认1.5倍，避免每次都去获取屏幕DPI
