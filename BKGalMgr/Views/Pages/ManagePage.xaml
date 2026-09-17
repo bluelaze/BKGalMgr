@@ -48,6 +48,7 @@
         <x:Int32 x:Key="ImageGridViewItemRowSpacing">10</x:Int32>
         <x:Int32 x:Key="ImageGridViewItemColumnSpacing">10</x:Int32>
         <x:Int32 x:Key="ImageGridViewItemMaxRows">3</x:Int32>
+        <x:Int32 x:Key="ImageGridViewItemMiniColums">5</x:Int32>
         <DataTemplate x:Key="ImageGridViewItemDataTemplate" x:DataType="x:String">
             <GridViewItem Margin="0"
                           Padding="0"
@@ -343,6 +344,7 @@
                     <Setter Property="RowSpacing" Value="{StaticResource ImageGridViewItemRowSpacing}" />
                     <Setter Property="ColumnSpacing" Value="{StaticResource ImageGridViewItemColumnSpacing}" />
                     <Setter Property="Rows" Value="{StaticResource ImageGridViewItemMaxRows}" />
+                    <Setter Property="MiniColumns" Value="{StaticResource ImageGridViewItemMiniColums}" />
                     <Setter Property="ItemTemplate" Value="{StaticResource ImageGridViewItemDataTemplate}" />
                 </Style>
             </ListView.Resources>

@@ -31,9 +31,6 @@ public partial class ScrollableGridViewItem : ObservableObject
     public partial DataTemplate ItemTemplate { get; set; }
 
     [ObservableProperty]
-    public partial double PageWidth { get; set; }
-
-    [ObservableProperty]
     public partial int Columns { get; set; }
 
     [ObservableProperty]
@@ -108,6 +105,18 @@ public sealed partial class ScrollableGridView : UserControl
         typeof(double),
         typeof(ScrollableGridView),
         new PropertyMetadata(100, OnPropertyChanged)
+    );
+
+    public int MiniColumns
+    {
+        get => (int)GetValue(MiniColumnsProperty);
+        set => SetValue(MiniColumnsProperty, value);
+    }
+    public static readonly DependencyProperty MiniColumnsProperty = DependencyProperty.Register(
+        nameof(MiniColumns),
+        typeof(int),
+        typeof(ScrollableGridView),
+        new PropertyMetadata(0, OnPropertyChanged)
     );
 
     public int Rows
@@ -224,6 +233,7 @@ public sealed partial class ScrollableGridView : UserControl
 
     private void root_Grid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
+        // 测试时发现，即便页面大小改变，如果item数量不够，也不会触发事件
         if (e.NewSize.Width <= 0 || e.NewSize.Width == e.PreviousSize.Width)
             return;
 
@@ -249,7 +259,7 @@ public sealed partial class ScrollableGridView : UserControl
         if (availableWidth <= 0)
             return;
 
-        int columns = (int)((availableWidth - Padding.Right + ColumnSpacing) / (MinItemWidth + ColumnSpacing));
+        int columns = (int)((availableWidth + ColumnSpacing) / (MinItemWidth + ColumnSpacing));
         columns = Math.Max(1, columns);
 
         if (columns == _columns && availableWidth == _pageWidth)
@@ -283,7 +293,7 @@ public sealed partial class ScrollableGridView : UserControl
 
     private void RecalculatePages()
     {
-        if (ItemsSource == null)
+        if (ItemsSource == null || _pageWidth == 0)
         {
             _itemSource.Clear();
             scrollable_FlipView.Visibility = Visibility.Collapsed;
@@ -303,45 +313,52 @@ public sealed partial class ScrollableGridView : UserControl
             return;
 
         int rows = 0;
-        int pageSize = allItems.Count;
+        int groupSize = allItems.Count;
         if (Rows > 0)
         {
             rows = Rows;
-            pageSize = _columns * rows;
+            groupSize = _columns * rows;
         }
-        if (allItems.Count <= pageSize)
+        if (allItems.Count <= groupSize)
         {
             rows = 0;
         }
 
         // 高度需要手动计算
-        int ActualRows = rows;
-        if (ActualRows == 0)
+        int actualRows = rows;
+        if (actualRows == 0)
         {
-            ActualRows = allItems.Count / _columns;
+            actualRows = allItems.Count / _columns;
             if (allItems.Count % _columns > 0)
             {
-                ActualRows++;
+                actualRows++;
             }
         }
-        if (ActualRows > 0)
+        if (actualRows > 0)
         {
-            scrollable_FlipView.Height = ActualRows * (ItemHeight + RowSpacing) - RowSpacing;
+            scrollable_FlipView.Height = actualRows * (ItemHeight + RowSpacing) - RowSpacing;
             scrollable_FlipView.Visibility = Visibility.Visible;
         }
 
-        ObservableCollection<ScrollableGridViewItem> newItemSource = new();
-        for (int i = 0; i < allItems.Count; i += pageSize)
+        // 只有一行时，限制下最小列数
+        int actualColumns = _columns;
+        if (actualRows == 1)
         {
-            var pageItems = allItems.Skip(i).Take(pageSize).ToList();
+            if (_columns < MiniColumns || allItems.Count < groupSize)
+                actualColumns = MiniColumns;
+        }
+
+        ObservableCollection<ScrollableGridViewItem> newItemSource = new();
+        for (int i = 0; i < allItems.Count; i += groupSize)
+        {
+            var pageItems = allItems.Skip(i).Take(groupSize).ToList();
 
             newItemSource.Add(
                 new ScrollableGridViewItem
                 {
-                    Items = new(pageItems),
+                    Items = pageItems,
                     ItemTemplate = ItemTemplate,
-                    PageWidth = _pageWidth,
-                    Columns = _columns,
+                    Columns = actualColumns,
                     Rows = rows,
                     ColumnSpacing = ColumnSpacing,
                     RowSpacing = RowSpacing,
@@ -358,7 +375,6 @@ public sealed partial class ScrollableGridView : UserControl
             _itemSource[i].ColumnSpacing = newItemSource[i].ColumnSpacing;
             _itemSource[i].RowSpacing = newItemSource[i].RowSpacing;
 
-            _itemSource[i].PageWidth = newItemSource[i].PageWidth;
             _itemSource[i].Columns = newItemSource[i].Columns;
             _itemSource[i].Items = newItemSource[i].Items;
         }

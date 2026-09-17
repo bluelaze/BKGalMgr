@@ -240,6 +240,7 @@
                                              ItemTemplate="{StaticResource GameGroupDataTemplate}"
                                              ItemsSource="{x:Bind ViewModel.RecentlyPlayedGames, Mode=OneWay}"
                                              MinItemWidth="196"
+                                             MiniColumns="5"
                                              RowSpacing="20"
                                              Rows="2">
                     <controls:ScrollableGridView.Header>
@@ -259,6 +260,7 @@
                                              ItemTemplate="{StaticResource GameGroupDataTemplate}"
                                              ItemsSource="{x:Bind ViewModel.RecentlyCreatedGames, Mode=OneWay}"
                                              MinItemWidth="196"
+                                             MiniColumns="5"
                                              RowSpacing="20"
                                              Rows="2">
                     <controls:ScrollableGridView.Header>
@@ -287,6 +289,7 @@
                                                          ItemTemplate="{StaticResource GameGroupDataTemplate}"
                                                          ItemsSource="{x:Bind Games, Mode=OneTime}"
                                                          MinItemWidth="196"
+                                                         MiniColumns="5"
                                                          RowSpacing="20"
                                                          Rows="2">
                                 <controls:ScrollableGridView.Header>
