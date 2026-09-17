@@ -250,8 +250,9 @@ public sealed partial class MainWindow : Window
         if (imagePost.ActualWidth == 0 || imagePost.ActualHeight == 0)
             return;
 
-        float widthCompare = (float)scrollerViwer.ActualWidth / (float)imagePost.ActualWidth;
-        float heightCompare = (float)scrollerViwer.ActualHeight / (float)imagePost.ActualHeight;
+        float scale = (float)imagePost.XamlRoot.RasterizationScale;
+        float widthCompare = (float)scrollerViwer.ActualWidth * scale / (float)imagePost.ActualWidth;
+        float heightCompare = (float)scrollerViwer.ActualHeight * scale / (float)imagePost.ActualHeight;
 
         float zoomFactor = 1.0f;
         if (widthCompare > 1 && heightCompare > 1)
@@ -267,7 +268,7 @@ public sealed partial class MainWindow : Window
             zoomFactor = widthCompare;
         }
 
-        scrollerViwer.ChangeView(0, 0, (float)zoomFactor, disableAnimation);
+        scrollerViwer.ChangeView(0, 0, zoomFactor / scale, disableAnimation);
     }
 
     private void image_ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)

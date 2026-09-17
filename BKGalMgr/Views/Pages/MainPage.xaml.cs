@@ -252,7 +252,7 @@ public sealed partial class MainPage : Page
 
     private void RefreshRepositoryGridView()
     {
-        var scale = App.MainWindow.GetWindowScale();
+        var scale = repository_NavigationViewItemSeparator.XamlRoot.RasterizationScale;
         repository_gridview_Popup.HorizontalOffset = repository_NavigationViewItemSeparator.ActualWidth + 1 * scale;
         repository_gridview_root_Grid.Height = root_frame.ActualHeight;
         repository_gridview_root_Grid.Width = root_frame.ActualWidth;
