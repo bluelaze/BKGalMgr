@@ -86,7 +86,7 @@
         <PackageReference Include="Mapster" Version="10.0.12" />
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.12" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.4.0" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.9169" />
         <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
         <PackageReference Include="Octokit" Version="14.0.0" />
