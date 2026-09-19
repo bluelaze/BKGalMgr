@@ -910,10 +910,10 @@
     <value>隐藏作品信息</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Header" xml:space="preserve">
-    <value>zip压缩级别</value>
+    <value>ZIP压缩级别</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Description" xml:space="preserve">
-    <value>创建zip时的压缩级别，推荐NoCompression</value>
+    <value>创建ZIP时的压缩级别，常规ADV推荐NoCompression，Unity引擎推荐Optimal</value>
   </data>
   <data name="Settings_Generic_Screenshot_Crop.Header" xml:space="preserve">
     <value>自动裁切截图黑边</value>

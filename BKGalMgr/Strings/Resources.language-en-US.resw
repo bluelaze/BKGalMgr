@@ -910,10 +910,10 @@ More in crash_exception.txt</value>
     <value>Hide Product Info</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Header" xml:space="preserve">
-    <value>Zip level</value>
+    <value>ZIP level</value>
   </data>
   <data name="Settings_Generic_Zip_Level.Description" xml:space="preserve">
-    <value>Compression level when create zip, NoCompression is optimal</value>
+    <value>Compression level when creating ZIP archives: NoCompression is recommended for standard ADVs, and Optimal is recommended for the Unity engine.</value>
   </data>
   <data name="Settings_Generic_Screenshot_Crop.Header" xml:space="preserve">
     <value>Auto Crop Screenshot Black Border</value>
