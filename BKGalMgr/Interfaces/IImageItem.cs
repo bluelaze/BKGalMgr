@@ -14,4 +14,6 @@ public interface IImageItem
     public void SetAsGameBackground();
 
     public void SetAsAppBackground();
+
+    public void RevealInExplorer();
 }

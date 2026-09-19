@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -391,5 +392,24 @@ public class FileSystemMisc
             }
             return (true, "");
         });
+    }
+
+    public static void RevealInExplorer(string filePath)
+    {
+        if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+            return;
+
+        // 将路径转换为绝对路径，确保斜杠格式正确
+        string fullPath = Path.GetFullPath(filePath);
+
+        // /select,"路径" 可以直接打开资源管理器并选中该文件
+        Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = "explorer.exe",
+                Arguments = $"/select,\"{fullPath}\"",
+                UseShellExecute = true,
+            }
+        );
     }
 }

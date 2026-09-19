@@ -137,6 +137,9 @@
                                                     Click="{x:Bind SetAsAppBackground}"
                                                     Icon="{mui:FontIcon Glyph=&#xE727;}" />
                                     <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Reveal_In_Game_Folder" Click="reveal_in_game_folder_MenuFlyoutItem_Click" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Reveal_In_System_Picture" Click="reveal_in_Picture_folder_MenuFlyoutItem_Click" />
+                                    <MenuFlyoutSeparator />
                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture"
                                                     Click="only_delete_game_picture_MenuFlyoutItem_Click"
                                                     Icon="{mui:FontIcon Glyph=&#xE74D;}">
@@ -190,6 +193,9 @@
                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_As_App_Background"
                                                     Click="{x:Bind SetAsAppBackground}"
                                                     Icon="{mui:FontIcon Glyph=&#xE727;}" />
+                                    <MenuFlyoutSeparator />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Reveal_In_Game_Folder" Click="reveal_in_game_folder_MenuFlyoutItem_Click" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Reveal_In_System_Picture" Click="reveal_in_Picture_folder_MenuFlyoutItem_Click" />
                                     <MenuFlyoutSeparator />
                                     <MenuFlyoutItem x:Uid="Commom_MenuItem_Only_Delete_Game_Picture"
                                                     Click="only_delete_game_picture_MenuFlyoutItem_Click"

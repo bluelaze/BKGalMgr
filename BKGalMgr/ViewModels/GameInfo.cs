@@ -1190,11 +1190,14 @@ public partial class GameInfo : ObservableObject, IImageItem
     public async void DeleteImage()
     {
         var image = ((IImageItem)this).Image;
-        var deleteType = ((IImageItem)this).Args as ImageItemHelper.DeleteImageType?;
-        if (deleteType == null)
+        var optionType = ((IImageItem)this).Args as ImageItemHelper.OptionType?;
+        if (optionType == null)
             return;
 
-        if (deleteType == ImageItemHelper.DeleteImageType.OnlyGame || deleteType == ImageItemHelper.DeleteImageType.All)
+        if (
+            optionType == ImageItemHelper.OptionType.DeleteOnlyGame
+            || optionType == ImageItemHelper.OptionType.DeleteBoth
+        )
         {
             if (Covers.Contains(image))
             {
@@ -1228,8 +1231,8 @@ public partial class GameInfo : ObservableObject, IImageItem
         }
 
         if (
-            deleteType == ImageItemHelper.DeleteImageType.OnlySystem
-            || deleteType == ImageItemHelper.DeleteImageType.All
+            optionType == ImageItemHelper.OptionType.DeleteOnlySystem
+            || optionType == ImageItemHelper.OptionType.DeleteBoth
         )
         {
             // 只有截图能同步删除系统图片
@@ -1255,6 +1258,39 @@ public partial class GameInfo : ObservableObject, IImageItem
     }
 
     public void SetAsAppBackground() { }
+
+    public async void RevealInExplorer()
+    {
+        var image = ((IImageItem)this).Image;
+        var optionType = ((IImageItem)this).Args as ImageItemHelper.OptionType?;
+        if (optionType == null)
+            return;
+
+        var imagePath = image;
+        if (optionType == ImageItemHelper.OptionType.RevealInSystemPicture)
+        {
+            // 只有截图能同步删除系统图片
+            var imageName = Path.GetFileName(image);
+            var timestampLength = GlobalInfo.GameScreenshotFileFormatStr.Length + (".png").Length;
+            if (imageName.Length < timestampLength)
+                return;
+
+            var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            imagePath = Path.Combine(
+                picturesLibrary.SaveFolder.Path,
+                $"BKGalMgr_{imageName.Substring(imageName.Length - timestampLength)}"
+            );
+        }
+
+        if (!File.Exists(imagePath))
+        {
+            App.ShowErrorMessage($"Image not exist: {imagePath}");
+            return;
+        }
+
+        FileSystemMisc.RevealInExplorer(imagePath);
+    }
+
     #endregion IImageItem
 
     private string TransformCoverPath(string path)

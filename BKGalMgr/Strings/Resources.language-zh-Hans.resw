@@ -326,6 +326,12 @@
   <data name="Commom_MenuItem_All_Delete_Picture.Text" xml:space="preserve">
     <value>同时删除</value>
   </data>
+  <data name="Commom_MenuItem_Reveal_In_Game_Folder.Text" xml:space="preserve">
+    <value>在游戏文件夹中打开</value>
+  </data>
+  <data name="Commom_MenuItem_Reveal_In_System_Picture.Text" xml:space="preserve">
+    <value>在系统图片中打开</value>
+  </data>
   <data name="Commom_MenuItem_Mosaic.Text" xml:space="preserve">
     <value>打码</value>
   </data>

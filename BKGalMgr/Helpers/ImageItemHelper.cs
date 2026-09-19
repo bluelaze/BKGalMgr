@@ -9,11 +9,13 @@ namespace BKGalMgr.Helpers;
 // 考虑以后可能会出个全游戏截图浏览的功能，这样写会好点，就是搞得有点乱
 public class ImageItemHelper : IImageItem
 {
-    public enum DeleteImageType
+    public enum OptionType
     {
-        OnlyGame,
-        OnlySystem,
-        All,
+        DeleteOnlyGame,
+        DeleteOnlySystem,
+        DeleteBoth,
+        RevealInGameFolder,
+        RevealInSystemPicture,
     }
 
     public ImageItemHelper(IImageItem imageOwner, string image)
@@ -47,5 +49,12 @@ public class ImageItemHelper : IImageItem
         settingsDto.CustomTheme.BackgroundImage = Image;
         settingsDto.CustomTheme.ThemeType = ViewModels.CustomThemeType.Image;
         App.GetRequiredService<SettingsDto>().SaveSettings();
+    }
+
+    public void RevealInExplorer()
+    {
+        ImageOwner.Args = Args;
+        ImageOwner.Image = Image;
+        ImageOwner.RevealInExplorer();
     }
 }

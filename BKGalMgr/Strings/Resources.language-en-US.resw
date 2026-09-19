@@ -326,6 +326,12 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_All_Delete_Picture.Text" xml:space="preserve">
     <value>All Delete</value>
   </data>
+  <data name="Commom_MenuItem_Reveal_In_Game_Folder.Text" xml:space="preserve">
+    <value>Reveal in Game Folder</value>
+  </data>
+  <data name="Commom_MenuItem_Reveal_In_System_Picture.Text" xml:space="preserve">
+    <value>Reveal in Picture Folder</value>
+  </data>
   <data name="Commom_MenuItem_Mosaic.Text" xml:space="preserve">
     <value>Mosaic</value>
   </data>

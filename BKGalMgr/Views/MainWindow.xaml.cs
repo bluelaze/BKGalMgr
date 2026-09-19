@@ -149,12 +149,12 @@ public sealed partial class MainWindow : Window
         Images.Clear();
     }
 
-    public void DeleteImage(IImageItem image, ImageItemHelper.DeleteImageType deleteType)
+    public void DeleteImage(IImageItem image, ImageItemHelper.OptionType deleteType)
     {
         image.Args = deleteType;
         image.DeleteImage();
 
-        if (deleteType != ImageItemHelper.DeleteImageType.OnlySystem)
+        if (deleteType != ImageItemHelper.OptionType.DeleteOnlySystem)
         {
             Images.Remove(image);
         }
@@ -300,16 +300,30 @@ public sealed partial class MainWindow : Window
 
     private void only_delete_game_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.OnlyGame);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.OptionType.DeleteOnlyGame);
     }
 
     private void only_delete_system_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.OnlySystem);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.OptionType.DeleteOnlySystem);
     }
 
     private void all_delete_picture_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
-        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.DeleteImageType.All);
+        DeleteImage((sender as MenuFlyoutItem).DataContext as IImageItem, ImageItemHelper.OptionType.DeleteBoth);
+    }
+
+    private void reveal_in_game_folder_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var image = (sender as MenuFlyoutItem).DataContext as IImageItem;
+        image.Args = ImageItemHelper.OptionType.RevealInGameFolder;
+        image.RevealInExplorer();
+    }
+
+    private void reveal_in_Picture_folder_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var image = (sender as MenuFlyoutItem).DataContext as IImageItem;
+        image.Args = ImageItemHelper.OptionType.RevealInSystemPicture;
+        image.RevealInExplorer();
     }
 }
