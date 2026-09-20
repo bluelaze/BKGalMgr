@@ -601,4 +601,9 @@ public sealed partial class GamePlayPage : Page
             ViewModel.Game.SelectedTarget.PlayStatus = PlayStatus.Playing;
         }
     }
+
+    private void disable_system_scale_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.Game.DisableSystemScale(ViewModel.Game.SelectedTarget.DpiOverride == Enums.DpiOverrideMode.None);
+    }
 }

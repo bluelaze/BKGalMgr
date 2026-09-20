@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using BKGalMgr.Enums;
 using BKGalMgr.Helpers;
 using BKGalMgr.ThirdParty;
 
@@ -41,6 +42,9 @@ public partial class TargetInfo : ObservableObject
 
     [ObservableProperty]
     public partial bool EnableLocalEmulator { get; set; }
+
+    [ObservableProperty]
+    public partial DpiOverrideMode DpiOverride { get; set; } = DpiOverrideMode.None;
 
     [ObservableProperty]
     [JsonIgnore]

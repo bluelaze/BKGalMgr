@@ -104,6 +104,17 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="DisableSystemScaleCheckState">
+                    <VisualState.StateTriggers>
+                        <mtriggers:IsEqualStateTrigger Value="{x:Bind ViewModel.Game.SelectedTarget.DpiOverride, Mode=OneWay}" To="Application" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--  SystemFillColorSuccessBrush，不支持为啥没法用ThemeResource  -->
+                        <Setter Target="disable_system_scale_MenuFlyoutItem.Icon" Value="{mui:FontIcon Foreground='#0F7B0F', Glyph=&#xE73E;}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <interactivity:Interaction.Behaviors>
             <interactivity:DataTriggerBehavior Binding="{x:Bind ViewModel.Game.CustomTheme.ThemeTypeValue, Mode=OneWay}"
@@ -583,7 +594,10 @@
                                             Click="select_game_process_MenuFlyoutItem_Click"
                                             Icon="{mui:FontIcon Glyph=&#xE768;}"
                                             IsEnabled="{x:Bind ViewModel.Game.IsPlaying, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" />
-
+                            <MenuFlyoutItem x:Name="disable_system_scale_MenuFlyoutItem"
+                                            x:Uid="Commom_MenuItem_Disable_System_Scale"
+                                            Click="disable_system_scale_MenuFlyoutItem_Click"
+                                            IsEnabled="{x:Bind ViewModel.Game.SelectedTarget, Mode=OneWay, Converter={StaticResource EmptyObjectToBoolConverter}}" />
                             <MenuFlyoutSeparator />
                             <MenuFlyoutItem x:Name="custom_theme_MenuFlyoutItem"
                                             x:Uid="Commom_MenuItem_Custom_Theme"

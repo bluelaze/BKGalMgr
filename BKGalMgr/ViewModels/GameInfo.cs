@@ -1493,7 +1493,9 @@ public partial class GameInfo : ObservableObject, IImageItem
         };
         // 游戏文件夹
         if (SelectedTarget?.TargetExePath?.IsNullOrWhiteSpace() == false)
-            pathsToWatch.Add(Path.GetDirectoryName(LocaleEmulatorHelper.GetShortcutTargetPath(SelectedTarget.TargetExePath)));
+            pathsToWatch.Add(
+                Path.GetDirectoryName(LocaleEmulatorHelper.GetShortcutTargetPath(SelectedTarget.TargetExePath))
+            );
 
         foreach (var path in pathsToWatch)
         {
@@ -1536,5 +1538,29 @@ public partial class GameInfo : ObservableObject, IImageItem
         string t = _savePathGet;
         _savePathGet = string.Empty;
         return t;
+    }
+
+    public void DisableSystemScale(bool disable)
+    {
+        if (SelectedTarget == null)
+            return;
+
+        if (disable)
+        {
+            ProcessMisc.SetDpiOverride(
+                LocaleEmulatorHelper.GetShortcutTargetPath(SelectedTarget.TargetExePath),
+                DpiOverrideMode.Application
+            );
+            SelectedTarget.DpiOverride = DpiOverrideMode.Application;
+        }
+        else
+        {
+            ProcessMisc.SetDpiOverride(
+                LocaleEmulatorHelper.GetShortcutTargetPath(SelectedTarget.TargetExePath),
+                DpiOverrideMode.None
+            );
+            SelectedTarget.DpiOverride = DpiOverrideMode.None;
+        }
+        SelectedTarget.SaveJsonFile();
     }
 }
