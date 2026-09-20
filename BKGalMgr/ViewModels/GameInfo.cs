@@ -1490,8 +1490,10 @@ public partial class GameInfo : ObservableObject, IImageItem
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), // Documents
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "AppData", "LocalLow"), // LocalLow
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games"), // 保存的游戏
-            Path.Combine(FolderPath, GlobalInfo.TargetsFolderName), // 游戏文件夹
         };
+        // 游戏文件夹
+        if (SelectedTarget?.TargetExePath?.IsNullOrWhiteSpace() == false)
+            pathsToWatch.Add(Path.GetDirectoryName(LocaleEmulatorHelper.GetShortcutTargetPath(SelectedTarget.TargetExePath)));
 
         foreach (var path in pathsToWatch)
         {

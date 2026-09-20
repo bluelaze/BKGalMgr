@@ -40,7 +40,7 @@ public class LocaleEmulatorHelper
         return string.Empty;
     }
 
-    public static string GetAppPath(string path)
+    public static string GetShortcutTargetPath(string path)
     {
         if (path.EndsWith(".lnk", StringComparison.OrdinalIgnoreCase))
             return ShortcutHelpers.GetShortcutTargetPath(path);
@@ -49,17 +49,17 @@ public class LocaleEmulatorHelper
 
     public static Process RunAs(string leprocPath, string appPath, string guid)
     {
-        return Process.Start(leprocPath, $"-runas \"{guid}\" \"{GetAppPath(appPath)}\"");
+        return Process.Start(leprocPath, $"-runas \"{guid}\" \"{GetShortcutTargetPath(appPath)}\"");
     }
 
     public static Process RunDefault(string leprocPath, string appPath)
     {
-        return Process.Start(leprocPath, $"-run \"{GetAppPath(appPath)}\"");
+        return Process.Start(leprocPath, $"-run \"{GetShortcutTargetPath(appPath)}\"");
     }
 
     public static Process ManageApp(string leprocPath, string appPath)
     {
-        return Process.Start(leprocPath, $"-manage \"{GetAppPath(appPath)}\"");
+        return Process.Start(leprocPath, $"-manage \"{GetShortcutTargetPath(appPath)}\"");
     }
 
     public static Process ManageAll(string leprocPath)
