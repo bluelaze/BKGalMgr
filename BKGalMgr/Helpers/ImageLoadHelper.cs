@@ -159,7 +159,8 @@ public static class ImageLoadHelper
             return;
         }
 
-        image.Source = null; // 未命中缓存，清空旧图
+        // 未命中缓存，清空旧图
+        image.Source = null;
 
         // 3. 开启异步加载
         var newCts = new CancellationTokenSource();
@@ -167,19 +168,26 @@ public static class ImageLoadHelper
         var token = newCts.Token;
         try
         {
-            BitmapImage loadedBitmap = await LoadAndDecodeAsync(filePath, decodeWidth, decodeHeight, mosaicType, token);
+            BitmapImage loadedBitmap = await LoadAndDecodeAsync(
+                filePath,
+                decodeWidth,
+                decodeHeight,
+                bitmapCreateOptions,
+                mosaicType,
+                token
+            );
 
             if (!token.IsCancellationRequested && loadedBitmap != null)
             {
-                // 4. 配置缓存的自动失效时间
-                var options = new MemoryCacheEntryOptions()
-                    .SetSize(1) // 每张图计入 1 个单位大小
-                    .SetSlidingExpiration(SlidingExpirationTime) // 滑动超时：只要不看它，10 分钟后自动销毁
-                    .SetAbsoluteExpiration(AbsoluteExpirationTime); // 绝对超时：最多存 1 小时
-
                 if (bitmapCreateOptions != BitmapCreateOptions.IgnoreImageCache)
+                {
+                    // 4. 配置缓存的自动失效时间
+                    var options = new MemoryCacheEntryOptions()
+                        .SetSize(1) // 每张图计入 1 个单位大小
+                        .SetSlidingExpiration(SlidingExpirationTime) // 滑动超时：只要不看它，10 分钟后自动销毁
+                        .SetAbsoluteExpiration(AbsoluteExpirationTime); // 绝对超时：最多存 1 小时
                     Cache.Set(cacheKey, new WeakReference<BitmapImage>(loadedBitmap), options);
-
+                }
                 image.Source = loadedBitmap;
             }
         }
@@ -208,6 +216,7 @@ public static class ImageLoadHelper
         string filePath,
         int targetWidth,
         int targetHeight,
+        BitmapCreateOptions bitmapCreateOptions,
         MosaicType mosaicType,
         CancellationToken token
     )
@@ -227,18 +236,17 @@ public static class ImageLoadHelper
         if (!File.Exists(filePath))
             return null;
 
-        // 尝试从缓存中获取文件的原始字节数据
-        if (!FileCache.TryGetValue(filePath, out byte[] imageBytes))
+        byte[] imageBytes = [];
+        if (bitmapCreateOptions == BitmapCreateOptions.IgnoreImageCache)
         {
-            // 缓存未命中，读取本地文件
             imageBytes = await File.ReadAllBytesAsync(filePath);
-
-            // 配置缓存规则
+        }
+        else if (!FileCache.TryGetValue(filePath, out imageBytes))
+        {
+            imageBytes = await File.ReadAllBytesAsync(filePath);
             var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSize(imageBytes.Length) // 设定此项占用的容量
-                .SetSlidingExpiration(TimeSpan.FromMinutes(5)); // 滑动过期：5分钟无访问则清理
-
-            // 存入缓存 (由于是托管内存的 byte[]，不需要 RegisterPostEvictionCallback 清理回调)
+                .SetSize(imageBytes.Length)
+                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
             FileCache.Set(filePath, imageBytes, cacheEntryOptions);
         }
 
@@ -249,7 +257,6 @@ public static class ImageLoadHelper
         using var stream = new MemoryStream(imageBytes);
         using var randomAccessStream = stream.AsRandomAccessStream();
 
-        // 设置 BitmapImage 的解码像素大小，放大 1.5 倍以提高显示质量
         // 笔电一般屏幕 DPI 在 150% 左右，就默认1.5倍，避免每次都去获取屏幕DPI
         var bitmap = new BitmapImage
         {
