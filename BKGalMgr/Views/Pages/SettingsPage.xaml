@@ -156,7 +156,7 @@
                 <TextBlock x:Uid="Settings_About" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <mcontrols:SettingsExpander Description="Copyright (c) bluelaze. All rights reserved."
                                             Header="BKGalMgr"
-                                            HeaderIcon="{mui:BitmapIcon Source='/BKGalMgr.ico'}"
+                                            HeaderIcon="{mui:BitmapIcon Source='ms-appx:///BKGalMgr.ico'}"
                                             IsExpanded="True">
                     <TextBlock Text="{x:Bind ViewModel.BKGalMgrVersion}" />
                     <mcontrols:SettingsExpander.Items>
