@@ -160,6 +160,7 @@ public sealed partial class ScrollableGridView : UserControl
 
     private int _columns = 1;
     private double _pageWidth = 0;
+    private bool _needUpdate = false;
     private ObservableCollection<ScrollableGridViewItem> _itemSource { get; set; } = new();
 
     public ScrollableGridView()
@@ -262,7 +263,7 @@ public sealed partial class ScrollableGridView : UserControl
         int columns = (int)((availableWidth + ColumnSpacing) / (MinItemWidth + ColumnSpacing));
         columns = Math.Max(1, columns);
 
-        if (columns == _columns && availableWidth == _pageWidth)
+        if (columns == _columns && availableWidth == _pageWidth && !_needUpdate)
             return;
 
         _columns = columns;
@@ -310,7 +311,11 @@ public sealed partial class ScrollableGridView : UserControl
 
         // 要判断是否loaded，不然一些属性获取会异常
         if (!IsLoaded)
+        {
+            _needUpdate = true;
             return;
+        }
+        _needUpdate = false;
 
         int rows = 0;
         int groupSize = allItems.Count;
