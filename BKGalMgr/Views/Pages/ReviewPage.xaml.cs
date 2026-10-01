@@ -40,6 +40,12 @@ public sealed partial class ReviewPage : Page
             await ViewModel.RefreshAsync();
             App.HideLoading();
         }
+        else if (e.Parameter is GameInfo game)
+        {
+            App.ShowLoading();
+            await ViewModel.RefreshAsync([game]);
+            App.HideLoading();
+        }
     }
 
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

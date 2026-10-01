@@ -179,81 +179,82 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:GameInfo">
                             <UserControl>
-                                <UserControl.ContextFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
-                                                        Command="{x:Bind OpenJsonFolderCommand}"
-                                                        Icon="{mui:FontIcon Glyph=&#xE838;}" />
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
-                                                        Command="{x:Bind OpenInBangumiCommand}"
-                                                        IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
-                                            <MenuFlyoutItem.Icon>
-                                                <ImageIcon Source="{ThemeResource BangumiIcon}" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
-                                                        Command="{x:Bind OpenIn2DFanCommand}"
-                                                        IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
-                                            <MenuFlyoutItem.Icon>
-                                                <ImageIcon Source="{ThemeResource T2DFanIcon}" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Mosaic" Icon="{mui:FontIcon Glyph=&#xF463;}">
-                                            <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_None" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=None}" />
-                                            <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Small" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Small}" />
-                                            <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Medium" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Medium}" />
-                                            <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Big" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Big}" />
-                                        </MenuFlyoutSubItem>
-                                        <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
-                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                            Text="Getchu" />
-                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                            Text="DMM" />
-                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                            Text="DLsite" />
-                                            <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInMelonbooksCommand}"
-                                                            IsEnabled="{x:Bind ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
-                                                            Text="Melonbooks" />
-                                        </MenuFlyoutSubItem>
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
-                                                        Icon="{mui:FontIcon Glyph=&#xE8B9;}"
-                                                        Text="GALLERY" />
-                                        <MenuFlyoutItem Click="special_MenuFlyoutItem_Click"
-                                                        Icon="{mui:FontIcon Glyph=&#xECA5;}"
-                                                        Text="SPECIAL" />
-                                        <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click"
-                                                        Icon="{mui:FontIcon Glyph=&#xF408;}"
-                                                        Text="SCREENSHOT" />
-                                        <MenuFlyoutSeparator />
-                                        <MenuFlyoutItem Click="pin_MenuFlyoutItem_Click"
-                                                        Icon="{mui:FontIcon Glyph='&#xE840;'}"
-                                                        Text="{x:Bind PinValue, Mode=OneWay}">
-                                            <FlyoutBase.AttachedFlyout>
-                                                <Flyout Placement="Bottom">
-                                                    <Grid>
-                                                        <NumberBox LargeChange="10"
-                                                                   SmallChange="10"
-                                                                   SpinButtonPlacementMode="Inline"
-                                                                   Value="{x:Bind PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                                                    </Grid>
-                                                </Flyout>
-                                            </FlyoutBase.AttachedFlyout>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
-                                    </MenuFlyout>
-                                </UserControl.ContextFlyout>
-                                <SplitView x:Name="gameinfo_SplitView"
-                                           MinHeight="180"
-                                           Background="Transparent"
-                                           DisplayMode="Inline"
-                                           OpenPaneLength="720"
-                                           PaneClosed="gameinfo_SplitView_PaneClosed"
-                                           PaneOpening="gameinfo_SplitView_PaneOpening"
-                                           PanePlacement="Right">
+                                <Grid x:Name="gameinfo_grid"
+                                      MinHeight="180"
+                                      Background="Transparent">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                                            Command="{x:Bind OpenJsonFolderCommand}"
+                                                            Icon="{mui:FontIcon Glyph=&#xE838;}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_Bangumi"
+                                                            Command="{x:Bind OpenInBangumiCommand}"
+                                                            IsEnabled="{x:Bind BangumiSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <ImageIcon Source="{ThemeResource BangumiIcon}" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_In_2DFan"
+                                                            Command="{x:Bind OpenIn2DFanCommand}"
+                                                            IsEnabled="{x:Bind T2DFanSubjectId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <ImageIcon Source="{ThemeResource T2DFanIcon}" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Mosaic" Icon="{mui:FontIcon Glyph=&#xF463;}">
+                                                <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_None" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=None}" />
+                                                <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Small" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Small}" />
+                                                <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Medium" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Medium}" />
+                                                <ToggleMenuFlyoutItem x:Uid="Commom_MenuItem_Mosaic_Big" IsChecked="{x:Bind Mosaic, Mode=TwoWay, Converter={StaticResource EnumCompareConveretr}, ConverterParameter=Big}" />
+                                            </MenuFlyoutSubItem>
+                                            <MenuFlyoutSubItem x:Uid="Commom_MenuItem_Shopping_Site" Icon="{mui:FontIcon Glyph=&#xE7BF;}">
+                                                <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInGetchuCommand}"
+                                                                IsEnabled="{x:Bind ShoppingInfo.GetchuProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                                Text="Getchu" />
+                                                <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDMMCommand}"
+                                                                IsEnabled="{x:Bind ShoppingInfo.DMMProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                                Text="DMM" />
+                                                <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInDLsiteCommand}"
+                                                                IsEnabled="{x:Bind ShoppingInfo.DLsiteProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                                Text="DLsite" />
+                                                <MenuFlyoutItem Command="{x:Bind ShoppingInfo.OpenInMelonbooksCommand}"
+                                                                IsEnabled="{x:Bind ShoppingInfo.MelonbooksProductId, Mode=OneWay, Converter={StaticResource EmptyStringToBoolConverter}, FallbackValue=False}"
+                                                                Text="Melonbooks" />
+                                            </MenuFlyoutSubItem>
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem Click="gallery_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE8B9;}"
+                                                            Text="GALLERY" />
+                                            <MenuFlyoutItem Click="special_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xECA5;}"
+                                                            Text="SPECIAL" />
+                                            <MenuFlyoutItem Click="screenshot_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xF408;}"
+                                                            Text="SCREENSHOT" />
+                                            <MenuFlyoutSeparator />
+                                            <MenuFlyoutItem Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph='&#xE840;'}"
+                                                            Text="{x:Bind PinValue, Mode=OneWay}">
+                                                <FlyoutBase.AttachedFlyout>
+                                                    <Flyout Placement="Bottom">
+                                                        <Grid>
+                                                            <NumberBox LargeChange="10"
+                                                                       SmallChange="10"
+                                                                       SpinButtonPlacementMode="Inline"
+                                                                       Value="{x:Bind PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                                        </Grid>
+                                                    </Flyout>
+                                                </FlyoutBase.AttachedFlyout>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
                                     <VisualStateManager.VisualStateGroups>
                                         <VisualStateGroup>
                                             <VisualState x:Name="PlayingState">
@@ -274,264 +275,250 @@
                                             </VisualState>
                                         </VisualStateGroup>
                                     </VisualStateManager.VisualStateGroups>
-                                    <Grid x:Name="gameinfo_grid">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="150" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="auto" />
-                                            <ColumnDefinition Width="auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <!--  封面  -->
-                                        <Image Margin="8"
-                                               helpers:ImageLoadHelper.DecodePixelWidth="150"
-                                               helpers:ImageLoadHelper.MosaicType="{x:Bind Mosaic, Mode=OneWay}"
-                                               helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}" />
-                                        <Button x:Name="cover_Button"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Background="Transparent"
-                                                BorderBrush="{x:Null}"
-                                                Click="cover_Button_Click"
-                                                CornerRadius="0" />
-                                        <!--  游戏信息  -->
-                                        <StackPanel Grid.Column="1"
-                                                    Padding="4"
-                                                    Spacing="4">
-                                            <StackPanel.Resources>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground" Value="{ThemeResource NpTextColorSecondaryBrush}" />
-                                                </Style>
-                                                <Style TargetType="controls:MetadataControl">
-                                                    <Setter Property="Foreground" Value="{ThemeResource NpTextColorPrimaryBrush}" />
-                                                </Style>
-                                            </StackPanel.Resources>
-                                            <HyperlinkButton x:Name="gamename_linkbutton"
-                                                             Padding="0"
-                                                             HorizontalContentAlignment="Left"
-                                                             Click="gamename_linkbutton_Click">
+                                    <!--  封面  -->
+                                    <Image Margin="8"
+                                           VerticalAlignment="Top"
+                                           helpers:ImageLoadHelper.DecodePixelWidth="150"
+                                           helpers:ImageLoadHelper.MosaicType="{x:Bind Mosaic, Mode=OneWay}"
+                                           helpers:ImageLoadHelper.UriSource="{x:Bind Cover, Mode=OneWay}" />
+                                    <Button x:Name="cover_Button"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            BorderBrush="{x:Null}"
+                                            Click="cover_Button_Click"
+                                            CornerRadius="0" />
+                                    <!--  游戏信息  -->
+                                    <StackPanel Grid.Column="1"
+                                                Padding="4"
+                                                Spacing="4">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="{ThemeResource NpTextColorSecondaryBrush}" />
+                                            </Style>
+                                            <Style TargetType="controls:MetadataControl">
+                                                <Setter Property="Foreground" Value="{ThemeResource NpTextColorPrimaryBrush}" />
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <HyperlinkButton x:Name="gamename_linkbutton"
+                                                         Padding="0"
+                                                         HorizontalContentAlignment="Left"
+                                                         Click="gamename_linkbutton_Click">
+                                            <HyperlinkButton.Content>
+                                                <TextBlock MaxHeight="48"
+                                                           FontSize="16"
+                                                           FontWeight="Bold"
+                                                           Foreground="{ThemeResource NpTextColorPrimaryBrush}"
+                                                           Text="{x:Bind Name, Mode=OneWay}"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           TextWrapping="WrapWholeWords" />
+                                            </HyperlinkButton.Content>
+                                        </HyperlinkButton>
+                                        <Grid ColumnSpacing="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <HyperlinkButton Padding="0" Click="website_HyperlinkButton_Click">
                                                 <HyperlinkButton.Content>
-                                                    <TextBlock MaxHeight="48"
-                                                               FontSize="16"
-                                                               FontWeight="Bold"
-                                                               Foreground="{ThemeResource NpTextColorPrimaryBrush}"
-                                                               Text="{x:Bind Name, Mode=OneWay}"
-                                                               TextTrimming="CharacterEllipsis"
-                                                               TextWrapping="WrapWholeWords" />
+                                                    <TextBlock Foreground="{ThemeResource NpTextColorPrimaryBrush}"
+                                                               LineHeight="16"
+                                                               Text="{x:Bind Company, Mode=OneWay}" />
                                                 </HyperlinkButton.Content>
                                             </HyperlinkButton>
-                                            <Grid ColumnSpacing="10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <HyperlinkButton Padding="0" Click="website_HyperlinkButton_Click">
-                                                    <HyperlinkButton.Content>
-                                                        <TextBlock Foreground="{ThemeResource NpTextColorPrimaryBrush}"
-                                                                   LineHeight="16"
-                                                                   Text="{x:Bind Company, Mode=OneWay}" />
-                                                    </HyperlinkButton.Content>
-                                                </HyperlinkButton>
 
-                                                <TextBlock Grid.Column="1"
-                                                           Margin="-10,2,0,0"
-                                                           VerticalAlignment="Center">
-                                                    <Hyperlink FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                               Foreground="{ThemeResource NpTextColorSecondaryBrush}"
-                                                               NavigateUri="{x:Bind Website, Mode=OneWay, Converter={StaticResource UriSafeConverter}}"
-                                                               UnderlineStyle="None">
-                                                        &#xE71B;
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                                <TextBlock Grid.Column="2"
-                                                           VerticalAlignment="Center"
-                                                           Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
-                                                <controls:IconTextBlock Grid.Column="3"
-                                                                        Margin="8,0,0,0"
-                                                                        Foreground="{ThemeResource NpTextColorSecondaryBrush}"
-                                                                        Icon="{mui:FontIcon Glyph='&#xE768;'}"
-                                                                        Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                                <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
-                                                                        Grid.Column="4"
-                                                                        Margin="8,0,0,0"
-                                                                        Foreground="{ThemeResource NpTextColorSecondaryBrush}"
-                                                                        Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                        Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}">
-                                                    <interactivity:Interaction.Behaviors>
-                                                        <interactivity:EventTriggerBehavior EventName="Tapped">
-                                                            <interactivity:ChangePropertyAction PropertyName="IsPaneOpen"
-                                                                                                TargetObject="{Binding ElementName=gameinfo_SplitView}"
-                                                                                                Value="True" />
-                                                        </interactivity:EventTriggerBehavior>
-                                                    </interactivity:Interaction.Behaviors>
-                                                </controls:IconTextBlock>
-                                            </Grid>
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock x:Uid="Library_GameInfo_Artist" />
-                                                <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Artist, Mode=OneTime}"
-                                                                          Separator="   " />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock x:Uid="Library_GameInfo_Scenario" />
-                                                <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Scenario, Mode=OneTime}"
-                                                                          Separator="   " />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock x:Uid="Library_GameInfo_Group" />
-                                                <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
-                                                                          ItemsSource="{x:Bind Group, Mode=OneTime}"
-                                                                          Separator="   " />
-                                                <Button Padding="4"
-                                                        Background="Transparent"
-                                                        BorderBrush="{x:Null}"
-                                                        Content="{mui:FontIcon FontSize=12,
-                                                                               Glyph=&#xE70F;}"
-                                                        Foreground="{ThemeResource NpTextColorSecondaryBrush}">
-                                                    <Button.Flyout>
-                                                        <Flyout Placement="BottomEdgeAlignedLeft">
-                                                            <ItemsView x:Name="game_group_ItemsView"
-                                                                       Width="{ThemeResource GroupDialogMaxWidth}"
-                                                                       Loaded="game_group_ItemsView_Loaded"
-                                                                       SelectionMode="None">
-                                                                <ItemsView.Layout>
-                                                                    <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
-                                                                </ItemsView.Layout>
-                                                                <ItemsView.ItemTemplate>
-                                                                    <DataTemplate x:DataType="vm:GroupInfo">
-                                                                        <ItemContainer>
-                                                                            <ToggleButton x:Name="group_togglebutton"
-                                                                                          Checked="group_togglebutton_IsCheckedChanged"
-                                                                                          Content="{x:Bind Name, Mode=OneTime}"
-                                                                                          FontSize="12"
-                                                                                          IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
-                                                                                          Unchecked="group_togglebutton_IsCheckedChanged" />
-                                                                        </ItemContainer>
-                                                                    </DataTemplate>
-                                                                </ItemsView.ItemTemplate>
-                                                            </ItemsView>
-                                                        </Flyout>
-                                                    </Button.Flyout>
-                                                </Button>
-                                            </StackPanel>
-                                            <ItemsView x:Name="tag_ItemsView"
-                                                       IsItemInvokedEnabled="True"
-                                                       ItemInvoked="tag_ItemsView_ItemInvoked"
-                                                       ItemsSource="{x:Bind Tag, Mode=OneTime}"
-                                                       SelectionMode="None"
-                                                       Visibility="{x:Bind Tag, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
-                                                <ItemsView.Layout>
-                                                    <mcontrols:WrapLayout HorizontalSpacing="6" VerticalSpacing="4" />
-                                                </ItemsView.Layout>
-                                                <ItemsView.ItemTemplate>
-                                                    <DataTemplate x:DataType="x:String">
-                                                        <ItemContainer Background="{ThemeResource NpBackgroundColorPurpleBrush}" CornerRadius="6">
-                                                            <TextBlock Margin="6,2,6,3"
-                                                                       FontSize="11"
-                                                                       Foreground="{ThemeResource NpTextColorPurpleBrush}"
-                                                                       Text="{x:Bind}" />
-                                                        </ItemContainer>
-                                                    </DataTemplate>
-                                                </ItemsView.ItemTemplate>
-                                            </ItemsView>
+                                            <TextBlock Grid.Column="1"
+                                                       Margin="-10,2,0,0"
+                                                       VerticalAlignment="Center">
+                                                <Hyperlink FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                           Foreground="{ThemeResource NpTextColorSecondaryBrush}"
+                                                           NavigateUri="{x:Bind Website, Mode=OneWay, Converter={StaticResource UriSafeConverter}}"
+                                                           UnderlineStyle="None">
+                                                    &#xE71B;
+                                                </Hyperlink>
+                                            </TextBlock>
+                                            <TextBlock Grid.Column="2"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind PublishDate, Mode=OneWay, Converter={StaticResource DateTimeFormatStringConverter}, ConverterParameter='d'}" />
+                                            <controls:IconTextBlock Grid.Column="3"
+                                                                    Margin="8,0,0,0"
+                                                                    Foreground="{ThemeResource NpTextColorSecondaryBrush}"
+                                                                    Icon="{mui:FontIcon Glyph='&#xE768;'}"
+                                                                    Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                            <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
+                                                                    Grid.Column="4"
+                                                                    Margin="8,0,0,0"
+                                                                    Foreground="{ThemeResource NpTextColorSecondaryBrush}"
+                                                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                    Tapped="playedtime_IconTextBlock_Tapped"
+                                                                    Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Artist" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      ItemsSource="{x:Bind Artist, Mode=OneTime}"
+                                                                      Separator="   " />
                                         </StackPanel>
-                                        <!--  本列表  -->
-                                        <ComboBox x:Uid="Library_GameInfo_Pick_Target"
-                                                  Grid.Column="2"
-                                                  MinWidth="200"
-                                                  Margin="16,0"
-                                                  VerticalAlignment="Center"
-                                                  x:Phase="2"
-                                                  ItemsSource="{x:Bind Targets, Mode=OneTime}"
-                                                  SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate x:DataType="vm:TargetInfo">
-                                                    <UserControl>
-                                                        <StackPanel Background="Transparent" Spacing="4">
-                                                            <StackPanel.Resources>
-                                                                <!--  用style设置不生效，不知道是不是因为IconTextBlock直接绑定了SelectorBarItemForeground导致的  -->
-                                                                <SolidColorBrush x:Key="SelectorBarItemForeground" Color="{ThemeResource NpTextColorPrimary}" />
-                                                            </StackPanel.Resources>
-                                                            <StackPanel.ContextFlyout>
-                                                                <MenuFlyout>
-                                                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
-                                                                                    Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
-                                                                                    Icon="{mui:FontIcon Glyph=&#xE838;}" />
-                                                                </MenuFlyout>
-                                                            </StackPanel.ContextFlyout>
-                                                            <VisualStateManager.VisualStateGroups>
-                                                                <VisualStateGroup>
-                                                                    <!--  因为ComboBox的弹窗数据更新早于数据赋值，导致如果用x:Bind会触发空引用异常，只能用Binding  -->
-                                                                    <VisualState x:Name="PlayingState">
-                                                                        <VisualState.StateTriggers>
-                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
-                                                                        </VisualState.StateTriggers>
-                                                                        <VisualState.Setters>
-                                                                            <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                            <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
-                                                                        </VisualState.Setters>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="PauseState">
-                                                                        <VisualState.StateTriggers>
-                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
-                                                                        </VisualState.StateTriggers>
-                                                                        <VisualState.Setters>
-                                                                            <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
-                                                                            <Setter Target="playedtime_IconTextBlock.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
-                                                                            <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
-                                                                        </VisualState.Setters>
-                                                                    </VisualState>
-                                                                    <VisualState x:Name="ArchiveState">
-                                                                        <VisualState.StateTriggers>
-                                                                            <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
-                                                                        </VisualState.StateTriggers>
-                                                                        <VisualState.Setters>
-                                                                            <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
-                                                                            <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
-                                                                        </VisualState.Setters>
-                                                                    </VisualState>
-                                                                </VisualStateGroup>
-                                                            </VisualStateManager.VisualStateGroups>
-                                                            <controls:IconTextBlock Text="{x:Bind Name, Mode=OneWay}">
-                                                                <controls:IconTextBlock.Icon>
-                                                                    <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
-                                                                </controls:IconTextBlock.Icon>
-                                                            </controls:IconTextBlock>
-                                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
-                                                            <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
-                                                            <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
-                                                                                    Padding="0"
-                                                                                    Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
-                                                                                    Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
-                                                            <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
-                                                                <controls:IconTextBlock.Icon>
-                                                                    <FontIcon Margin="0,-6,0,0" Glyph="LE" />
-                                                                </controls:IconTextBlock.Icon>
-                                                            </controls:IconTextBlock>
-                                                            <controls:IconTextBlock x:Name="capture_hotkey_IconTextBlock"
-                                                                                    Icon="{mui:FontIcon Glyph='&#xF406;'}"
-                                                                                    Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}"
-                                                                                    Visibility="Collapsed" />
-                                                        </StackPanel>
-                                                    </UserControl>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Scenario" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      ItemsSource="{x:Bind Scenario, Mode=OneTime}"
+                                                                      Separator="   " />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock x:Uid="Library_GameInfo_Group" />
+                                            <controls:MetadataControl ItemClick="MetadataControl_ItemClick"
+                                                                      ItemsSource="{x:Bind Group, Mode=OneTime}"
+                                                                      Separator="   " />
+                                            <Button Padding="4"
+                                                    Background="Transparent"
+                                                    BorderBrush="{x:Null}"
+                                                    Content="{mui:FontIcon FontSize=12,
+                                                                           Glyph=&#xE70F;}"
+                                                    Foreground="{ThemeResource NpTextColorSecondaryBrush}">
+                                                <Button.Flyout>
+                                                    <Flyout Placement="BottomEdgeAlignedLeft">
+                                                        <ItemsView x:Name="game_group_ItemsView"
+                                                                   Width="{ThemeResource GroupDialogMaxWidth}"
+                                                                   Loaded="game_group_ItemsView_Loaded"
+                                                                   SelectionMode="None">
+                                                            <ItemsView.Layout>
+                                                                <mcontrols:WrapLayout HorizontalSpacing="8" VerticalSpacing="8" />
+                                                            </ItemsView.Layout>
+                                                            <ItemsView.ItemTemplate>
+                                                                <DataTemplate x:DataType="vm:GroupInfo">
+                                                                    <ItemContainer>
+                                                                        <ToggleButton x:Name="group_togglebutton"
+                                                                                      Checked="group_togglebutton_IsCheckedChanged"
+                                                                                      Content="{x:Bind Name, Mode=OneTime}"
+                                                                                      FontSize="12"
+                                                                                      IsChecked="{x:Bind IsChecked, Mode=TwoWay}"
+                                                                                      Unchecked="group_togglebutton_IsCheckedChanged" />
+                                                                    </ItemContainer>
+                                                                </DataTemplate>
+                                                            </ItemsView.ItemTemplate>
+                                                        </ItemsView>
+                                                    </Flyout>
+                                                </Button.Flyout>
+                                            </Button>
+                                        </StackPanel>
+                                        <ItemsView x:Name="tag_ItemsView"
+                                                   IsItemInvokedEnabled="True"
+                                                   ItemInvoked="tag_ItemsView_ItemInvoked"
+                                                   ItemsSource="{x:Bind Tag, Mode=OneTime}"
+                                                   SelectionMode="None"
+                                                   Visibility="{x:Bind Tag, Mode=OneWay, Converter={StaticResource CollectionVisibilityConverter}}">
+                                            <ItemsView.Layout>
+                                                <mcontrols:WrapLayout HorizontalSpacing="6" VerticalSpacing="4" />
+                                            </ItemsView.Layout>
+                                            <ItemsView.ItemTemplate>
+                                                <DataTemplate x:DataType="x:String">
+                                                    <ItemContainer Background="{ThemeResource NpBackgroundColorPurpleBrush}" CornerRadius="6">
+                                                        <TextBlock Margin="6,2,6,3"
+                                                                   FontSize="11"
+                                                                   Foreground="{ThemeResource NpTextColorPurpleBrush}"
+                                                                   Text="{x:Bind}" />
+                                                    </ItemContainer>
                                                 </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <Button x:Name="play_Button"
-                                                Grid.Column="3"
-                                                Width="60"
-                                                Padding="0"
-                                                VerticalAlignment="Stretch"
-                                                Background="Transparent"
-                                                BorderBrush="{x:Null}"
-                                                Click="play_Button_Click"
-                                                Content="{mui:FontIcon Glyph=&#xE76C;}"
-                                                CornerRadius="0" />
-                                    </Grid>
-                                </SplitView>
+                                            </ItemsView.ItemTemplate>
+                                        </ItemsView>
+                                    </StackPanel>
+                                    <!--  本列表  -->
+                                    <ComboBox x:Uid="Library_GameInfo_Pick_Target"
+                                              Grid.Column="2"
+                                              MinWidth="200"
+                                              Margin="16,0"
+                                              VerticalAlignment="Center"
+                                              x:Phase="2"
+                                              ItemsSource="{x:Bind Targets, Mode=OneTime}"
+                                              SelectedItem="{x:Bind SelectedTarget, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:TargetInfo">
+                                                <UserControl>
+                                                    <StackPanel Background="Transparent" Spacing="4">
+                                                        <StackPanel.Resources>
+                                                            <!--  用style设置不生效，不知道是不是因为IconTextBlock直接绑定了SelectorBarItemForeground导致的  -->
+                                                            <SolidColorBrush x:Key="SelectorBarItemForeground" Color="{ThemeResource NpTextColorPrimary}" />
+                                                        </StackPanel.Resources>
+                                                        <StackPanel.ContextFlyout>
+                                                            <MenuFlyout>
+                                                                <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder"
+                                                                                Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}"
+                                                                                Icon="{mui:FontIcon Glyph=&#xE838;}" />
+                                                            </MenuFlyout>
+                                                        </StackPanel.ContextFlyout>
+                                                        <VisualStateManager.VisualStateGroups>
+                                                            <VisualStateGroup>
+                                                                <!--  因为ComboBox的弹窗数据更新早于数据赋值，导致如果用x:Bind会触发空引用异常，只能用Binding  -->
+                                                                <VisualState x:Name="PlayingState">
+                                                                    <VisualState.StateTriggers>
+                                                                        <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Playing" />
+                                                                    </VisualState.StateTriggers>
+                                                                    <VisualState.Setters>
+                                                                        <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                        <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState x:Name="PauseState">
+                                                                    <VisualState.StateTriggers>
+                                                                        <mtriggers:IsEqualStateTrigger Value="{Binding PlayStatus}" To="Pause" />
+                                                                    </VisualState.StateTriggers>
+                                                                    <VisualState.Setters>
+                                                                        <Setter Target="playedtime_IconTextBlock.Foreground" Value="{ThemeResource SystemFillColorCautionBrush}" />
+                                                                        <Setter Target="playedtime_IconTextBlock.Icon" Value="{mui:FontIcon Glyph=&#xE769;}" />
+                                                                        <Setter Target="capture_hotkey_IconTextBlock.Visibility" Value="Visible" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                                <VisualState x:Name="ArchiveState">
+                                                                    <VisualState.StateTriggers>
+                                                                        <mtriggers:IsEqualStateTrigger Value="{Binding IsArchive}" To="True" />
+                                                                    </VisualState.StateTriggers>
+                                                                    <VisualState.Setters>
+                                                                        <Setter Target="target_fonticon.Glyph" Value="&#xE82D;" />
+                                                                        <Setter Target="target_fonticon.Foreground" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+                                                                    </VisualState.Setters>
+                                                                </VisualState>
+                                                            </VisualStateGroup>
+                                                        </VisualStateManager.VisualStateGroups>
+                                                        <controls:IconTextBlock Text="{x:Bind Name, Mode=OneWay}">
+                                                            <controls:IconTextBlock.Icon>
+                                                                <FontIcon x:Name="target_fonticon" Glyph="&#xE736;" />
+                                                            </controls:IconTextBlock.Icon>
+                                                        </controls:IconTextBlock>
+                                                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xEC92;'}" Text="{x:Bind CreateDate, Mode=OneTime}" />
+                                                        <controls:IconTextBlock Icon="{mui:FontIcon Glyph='&#xE768;'}" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                                        <controls:IconTextBlock x:Name="playedtime_IconTextBlock"
+                                                                                Padding="0"
+                                                                                Icon="{mui:FontIcon Glyph='&#xE7FC;'}"
+                                                                                Text="{x:Bind PlayedTime, Mode=OneWay, Converter={StaticResource TimeSpanFormatStringConverter}, ConverterParameter='hhmmss'}" />
+                                                        <controls:IconTextBlock Text="Local Emulator" Visibility="{x:Bind EnableLocalEmulator, Mode=OneWay}">
+                                                            <controls:IconTextBlock.Icon>
+                                                                <FontIcon Margin="0,-6,0,0" Glyph="LE" />
+                                                            </controls:IconTextBlock.Icon>
+                                                        </controls:IconTextBlock>
+                                                        <controls:IconTextBlock x:Name="capture_hotkey_IconTextBlock"
+                                                                                Icon="{mui:FontIcon Glyph='&#xF406;'}"
+                                                                                Text="{x:Bind ScreenCaptureHotkey, Mode=OneWay}"
+                                                                                Visibility="Collapsed" />
+                                                    </StackPanel>
+                                                </UserControl>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <Button x:Name="play_Button"
+                                            Grid.Column="3"
+                                            Width="60"
+                                            Padding="0"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            BorderBrush="{x:Null}"
+                                            Click="play_Button_Click"
+                                            Content="{mui:FontIcon Glyph=&#xE76C;}"
+                                            CornerRadius="0" />
+                                </Grid>
                             </UserControl>
                         </DataTemplate>
                     </ListView.ItemTemplate>

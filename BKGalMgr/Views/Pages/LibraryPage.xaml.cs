@@ -266,6 +266,11 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         App.ShowImages(gameInfo, gameInfo.Covers, 0);
     }
 
+    private void playedtime_IconTextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        MainPage.NavigateTo(typeof(ReviewPage), (sender as FrameworkElement).DataContext as GameInfo);
+    }
+
     private void tag_ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
     {
         FilterGames([args.InvokedItem as string]);
@@ -301,22 +306,6 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
         //FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
         flyout?.ShowAt(search_tokenizingtextbox);
-    }
-
-    private void gameinfo_SplitView_PaneOpening(SplitView sender, object args)
-    {
-        var gameInfo = sender.DataContext as GameInfo;
-        var playedChart = new GamePlayedPeriodChartControl() { PlayedPeriods = gameInfo.PlayedPeriods };
-        playedChart.CloseClick += (_, _) =>
-        {
-            sender.IsPaneOpen = false;
-        };
-        sender.Pane = playedChart;
-    }
-
-    private void gameinfo_SplitView_PaneClosed(SplitView sender, object args)
-    {
-        sender.Pane = null;
     }
 
     private void goto_top_Button_Click(object sender, RoutedEventArgs e)
