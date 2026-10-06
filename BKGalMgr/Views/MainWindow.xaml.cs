@@ -11,6 +11,7 @@ using BKGalMgr.Models;
 using BKGalMgr.Models.Bangumi;
 using BKGalMgr.ViewModels;
 using BKGalMgr.Views.Pages;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -134,14 +135,20 @@ public sealed partial class MainWindow : Window
 
         image_viewer_Grid.Visibility = Visibility.Visible;
 
-        if (selectedIndex > -1 && selectedIndex < images.Count())
-        {
-            var selectedItem = Images[selectedIndex];
-            image_viewer_GridView.SelectedItem = selectedItem;
-            image_viewer_GridView.ScrollIntoView(selectedItem);
-            image_viewer_GridView.MakeVisible(new SemanticZoomLocation() { Item = selectedItem });
-            image_viewer_GridView.UpdateLayout();
-        }
+        DispatcherQueue.TryEnqueue(
+            DispatcherQueuePriority.Low,
+            () =>
+            {
+                if (selectedIndex > -1 && selectedIndex < images.Count())
+                {
+                    var selectedItem = Images[selectedIndex];
+                    image_viewer_GridView.SelectedItem = selectedItem;
+                    image_viewer_GridView.ScrollIntoView(selectedItem);
+                    image_viewer_GridView.MakeVisible(new SemanticZoomLocation() { Item = selectedItem });
+                    image_viewer_GridView.UpdateLayout();
+                }
+            }
+        );
     }
 
     public void HideImages()
