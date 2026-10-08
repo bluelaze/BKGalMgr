@@ -1520,7 +1520,10 @@ public partial class GameInfo : ObservableObject, IImageItem
 
     private void OnSaveFileChanged(object sender, FileSystemEventArgs e)
     {
-        if (e.FullPath.Contains("save", StringComparison.OrdinalIgnoreCase))
+        if (
+            e.FullPath.Contains("save", StringComparison.OrdinalIgnoreCase)
+            && !e.FullPath.Contains("temp", StringComparison.OrdinalIgnoreCase)
+        )
         {
             _savePathGet = e.FullPath;
         }
