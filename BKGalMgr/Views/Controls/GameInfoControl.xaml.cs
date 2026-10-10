@@ -54,7 +54,13 @@ public sealed partial class GameInfoControl : UserControl
         if (ele?.FindDescendant<TextBox>() is TextBox innerTextBox)
         {
             var flyout = new MenuFlyout();
-            flyout.Items.Add(new MenuFlyoutItem { Command = new StandardUICommand(StandardUICommandKind.Paste) });
+
+            var standardPaste = new MenuFlyoutItem { Command = new StandardUICommand(StandardUICommandKind.Paste) };
+            standardPaste.Click += (_, _) =>
+            {
+                innerTextBox.PasteFromClipboard();
+            };
+            flyout.Items.Add(standardPaste);
 
             var pasteAction = async () =>
             {
