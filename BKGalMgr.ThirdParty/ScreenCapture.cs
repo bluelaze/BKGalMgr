@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Reflection;
 using ShareX.HelpersLib;
 using ShareX.ScreenCaptureLib;
 
@@ -28,17 +29,45 @@ public class ScreenCapture
             canvas
         );
 
+        if (
+            typeof(RegionCaptureForm)
+                .GetProperty("ShapeManager", BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.GetValue(form)
+            is object shapeManagerObj
+        )
+        {
+            List<SimpleWindowInfo>? windows =
+                shapeManagerObj
+                    .GetType()
+                    .GetProperty("Windows", BindingFlags.Public | BindingFlags.Instance)
+                    ?.GetValue(shapeManagerObj) as List<SimpleWindowInfo>;
+
+            if (windows != null)
+            {
+                if (
+                    RegionCaptureForm.LastRegionFillPath != null
+                    && !windows.Any(t => t.Rectangle == RegionCaptureForm.LastRegionFillPath.GetBounds().Round())
+                )
+                {
+                    windows.Insert(
+                        0,
+                        new SimpleWindowInfo(IntPtr.Zero)
+                        {
+                            IsWindow = true,
+                            Rectangle = RegionCaptureForm.LastRegionFillPath.GetBounds().Round(),
+                        }
+                    );
+                }
+            }
+        }
+
         form.ShowDialog();
 
         result.CaptureBitmap = form.GetResultImage();
 
         if (RegionCaptureForm.LastRegionFillPath != null)
         {
-            Rectangle screenRectangle = CaptureHelpers.GetScreenBounds();
-            result.CaptureRect = RectangleF.Intersect(
-                RegionCaptureForm.LastRegionFillPath.GetBounds(),
-                new RectangleF(0, 0, screenRectangle.Width, screenRectangle.Height)
-            );
+            result.CaptureRect = RegionCaptureForm.LastRegionFillPath.GetBounds().Round();
         }
         return result;
     }
