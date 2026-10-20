@@ -59,7 +59,7 @@
                                   Background="{x:Null}"
                                   HideFlipButton="True"
                                   IsFlipEnabled="False"
-                                  ItemsSource="{x:Bind _itemSource, Mode=OneWay}"
+                                  ItemsSource="{x:Bind ItemSource, Mode=OneWay}"
                                   SelectionChanged="scrollable_FlipView_SelectionChanged"
                                   Visibility="Collapsed">
             <local:ScrollableFlipView.ItemTemplate>

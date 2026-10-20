@@ -155,13 +155,25 @@ public sealed partial class ScrollableGridView : UserControl
         new PropertyMetadata(16, OnPropertyChanged)
     );
 
+    public ObservableCollection<ScrollableGridViewItem> ItemSource
+    {
+        get => (ObservableCollection<ScrollableGridViewItem>)GetValue(ItemSourceProperty);
+        set => SetValue(ItemSourceProperty, value);
+    }
+
+    public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+        nameof(ItemSource),
+        typeof(ObservableCollection<ScrollableGridViewItem>),
+        typeof(ScrollableGridView),
+        new PropertyMetadata(new ObservableCollection<ScrollableGridViewItem>())
+    );
+
     public delegate void ItemsControlClickEventHandler(object sender, object clickedItem);
     public event ItemsControlClickEventHandler ItemClick;
 
     private int _columns = 1;
     private double _pageWidth = 0;
     private bool _needUpdate = false;
-    private ObservableCollection<ScrollableGridViewItem> _itemSource { get; set; } = new();
 
     public ScrollableGridView()
     {
@@ -294,21 +306,6 @@ public sealed partial class ScrollableGridView : UserControl
 
     private void RecalculatePages()
     {
-        if (ItemsSource == null || _pageWidth == 0)
-        {
-            _itemSource.Clear();
-            scrollable_FlipView.Visibility = Visibility.Collapsed;
-            return;
-        }
-
-        var allItems = ItemsSource.Cast<object>().ToList();
-        if (allItems.Count == 0)
-        {
-            _itemSource.Clear();
-            scrollable_FlipView.Visibility = Visibility.Collapsed;
-            return;
-        }
-
         // 要判断是否loaded，不然一些属性获取会异常
         if (!IsLoaded)
         {
@@ -316,6 +313,21 @@ public sealed partial class ScrollableGridView : UserControl
             return;
         }
         _needUpdate = false;
+
+        if (ItemsSource == null || _pageWidth == 0)
+        {
+            ItemSource?.Clear();
+            scrollable_FlipView.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        var allItems = ItemsSource.Cast<object>().ToList();
+        if (allItems.Count == 0)
+        {
+            ItemSource.Clear();
+            scrollable_FlipView.Visibility = Visibility.Collapsed;
+            return;
+        }
 
         int rows = 0;
         int groupSize = allItems.Count;
@@ -371,34 +383,41 @@ public sealed partial class ScrollableGridView : UserControl
             );
         }
 
-        int addCount = newItemSource.Count - _itemSource.Count;
-        int sameCount = Math.Min(newItemSource.Count, _itemSource.Count);
+        int addCount = newItemSource.Count - ItemSource.Count;
+        int sameCount = Math.Min(newItemSource.Count, ItemSource.Count);
         for (int i = 0; i < sameCount; i++)
         {
-            _itemSource[i].ItemTemplate = newItemSource[i].ItemTemplate;
-            _itemSource[i].Rows = newItemSource[i].Rows;
-            _itemSource[i].ColumnSpacing = newItemSource[i].ColumnSpacing;
-            _itemSource[i].RowSpacing = newItemSource[i].RowSpacing;
+            ItemSource[i].ItemTemplate = newItemSource[i].ItemTemplate;
+            ItemSource[i].Rows = newItemSource[i].Rows;
+            ItemSource[i].ColumnSpacing = newItemSource[i].ColumnSpacing;
+            ItemSource[i].RowSpacing = newItemSource[i].RowSpacing;
 
-            _itemSource[i].Columns = newItemSource[i].Columns;
-            _itemSource[i].Items = newItemSource[i].Items;
+            ItemSource[i].Columns = newItemSource[i].Columns;
+            ItemSource[i].Items = newItemSource[i].Items;
         }
         if (addCount > 0)
         {
-            for (int i = sameCount; i < newItemSource.Count; i++)
+            if (ItemSource.Count == 0)
             {
-                _itemSource.Add(newItemSource[i]);
+                ItemSource = newItemSource;
+            }
+            else
+            {
+                for (int i = sameCount; i < newItemSource.Count; i++)
+                {
+                    ItemSource.Add(newItemSource[i]);
+                }
             }
         }
         else if (addCount < 0)
         {
-            for (int i = _itemSource.Count - 1; i >= newItemSource.Count; i--)
+            for (int i = ItemSource.Count - 1; i >= newItemSource.Count; i--)
             {
-                _itemSource.RemoveAt(i);
+                ItemSource.RemoveAt(i);
             }
         }
 
-        if (_itemSource.Count <= 1)
+        if (ItemSource.Count <= 1)
         {
             left_scroll_Button.Visibility = Visibility.Collapsed;
             right_scroll_Button.Visibility = Visibility.Collapsed;
@@ -409,7 +428,7 @@ public sealed partial class ScrollableGridView : UserControl
             right_scroll_Button.Visibility = Visibility.Visible;
 
             left_scroll_Button.IsEnabled = scrollable_FlipView.SelectedIndex > 0;
-            right_scroll_Button.IsEnabled = scrollable_FlipView.SelectedIndex < _itemSource.Count - 1;
+            right_scroll_Button.IsEnabled = scrollable_FlipView.SelectedIndex < ItemSource.Count - 1;
         }
     }
 }
