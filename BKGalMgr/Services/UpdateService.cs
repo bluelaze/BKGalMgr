@@ -4,12 +4,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Handlers;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BKGalMgr.Helpers;
 using BKGalMgr.Models;
-using Octokit;
+using RestSharp;
 
 namespace BKGalMgr.Services;
 
@@ -83,7 +85,9 @@ public class UpdateService
                     {
                         RiasesStatusChangedEvent(UpdateStatus.Checking);
                         // https://octokitnet.readthedocs.io/en/documentation/http-client/#proxy-support
-                        var client = new GitHubClient(new Connection(new ProductHeaderValue("BKGalMgr")));
+                        var client = new Octokit.GitHubClient(
+                            new Octokit.Connection(new Octokit.ProductHeaderValue("BKGalMgr"))
+                        );
                         var release = await client.Repository.Release.GetLatest("bluelaze", "BKGalMgr");
                         var lastVersion = Version.Parse(release.TagName.Substring(1));
                         if (lastVersion > Assembly.GetEntryAssembly().GetName().Version)
@@ -112,33 +116,45 @@ public class UpdateService
             case UpdateStatus.DownloadFail:
                 {
                     RiasesStatusChangedEvent(UpdateStatus.Downloading, "0");
-                    using WebClient webClient = new WebClient();
-                    webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) =>
+
+                    var baseHandler = new HttpClientHandler();
+                    var progressHandler = new ProgressMessageHandler(baseHandler);
+                    progressHandler.HttpReceiveProgress += (sender, args) =>
                     {
-                        float progress = e.TotalBytesToReceive > 0 ? e.BytesReceived / (float)e.TotalBytesToReceive : 0;
                         App.PostUITask(() =>
                         {
-                            RiasesStatusChangedEvent(UpdateStatus.Downloading, "{0:0.0}%".Format(progress * 100));
+                            RiasesStatusChangedEvent(UpdateStatus.Downloading, $"{args.ProgressPercentage}%");
                         });
                     };
-                    webClient.DownloadFileCompleted += (
-                        object sender,
-                        System.ComponentModel.AsyncCompletedEventArgs e
-                    ) =>
+
+                    var request = new RestRequest(LastVersionUrl, Method.Get)
                     {
-                        if (e.Error == null)
-                            App.PostUITask(() =>
-                            {
-                                RiasesStatusChangedEvent(UpdateStatus.RestartToUpdate);
-                            });
-                        else
-                            App.PostUITask(() =>
-                            {
-                                RiasesStatusChangedEvent(UpdateStatus.DownloadFail);
-                            });
+                        ResponseWriter = (responseStream) =>
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(LastVersionZipPath));
+                            using var fileStream = File.Create(LastVersionZipPath);
+
+                            responseStream.CopyTo(fileStream);
+                            return null;
+                        },
                     };
-                    Directory.CreateDirectory(UpdateFolder);
-                    await webClient.DownloadFileTaskAsync(LastVersionUrl, LastVersionZipPath);
+                    using var client = new RestClient(progressHandler, disposeHandler: true);
+                    var response = await client.ExecuteAsync(request);
+
+                    if (response.IsSuccessful)
+                    {
+                        App.PostUITask(() =>
+                        {
+                            RiasesStatusChangedEvent(UpdateStatus.RestartToUpdate);
+                        });
+                    }
+                    else
+                    {
+                        App.PostUITask(() =>
+                        {
+                            RiasesStatusChangedEvent(UpdateStatus.DownloadFail);
+                        });
+                    }
                 }
                 break;
             case UpdateStatus.Downloading:
