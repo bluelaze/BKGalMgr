@@ -356,7 +356,7 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Clear.Text" xml:space="preserve">
     <value>Clear</value>
   </data>
-  <data name="Commom_MenuItem_ClearAndPaste.Text" xml:space="preserve">
+  <data name="Commom_MenuItem_ClearAndPasteWithSpaceSplite.Text" xml:space="preserve">
     <value>Clear and Splite Paste with ' '</value>
   </data>
   <data name="RepositoryInfo_Folder.Header" xml:space="preserve">
