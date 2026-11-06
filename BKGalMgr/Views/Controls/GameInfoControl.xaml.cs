@@ -51,6 +51,16 @@ public sealed partial class GameInfoControl : UserControl
             queryButton.Opacity = 0;
             queryButton.Width = 0;
         }
+        ele.AddHandler(
+            UIElement.RightTappedEvent,
+            new RightTappedEventHandler(TokenizingTextBox_RightTapped),
+            handledEventsToo: true
+        );
+    }
+
+    private void TokenizingTextBox_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        var ele = sender as TokenizingTextBox;
         if (ele?.FindDescendant<TextBox>() is TextBox innerTextBox)
         {
             var flyout = new MenuFlyout();
