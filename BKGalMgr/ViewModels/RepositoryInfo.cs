@@ -151,6 +151,8 @@ public partial class RepositoryInfo : ObservableObject
 
     public async Task Load()
     {
+        using var def = GamesView.DeferRefresh();
+
         var dirs = Directory.GetDirectories(FolderPath).ToList();
         dirs.Sort();
         foreach (var dir in dirs)
@@ -244,9 +246,16 @@ public partial class RepositoryInfo : ObservableObject
 
     public void GamesViewSort()
     {
+        using var def = GamesView.DeferRefresh();
+
         GamesView.SortDescriptions.Clear();
+        // 先按是否置顶排序，但是PinValue如果非置顶却修改，会影响后续排序，目前没法自定义排序，就先这样吧
+        GamesView.SortDescriptions.Add(new(nameof(GameInfo.IsPinned), SortDirection.Descending));
+        GamesView.SortDescriptions.Add(new(nameof(GameInfo.PinValue), SortDirection.Descending));
+
         GamesView.SortDescriptions.Add(new(SortType.ToString(), SortOrderType));
-        if (SortType == SortType.Company || SortType == SortType.PinValue)
+        // 同个Company，按发布日期降序排序
+        if (SortType == SortType.Company)
         {
             GamesView.SortDescriptions.Add(new(SortType.PublishDate.ToString(), SortDirection.Descending));
         }

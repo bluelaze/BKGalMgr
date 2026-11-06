@@ -102,6 +102,8 @@
             <converters:EnumNameConveretr x:Key="EnumNameConveretr" />
             <converters:UriSafeConverter x:Key="UriSafeConverter" />
             <converters:EnumCompareConveretr x:Key="EnumCompareConveretr" />
+            <converters:SortTypeI18NConverter x:Key="SortTypeI18NConverter" />
+            <converters:SortOrderTypeI18NConverter x:Key="SortOrderTypeI18NConverter" />
 
             <mconverters:StringFormatConverter x:Key="StringFormatConverter" />
             <mconverters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter"

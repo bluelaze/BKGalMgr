@@ -22,9 +22,6 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
-        <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
-
         <ItemsPanelTemplate x:Key="BlogStaggeredPanel">
             <!--  这个StaggeredPanel性能不好，但目前找不到更好的替代方案  -->
             <mcontrols:StaggeredPanel MaxWidth="1800"
@@ -241,7 +238,7 @@
                                     </Flyout>
                                 </ToggleSplitButton.Flyout>
                             </ToggleSplitButton>
-                            <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                            <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverter}}">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
                                         <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
@@ -262,13 +259,10 @@
                                         <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
                                                         Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
                                                         CommandParameter="PublishDate" />
-                                        <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                                        Command="{x:Bind ViewModel.SelectSortTypeCommand, Mode=OneWay}"
-                                                        CommandParameter="PinValue" />
                                     </MenuFlyout>
                                 </DropDownButton.Flyout>
                             </DropDownButton>
-                            <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                            <DropDownButton VerticalAlignment="Top" Content="{x:Bind ViewModel.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverter}}">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout Placement="Bottom">
                                         <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
@@ -467,6 +461,29 @@
                                                     Click="repository_MenuFlyoutItem_Click"
                                                     Icon="{mui:FontIcon Glyph=&#xE8F1;}"
                                                     Text="{x:Bind Repository.Name, Mode=OneWay}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Pin"
+                                                    Click="pin_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE718;}"
+                                                    Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                    <MenuFlyoutItem x:Uid="Commom_MenuItem_Unpin"
+                                                    Click="pin_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE77A;}"
+                                                    Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <MenuFlyoutItem Click="pinvalue_MenuFlyoutItem_Click"
+                                                    Icon="{mui:FontIcon Glyph=&#xE840;}"
+                                                    IsEnabled="{x:Bind IsPinned, Mode=OneWay}"
+                                                    Text="{x:Bind PinValue, Mode=OneWay}">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout Placement="Bottom">
+                                                <Grid>
+                                                    <NumberBox LargeChange="10"
+                                                               SmallChange="10"
+                                                               SpinButtonPlacementMode="Inline"
+                                                               Value="{x:Bind PinValue, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
+                                                </Grid>
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem Icon="{mui:FontIcon Glyph=&#xEC92;}" Text="{x:Bind CreateDate, Mode=OneTime}" />
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
@@ -587,6 +604,12 @@
                                               Foreground="{ThemeResource NpTextColorSecondaryBrush}"
                                               Glyph="&#xE768;" />
                                     <TextBlock Grid.Column="1" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                    <FontIcon Grid.Column="2"
+                                              HorizontalAlignment="Center"
+                                              FontSize="11"
+                                              Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                              Glyph="&#xE840;"
+                                              Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <FontIcon Grid.Column="3"
                                               Margin="0,0,4,0"
                                               FontSize="11"

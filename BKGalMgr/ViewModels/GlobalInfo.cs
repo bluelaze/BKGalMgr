@@ -14,7 +14,6 @@ public enum SortType
     Name,
     Company,
     PublishDate,
-    PinValue,
 }
 
 public static class GlobalInfo
@@ -96,6 +95,7 @@ public static class GlobalInfo
     public const string MelonbooksFolderName = "melonbooks";
     public const string MasterUpFolderName = "masterup";
     public const string CharacterFolderName = "character";
+
     // special
     public const string TopFolderName = "top";
     public const string MovieFolderName = "movie";
@@ -105,4 +105,6 @@ public static class GlobalInfo
     public const string ComicFolderName = "comic";
     public const string NovelFolderName = "novel";
     public const string ASMRFolderName = "asmr";
+
+    public const int DefaultPinValue = 1000;
 }

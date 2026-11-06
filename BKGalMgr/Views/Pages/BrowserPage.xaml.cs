@@ -267,12 +267,6 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         FilterGames([args.InvokedItem as string]);
     }
 
-    private void repository_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-    {
-        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
-        MainPage.NavigateTo(typeof(LibraryAndManagePage), gameInfo);
-    }
-
     private void gallery_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
         var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
@@ -295,5 +289,29 @@ public sealed partial class BrowserPage : Page, IExtendsContentIntoTitleBarPage
         gameInfo.LoadScreenshot();
         if (gameInfo.Screenshot.Count > 0)
             App.ShowImages(gameInfo, gameInfo.Screenshot, 0);
+    }
+
+    private void repository_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        MainPage.NavigateTo(typeof(LibraryAndManagePage), gameInfo);
+    }
+
+    private void pin_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.IsPinned = !gameInfo.IsPinned;
+        if (!gameInfo.IsPinned)
+        {
+            gameInfo.PinValue = GlobalInfo.DefaultPinValue;
+        }
+    }
+
+    private void pinvalue_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        // 附加在右键菜单会显示不出来
+        //FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
+        var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);
+        flyout?.ShowAt(search_tokenizingtextbox);
     }
 }

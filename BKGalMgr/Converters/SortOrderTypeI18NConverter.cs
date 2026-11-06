@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace BKGalMgr.Converters;
 
-public class SortOrderTypeI18NConverterConverter : IValueConverter
+public class SortOrderTypeI18NConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {

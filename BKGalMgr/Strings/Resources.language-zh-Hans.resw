@@ -350,6 +350,12 @@
   <data name="Commom_MenuItem_Mosaic_Big.Text" xml:space="preserve">
     <value>大</value>
   </data>
+  <data name="Commom_MenuItem_Pin.Text" xml:space="preserve">
+    <value>置顶</value>
+  </data>
+  <data name="Commom_MenuItem_Unpin.Text" xml:space="preserve">
+    <value>取消置顶</value>
+  </data>
   <data name="Commom_MenuItem_PasteWithSpaceSplite.Text" xml:space="preserve">
     <value>以' '拆分粘贴</value>
   </data>
@@ -773,9 +779,6 @@
   </data>
   <data name="Library_SortType_PublishDate.Text" xml:space="preserve">
     <value>发售日期</value>
-  </data>
-  <data name="Library_SortType_PinValue.Text" xml:space="preserve">
-    <value>Pin值</value>
   </data>
   <data name="Library_SortOrderType_Ascending.Text" xml:space="preserve">
     <value>升序</value>

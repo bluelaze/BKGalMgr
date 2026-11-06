@@ -19,9 +19,6 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
-        <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
-
         <DataTemplate x:Key="GameInfoDataTemplate" x:DataType="vm:GameInfo">
             <Grid Background="Transparent">
                 <Grid.ColumnDefinitions>
@@ -181,7 +178,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverter}}">
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
@@ -202,13 +199,10 @@
                             <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
                                             Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
                                             CommandParameter="PublishDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                            Command="{x:Bind ViewModel.LeftRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PinValue" />
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
-                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.LeftRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverter}}">
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
@@ -284,7 +278,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverter}}">
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
@@ -305,13 +299,10 @@
                             <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
                                             Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
                                             CommandParameter="PublishDate" />
-                            <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                            Command="{x:Bind ViewModel.RightRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                            CommandParameter="PinValue" />
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
-                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                <DropDownButton Margin="0,28,0,0" Content="{x:Bind ViewModel.RightRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverter}}">
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"

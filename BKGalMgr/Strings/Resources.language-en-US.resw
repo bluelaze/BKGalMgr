@@ -350,6 +350,12 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Mosaic_Big.Text" xml:space="preserve">
     <value>Big</value>
   </data>
+  <data name="Commom_MenuItem_Pin.Text" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="Commom_MenuItem_Unpin.Text" xml:space="preserve">
+    <value>Unpin</value>
+  </data>
   <data name="Commom_MenuItem_PasteWithSpaceSplite.Text" xml:space="preserve">
     <value>Splite Paste with ' '</value>
   </data>
@@ -773,9 +779,6 @@ More in crash_exception.txt</value>
   </data>
   <data name="Library_SortType_PublishDate.Text" xml:space="preserve">
     <value>Publish Date</value>
-  </data>
-  <data name="Library_SortType_PinValue.Text" xml:space="preserve">
-    <value>Pin Value</value>
   </data>
   <data name="Library_SortOrderType_Ascending.Text" xml:space="preserve">
     <value>Ascending</value>

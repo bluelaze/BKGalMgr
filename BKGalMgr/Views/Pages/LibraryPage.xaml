@@ -21,8 +21,6 @@
       NavigationCacheMode="Required"
       mc:Ignorable="d">
     <Page.Resources>
-        <converters:SortTypeI18NConverterConverter x:Key="SortTypeI18NConverterConverter" />
-        <converters:SortOrderTypeI18NConverterConverter x:Key="SortOrderTypeI18NConverterConverter" />
         <!--  To 不能用x:Bind绑定到静态属性，否者如果使用coverter的属性用x:Bind，就会报错  -->
         <converters:ObjectToVisibilityConverter x:Key="GroupTypeToVisibilityConverter" To="PlaceholderForAdd" />
     </Page.Resources>
@@ -119,7 +117,7 @@
                             </Flyout>
                         </ToggleSplitButton.Flyout>
                     </ToggleSplitButton>
-                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverterConverter}}">
+                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortType, Mode=OneWay, Converter={StaticResource SortTypeI18NConverter}}">
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem x:Uid="Library_SortType_CreateDate"
@@ -140,13 +138,10 @@
                                 <MenuFlyoutItem x:Uid="Library_SortType_PublishDate"
                                                 Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
                                                 CommandParameter="PublishDate" />
-                                <MenuFlyoutItem x:Uid="Library_SortType_PinValue"
-                                                Command="{x:Bind ViewModel.SelectedRepository.SelectSortTypeCommand, Mode=OneWay}"
-                                                CommandParameter="PinValue" />
                             </MenuFlyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
-                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverterConverter}}">
+                    <DropDownButton Content="{x:Bind ViewModel.SelectedRepository.SortOrderType, Mode=OneWay, Converter={StaticResource SortOrderTypeI18NConverter}}">
                         <DropDownButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem x:Uid="Library_SortOrderType_Ascending"
@@ -238,8 +233,17 @@
                                                             Icon="{mui:FontIcon Glyph=&#xF408;}"
                                                             Text="SCREENSHOT" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem Click="pin_MenuFlyoutItem_Click"
-                                                            Icon="{mui:FontIcon Glyph='&#xE840;'}"
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Pin"
+                                                            Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE718;}"
+                                                            Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Unpin"
+                                                            Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE77A;}"
+                                                            Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <MenuFlyoutItem Click="pinvalue_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE840;}"
+                                                            IsEnabled="{x:Bind IsPinned, Mode=OneWay}"
                                                             Text="{x:Bind PinValue, Mode=OneWay}">
                                                 <FlyoutBase.AttachedFlyout>
                                                     <Flyout Placement="Bottom">
@@ -518,6 +522,14 @@
                                             Click="play_Button_Click"
                                             Content="{mui:FontIcon Glyph=&#xE76C;}"
                                             CornerRadius="0" />
+                                    <FontIcon Grid.Column="3"
+                                              Margin="0,4,4,0"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Top"
+                                              FontSize="11"
+                                              Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                              Glyph="&#xE840;"
+                                              Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 </Grid>
                             </UserControl>
                         </DataTemplate>
@@ -612,8 +624,17 @@
                                                             Icon="{mui:FontIcon Glyph=&#xF408;}"
                                                             Text="SCREENSHOT" />
                                             <MenuFlyoutSeparator />
-                                            <MenuFlyoutItem Click="pin_MenuFlyoutItem_Click"
-                                                            Icon="{mui:FontIcon Glyph='&#xE840;'}"
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Pin"
+                                                            Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE718;}"
+                                                            Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                            <MenuFlyoutItem x:Uid="Commom_MenuItem_Unpin"
+                                                            Click="pin_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE77A;}"
+                                                            Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <MenuFlyoutItem Click="pinvalue_MenuFlyoutItem_Click"
+                                                            Icon="{mui:FontIcon Glyph=&#xE840;}"
+                                                            IsEnabled="{x:Bind IsPinned, Mode=OneWay}"
                                                             Text="{x:Bind PinValue, Mode=OneWay}">
                                                 <FlyoutBase.AttachedFlyout>
                                                     <Flyout Placement="Bottom">
@@ -764,6 +785,12 @@
                                                       Foreground="{ThemeResource NpTextColorSecondaryBrush}"
                                                       Glyph="&#xE768;" />
                                             <TextBlock Grid.Column="1" Text="{x:Bind LastPlayDate, Mode=OneWay}" />
+                                            <FontIcon Grid.Column="2"
+                                                      HorizontalAlignment="Center"
+                                                      FontSize="11"
+                                                      Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                                      Glyph="&#xE840;"
+                                                      Visibility="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
                                             <FontIcon Grid.Column="3"
                                                       Margin="0,0,4,0"
                                                       FontSize="11"

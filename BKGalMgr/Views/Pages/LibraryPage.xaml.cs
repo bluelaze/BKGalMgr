@@ -302,6 +302,16 @@ public sealed partial class LibraryPage : Page, IExtendsContentIntoTitleBarPage
 
     private void pin_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
     {
+        var gameInfo = (sender as MenuFlyoutItem).DataContext as GameInfo;
+        gameInfo.IsPinned = !gameInfo.IsPinned;
+        if (!gameInfo.IsPinned)
+        {
+            gameInfo.PinValue = GlobalInfo.DefaultPinValue;
+        }
+    }
+
+    private void pinvalue_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
         // 附加在右键菜单会显示不出来
         //FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         var flyout = FlyoutBase.GetAttachedFlyout(sender as FrameworkElement);

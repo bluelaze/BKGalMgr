@@ -64,7 +64,10 @@ public partial class GameInfo : ObservableObject, IImageItem
     public partial DateTime PublishDate { get; set; }
 
     [ObservableProperty]
-    public partial int PinValue { get; set; } = 1000;
+    public partial int PinValue { get; set; } = GlobalInfo.DefaultPinValue;
+
+    [ObservableProperty]
+    public partial bool IsPinned { get; set; } = false;
 
     [ObservableProperty]
     public partial ObservableCollection<string> Artist { get; set; } = new();
@@ -324,6 +327,14 @@ public partial class GameInfo : ObservableObject, IImageItem
         // 反序列化构建的对象属性会被覆盖，需要重新绑定
         gameInfo.CollectionCollectionChangedNotify();
         gameInfo._isLoading = false;
+
+        // 如果游戏没有被置顶，并且PinValue不是默认值1000，则将PinValue重置为1000
+        // 确保游戏的PinValue在未置顶状态下保持默认值，避免导致排序异常
+        // 其实PinValue的值在未置顶状态下不会被使用，但是之前增加过Pin值排序，用户会有遗留数据
+        // PinValue被更改，会触发json保存
+        if (!gameInfo.IsPinned && gameInfo.PinValue != GlobalInfo.DefaultPinValue)
+            gameInfo.PinValue = GlobalInfo.DefaultPinValue;
+
         return gameInfo;
     }
 
@@ -405,7 +416,12 @@ public partial class GameInfo : ObservableObject, IImageItem
         // 在new一个对象后，需要设置isLoading为false，且新对象也后续更改时，也得注意别触发下面属性，
         // 否者不想要的对象也会在本地创建一个文件夹，就很多余，
         // 不这样写，又得针对这几个属性更改来保存json文件，太麻烦了，所以目前还是先这样写吧
-        if (e.PropertyName == nameof(PinValue) || e.PropertyName == nameof(Mosaic) || e.PropertyName == nameof(Blog))
+        if (
+            e.PropertyName == nameof(IsPinned)
+            || e.PropertyName == nameof(PinValue)
+            || e.PropertyName == nameof(Mosaic)
+            || e.PropertyName == nameof(Blog)
+        )
         {
             SaveJsonFile();
         }
