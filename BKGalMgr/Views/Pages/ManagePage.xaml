@@ -383,6 +383,9 @@
                                                         x:Uid="Commom_MenuItem_Edit"
                                                         Click="edit_source_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                        <MenuFlyoutItem x:Name="add_new_version_source_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Add_New_Version"
+                                                        Click="add_new_version_source_menuflyoutitem_Click" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem x:Name="delete_source_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Delete"
@@ -432,6 +435,9 @@
                                                         x:Uid="Commom_MenuItem_Edit"
                                                         Click="edit_localization_menuflyoutitem_Click" />
                                         <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                        <MenuFlyoutItem x:Name="add_new_version_localization_menuflyoutitem"
+                                                        x:Uid="Commom_MenuItem_Add_New_Version"
+                                                        Click="add_new_version_localization_menuflyoutitem_Click" />
                                         <MenuFlyoutSeparator />
                                         <MenuFlyoutItem x:Name="delete_localization_menuflyoutitem"
                                                         x:Uid="Commom_MenuItem_Delete"
@@ -494,6 +500,9 @@
                                                             x:Uid="Commom_MenuItem_Edit"
                                                             Click="edit_target_menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Uid="Commom_MenuItem_Open_Folder" Command="{x:Bind OpenJsonFolderCommand, Mode=OneTime}" />
+                                            <MenuFlyoutItem x:Name="add_new_version_target_menuflyoutitem"
+                                                            x:Uid="Commom_MenuItem_Add_New_Version"
+                                                            Click="add_new_version_target_menuflyoutitem_Click" />
                                             <MenuFlyoutItem x:Name="export_target_menuflyoutitem"
                                                             x:Uid="Commom_MenuItem_Export_As_Source"
                                                             Click="export_target_menuflyoutitem_Click" />

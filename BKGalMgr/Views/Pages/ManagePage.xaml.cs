@@ -304,7 +304,18 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async Task AddSource(string folderPath, string startupName = "")
+    private async void add_new_version_source_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        SourceInfo sourceInfo = (sender as MenuFlyoutItem).DataContext as SourceInfo;
+
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
+        {
+            await AddSource(folderPath, "", sourceInfo);
+        }
+    }
+
+    private async Task AddSource(string folderPath, string startupName = "", SourceInfo parentSource = null)
     {
         App.ShowLoading();
 
@@ -314,6 +325,14 @@ public sealed partial class ManagePage : Page
             SourceInfo sourceInfo = ViewModel.SelectedRepository.SelectedGame.NewSource();
             sourceInfo.Name = Path.GetFileName(folderPath);
             sourceInfo.StartupName = startupName;
+
+            if (parentSource != null)
+            {
+                sourceInfo.Name = parentSource.Name;
+                sourceInfo.StartupName = parentSource.StartupName;
+                sourceInfo.Description = parentSource.Description;
+                sourceInfo.Contributors = parentSource.Contributors;
+            }
 
             var result = await EditSourceInfo(sourceInfo, folderPath);
             if (result == ContentDialogResult.Primary)
@@ -365,7 +384,22 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async Task AddLocalization(string folderPath, string startupName = "")
+    private async void add_new_version_localization_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        LocalizationInfo localizationInfo = (sender as MenuFlyoutItem).DataContext as LocalizationInfo;
+
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
+        {
+            await AddLocalization(folderPath, "", localizationInfo);
+        }
+    }
+
+    private async Task AddLocalization(
+        string folderPath,
+        string startupName = "",
+        LocalizationInfo parentLocalization = null
+    )
     {
         App.ShowLoading();
         var existLocalization = await ViewModel.CopyLocalization(folderPath);
@@ -374,6 +408,14 @@ public sealed partial class ManagePage : Page
             LocalizationInfo localizationInfo = ViewModel.SelectedRepository.SelectedGame.NewLocalization();
             localizationInfo.Name = Path.GetFileName(folderPath);
             localizationInfo.StartupName = startupName;
+
+            if (parentLocalization != null)
+            {
+                localizationInfo.Name = parentLocalization.Name;
+                localizationInfo.StartupName = parentLocalization.StartupName;
+                localizationInfo.Description = parentLocalization.Description;
+                localizationInfo.Contributors = parentLocalization.Contributors;
+            }
 
             var result = await EditLocalizationInfo(localizationInfo, folderPath);
             if (result == ContentDialogResult.Primary)
@@ -437,7 +479,17 @@ public sealed partial class ManagePage : Page
         }
     }
 
-    private async Task AddTargetWithFolder(string folderPath, string startupName = "")
+    private async void add_new_version_target_menuflyoutitem_Click(object sender, RoutedEventArgs e)
+    {
+        TargetInfo targetInfo = (sender as MenuFlyoutItem).DataContext as TargetInfo;
+        string folderPath = await FileSystemMisc.PickSingleFolderAsync();
+        if (folderPath != null)
+        {
+            await AddTargetWithFolder(folderPath, "", targetInfo);
+        }
+    }
+
+    private async Task AddTargetWithFolder(string folderPath, string startupName = "", TargetInfo parentTarget = null)
     {
         App.ShowLoading();
         // check whether exist valid target that archive or not
@@ -463,6 +515,15 @@ public sealed partial class ManagePage : Page
             targetInfo.Source = ViewModel.SelectedRepository.SelectedGame.NewSource();
             targetInfo.Source.Name = Path.GetFileName(folderPath);
             targetInfo.Source.StartupName = startupName;
+            // 用在添加新版本时，继承之前信息
+            if (parentTarget != null)
+            {
+                targetInfo.Source.Name = parentTarget.Name;
+                targetInfo.Source.StartupName = parentTarget.StartupName;
+                targetInfo.Source.EnableLocalEmulator = parentTarget.EnableLocalEmulator;
+                targetInfo.Source.Description = parentTarget.Description;
+                targetInfo.Source.Contributors = parentTarget.Source.Contributors;
+            }
 
             var result = await EditSourceInfo(targetInfo.Source, folderPath);
             if (result == ContentDialogResult.Primary)

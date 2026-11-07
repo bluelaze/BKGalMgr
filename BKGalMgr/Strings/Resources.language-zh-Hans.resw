@@ -266,6 +266,9 @@
   <data name="Commom_MenuItem_Delete_Folder_Only.Text" xml:space="preserve">
     <value>仅删除文件夹</value>
   </data>
+  <data name="Commom_MenuItem_Add_New_Version.Text" xml:space="preserve">
+    <value>添加新版本</value>
+  </data>
   <data name="Commom_MenuItem_Show.Text" xml:space="preserve">
     <value>显示</value>
   </data>

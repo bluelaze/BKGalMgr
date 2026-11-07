@@ -266,6 +266,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Delete_Folder_Only.Text" xml:space="preserve">
     <value>Delete folder only</value>
   </data>
+  <data name="Commom_MenuItem_Add_New_Version.Text" xml:space="preserve">
+    <value>Add New Version</value>
+  </data>
   <data name="Commom_MenuItem_Show.Text" xml:space="preserve">
     <value>Show</value>
   </data>
