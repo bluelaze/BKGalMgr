@@ -294,31 +294,60 @@ public sealed partial class GamePlayPage : Page
                 mainWindowProcess.value = gameProcess;
             }
             await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
-            do
-            {
-                // 像是LE会拉起游戏后关闭自身，需要先获取子进程，否则如果子进程自身拉起游戏自身退出，迟了就导致找不到拉起的游戏窗口进程
-                var children = mainWindowProcess.value.GetChildProcesses();
-                if (!children.Any())
-                    break;
 
-                await Task.Delay(1000);
-                foreach (var c in children)
+            // 针对链式启动的游戏
+            if ((DateTime.Now - playedPeriod.BenginTime).TotalSeconds < 15)
+            {
+                var targetExeName = LocaleEmulatorHelper.GetShortcutTargetPath(targetInfo.TargetExePath);
+                // LE可能会先拉起GUI
+                var children = mainWindowProcess.value.GetChildProcesses();
+                if (
+                    children.FirstOrDefault() is Process p
+                    && p.MainModule.ModuleName.Equals("LEGUI.exe", StringComparison.OrdinalIgnoreCase)
+                )
                 {
-                    if (c.FindMainWindowProcess() is Process p)
+                    mainWindowProcess.value = p;
+                    await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                    children = mainWindowProcess.value.GetChildProcesses();
+                }
+
+                if (
+                    children?.FirstOrDefault(
+                        (t) =>
+                        {
+                            return string.Equals(
+                                Path.GetFullPath(t?.MainModule.FileName),
+                                Path.GetFullPath(targetExeName),
+                                StringComparison.OrdinalIgnoreCase
+                            );
+                        }
+                    )
+                    is Process p2
+                )
+                {
+                    mainWindowProcess.value = p2;
+                    await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                }
+                else
+                {
+                    // 二次拉起游戏的情况
+                    await Task.Delay(1500);
+                    foreach (var process in ProcessExtensions.GetAllWindowProcess())
                     {
-                        mainWindowProcess.value = p;
-                        break;
+                        if (
+                            string.Equals(
+                                Path.GetFullPath(process?.MainModule.FileName),
+                                Path.GetFullPath(targetExeName),
+                                StringComparison.OrdinalIgnoreCase
+                            )
+                        )
+                        {
+                            mainWindowProcess.value = process;
+                            await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
+                        }
                     }
                 }
-                await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
-            } while (true);
-            // 再找下是否有其他的
-            while (gameProcess.FindMainWindowProcess() is Process process)
-            {
-                mainWindowProcess.value = process;
-                await mainWindowProcess.value.WaitForExitAsync(gameInfo.PlayCancelTokenSource.Token);
             }
-            //await mainWindowProcess.process.WaitForAllExitAsync();
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
