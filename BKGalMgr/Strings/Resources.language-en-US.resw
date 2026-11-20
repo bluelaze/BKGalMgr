@@ -314,6 +314,9 @@ More in crash_exception.txt</value>
   <data name="Commom_MenuItem_Select_Game_Process.Text" xml:space="preserve">
     <value>Start Timing With Game Process</value>
   </data>
+  <data name="Commom_MenuItem_Start_Game_Only.Text" xml:space="preserve">
+    <value>Start Game Only</value>
+  </data>
   <data name="Commom_MenuItem_Disable_System_Scale.Text" xml:space="preserve">
     <value>Disable System Scale</value>
   </data>

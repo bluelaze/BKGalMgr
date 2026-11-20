@@ -21,6 +21,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.Devices.Lights;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -629,6 +630,16 @@ public sealed partial class GamePlayPage : Page
             ViewModel.Game.PlayStatus = PlayStatus.Playing;
             ViewModel.Game.SelectedTarget.PlayStatus = PlayStatus.Playing;
         }
+    }
+
+    private void only_start_game_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (ViewModel.Game.SelectedTarget == null)
+        {
+            App.MainWindow.SelecteTarget(ViewModel.Game);
+            return;
+        }
+        Process.Start(LocaleEmulatorHelper.GetShortcutTargetPath(ViewModel.Game.SelectedTarget.TargetExePath));
     }
 
     private void disable_system_scale_MenuFlyoutItem_Click(object sender, RoutedEventArgs e)

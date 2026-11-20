@@ -594,6 +594,9 @@
                                             Click="select_game_process_MenuFlyoutItem_Click"
                                             Icon="{mui:FontIcon Glyph=&#xE768;}"
                                             IsEnabled="{x:Bind ViewModel.Game.IsPlaying, Mode=OneWay, Converter={StaticResource BoolInvertConverter}}" />
+                            <MenuFlyoutItem x:Name="only_start_game_MenuFlyoutItem"
+                                            x:Uid="Commom_MenuItem_Start_Game_Only"
+                                            Click="only_start_game_MenuFlyoutItem_Click" />
                             <MenuFlyoutItem x:Name="disable_system_scale_MenuFlyoutItem"
                                             x:Uid="Commom_MenuItem_Disable_System_Scale"
                                             Click="disable_system_scale_MenuFlyoutItem_Click"
