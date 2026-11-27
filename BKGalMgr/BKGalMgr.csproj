@@ -83,7 +83,7 @@
         <PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
         <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
         <PackageReference Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.2.0" />
-        <PackageReference Include="Mapster" Version="10.0.13" />
+        <PackageReference Include="Mapster" Version="10.0.14" />
         <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.14" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.14" />
